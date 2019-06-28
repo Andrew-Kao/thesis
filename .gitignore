@@ -27,3 +27,8 @@ scons/
 *.ipynb
 *.log
 *.gz
+*.csv
+*.cel
+*.shp
+*.dbf
+*.shx
