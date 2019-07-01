@@ -10,4 +10,6 @@ if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/instrument/all-cdbs-files') 
 }
 
-ownership_structure <- fread('ownership_structure_cleaned.dat',header = FALSE, sep = '|', fill=TRUE)
+# Structure is cleaned with Haskell to drop extra fields
+ownership_structure <- fread('ownership_structure_clean.dat',header = FALSE, sep = '|', fill=TRUE)
+  
