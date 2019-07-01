@@ -30,7 +30,8 @@ call <- 'data/2012/sbo?get='
 fields <- 'NAICS2012_TTL,RCPSZFI,GEO_TTL,FIRMPDEMP,RCPSZFI_TTL,ETH_GROUP'
 geo <- '&for=metropolitan%20statistical%20area/micropolitan%20statistical%20area:*&key='
 # Census Key
-key <- '286f06b3942786705308836478c20add266833dc' 
+keys <- read.csv('../../keys.csv', stringsAsFactors = FALSE)
+key <- keys[keys$Name %in% 'Census',]$Keys
 
 # Actual API Call
 raw_output <- GET(url = url, path = paste0(call,fields,geo,key))
