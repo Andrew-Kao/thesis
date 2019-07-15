@@ -33,3 +33,4 @@ scons/
 *.dbf
 *.shx
 *.dat
+*.dta
