@@ -12,6 +12,8 @@ if regexm(c(hostname), "ak") == 1 {
  global wkdir = "~/Documents/College/All/thesis/explore/Data/trump_donations"
 }
 
+cd ${wkdir}
+
 tempfile don_all
 local i = 1
 local files : dir "${wkdir}" files "schedule_*"
@@ -35,7 +37,7 @@ tostring contributor_zip, replace
 gen postcode = substr(contributor_zip, 1, 5)
 destring postcode, replace
 
-merge m:1 postcode using "Input/postcode.dta", keep(3) nogen
+merge m:1 postcode using "postcode.dta", keep(3) nogen
 // 12,465 in master don't match, 13,435 in using don't match
 
 gen CountyFips = statecode*1000+countycode

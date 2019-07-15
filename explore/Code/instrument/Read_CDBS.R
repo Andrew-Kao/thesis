@@ -14,7 +14,7 @@ if (Sys.info()["user"] == "AndrewKao") {
 ownership_structure <- fread('ownership_structure_clean.dat',header = FALSE, sep = '|', fill=TRUE) %>%
   filter(V5 == "H" | V5 == "N") %>%
   rename(application_id = V2) %>%
-  select(application_id, V5) %>%
+  dplyr::select(application_id, V5) %>%
   mutate(hispanic = ifelse(V5 == "H", 1, 0)) %>%
   group_by(application_id) %>%
   summarise(count = n(), hisp_sum = sum(hispanic)) %>%
