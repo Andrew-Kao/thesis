@@ -11,7 +11,8 @@ if (Sys.info()["user"] == "AndrewKao") {
 donations <- fread('TrumpDonations.csv', data.table=TRUE) 
 
 addresses <- donations %>%
-  rename(street = contributor_street_1, city = contributor_city, state2 = contributor_state) %>%
-  dplyr::select(street, city, state2) %>%
+  rename(street = contributor_street_1, city = contributor_city, state2 = contributor_state, zip = postcode) %>%
+  dplyr::select(street, city, state2, zip) %>%
   distinct() %>%
+  mutate(country = "USA") %>%
   write_csv('TrumpAddresses.csv')
