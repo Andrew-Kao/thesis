@@ -26,21 +26,39 @@ key <- paste0('&api_key=',key)
 # http://developer.tmsapi.com/docs/data_v1_1/lineups/Lineups_by_postal_code
 
 # call API
+call = 'v1.1/lineups?country=USA&postalCode='
+
 postcodes <- read.dta13("../../trump_donations/postcode.dta") %>%
-  filter(postcode == 210 | postcode == 1368) %>%
-  mutate(api = getPostcodeAPI(postcode)) %>%
-  save(file="postcode.Rda")
+  group_by(statecode, countycode) %>%
+  summarise(first(postcode)) %>%
+  rename(postcode = "first(postcode)")
+
+lapply(unique(postcodes$postcode), getPostcodeAPI)
 
 getPostcodeAPI <- function(postcode) {
-  call = 'v1.1/lineups?country=USA&postalCode='
+  ## Progress: 36003
   # Actual API Call
   raw_output <- GET(url = url, path = paste0(call,postcode,key))
   text_output <- rawToChar(raw_output$content)
   api_output <- fromJSON(text_output)
-  df <- as.data.frame(api_output)
-  return(df)
+  saveRDS(api_output,file=paste0("postcode/postcode_",postcode,".Rdata"))
+  Sys.sleep(.5)
 }
 
+### DEBUGGINGI
+saveRDS(api_output,file=paste0("postcode/postcode_","sample",".Rdata"))
+y <- list(a = 1, b = TRUE, c = "oops")
+omg <- readRDS("postcode/postcode_36003.Rda")
+
+raw_output <- GET(url = url, path = paste0(call,"36003",key))
+text_output <- rawToChar(raw_output$content)
+api_output <- fromJSON(text_output)
+df <- as.data.frame(api_output)
+
+
+  filter(postcode == 210 | postcode == 1368) %>%
+  mutate(api = getPostcodeAPI(postcode)) %>%
+  save(file="postcode.Rda")
 
 # Make list of lineups
 lineups <- load("postcode.Rda")

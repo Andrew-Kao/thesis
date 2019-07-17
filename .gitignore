@@ -34,3 +34,4 @@ scons/
 *.shx
 *.dat
 *.dta
+*.Rda
