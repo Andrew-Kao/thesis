@@ -9,6 +9,7 @@ library(httr)
 library(jsonlite)
 library(readstata13)
 library(purrr)
+library(stringr)
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/instrument/TMS') 
@@ -33,6 +34,11 @@ postcodes <- read.dta13("../../trump_donations/postcode.dta") %>%
   summarise(first(postcode)) %>%
   rename(postcode = "first(postcode)")
 
+## Progress (RUN BEFORE DOING API CALL)
+filelist = list.files("postcode")
+completed = lapply(filelist, str_extract, "[0-9]+")
+
+## Call
 lapply(unique(postcodes$postcode), getPostcodeAPI)
 
 getPostcodeAPI <- function(postcode) {
@@ -47,11 +53,7 @@ getPostcodeAPI <- function(postcode) {
   }
 }
 
-## Progress (RUN BEFORE DOING API CALL)
-filelist = list.files("postcode")
-completed = lapply(filelist, str_extract, "[0-9]+")
-
-# Make list of lineups
+## Make list of lineups
 fakepaste <- partial(paste0,"postcode/postcode_")
 lineupIds <- completed %>%
   map(fakepaste) %>%
@@ -65,7 +67,21 @@ lineupIds <- completed %>%
 ### Step 2: Iterate through all the line-ups for a list of the stations
 # http://developer.tmsapi.com/docs/data_v1_1/lineups/Lineup_channel_listing
   
+call = 'v1.1/lineups/'
+key <- keys[keys$Name %in% 'TMS',]$Keys
+key <- paste0('?api_key=',key)
 
+## Call
+lapply(lineupIds, getLineupAPI)
+
+getLineupAPI <- function(lineup) {
+  ## IF
+  raw_output <- GET(url = url, path = paste0(call,lineup,'/channels',key))
+  text_output <- rawToChar(raw_output$content)
+  api_output <- fromJSON(text_output)
+  saveRDS(api_output,file=paste0("lineup/lineup_",lineup,".Rdata"))
+  Sys.sleep(.5)
+}
   
   
 ### Step 3: Iterate through all the stations for broadcast languages
