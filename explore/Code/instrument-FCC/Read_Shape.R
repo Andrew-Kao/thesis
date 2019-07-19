@@ -38,7 +38,7 @@ parameters <- read.csv('20151020UCM-Full/parameters.csv', skip = 6) %>%
   filter(InCountry == "US") # one SrcKey per observation
 
 contours <- merge(contours_shp, parameters, by.x = "SOURCEKEY", by.y = "SrcKey")
-
+plot(contours)
 
 # TODO: Given a set of points, determine which are inside contours and which are outside
 # TODO: Given a set of points, determine distance to contour boundary

@@ -5,7 +5,7 @@ library(dplyr)
 library(data.table)
 
 if (Sys.info()["user"] == "AndrewKao") {
-  setwd('~/Documents/College/All/thesis/explore/Data/trump_donations') 
+  setwd('~/Documents/College/All/thesis/explore/Data/politics/trump_donations') 
 }
 
 donations <- fread('TrumpDonations.csv', data.table=TRUE) 

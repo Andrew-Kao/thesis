@@ -36,3 +36,7 @@ scons/
 *.dta
 *.Rda
 *.Rdata
+*.prj
+*.gdbindexes
+*.gdbtable
+*.gdbtablx

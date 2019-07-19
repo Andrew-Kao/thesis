@@ -29,7 +29,7 @@ key <- paste0('&api_key=',key)
 # call API
 call = 'v1.1/lineups?country=USA&postalCode='
 
-postcodes <- read.dta13("../../trump_donations/postcode.dta") %>%
+postcodes <- read.dta13("../../politics/trump_donations/postcode.dta") %>%
   group_by(statecode, countycode) %>%
   summarise(first(postcode)) %>%
   rename(postcode = "first(postcode)")

@@ -9,7 +9,7 @@
 clear all
 set more off
 if regexm(c(hostname), "ak") == 1 {
- global wkdir = "~/Documents/College/All/thesis/explore/Data/trump_donations"
+ global wkdir = "~/Documents/College/All/thesis/explore/Data/politics/trump_donations"
 }
 
 cd ${wkdir}
