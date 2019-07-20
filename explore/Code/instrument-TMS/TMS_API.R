@@ -71,16 +71,22 @@ call = 'v1.1/lineups/'
 key <- keys[keys$Name %in% 'TMS',]$Keys
 key <- paste0('?api_key=',key)
 
+## Progress (RUN BEFORE DOING API CALL)
+fakegsub <- partial(gsub, pattern = '.{6}$',replacement='')
+filelist = list.files("lineup")
+completed = lapply(filelist, fakegsub)
+
 ## Call
-lapply(lineupIds, getLineupAPI)
+lapply(lineupIds$lineupId, getLineupAPI)
 
 getLineupAPI <- function(lineup) {
-  ## IF
-  raw_output <- GET(url = url, path = paste0(call,lineup,'/channels',key))
-  text_output <- rawToChar(raw_output$content)
-  api_output <- fromJSON(text_output)
-  saveRDS(api_output,file=paste0("lineup/lineup_",lineup,".Rdata"))
-  Sys.sleep(.5)
+  if (!(lineup %in% completed)) {
+    raw_output <- GET(url = url, path = paste0(call,lineup,'/channels',key))
+    text_output <- rawToChar(raw_output$content)
+    api_output <- do.call(rbind, lapply(paste(text_output, collapse=""),jsonlite::fromJSON))
+    saveRDS(api_output,file=paste0("lineup/",lineup,".Rdata"))
+    Sys.sleep(.5)
+  }
 }
   
   
