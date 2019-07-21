@@ -88,7 +88,18 @@ getLineupAPI <- function(lineup) {
     Sys.sleep(.5)
   }
 }
-  
+
+
+## Make list of stations
+fakepaste <- partial(paste0,"lineup/")
+stationIds <- completed %>%
+  map(fakepaste) %>%
+  map(paste0,".Rdata") %>%
+  map(readRDS) %>%
+  map(dplyr::select, stationId) %>%
+  reduce(bind_rows) %>%
+  distinct()
+
   
 ### Step 3: Iterate through all the stations for broadcast languages
 # http://developer.tmsapi.com/docs/data_v1_1/stations/Stations_details
