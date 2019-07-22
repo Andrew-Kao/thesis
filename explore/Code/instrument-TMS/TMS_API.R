@@ -91,14 +91,29 @@ getLineupAPI <- function(lineup) {
 
 
 ## Make list of stations
+parameters <- read.csv('../20151020UCM-SampleData/20151020UCM-Full/parameters.csv', skip = 6) %>%
+  filter(InCountry == "US") %>%  # one SrcKey per observation
+  select(Call) %>%
+  distinct() %>%
+  mutate(Call = if_else(grepl("(.*)-.+$", Call), 
+                        gsub('-.+$',replacement='',Call), Call)) ## need to regex out the -TV etc.
+
+callSigns <- as.list(parameters) ## properly coerce
+  
 fakepaste <- partial(paste0,"lineup/")
 stationIds <- completed %>%
   map(fakepaste) %>%
   map(paste0,".Rdata") %>%
   map(readRDS) %>%
-  map(dplyr::select, stationId) %>%
+  map(dplyr::select, stationId, callSign) %>%
   reduce(bind_rows) %>%
-  distinct()
+  distinct() %>%
+  mutate(callSign = if_else(grepl("(.*)\\d+$", callSign), 
+                            gsub('\\d+$',replacement='',callSign), callSign)) %>%  ## remove trailing digits
+  filter(callSign %in% callSigns)
+
+## want to select distinct call-signs, but keep station ids
+## check if it's in the list?
 
   
 ### Step 3: Iterate through all the stations for broadcast languages
