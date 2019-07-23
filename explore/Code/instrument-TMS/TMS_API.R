@@ -112,24 +112,15 @@ stationIds <- stationIds[onlyDF] %>%
   distinct() %>%
   mutate(callSign = if_else(grepl("(.*)\\d+$", callSign), 
                             gsub('\\d+$',replacement='',callSign), callSign)) %>%  ## remove trailing digits
-  filter(callSign %in% callSigns$Call)
-
-stationIds[[1]] %>%
-  dplyr::select(stationId,callSign)
-test <- stationIds %>%
-  list.filter(class(stationIds)!="data.frame")
-
-sum(class(stationIds)!="data.frame")
+  filter(callSign %in% callSigns$Call) 
 
 
-## want to select distinct call-signs, but keep station ids
-## check if it's in the list?
-
-  
 ### Step 3: Iterate through all the stations for broadcast languages
 # http://developer.tmsapi.com/docs/data_v1_1/stations/Stations_details
 
+call = ''
 
+# recursively update file list to check for callsigns.
   
   
 # callsign-language pairs

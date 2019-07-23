@@ -43,6 +43,9 @@ sp_contours <- as(st_geometry(sf_contours_poly),"Spatial")
 # in testing before state coercion, 94/10697 fall outside of any boundaries (this is 0.85% failure rate max)
 trumpover <- over(trump,sp_contours)
 
+# then remove all in the over set from the superset
+# then use geosphere::pointDistance
+
 tdistance <- dist2Line(trump, sp_contours)
 
 #### PROCESS
@@ -50,6 +53,8 @@ tdistance <- dist2Line(trump, sp_contours)
 # Match state to state; maybe coerce trump data too
 # use sp::over to find ones that are within
   # how do we get the distance for these?
+  # Idea: Convert SpatialPolys to Lines to Points, find min distance (cf https://stackoverflow.com/questions/34909776/get-distances-between-boundaries-from-an-spatialpolygon-and-raster-pixels)
+  # how to deal with multiple overlaps?
 # use geosphere:: pointDistance to find ones that are without
 
 ## need to coerce Trump into XY?
