@@ -98,19 +98,29 @@ parameters <- read.csv('../20151020UCM-SampleData/20151020UCM-Full/parameters.cs
   mutate(Call = if_else(grepl("(.*)-.+$", Call), 
                         gsub('-.+$',replacement='',Call), Call)) ## need to regex out the -TV etc.
 
-callSigns <- as.list(parameters) ## properly coerce
+callSigns <- apply(parameters,2,as.list) ## properly coerce
   
 fakepaste <- partial(paste0,"lineup/")
 stationIds <- completed %>%
   map(fakepaste) %>%
   map(paste0,".Rdata") %>%
-  map(readRDS) %>%
-  map(dplyr::select, stationId, callSign) %>%
+  map(readRDS)
+onlyDF <- sapply(stationIds, function(x) class(x)=="data.frame")
+stationIds <- stationIds[onlyDF] %>%
+  map(dplyr::select, stationId, callSign)%>%
   reduce(bind_rows) %>%
   distinct() %>%
   mutate(callSign = if_else(grepl("(.*)\\d+$", callSign), 
                             gsub('\\d+$',replacement='',callSign), callSign)) %>%  ## remove trailing digits
-  filter(callSign %in% callSigns)
+  filter(callSign %in% callSigns$Call)
+
+stationIds[[1]] %>%
+  dplyr::select(stationId,callSign)
+test <- stationIds %>%
+  list.filter(class(stationIds)!="data.frame")
+
+sum(class(stationIds)!="data.frame")
+
 
 ## want to select distinct call-signs, but keep station ids
 ## check if it's in the list?
