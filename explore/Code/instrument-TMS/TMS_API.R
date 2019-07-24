@@ -155,6 +155,7 @@ stations <- completed %>%
   map(dplyr::select, callSign, bcastLangs) %>% 
   reduce(bind_rows)
 
+# lapply first, and then reduce with paste...
 langCount <- stations$bcastLangs %>%
   reduce(paste)
   

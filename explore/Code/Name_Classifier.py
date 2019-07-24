@@ -16,8 +16,10 @@ trump_donations = pd.read_csv('TrumpDonations.csv', usecols=['contributor_first_
 
 print(list(trump_donations))
 
+trump_donations.drop_duplicates()
+
 prediction = pred_fl_reg_name(trump_donations,'contributor_last_name','contributor_first_name')
-prediction.to_csv('explore/Data/politics/trump_donations/names_predict_FL.csv')
+prediction.to_csv('names_predict_FL.csv')
 
 
 # Syntax: 
