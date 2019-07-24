@@ -3,7 +3,7 @@
 
 
 import pandas as pd
-from ethnicolr import census_ln, pred_census_ln, pred_fl_reg_name
+from ethnicolr import pred_wiki_name, pred_census_ln, pred_fl_reg_name
 import os
 
 # my version of Tensor Flow can't use low-level CPU functions. Rip fast linalg
@@ -16,10 +16,15 @@ trump_donations = pd.read_csv('TrumpDonations.csv', usecols=['contributor_first_
 
 print(list(trump_donations))
 
-trump_donations.drop_duplicates()
+trump_donations = trump_donations.drop_duplicates()
 
 prediction = pred_fl_reg_name(trump_donations,'contributor_last_name','contributor_first_name')
 prediction.to_csv('names_predict_FL.csv')
+prediction = pred_wiki_name(trump_donations,'contributor_last_name','contributor_first_name')
+prediction.to_csv('names_predict_wiki.csv')
+prediction = pred_census_ln(trump_donations,'contributor_last_name')
+prediction.to_csv('names_predict_census.csv')
+
 
 
 # Syntax: 
