@@ -112,13 +112,36 @@ stationIds <- stationIds[onlyDF] %>%
   distinct() %>%
   mutate(callSign = if_else(grepl("(.*)\\d+$", callSign), 
                             gsub('\\d+$',replacement='',callSign), callSign)) %>%  ## remove trailing digits
-  filter(callSign %in% callSigns$Call) 
+  filter(callSign %in% callSigns$Call) %>%
+  group_by(callSign) %>%
+  summarise(first(stationId)) %>%
+  rename(stationId = 'first(stationId)')
 
 
 ### Step 3: Iterate through all the stations for broadcast languages
 # http://developer.tmsapi.com/docs/data_v1_1/stations/Stations_details
 
-call = ''
+call = 'v1.1/stations/'
+key <- keys[keys$Name %in% 'TMS',]$Keys
+key <- paste0('?api_key=',key)
+
+## Progress (RUN BEFORE DOING API CALL)
+fakegsub <- partial(gsub, pattern = '.{6}$',replacement='')
+filelist = list.files("station")
+completed = lapply(filelist, fakegsub)
+
+mapply(getStationAPI, stationIds$stationId, stationIds$callSign)
+
+getStationAPI <- function(station, callsign) {
+  if (!(callsign %in% completed)) {
+    raw_output <- GET(url = url, path = paste0(call,station,key))
+    text_output <- rawToChar(raw_output$content)
+    api_output <- do.call(rbind, lapply(paste(text_output, collapse=""),jsonlite::fromJSON))
+    saveRDS(api_output,file=paste0("station/",callsign,".Rdata"))
+    Sys.sleep(.5)
+  }
+}
+
 
 # recursively update file list to check for callsigns.
   
