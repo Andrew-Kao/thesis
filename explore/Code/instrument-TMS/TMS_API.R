@@ -143,27 +143,24 @@ getStationAPI <- function(station, callsign) {
 }
 
 
-# recursively update file list to check for callsigns.
   
   
 # callsign-language pairs
 
+fakepaste <- partial(paste0,"station/")
+stations <- completed %>%
+  map(fakepaste) %>%
+  map(paste0,".Rdata") %>%
+  map(readRDS) %>%
+  map(dplyr::select, callSign, bcastLangs) %>% 
+  reduce(bind_rows)
+
+langCount <- stations$bcastLangs %>%
+  reduce(paste)
+  
+  group_by(bcastLangs) %>%
+  summarise(count = n())
 
 
 ### DEBUGGING
 
-test <- lapply(filelist, readRDS)
-
-saveRDS(api_output,file=paste0("postcode/postcode_","sample",".Rdata"))
-y <- list(a = 1, b = TRUE, c = "oops")
-omg <- readRDS("postcode/postcode_20001.Rdata")
-
-raw_output <- GET(url = url, path = paste0(call,"36003",key))
-text_output <- rawToChar(raw_output$content)
-api_output <- fromJSON(text_output)
-df <- as.data.frame(api_output)
-
-
-filter(postcode == 210 | postcode == 1368) %>%
-  mutate(api = getPostcodeAPI(postcode)) %>%
-  save(file="postcode.Rda")
