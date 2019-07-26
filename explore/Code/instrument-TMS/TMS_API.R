@@ -156,8 +156,10 @@ stations <- completed %>%
   reduce(bind_rows)
 
 langCount <- stations %>%
-  mutate(bcastLangs = reduce(bcastLangs, paste))
+  mutate(bcastLangs = map(bcastLangs,reduce,paste)) %>%
+  mutate(bcastLangs = unlist(bcastLangs))
   
+langCount <- langCount %>%
   group_by(bcastLangs) %>%
   summarise(count = n())
 
