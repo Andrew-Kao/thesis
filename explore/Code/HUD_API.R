@@ -38,8 +38,15 @@ for (id in 1:100000) {
   saveRDS(api_output,file=paste0("rawMultifamily/",id,".Rdata"))
 }
 
+# # garbage collection
+# for (id in 23306:45351) {
+# file <- paste0("rawMultifamily/",id,".Rdata")  
+# if (file.exists(file))
+#   file.remove(file)
+# }
 
-  
+# now to transform the data into a spatial points matrix...
+# but we probably want to wait until we know the relevant states etc., so that we can omit the ones we don't need
 
 
 
