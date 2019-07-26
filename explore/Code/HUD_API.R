@@ -25,17 +25,22 @@ if (Sys.info()["user"] == "AndrewKao") {
 
 url = 'https://services.arcgis.com/'
 call = 'VTyQ9soqVukalItT/arcgis/rest/services/Multifamily_Properties_Assisted/FeatureServer/0/query?'
-query = 'where=&objectIds=6&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&outFields=*&returnGeometry=true&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=json&token='
+query1 = 'where=&objectIds='
+query2 = '&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&outFields=*&returnGeometry=true&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=json&token='
 
-# figure out who to work the geometry
-# and then automate across polylines?
-# probably by county, and then inside/outside
+## manually loop across space of possible object IDs
+for (id in 1:100000) {
+  # Actual API Call
+  raw_output <- GET(url = url, path = paste0(call,query1,id,query2))
+  # Transform and Save
+  text_output <- rawToChar(raw_output$content)
+  api_output <- do.call(rbind, lapply(paste(text_output, collapse=""),jsonlite::fromJSON))
+  saveRDS(api_output,file=paste0("rawMultifamily/",id,".Rdata"))
+}
+
+
   
-# Actual API Call
-raw_output <- GET(url = url, path = paste0(call,query))
 
-# Transform into df
-text_output <- rawToChar(raw_output$content)
-api_output <- fromJSON(text_output)
-api_df <- as.data.frame(api_output)
+
+
 
