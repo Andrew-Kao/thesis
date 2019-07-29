@@ -33,22 +33,40 @@ point_tab <- read.csv('20151020UCM-Full/points.csv')
 
 # Main Code 
 
+spanishStations <- readRDS('../TMS/spanishStations.Rdata')
+
 contours_shp <- shapefile('20151020UCM-Full/contours')
 parameters <- read.csv('20151020UCM-Full/parameters.csv', skip = 6) %>%
-  filter(InCountry == "US") # one SrcKey per observation
+  filter(InCountry == "US") %>% # one SrcKey per observation 
+  mutate(simpleCall = if_else(grepl("(.*)-.+$", Call), 
+                      gsub('-.+$',replacement='',Call), Call)) %>% ## need to regex out the -TV etc.
+  right_join(spanishStations, by = c("simpleCall" = "callSign"))
 
+# there are three stations for which the regular simpleCall dual-identifies
+  
 contours <- merge(contours_shp, parameters, by.x = "SOURCEKEY", by.y = "SrcKey")
-plot(contours)
+test <- contours[,!is.na(data$bcastLangs)] ## figure this out
+
+saveRDS(contours,file='../spanishCountourDF.Rdata')
+
 
 # TODO: Given a set of points, determine which are inside contours and which are outside
 # TODO: Given a set of points, determine distance to contour boundary
 
+## TODO: how much more do we have to clean this data? this is probably good - then break it down into spatials and county level
+## given # of stations, doing it by geographical region might be feasible?
 
-## TODO: join in Spanish Language, find areas only covered by one station
 ## TODO: figure out county level analysis :: Ideally, counties that are close to the boundary, but only a small % (or 0%) actually intersects with it
 
 
+# DESCRIPTIVES
+plot(contours)
 
+## some Mexican states. We can still use the international coverage boundary here (maybe?)
+paraDesc <- parameters %>%
+  group_by(St) %>%
+  summarise(count = n())
 
+## lots of our analysis will be in TX, FL, NM - though we do have 3 in Illinois.
 
 

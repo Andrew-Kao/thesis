@@ -164,6 +164,7 @@ saveRDS(langCount,file='spanishStations.Rdata')
 
 
 ## we have 100 stations that fit the bill!
+ # TODO: check what other meta-data will be of use
 
 
 ### DEBUGGING
