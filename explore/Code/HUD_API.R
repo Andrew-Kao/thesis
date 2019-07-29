@@ -48,6 +48,7 @@ for (id in 1:100000) {
 # now to transform the data into a spatial points matrix...
 # but we probably want to wait until we know the relevant states etc., so that we can omit the ones we don't need
 
+# strategy: load data in chunks and parse as necessary
 
 
 

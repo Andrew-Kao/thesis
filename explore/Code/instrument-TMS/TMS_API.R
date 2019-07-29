@@ -163,6 +163,8 @@ langCount <- langCount %>%
   group_by(bcastLangs) %>%
   summarise(count = n())
 
+## we have 99 stations that fit the bill!
+
 
 ### DEBUGGING
 
