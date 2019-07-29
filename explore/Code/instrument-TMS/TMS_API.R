@@ -157,14 +157,17 @@ stations <- completed %>%
 
 langCount <- stations %>%
   mutate(bcastLangs = map(bcastLangs,reduce,paste)) %>%
-  mutate(bcastLangs = unlist(bcastLangs))
+  mutate(bcastLangs = unlist(bcastLangs)) %>%
+  filter(str_detect(bcastLangs, 'es'))
   
-langCount <- langCount %>%
-  group_by(bcastLangs) %>%
-  summarise(count = n())
+saveRDS(langCount,file='spanishStations.Rdata')
 
-## we have 99 stations that fit the bill!
+
+## we have 100 stations that fit the bill!
 
 
 ### DEBUGGING
+langCount <- langCount %>%
+  group_by(bcastLangs) %>%
+  summarise(count = n())
 
