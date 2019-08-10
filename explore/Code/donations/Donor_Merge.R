@@ -15,14 +15,9 @@ if (Sys.info()["user"] == "AndrewKao") {
 
 # I think we want to try just using the base name, but also try keeping the Hispanic names
 
-FL <- read.csv('names_predict_FL.csv') %>%
-  group_by(race) %>%
-  summarise(count = n())
+FL <- read.csv('names_predict_FL.csv') 
 
-census <- read.csv('names_predict_census.csv') %>%
-  group_by(race) %>%
-  summarise(count = n())
+census <- read.csv('names_predict_census.csv')
 
-wiki <- read.csv('names_predict_wiki.csv') %>%
-  group_by(race) %>%
-  summarise(count = n())
+wiki <- read.csv('names_predict_wiki.csv')
+
