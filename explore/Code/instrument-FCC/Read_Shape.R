@@ -43,17 +43,18 @@ parameters <- read.csv('20151020UCM-Full/parameters.csv', skip = 6) %>%
   mutate(simpleCall = if_else(grepl("(.*)-.+$", Call), 
                       gsub('-.+$',replacement='',Call), Call)) %>% ## need to regex out the -TV etc.
   right_join(spanishStations, by = c("simpleCall" = "callSign"))
-
 # there are three stations for which the regular simpleCall dual-identifies
-  
+
+# All contours with data  
 contours <- merge(contours_shp, parameters, by.x = "SOURCEKEY", by.y = "SrcKey")
+
+# Keeping the Spanish subset we want
 spanishContours <- contours
 keepList <- contours@data %>%
   mutate(keep = !is.na(bcastLangs))
 keepList <- keepList$keep  ## use purrr/reduce 
 spanishContours@data <- contours@data[keepList,]
 spanishContours@lines <- contours@lines[keepList]
-
 
 saveRDS(spanishContours,file='../spanishCountourSLDF.Rdata')
 
