@@ -13,6 +13,8 @@ if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/politics/trump_donations') 
 }
 
+options(stringsAsFactors = FALSE)
+
 # I think we want to try just using the base name, but also try keeping the Hispanic names
 
 FL <- read.csv('names_predict_FL.csv') 

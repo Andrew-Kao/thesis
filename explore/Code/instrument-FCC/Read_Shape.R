@@ -17,6 +17,8 @@ if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/instrument/20151020UCM-SampleData') 
 }
 
+options(stringsAsFactors = FALSE)
+
 ##### FILE REFERENCE
 # coverpts_shp <- shapefile('20151020UCM-Full/coverpts')
 # points_shp <- shapefile('20151020UCM-Full/points')
@@ -45,9 +47,15 @@ parameters <- read.csv('20151020UCM-Full/parameters.csv', skip = 6) %>%
 # there are three stations for which the regular simpleCall dual-identifies
   
 contours <- merge(contours_shp, parameters, by.x = "SOURCEKEY", by.y = "SrcKey")
-test <- contours[,!is.na(data$bcastLangs)] ## figure this out
+spanishContours <- contours
+keepList <- contours@data %>%
+  mutate(keep = !is.na(bcastLangs))
+keepList <- keepList$keep  ## use purrr/reduce 
+spanishContours@data <- contours@data[keepList,]
+spanishContours@lines <- contours@lines[keepList]
 
-saveRDS(contours,file='../spanishCountourDF.Rdata')
+
+saveRDS(spanishContours,file='../spanishCountourSLDF.Rdata')
 
 
 # TODO: Given a set of points, determine which are inside contours and which are outside

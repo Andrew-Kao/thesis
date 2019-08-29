@@ -2,6 +2,8 @@
 # Potentially expand later.
 
 
+############# ETHNICITY
+
 import pandas as pd
 from ethnicolr import pred_wiki_name, pred_census_ln, pred_fl_reg_name
 import os
@@ -38,3 +40,14 @@ prediction.to_csv('names_predict_census.csv')
 # How do you correct for the fact that people are statistically more likely to be white? (i.e. a threshold will sort on people who 'choose' to differentiate)
 	# can try Monte Carlo
 	# outcome could be name differences...
+
+
+############ GENDER
+
+
+from chicksexer import predict_genders
+
+prediction = predict_genders(trump_donations)
+prediction.to_csv('gender_predict.csv')
+
+

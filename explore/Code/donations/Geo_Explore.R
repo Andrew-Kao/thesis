@@ -12,6 +12,8 @@ if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/politics/trump_donations') 
 }
 
+options(stringsAsFactors = FALSE)
+
 # WGS84
 trump <- sf::st_read(dsn='a00000009.gdbtable', layer = 'a00000009')
 trump <- trump %>%
