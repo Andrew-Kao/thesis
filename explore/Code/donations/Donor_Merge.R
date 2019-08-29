@@ -35,15 +35,14 @@ trump <- as_Spatial(trump)
 # Names & Donor Data
 trump@data <- trump@data %>%
   left_join(donations, by = c("street" = "contributor_street_1", "city_1" = "contributor_city",
-                              "state2" = "contributor_state", "zip" = "contributor_zip")) # 28,868 NAs
+                              "state2" = "contributor_state", "zip" = "contributor_zip")) %>% # 28,868 NAs
+  left_join(census, by = c("contributor_first_name","contributor_last_name"))  ## 47 NAs (not dropped)
 
+saveRDS(trump,file='TrumpAll.Rdata')
+
+  # location mismatches: determining why there are mismatches between locations and donations data
+  # unclear for zip 10001 (test[3,])
+  # 2/3 don't match either for 10002, one of them is a text parsing difference. Probably no good leads.
 test <- trump@data[is.na(trump@data$memo_code), ]
-test2 <- donations %>%  ### figure this out
-  filter( "contributor_zip" > 100030)
-# temp goal: determining why there are mismatches between locations and donations data
-# then, merge in the name matching data too
-
-%>%
-  left_join(census, by = c("contributor_first_name","contributor_last_name")) %>%  ## 47 NAs (not dropped)
-
-locations@
+test2 <- donations %>%  
+  filter(contributor_zip == 10002)
