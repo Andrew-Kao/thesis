@@ -20,12 +20,12 @@ dropMid = unwords . firstL2 . words
 -- | drop everything but the initial number and the last two 
 firstL2 :: [String] -> [String]
 firstL2 strings
-    | length strings <= 3 = strings
-    | otherwise = firstL2 . kill2ndWord $ strings
+    | length strings <= 4 = strings
+    | otherwise = firstL2 . kill3rdWord $ strings
 
 -- | Goes from string and index of character to drop to string sans character
-kill2ndWord :: [String] -> [String]
-kill2ndWord strings = (fst $ splitAt 1 strings) ++ (tail . snd $ splitAt 1 strings)
+kill3rdWord :: [String] -> [String]
+kill3rdWord strings = (fst $ splitAt 2 strings) ++ (tail . snd $ splitAt 2 strings)
 
 
 
