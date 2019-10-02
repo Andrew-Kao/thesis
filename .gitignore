@@ -39,4 +39,6 @@ scons/
 *.prj
 *.gdbindexes
 *.gdbtable
-*.gdbtablx
+*.gdbtabl
+*.xlsx
+*.txt

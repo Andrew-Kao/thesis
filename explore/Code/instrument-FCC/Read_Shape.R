@@ -71,7 +71,7 @@ saveRDS(spanishContours,file='../spanishCountourSLDF.Rdata')
 # DESCRIPTIVES
 plot(contours)
 
-## some Mexican states. We can still use the international coverage boundary here (maybe?)
+## some Mexican states. We can still use the international coverage boundary here (maybe?)  [probably not, downward bias bc border]
 paraDesc <- parameters %>%
   group_by(St) %>%
   summarise(count = n())
