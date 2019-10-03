@@ -24,5 +24,4 @@ cty0610 <- year0610 %>%
 # have meaningful movements between 75,000 county pairs; 30,500 contain Hispanic movements
 # note: there are XXXs when movement is to state as a whole
 
-x <- readRDS('../instrument/spanishCountourSLDF.Rdata')
-
+# TODO: setting up the merge to the tv-county dataset
