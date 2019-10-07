@@ -19,6 +19,7 @@ library(rgeos)
 library(purrr)
 library(mapview)
 library(stargazer)
+library(ipumsr)
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/instrument') 
@@ -65,14 +66,39 @@ distances <- readRDS('contourCountyDist.Rdata')
 distances <- apply(distances,1,FUN=min) 
 
 countiesMerged <- counties_transform@data %>%
+  dplyr::select(STATE, COUNTY) %>%
+  rename(state = STATE, county = COUNTY) %>%
   mutate(ID = 1:nrow(counties_transform)-1, dist = distances, intersectCount = contourCountyInterAll, 
          intersects = ifelse(intersectCount >= 1, 1, 0), area = countyAreas) %>%
   left_join(countyInter, by = 'ID') %>%
-  mutate(areaRatio = interArea/area, areaRatio = ifelse(areaRatio > 1, 1, areaRatio), areaRatio = ifelse(is.na(areaRatio), 0, areaRatio)) # 4 instances over 1, probably spatial hiccup
-  
+  mutate(areaRatio = interArea/area, areaRatio = ifelse(areaRatio > 1, 1, areaRatio), areaRatio = ifelse(is.na(areaRatio), 0, areaRatio)) %>% # 4 instances over 1, probably spatial hiccup
+  mutate(state = str_sub(state,end=2), county = str_sub(county, end = 3))
+
 saveRDS(countiesMerged,'countyInstrument.Rdata')
 stargazer(countiesMerged, out="../../Output/Summary/CountiesMerged.tex", title="County Instrument Spatial Characteristics",
           summary = TRUE, font.size = 'scriptsize')
 
+
+######## merge in data for instrument ########
+
+if (Sys.info()["user"] == "AndrewKao") {
+  setwd('~/Documents/College/All/thesis/explore/Data/counties') 
+}
+
+ddi <- read_ipums_ddi("usa_00007.xml")
+census <- read_ipums_micro(ddi)
+
+censusClean <- census %>%
+  rename(state = STATEFIP, county = COUNTYFIP, hisp = HISPAN, employ = EMPSTAT, income = INCTOT) %>%
+  mutate(state = str_pad(state, width = 2, side = "left", pad = "0"), county = str_pad(county, width = 3, side = "left", pad = "0")) %>%
+  mutate(hisp = ifelse(hisp ==9, NA, hisp), hisp = ifelse(hisp > 0, 1, 0)) %>% ## hispanic dummy, no response as missing
+  mutate(employ = ifelse(employ == 3, NA, employ), employ = employ - 1) %>% ## employment dummy
+  group_by(state, county) %>%
+  summarise(hisp = stats::weighted.mean(hisp, HHWT), employ = stats::weighted.mean(employ, HHWT), income = stats::weighted.mean(income, HHWT) )
+  
+  
+
+
+share_col_25o_1970 share_hs_25o_1970 population pdens_2010
 
 
