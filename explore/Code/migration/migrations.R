@@ -47,6 +47,32 @@ stargazer(migrations, out="../../Output/Summary/Migrations0610.tex", title="Coun
 
 ##### regressions! #####
 
+# TODO:
+# need to control for county-county distance!
+# 20 nearest neighbors? 
+# net migration?
+
+
+# from outside to 'inside'
+# where outside is: dummy 
+distDummy <- migrations %>%
+  mutate(TV = ifelse(destintersects == 1 & (destareaRatio > .95 | destdist > 0),1,0)) %>%
+  filter(origintersects == 0 & origdist < 100000) %>%
+  filter(!(destintersects == 1 & destdist > 25000)) %>%
+  mutate(orig = 1000*as.numeric(origState) + as.numeric(origCty)) %>% # unique per orig
+  mutate(origLogPop = log(origpopulation), destLogPop = log(destpopulation),
+       origLogInc = log(origincome), destLogInc = log(destincome), migLog = log(mig))
+
+m1 <- felm(migLog ~ TV + origLogPop + destLogPop|0|0|orig, data=distDummy)
+m2 <- felm(migLog ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp|0|0|orig, data=distDummy)
+m3 <- felm(migLog ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc
+           |0|0|orig, data=distDummy)
+m4 <- felm(migLog ~ origdist + destdist
+           |0|0|0, data=distDummy)
+stargazer(m1,m2,m3,m4, out = "../../Output/Regs/mig_distdummyOITV.tex", title="Effect of TV on Migration, Outside Sample Distance Dummy")
+
+  
+  
 # from outside to 'inside'
 # where outside is: dummy 
 distDummy <- migrations %>%
@@ -55,22 +81,28 @@ distDummy <- migrations %>%
   mutate(origLogPop = log(origpopulation), destLogPop = log(destpopulation),
          origLogInc = log(origincome), destLogInc = log(destincome))
   
-attach(distDummy)
 m1 <- felm(mig ~ destintersects + origLogPop + destLogPop|0|0|orig, data=distDummy)
 m2 <- felm(mig ~ destintersects + origLogPop + destLogPop+ origpcHisp + destpcHisp|0|0|orig, data=distDummy)
 m3 <- felm(mig ~ destintersects + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc
            |0|0|orig, data=distDummy)
 stargazer(m1,m2,m3, out = "../../Output/Regs/mig_outsideDistDummy.tex", title="Effect of TV on Migration, Outside Sample Distance Dummy")
 
-# cluster by origin county
+# from inside to 'outside'
+# where outside is: dummy 
+distDummyIO <- migrations %>%
+  filter(origintersects == 1 & origdist < 100000) %>%
+  mutate(orig = 1000*as.numeric(origState) + as.numeric(origCty)) %>% # unique per orig
+  mutate(origLogPop = log(origpopulation), destLogPop = log(destpopulation),
+         origLogInc = log(origincome), destLogInc = log(destincome))
+
+m1 <- felm(mig ~ destintersects + origLogPop + destLogPop|0|0|orig, data=distDummyIO)
+m2 <- felm(mig ~ destintersects + origLogPop + destLogPop+ origpcHisp + destpcHisp|0|0|orig, data=distDummyIO)
+m3 <- felm(mig ~ destintersects + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc
+           |0|0|orig, data=distDummyIO)
+stargazer(m1,m2,m3, out = "../../Output/Regs/mig_distdummyIO.tex", title="Effect of TV on Migration, Inside Sample Distance Dummy")
 
 
-# drop XXX
-# merge in variables
-#   population, Hisp. population, income, education,
-# then make
-#   log diff pop
-# 20 nearest neighbors? 
+
 
 # have meaningful movements between 75,000 county pairs; 30,500 contain Hispanic movements
 # note: there are XXXs when movement is to state as a whole

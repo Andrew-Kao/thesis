@@ -79,6 +79,10 @@ saveRDS(countiesMerged,'countyInstrument.Rdata')
 stargazer(countiesMerged, out="../../Output/Summary/CountiesMerged.tex", title="County Instrument Spatial Characteristics",
           summary = TRUE, font.size = 'scriptsize')
 
+# county-county distances
+
+
+
 
 ######## merge in data for instrument ########
 
