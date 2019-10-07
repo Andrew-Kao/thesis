@@ -101,6 +101,6 @@ countiesFinal <- countiesMerged %>%
   left_join(countyData, by = c('state', 'county')) %>%
   mutate(income = income/population, income_hisp = income_hisp/population_hisp)
 
-saveRDS(countiesMerged,'../instrument/countyInstrumentCovariate.Rdata')  
+saveRDS(countiesFinal,'../instrument/countyInstrumentCovariate.Rdata')  
 
 ## TODO: get education and pop density controls
