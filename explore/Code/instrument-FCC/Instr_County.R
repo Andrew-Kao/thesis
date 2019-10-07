@@ -20,6 +20,7 @@ library(purrr)
 library(mapview)
 library(stargazer)
 library(ipumsr)
+library(readstata13)
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/instrument') 
@@ -85,20 +86,21 @@ if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/counties') 
 }
 
-ddi <- read_ipums_ddi("usa_00007.xml")
-census <- read_ipums_micro(ddi)
+censusHisp <- read.dta13("nhgis0002_fixed/census_hispanic.dta") %>%
+  mutate(population = hisp + nonhisp) %>%
+  rename(population_hisp = hisp, population_nonhisp = nonhisp)
+censusInc <- read.dta13("nhgis0002_fixed/census_income.dta")
+countyData <- read.dta13("Trump_county_exp.dta") %>%
+  dplyr::select(state_code_1990, county_code_1990, share_col_25o_1970,share_hs_25o_1970, pdens_1990) %>%
+  rename(state = state_code_1990, county = county_code_1990) %>%
+  mutate(state = as.character(state), county=as.character(county))
 
-censusClean <- census %>%
-  rename(state = STATEFIP, county = COUNTYFIP, hisp = HISPAN, employ = EMPSTAT, income = INCTOT) %>%
-  mutate(state = str_pad(state, width = 2, side = "left", pad = "0"), county = str_pad(county, width = 3, side = "left", pad = "0")) %>%
-  mutate(hisp = ifelse(hisp ==9, NA, hisp), hisp = ifelse(hisp > 0, 1, 0)) %>% ## hispanic dummy, no response as missing
-  mutate(employ = ifelse(employ == 3, NA, employ), employ = employ - 1) %>% ## employment dummy
-  group_by(state, county) %>%
-  summarise(hisp = stats::weighted.mean(hisp, HHWT), employ = stats::weighted.mean(employ, HHWT), income = stats::weighted.mean(income, HHWT) )
-  
-  
+countiesFinal <- countiesMerged %>%
+  left_join(censusHisp, by = c('state', 'county')) %>%
+  left_join(censusInc, by = c('state', 'county')) %>%
+  left_join(countyData, by = c('state', 'county')) %>%
+  mutate(income = income/population, income_hisp = income_hisp/population_hisp)
 
+saveRDS(countiesMerged,'../instrument/countyInstrumentCovariate.Rdata')  
 
-share_col_25o_1970 share_hs_25o_1970 population pdens_2010
-
-
+## TODO: get education and pop density controls

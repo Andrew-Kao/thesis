@@ -81,4 +81,11 @@ label var eu1003    `"Hispanic origin: Puerto Rican"'
 label var eu1004    `"Hispanic origin: Cuban"'
 label var eu1005    `"Hispanic origin: Other Hispanic"'
 
+keep eu* countya statea
 
+gen nonhisp = eu1002 + eu1003 + eu1004 + eu1005
+rename (eu1001 statea countya) (hisp state county)
+drop eu*
+gen pcHisp = nonhisp/(nonhisp + hisp)
+
+save "census_hispanic", replace

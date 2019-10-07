@@ -1,6 +1,12 @@
 * NOTE: You need to set the Stata working directory to the path
 * where the data file is located.
 
+if regexm(c(hostname), "ak") == 1 {
+ global wkdir = "~/Documents/College/All/thesis/explore/Data/counties/nhgis0002_fixed"
+} 
+
+cd ${wkdir}
+
 set more off
 
 clear
@@ -79,3 +85,10 @@ label var e03005    `"Aggregate income in 1989 >> Other race"'
 label var e05001    `"Aggregate income in 1989"'
 
 
+keep e* statea countya
+
+rename (e05001 statea countya) (income_hisp state county)
+gen income = e03001 + e03002 + e03003 + e03004
+drop e*
+
+save "census_income", replace
