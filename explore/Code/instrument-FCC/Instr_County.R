@@ -18,6 +18,7 @@ library(tmap)
 library(rgeos)
 library(purrr)
 library(mapview)
+library(stargazer)
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/instrument') 
@@ -37,67 +38,41 @@ contourCountyMinDist <- apply(contourCountyDist,1,FUN=min)  # 428 counties that 
 stargazer(matrix(contourCountyMinDist,ncol=1), out="../../Output/Summary/ContourCountyMinDist.tex", title="Contour-County Minimum Distances", summary = TRUE)
 
 # Intersections
+## credit: https://stackoverflow.com/questions/34390829/calculate-area-in-each-of-the-spatiallines-in-a-spatiallinesdataframe
 contours_poly <-SpatialPolygons(
   lapply(1:length(contours_project), 
          function(i) Polygons(lapply(coordinates(contours_project)[[i]], function(y) Polygon(y)), as.character(i))))
+crs(contours_poly) <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
 contourCountyIntersect <- gIntersects(contours_poly,counties_project, byid = TRUE)
 contourCountyIntersect[contourCountyIntersect == "FALSE"] <- 0
-contourCountyIntersect[contourCountyIntersect == "FALSE"] <- 1
+contourCountyIntersect[contourCountyIntersect == "TRUE"] <- 1
 contourCountyInterAll <- apply(contourCountyIntersect,1,FUN=sum)  # 590 counties inside/intersecting!
 stargazer(matrix(contourCountyInterAll,ncol=1), out="../../Output/Summary/ContourCountyInterAll.tex", title="Counties Intersecting Contours", summary = TRUE)
 
-# Merge data
+# Area intersections
+countyAreas <- gArea(counties_project, byid=TRUE)
+contoursUnion <- gUnaryUnion(contours_poly) # alternative: contoursUnion <- gUnionCascaded(contours_poly)
+contoursUnion <- spTransform(contoursUnion, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
+contourCountyIntersection <- gIntersection(contoursUnion,counties_project,byid = TRUE)  ## only 590 intersect
+  # now keep IDs and areas
+countyInterAreas <- sapply(slot(contourCountyIntersection, 'polygons'), function(i) slot(i, 'area')) 
+countyInterIDs <- sapply(slot(contourCountyIntersection, 'polygons'), function(i) slot(i, 'ID')) 
+countyInterIDs <- lapply(countyInterIDs, str_sub, start=3)
+countyInter <- do.call(rbind, Map(data.frame, ID=countyInterIDs,interArea=countyInterAreas)) %>%
+  mutate(ID = as.numeric(as.character(ID)))
+
+distances <- readRDS('contourCountyDist.Rdata')
+distances <- apply(distances,1,FUN=min) 
+
+countiesMerged <- counties_transform@data %>%
+  mutate(ID = 1:nrow(counties_transform)-1, dist = distances, intersectCount = contourCountyInterAll, 
+         intersects = ifelse(intersectCount >= 1, 1, 0), area = countyAreas) %>%
+  left_join(countyInter, by = 'ID') %>%
+  mutate(areaRatio = interArea/area, areaRatio = ifelse(areaRatio > 1, 1, areaRatio), areaRatio = ifelse(is.na(areaRatio), 0, areaRatio)) # 4 instances over 1, probably spatial hiccup
+  
+saveRDS(countiesMerged,'countyInstrument.Rdata')
+stargazer(countiesMerged, out="../../Output/Summary/CountiesMerged.tex", title="County Instrument Spatial Characteristics",
+          summary = TRUE, font.size = 'scriptsize')
 
 
 
-##### DISCARD?
-# nrow(contours_project)
-for (i in 1:1) {
-  assign(paste0('cp_',i), as(st_polygonize(st_as_sf(contours_project[i,])),"Spatial"))
-}
-test <- st_as_sf(contours_project[78,])
-test2 <- st_polygonize(test)
-
-
-# gDistance function from library rgeos 
-smallCounties <- counties_project[1:2,]
-smallContours <- contours_project[1,]
-x <- gDistance(smallContours,counties_project)
-
-contours_agg <- aggregate(contours_project)
-test <- st_as_sf(contours_agg)
-test2 <- st_polygonize(test)
-test3 <- as(test2,"Spatial")
-
-multi <- st_cast(contours_project,MULTIPOLYGON)
-
-## polygonize contours
-sf_contours <- st_as_sf(contours_project) 
-
-test <- apply(sf_contours,2,st_polygonize)
-
-  mutate(group = 1)
-sf_contours_poly <- st_polygonize(sf_contours) 
-agg2 <- aggregate(sf_contours, by=list(Group = group))
-
-test <- sf_contours %>%
-  st_polygonize()
-purrr::map(mutate,x2=Site)
-
-map(sf_contours,st_polygonize)
-lapply(seq_along(sf_contours), function(x){
-  st_polygonize(sf_contours[x])
-})
-contours_poly <- as(sf_contours_poly, "Spatial")
-
-gDistCont <- partial(gDistance, contours_project)
-x <- map(counties_project,gDistCont)
-
-
-
-sapply(smallCounties,gDistCont)  
-
-# dist2Line 
-# # this doesn't work
-# knn2nb
-# # https://gis.stackexchange.com/questions/83722/calculate-minimal-distance-between-polygons-in-r

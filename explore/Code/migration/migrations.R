@@ -21,6 +21,13 @@ cty0610 <- year0610 %>%
   mutate(origState = str_sub(ctys,start=1,end=3), origCty = str_sub(ctys,start=4,end=6)) %>%
   select(-ctys)
 
+# drop XXX
+# merge in variables
+#   population, Hisp. population, income, education,
+# then make
+#   log diff pop
+# 20 nearest neighbors? 
+
 # have meaningful movements between 75,000 county pairs; 30,500 contain Hispanic movements
 # note: there are XXXs when movement is to state as a whole
 
