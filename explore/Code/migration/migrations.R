@@ -61,7 +61,8 @@ distDummy <- migrations %>%
   filter(!(destintersects == 1 & destdist > 25000)) %>%
   mutate(orig = 1000*as.numeric(origState) + as.numeric(origCty)) %>% # unique per orig
   mutate(origLogPop = log(origpopulation), destLogPop = log(destpopulation),
-       origLogInc = log(origincome), destLogInc = log(destincome), migLog = log(mig))
+       origLogInc = log(origincome), destLogInc = log(destincome), migLog = log(mig)) %>%
+  filter(ethnicity == 3)
 
 m1 <- felm(migLog ~ TV + origLogPop + destLogPop|0|0|orig, data=distDummy)
 m2 <- felm(migLog ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp|0|0|orig, data=distDummy)
@@ -71,7 +72,29 @@ m4 <- felm(migLog ~ origdist + destdist
            |0|0|0, data=distDummy)
 stargazer(m1,m2,m3,m4, out = "../../Output/Regs/mig_distdummyOITV.tex", title="Effect of TV on Migration, Outside Sample Distance Dummy")
 
-  
+## placebo
+distDummy <- migrations %>%
+  mutate(TV = ifelse(destintersects == 1 & (destareaRatio > .95 | destdist > 0),1,0)) %>%
+  filter(origintersects == 0 & origdist < 100000) %>%
+  filter(!(destintersects == 1 & destdist > 25000)) %>%
+  mutate(orig = 1000*as.numeric(origState) + as.numeric(origCty)) %>% # unique per orig
+  mutate(origLogPop = log(origpopulation), destLogPop = log(destpopulation),
+         origLogInc = log(origincome), destLogInc = log(destincome), migLog = log(mig)) %>%
+  filter(ethnicity == 1 | ethnicity == 2)
+
+m1 <- felm(migLog ~ TV + origLogPop + destLogPop|0|0|orig, data=distDummy)
+m2 <- felm(migLog ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp|0|0|orig, data=distDummy)
+m3 <- felm(migLog ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc
+           |0|0|orig, data=distDummy)
+m4 <- felm(migLog ~ origdist + destdist
+           |0|0|0, data=distDummy)
+stargazer(m1,m2,m3,m4, out = "../../Output/Regs/mig_distdummyOITVP.tex", title="Effect of TV on Migration, Outside Sample Distance Dummy, Placebo")
+
+test <- migrations %>%
+  filter(origState == "017",origCty == "033")
+test2 <- migrations %>%
+  filter(destState == "017",destCty == "033")
+
   
 # from outside to 'inside'
 # where outside is: dummy 
@@ -79,7 +102,8 @@ distDummy <- migrations %>%
   filter(origintersects == 0 & origdist < 100000) %>%
   mutate(orig = 1000*as.numeric(origState) + as.numeric(origCty)) %>% # unique per orig
   mutate(origLogPop = log(origpopulation), destLogPop = log(destpopulation),
-         origLogInc = log(origincome), destLogInc = log(destincome))
+         origLogInc = log(origincome), destLogInc = log(destincome)) %>%
+  filter(ethnicity == 3)
   
 m1 <- felm(mig ~ destintersects + origLogPop + destLogPop|0|0|orig, data=distDummy)
 m2 <- felm(mig ~ destintersects + origLogPop + destLogPop+ origpcHisp + destpcHisp|0|0|orig, data=distDummy)
@@ -93,7 +117,8 @@ distDummyIO <- migrations %>%
   filter(origintersects == 1 & origdist < 100000) %>%
   mutate(orig = 1000*as.numeric(origState) + as.numeric(origCty)) %>% # unique per orig
   mutate(origLogPop = log(origpopulation), destLogPop = log(destpopulation),
-         origLogInc = log(origincome), destLogInc = log(destincome))
+         origLogInc = log(origincome), destLogInc = log(destincome)) %>%
+  filter(ethnicity == 3)
 
 m1 <- felm(mig ~ destintersects + origLogPop + destLogPop|0|0|orig, data=distDummyIO)
 m2 <- felm(mig ~ destintersects + origLogPop + destLogPop+ origpcHisp + destpcHisp|0|0|orig, data=distDummyIO)

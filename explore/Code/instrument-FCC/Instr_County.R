@@ -80,8 +80,12 @@ stargazer(countiesMerged, out="../../Output/Summary/CountiesMerged.tex", title="
           summary = TRUE, font.size = 'scriptsize')
 
 # county-county distances
+countyCountyDist <- gDistance(counties_project, counties_project, byid = TRUE)
+saveRDS(countyCountyDist,'countyCountyDist.Rdata')
 
 
+
+#compute distance, then reshape
 
 
 ######## merge in data for instrument ########
