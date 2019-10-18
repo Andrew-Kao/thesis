@@ -35,15 +35,25 @@ destCounties <- instrument %>%
   rename(destCty = destcounty, destState = deststate) %>%
   mutate(destState = str_pad(destState,3,side="left","0"), destCty = str_pad(destCty,3,side="left","0"))
 
+## distances
+distances <- fread('../counties/distances/sf12010countydistancemiles.csv') %>%
+  mutate(county1 = str_pad(county1, 6, side = "left", "0")) %>%
+  mutate(county2 = str_pad(county2, 6, side = "left", "0")) %>%
+  mutate(destState = str_sub(county2,start=1,end=3), destCty = str_sub(county2,start=4,end=6)) %>%
+  mutate(origState = str_sub(county1,start=1,end=3), origCty = str_sub(county1,start=4,end=6))
+
+## merge
 migrations <- cty0610 %>%
   left_join(origCounties, by= c('origState','origCty')) %>%
-  left_join(destCounties, by= c('destState','destCty'))
+  left_join(destCounties, by= c('destState','destCty')) %>%
+  left_join(distances, by = c('origState', 'origCty','destState','destCty'))
 
 saveRDS(migrations,'0610migrations.Rdata')
 stargazer(migrations, out="../../Output/Summary/Migrations0610.tex", title="County-County Migrations 2006-10",
           summary = TRUE, font.size = 'scriptsize')
 
 # areas: 5% and 95% tolerance?
+
 
 ##### regressions! #####
 

@@ -6,25 +6,45 @@
 # for those that intersect, calculate % that lies within
 # for those that do not, determine if 'inside' or 'outside'
 
-library(maptools)
-library(rgdal)
-library(dplyr)
-library(spdep)
-library(stringr)
-library(class)
-library(wrapr)
-library(raster)
-library(tmap)
-library(rgeos)
-library(purrr)
-library(mapview)
-library(stargazer)
-library(ipumsr)
-library(readstata13)
+
+skip <- 0
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/instrument') 
+} else if (Sys.info()["user"] == "andrewkao") {
+  setwd('/project2/bursztyn/contour/Data/instrument') 
+  skip <- 1
+  dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)  # create personal library
+  .libPaths(Sys.getenv("R_LIBS_USER"))
+  r = getOption("repos")
+  r["CRAN"] = "http://cran.us.r-project.org"
+  options(repos = r)
 }
+
+if("rgdal" %in% rownames(installed.packages()) == FALSE) {install.packages("rgdal",  dependencies = TRUE)}
+if("spdep" %in% rownames(installed.packages()) == FALSE) {install.packages("spdep",  dependencies = TRUE)}
+if("wrapr" %in% rownames(installed.packages()) == FALSE) {install.packages("wrapr",  dependencies = TRUE)}
+if("tmap" %in% rownames(installed.packages()) == FALSE) {install.packages("tmap",  dependencies = TRUE)}
+if("rgeos" %in% rownames(installed.packages()) == FALSE) {install.packages("rgeos",  dependencies = TRUE)}
+if("mapview" %in% rownames(installed.packages()) == FALSE) {install.packages("mapview",  dependencies = TRUE)}
+if("stargazer" %in% rownames(installed.packages()) == FALSE) {install.packages("stargazer",  dependencies = TRUE)}
+if("ipumsr" %in% rownames(installed.packages()) == FALSE) {install.packages("ipumsr",  dependencies = TRUE)}
+
+require(maptools)
+require(rgdal)
+require(dplyr)
+require(spdep)
+require(stringr)
+require(class)
+require(wrapr)
+require(raster)
+require(tmap)
+require(rgeos)
+require(purrr)
+require(mapview)
+require(stargazer)
+require(ipumsr)
+require(readstata13)
 
 contours1 <- readRDS('spanishCountourSLDF.Rdata')
 contours <- spTransform(contours1, CRS("+proj=longlat +datum=NAD83"))
@@ -33,6 +53,7 @@ counties <- rgdal::readOGR("nhgis0002_shapefile_tl2000_us_county_1990/US_county_
 counties_transform<-spTransform(counties, CRS("+proj=longlat +datum=NAD83"))
 counties_project <- spTransform(counties, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
 
+if (skip == 0) {
 # Distances
 contourCountyDist <- gDistance(contours_project,counties_project, byid = TRUE)
 saveRDS(contourCountyDist,'contourCountyDist.Rdata')
@@ -78,17 +99,20 @@ countiesMerged <- counties_transform@data %>%
 saveRDS(countiesMerged,'countyInstrument.Rdata')
 stargazer(countiesMerged, out="../../Output/Summary/CountiesMerged.tex", title="County Instrument Spatial Characteristics",
           summary = TRUE, font.size = 'scriptsize')
+}
 
 # county-county distances
-countyCountyDist <- gDistance(counties_project, counties_project, byid = TRUE)
+# countyCountyDist <- gDistance(counties_project, counties_project, byid = TRUE)
+countysf <- st_as_sf(counties_transform)
+countyCountyDist <- st_distance(countysf, countysf, by_element = FALSE)
 saveRDS(countyCountyDist,'countyCountyDist.Rdata')
 
 
 
 #compute distance, then reshape
 
-
 ######## merge in data for instrument ########
+if (skip == 0) {
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/counties') 
@@ -110,5 +134,5 @@ countiesFinal <- countiesMerged %>%
   mutate(income = income/population, income_hisp = income_hisp/population_hisp)
 
 saveRDS(countiesFinal,'../instrument/countyInstrumentCovariate.Rdata')  
-
+}
 ## TODO: get education and pop density controls
