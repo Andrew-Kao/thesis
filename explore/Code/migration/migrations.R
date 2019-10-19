@@ -7,6 +7,7 @@ library(data.table)
 library(tidyverse)
 library(estimatr)
 library(lfe)
+library(stargazer)
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/migration') 
@@ -23,6 +24,14 @@ cty0610 <- year0610 %>%
   mutate(origState = str_sub(ctys,start=1,end=3), origCty = str_sub(ctys,start=4,end=6)) %>%
   dplyr::select(-ctys)
 
+## reverse migration
+revMig <- cty0610 %>%
+  rename(revMig = mig) %>%
+  mutate(tempState=destState, tempCty=destCty) %>%
+  select(-destState,-destCty, -err) %>%
+  rename(destState=origState, destCty=origCty) %>%
+  rename(origState=tempState,origCty=tempCty)
+  
 instrument <- readRDS("../instrument/countyInstrumentCovariate.Rdata")
 
 origCounties <- instrument %>%
@@ -46,7 +55,8 @@ distances <- fread('../counties/distances/sf12010countydistancemiles.csv') %>%
 migrations <- cty0610 %>%
   left_join(origCounties, by= c('origState','origCty')) %>%
   left_join(destCounties, by= c('destState','destCty')) %>%
-  left_join(distances, by = c('origState', 'origCty','destState','destCty'))
+  left_join(distances, by = c('origState', 'origCty','destState','destCty')) %>%
+  left_join(revMig, by = c('origState', 'origCty','destState','destCty', 'ethnicity'))
 
 saveRDS(migrations,'0610migrations.Rdata')
 stargazer(migrations, out="../../Output/Summary/Migrations0610.tex", title="County-County Migrations 2006-10",
@@ -62,25 +72,43 @@ stargazer(migrations, out="../../Output/Summary/Migrations0610.tex", title="Coun
 # 20 nearest neighbors? 
 # net migration?
 
+migrations <- readRDS('0610migraations.Rdata')
 
-# from outside to 'inside'
-# where outside is: dummy 
+# with distances
 distDummy <- migrations %>%
   mutate(TV = ifelse(destintersects == 1 & (destareaRatio > .95 | destdist > 0),1,0)) %>%
   filter(origintersects == 0 & origdist < 100000) %>%
   filter(!(destintersects == 1 & destdist > 25000)) %>%
   mutate(orig = 1000*as.numeric(origState) + as.numeric(origCty)) %>% # unique per orig
   mutate(origLogPop = log(origpopulation), destLogPop = log(destpopulation),
-       origLogInc = log(origincome), destLogInc = log(destincome), migLog = log(mig)) %>%
+         origLogInc = log(origincome), destLogInc = log(destincome), migLog = log(mig)) %>%
   filter(ethnicity == 3)
 
-m1 <- felm(migLog ~ TV + origLogPop + destLogPop|0|0|orig, data=distDummy)
-m2 <- felm(migLog ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp|0|0|orig, data=distDummy)
-m3 <- felm(migLog ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc
+## log
+m1 <- felm(migLog ~ TV + origLogPop + destLogPop + mi_to_county|0|0|orig, data=distDummy)
+m2 <- felm(migLog ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp + mi_to_county |0|0|orig, data=distDummy)
+m3 <- felm(migLog ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc + mi_to_county
            |0|0|orig, data=distDummy)
-m4 <- felm(migLog ~ origdist + destdist
+m4 <- felm(migLog ~ origdist + destdist + mi_to_county
+           |0|0|0, data=distDummy)
+stargazer(m1,m2,m3,m4, out = "../../Output/Regs/miglog_distdummyOITV.tex", title="Effect of TV on Log Migration, Outside Sample Distance Dummy")
+## no log
+m1 <- felm(mig ~ TV + origLogPop + destLogPop + mi_to_county|0|0|orig, data=distDummy)
+m2 <- felm(mig ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp + mi_to_county |0|0|orig, data=distDummy)
+m3 <- felm(mig ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc + mi_to_county
+           |0|0|orig, data=distDummy)
+m4 <- felm(mig ~ origdist + destdist + mi_to_county
            |0|0|0, data=distDummy)
 stargazer(m1,m2,m3,m4, out = "../../Output/Regs/mig_distdummyOITV.tex", title="Effect of TV on Migration, Outside Sample Distance Dummy")
+## reverse mig
+m1 <- felm(revMig ~ TV + origLogPop + destLogPop + mi_to_county|0|0|orig, data=distDummy)
+m2 <- felm(revMig ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp + mi_to_county |0|0|orig, data=distDummy)
+m3 <- felm(revMig ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc + mi_to_county
+           |0|0|orig, data=distDummy)
+m4 <- felm(revMig ~ origdist + destdist + mi_to_county
+           |0|0|0, data=distDummy)
+stargazer(m1,m2,m3,m4, out = "../../Output/Regs/migrev_distdummyOITV.tex", title="Effect of TV on Reverse Migration, Outside Sample Distance Dummy")
+
 
 ## placebo
 distDummy <- migrations %>%
@@ -92,18 +120,22 @@ distDummy <- migrations %>%
          origLogInc = log(origincome), destLogInc = log(destincome), migLog = log(mig)) %>%
   filter(ethnicity == 1 | ethnicity == 2)
 
-m1 <- felm(migLog ~ TV + origLogPop + destLogPop|0|0|orig, data=distDummy)
-m2 <- felm(migLog ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp|0|0|orig, data=distDummy)
-m3 <- felm(migLog ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc
+## log
+m1 <- felm(migLog ~ TV + origLogPop + destLogPop + mi_to_county|0|0|orig, data=distDummy)
+m2 <- felm(migLog ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp + mi_to_county|0|0|orig, data=distDummy)
+m3 <- felm(migLog ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc + mi_to_county
            |0|0|orig, data=distDummy)
-m4 <- felm(migLog ~ origdist + destdist
+m4 <- felm(migLog ~ origdist + destdist + mi_to_county
+           |0|0|0, data=distDummy)
+stargazer(m1,m2,m3,m4, out = "../../Output/Regs/miglog_distdummyOITVP.tex", title="Effect of TV on Log Migration, Outside Sample Distance Dummy, Placebo")
+## no log
+m1 <- felm(mig ~ TV + origLogPop + destLogPop + mi_to_county|0|0|orig, data=distDummy)
+m2 <- felm(mig ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp + mi_to_county|0|0|orig, data=distDummy)
+m3 <- felm(mig ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc + mi_to_county
+           |0|0|orig, data=distDummy)
+m4 <- felm(mig ~ origdist + destdist + mi_to_county
            |0|0|0, data=distDummy)
 stargazer(m1,m2,m3,m4, out = "../../Output/Regs/mig_distdummyOITVP.tex", title="Effect of TV on Migration, Outside Sample Distance Dummy, Placebo")
-
-test <- migrations %>%
-  filter(origState == "017",origCty == "033")
-test2 <- migrations %>%
-  filter(destState == "017",destCty == "033")
 
   
 # from outside to 'inside'
@@ -130,11 +162,17 @@ distDummyIO <- migrations %>%
          origLogInc = log(origincome), destLogInc = log(destincome)) %>%
   filter(ethnicity == 3)
 
-m1 <- felm(mig ~ destintersects + origLogPop + destLogPop|0|0|orig, data=distDummyIO)
-m2 <- felm(mig ~ destintersects + origLogPop + destLogPop+ origpcHisp + destpcHisp|0|0|orig, data=distDummyIO)
-m3 <- felm(mig ~ destintersects + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc
+m1 <- felm(mig ~ destintersects + origLogPop + destLogPop + mi_to_county|0|0|orig, data=distDummyIO)
+m2 <- felm(mig ~ destintersects + origLogPop + destLogPop+ origpcHisp + destpcHisp + mi_to_county|0|0|orig, data=distDummyIO)
+m3 <- felm(mig ~ destintersects + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc + mi_to_county
            |0|0|orig, data=distDummyIO)
 stargazer(m1,m2,m3, out = "../../Output/Regs/mig_distdummyIO.tex", title="Effect of TV on Migration, Inside Sample Distance Dummy")
+#reverse
+m1 <- felm(revMig ~ destintersects + origLogPop + destLogPop + mi_to_county|0|0|orig, data=distDummyIO)
+m2 <- felm(revMig ~ destintersects + origLogPop + destLogPop+ origpcHisp + destpcHisp + mi_to_county|0|0|orig, data=distDummyIO)
+m3 <- felm(revMig ~ destintersects + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc + mi_to_county
+           |0|0|orig, data=distDummyIO)
+stargazer(m1,m2,m3, out = "../../Output/Regs/migrev_distdummyIO.tex", title="Effect of TV on Reverse Migration, Inside Sample Distance Dummy")
 
 
 
