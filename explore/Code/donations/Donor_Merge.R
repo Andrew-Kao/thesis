@@ -43,18 +43,15 @@ locationCounts <- donations %>%
   group_by(contributor_street_1,contributor_city,contributor_state, contributor_zip) %>%
   summarise(donationCount = n())
 
-
 # Merge
 # Names & Donor Data
-trump@data <- trump@data %>%
-  left_join(donations, by = c("street" = "contributor_street_1", "city_1" = "contributor_city",
-                              "state2" = "contributor_state", "zip" = "contributor_zip")) %>% # 28,868 NAs
-  left_join(locationNames, by = c("street" = "contributor_street_1", "city_1" = "contributor_city",
-                              "state2" = "contributor_state", "zip" = "contributor_zip")) %>%
-  left_join(locationCounts, by = c("street" = "contributor_street_1", "city_1" = "contributor_city",
-                              "state2" = "contributor_state", "zip" = "contributor_zip"))
+trump2 <- merge(trump, locationNames, all.x=TRUE, by.x = c("street", "city_1","state2", "zip"),
+                by.y = c("contributor_street_1","contributor_city","contributor_state","contributor_zip" ))
+trump2 <- merge(trump2, locationCounts, all.x=TRUE, by.x = c("street", "city_1","state2", "zip"),
+                by.y = c("contributor_street_1","contributor_city","contributor_state","contributor_zip" ))
 
-saveRDS(trump,file='TrumpAll.Rdata')
+saveRDS(trump2,file='TrumpAll.Rdata')
+  
 
 ####################
   # location mismatches: determining why there are mismatches between locations and donations data
