@@ -33,12 +33,16 @@ strump <- trump[1:1000,]
 instrument <- readRDS("../../instrument/countyInstrumentCovariate.Rdata")
 counties <- rgdal::readOGR("../../instrument/nhgis0002_shapefile_tl2000_us_county_1990/US_county_1990.shp")
 counties<-spTransform(counties, CRS("+proj=longlat +datum=NAD83"))
+counties@data <- counties@data %>%
+  mutate(stateCounty = paste0(STATE,COUNTY))
 
 ### need a spatial level county dataset
 instrument <- instrument %>%
   rename_all(~ paste0("orig",.)) %>%
   rename(COUNTY = origcounty, STATE = origstate) %>%
-  mutate(STATE = str_pad(STATE,3,side="right","0"), COUNTY = str_pad(COUNTY,4,side="right","0"))
+  mutate(STATE = str_pad(STATE,3,side="right","0"), COUNTY = str_pad(COUNTY,4,side="right","0"),
+         stateCounty = paste0(STATE,COUNTY)) %>%
+  filter(!is.na(COUNTY) & !is.na(STATE))
 
 ### oh god distances to contours now
 contours1 <- readRDS('../../instrument/spanishCountourSLDF.Rdata')
@@ -67,8 +71,20 @@ trump@data <- trump@data %>%
 
 ### merge in county level data
 trumpCountyLink <- over(trump,counties,returnList = FALSE)
+trump@data <- trump@data %>%
+  mutate(stateCounty = trumpCountyLink$stateCounty)
 
 
+trump2 <- merge(trump, instrument, by = 'stateCounty', all.x = TRUE)
+
+
+
+inst2 <- instrument
+inst2 <- inst2 %>%
+  arrange(stateCounty) %>%
+  mutate(leadStateCounty = lead(stateCounty)) %>%
+  filter(stateCounty == leadStateCounty)
+  
 
 ### do the reshape
 
