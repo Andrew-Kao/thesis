@@ -7,6 +7,7 @@ library(dplyr)
 library(sf)
 library(stargazer)
 library(stringr)
+library(purrr)
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/politics/trump_donations') 
@@ -66,6 +67,9 @@ contourTrumpInterAll <- apply(contourTrumpIntersect,1,FUN=sum)  # 590 counties i
 saveRDS(contourTrumpInterAll,'contourTrumpInterAll.Rdata')
 stargazer(matrix(contourTrumpInterAll,ncol=1), out="../../../Output/Summary/ContourTrumpInterAll.tex", title="Donations Within Contours", summary = TRUE)
 
+contourTrumpMinDist <- readRDS('contourTrumpMinDist.Rdata')
+contourTrumpInterAll <- readRDS('contourTrumpInterAll.Rdata')
+
 trump@data <- trump@data %>%
   mutate(minDist = contourTrumpMinDist, inside = contourTrumpInterAll)
 
@@ -74,19 +78,39 @@ trumpCountyLink <- over(trump,counties,returnList = FALSE)
 trump@data <- trump@data %>%
   mutate(stateCounty = trumpCountyLink$stateCounty)
 
-
+### TODO: fix the pdens and hs and college
+ 
 trump2 <- merge(trump, instrument, by = 'stateCounty', all.x = TRUE)
 
-
-
-inst2 <- instrument
-inst2 <- inst2 %>%
-  arrange(stateCounty) %>%
-  mutate(leadStateCounty = lead(stateCounty)) %>%
-  filter(stateCounty == leadStateCounty)
-  
-
 ### do the reshape
+## TODO: hand rasterize
+
+sCounties <- counties[1:4,]
+
+## 
+clist <- vector(mode = "list", length = 4)
+for (i in 1:4) {
+  clist[i] <- counties[i,]
+}
+
+cm <- reduce(clist, raster::union)
+cm <- spTransform(cm, CRS("+proj=longlat +datum=NAD83"))
+r <- raster(cm)
+res(r) <- 100000
+r <- rasterize(trump2, r, trump2$race)
+plot(r)
+
+
+allCounties <- gUnaryUnion(counties)
+allCounties <- spTransform(trump, CRS("+proj=longlat +datum=NAD83"))
+r <- raster(allCounties)
+res(r) <- 100000
+r <- rasterize(trump2, r, trump2$race)
+plot(r)
+
+trumpRaster <- raster(trump2)
+
+
 
 ### point pattern
 DonationArea <- raster::area(counties)
