@@ -82,49 +82,18 @@ trump@data <- trump@data %>%
  
 trump2 <- merge(trump, instrument, by = 'stateCounty', all.x = TRUE)
 
-### do the reshape
-## TODO: hand rasterize
-
-sCounties <- counties[1:4,]
-
-## 
-clist <- vector(mode = "list", length = 4)
-for (i in 1:4) {
-  clist[i] <- counties[i,]
-}
-
-cm <- reduce(clist, raster::union)
-cm <- spTransform(cm, CRS("+proj=longlat +datum=NAD83"))
-r <- raster(cm)
-res(r) <- 100000
-r <- rasterize(trump2, r, trump2$race)
-plot(r)
-
-
-allCounties <- gUnaryUnion(counties)
-allCounties <- spTransform(trump, CRS("+proj=longlat +datum=NAD83"))
-r <- raster(allCounties)
-res(r) <- 100000
-r <- rasterize(trump2, r, trump2$race)
-plot(r)
-
-trumpRaster <- raster(trump2)
-
-
-
-### point pattern
-DonationArea <- raster::area(counties)
-allArea <- sum(DonationArea)
-r <- raster(counties)
-res(r) <- 1000 ## try different values? 
-
-### make raster
-### use calc to run regressions?
-r <- rasterize(counties, r)
+### hand rasterize
+#### determine boundaries of trump data :: source jsundram/cull.py
+r <- raster( xmn =-124.784, xmx=-66.951,ymn=24.743,ymx=49.346,crs= "+proj=longlat +datum=NAD83",
+             nrow = 100, ncol = 100)
+r <- rasterize(trump2, r, trump2$donationCount, fun=sum)
 plot(r)
 # quads <- as(r, 'SpatialPolygons')
 # plot(quads, add=TRUE)
-points(trump, col='red', cex=.5) ## something has gone very wrong
+
+
+
+
 
 
 ## approach 2: county level spatial regression
