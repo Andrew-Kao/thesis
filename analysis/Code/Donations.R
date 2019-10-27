@@ -86,12 +86,16 @@ trump2 <- merge(trump, instrument, by = 'stateCounty', all.x = TRUE)
 #### determine boundaries of trump data :: source jsundram/cull.py
 r <- raster( xmn =-124.784, xmx=-66.951,ymn=24.743,ymx=49.346,crs= "+proj=longlat +datum=NAD83",
              nrow = 100, ncol = 100)
-r <- rasterize(trump2, r, trump2$donationCount, fun=sum)
+r <- rasterize(trump2, r, field=trump2$donationCount,fun=sum)
+# r <- rasterize(trump2, r, field=c(trump2$donationCount, trump2$hisp_sum),
+#                fun=function(x, ...){c(sum,mean)})
+# r <- rasterize(trump2, r, , fun=mean)
 plot(r)
+## TODO: figure out how to change size of plots
 # quads <- as(r, 'SpatialPolygons')
 # plot(quads, add=TRUE)
 
-
+### run regressions with point pattern
 
 
 
