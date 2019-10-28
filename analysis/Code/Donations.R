@@ -86,7 +86,8 @@ trump2 <- merge(trump, instrument, by = 'stateCounty', all.x = TRUE)
 #### determine boundaries of trump data :: source jsundram/cull.py
 r <- raster( xmn =-124.784, xmx=-66.951,ymn=24.743,ymx=49.346,crs= "+proj=longlat +datum=NAD83",
              nrow = 100, ncol = 100)
-r <- rasterize(trump2, r, field=trump2$donationCount,fun=sum)
+rDonCount <- rasterize(trump2, r, field=trump2$donationCount,fun=sum)
+rHispSum <- rasterize(trump2, r, field=trump2$hisp_sum,fun=mean)
 # r <- rasterize(trump2, r, field=c(trump2$donationCount, trump2$hisp_sum),
 #                fun=function(x, ...){c(sum,mean)})
 # r <- rasterize(trump2, r, , fun=mean)
@@ -96,9 +97,10 @@ plot(r)
 # plot(quads, add=TRUE)
 
 ### run regressions with point pattern
-
-
-
+s <- stack(rDonCount, rHispSum)
+v <- data.frame(na.omit(values(s)))
+names(v) <- c('L1', 'L2')
+m1 <- lm(L2 ~ L1, data=v)
 
 ## approach 2: county level spatial regression
 ## not preferred because too few counties
