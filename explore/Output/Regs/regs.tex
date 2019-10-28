@@ -1,5 +1,8 @@
 \documentclass[11pt]{article}
 
+\usepackage{amsmath,amsthm,amssymb} %Misc math symbols
+\usepackage{mathtools}
+
 \usepackage[margin=0.5in]{geometry}
 \usepackage[utf8x]{inputenc}
 \usepackage{booktabs}
@@ -14,6 +17,8 @@
 
 \begin{document}
 
+%% migrations
+
 \input{mig_outsideDistDummy.tex}
 \input{mig_distdummyIO.tex}
 \input{migrev_distdummyIO.tex}
@@ -22,5 +27,17 @@
 \input{migrev_distdummyOITV.tex}
 \input{miglog_distdummyOITVP.tex}
 \input{mig_distdummyOITVP.tex}
+
+
+%% trump
+\input{trump_100.tex}
+\input{trump_100placebo.tex}
+\input{trump_25.tex}
+
+\[ \scalebox{2}{$Y_i = \beta \mathbb{I}[Inside Contour]_i + \gamma X_i + \epsilon_i$} \]
+
+\[ \scalebox{2}{$Y_i = \beta \mathbb{I}[Inside Contour]_i\times Distance_i + \gamma X_i + \epsilon_i$} \]
+
+\[ \scalebox{2}{$Y_i = \beta \mathbb{I}[Inside Contour]_i + \gamma X_i + \lambda WY + \epsilon_i$} \]
 
 \end{document}

@@ -81,26 +81,69 @@ trump@data <- trump@data %>%
 ### TODO: fix the pdens and hs and college
  
 trump2 <- merge(trump, instrument, by = 'stateCounty', all.x = TRUE)
+saveRDS(trump2, 'TrumpReadyRaster.Rdata')
 
+
+####### REGRESSIONS
 ### hand rasterize
 #### determine boundaries of trump data :: source jsundram/cull.py
 r <- raster( xmn =-124.784, xmx=-66.951,ymn=24.743,ymx=49.346,crs= "+proj=longlat +datum=NAD83",
-             nrow = 100, ncol = 100)
+             nrow = 100, ncol = 200)
 rDonCount <- rasterize(trump2, r, field=trump2$donationCount,fun=sum)
 rHispSum <- rasterize(trump2, r, field=trump2$hisp_sum,fun=mean)
-# r <- rasterize(trump2, r, field=c(trump2$donationCount, trump2$hisp_sum),
-#                fun=function(x, ...){c(sum,mean)})
-# r <- rasterize(trump2, r, , fun=mean)
+rPop <- rasterize(trump2, r, field=trump2$origpopulation,fun=mean)
+rPCHisp <- rasterize(trump2, r, field=trump2$origpcHisp,fun=mean)
+rIntersect <- rasterize(trump2, r, field=trump2$inside,fun=mean)
+rMinDist <- rasterize(trump2, r, field=trump2$minDist,fun=mean)
+rIncome <- rasterize(trump2, r, field=trump2$origincome,fun=mean)
+
 plot(r)
 ## TODO: figure out how to change size of plots
-# quads <- as(r, 'SpatialPolygons')
-# plot(quads, add=TRUE)
 
 ### run regressions with point pattern
-s <- stack(rDonCount, rHispSum)
-v <- data.frame(na.omit(values(s)))
-names(v) <- c('L1', 'L2')
-m1 <- lm(L2 ~ L1, data=v)
+s <- stack(rDonCount, rHispSum, rPop, rPCHisp, rIntersect, rMinDist, rIncome)
+regData <- data.frame(na.omit(values(s)))
+names(regData) <- c('rawDonations', 'hispanicSum', 'population', 'pcHispanic', 'intersects', 'distance',
+                    'income')
+
+# no restrictions
+reg1 <- regData %>%
+  mutate(donations = rawDonations*hispanicSum)
+
+m1 <- lm(donations ~ intersects + distance + population , data=reg1)
+
+# 100 km distance
+reg2 <- regData %>%
+  mutate(donations = rawDonations*hispanicSum, logPop = log(population)) %>%
+  filter(distance < 100000)
+
+m1 <- lm(donations ~ intersects + distance + logPop , data=reg2)
+m2 <- lm(donations ~ intersects + distance + logPop + pcHispanic, data=reg2)
+m3 <- lm(donations ~ intersects + distance + logPop + pcHispanic + income, data=reg2)
+# m4 <- lm(donations ~ intersects*distance + logPop + pcHispanic + income, data=reg2)   ## not super interpretable, weird result too
+stargazer(m1,m2,m3, out = "../../../Output/Regs/trump_100.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius")
+
+# 100 km distance placebo
+reg2 <- regData %>%
+  mutate(donations = rawDonations*(1-hispanicSum), logPop = log(population)) %>%
+  filter(distance < 100000)
+
+m1 <- lm(donations ~ intersects + distance + logPop , data=reg2)
+m2 <- lm(donations ~ intersects + distance + logPop + pcHispanic, data=reg2)
+m3 <- lm(donations ~ intersects + distance + logPop + pcHispanic + income, data=reg2)
+stargazer(m1,m2,m3, out = "../../../Output/Regs/trump_100placebo.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius Placebo")
+
+
+# 25 km distance
+reg3 <- regData %>%
+  mutate(donations = rawDonations*hispanicSum, logPop = log(population)) %>%
+  filter(distance < 25000)
+
+m1 <- lm(donations ~ intersects + distance + logPop , data=reg3)
+m2 <- lm(donations ~ intersects + distance + logPop + pcHispanic, data=reg3)
+m3 <- lm(donations ~ intersects + distance + logPop + pcHispanic + income, data=reg3)
+stargazer(m1,m2,m3, out = "../../../Output/Regs/trump_25.tex", title="Effect of TV on Hispanic Donations to Trump, 25 KM Radius")
+
 
 ## approach 2: county level spatial regression
 ## not preferred because too few counties

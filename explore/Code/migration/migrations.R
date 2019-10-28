@@ -72,7 +72,7 @@ stargazer(migrations, out="../../Output/Summary/Migrations0610.tex", title="Coun
 # 20 nearest neighbors? 
 # net migration?
 
-migrations <- readRDS('0610migraations.Rdata')
+migrations <- readRDS('0610migrations.Rdata')
 
 # with distances
 distDummy <- migrations %>%
@@ -91,7 +91,7 @@ m3 <- felm(migLog ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origL
            |0|0|orig, data=distDummy)
 m4 <- felm(migLog ~ origdist + destdist + mi_to_county
            |0|0|0, data=distDummy)
-stargazer(m1,m2,m3,m4, out = "../../Output/Regs/miglog_distdummyOITV.tex", title="Effect of TV on Log Migration, Outside Sample Distance Dummy")
+stargazer(m1,m2,m3, out = "../../Output/Regs/miglog_distdummyOITV.tex", title="Effect of TV on Log Migration, Outside Sample Distance Dummy")
 ## no log
 m1 <- felm(mig ~ TV + origLogPop + destLogPop + mi_to_county|0|0|orig, data=distDummy)
 m2 <- felm(mig ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp + mi_to_county |0|0|orig, data=distDummy)
@@ -99,7 +99,7 @@ m3 <- felm(mig ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogI
            |0|0|orig, data=distDummy)
 m4 <- felm(mig ~ origdist + destdist + mi_to_county
            |0|0|0, data=distDummy)
-stargazer(m1,m2,m3,m4, out = "../../Output/Regs/mig_distdummyOITV.tex", title="Effect of TV on Migration, Outside Sample Distance Dummy")
+stargazer(m1,m2,m3, out = "../../Output/Regs/mig_distdummyOITV.tex", title="Effect of TV on Migration, Outside Sample Distance Dummy")
 ## reverse mig
 m1 <- felm(revMig ~ TV + origLogPop + destLogPop + mi_to_county|0|0|orig, data=distDummy)
 m2 <- felm(revMig ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp + mi_to_county |0|0|orig, data=distDummy)
@@ -107,7 +107,7 @@ m3 <- felm(revMig ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origL
            |0|0|orig, data=distDummy)
 m4 <- felm(revMig ~ origdist + destdist + mi_to_county
            |0|0|0, data=distDummy)
-stargazer(m1,m2,m3,m4, out = "../../Output/Regs/migrev_distdummyOITV.tex", title="Effect of TV on Reverse Migration, Outside Sample Distance Dummy")
+stargazer(m1,m2,m3, out = "../../Output/Regs/migrev_distdummyOITV.tex", title="Effect of TV on Reverse Migration, Outside Sample Distance Dummy")
 
 
 ## placebo
@@ -127,7 +127,7 @@ m3 <- felm(migLog ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origL
            |0|0|orig, data=distDummy)
 m4 <- felm(migLog ~ origdist + destdist + mi_to_county
            |0|0|0, data=distDummy)
-stargazer(m1,m2,m3,m4, out = "../../Output/Regs/miglog_distdummyOITVP.tex", title="Effect of TV on Log Migration, Outside Sample Distance Dummy, Placebo")
+stargazer(m1,m2,m3, out = "../../Output/Regs/miglog_distdummyOITVP.tex", title="Effect of TV on Log Migration, Outside Sample Distance Dummy, Placebo")
 ## no log
 m1 <- felm(mig ~ TV + origLogPop + destLogPop + mi_to_county|0|0|orig, data=distDummy)
 m2 <- felm(mig ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp + mi_to_county|0|0|orig, data=distDummy)
@@ -135,7 +135,7 @@ m3 <- felm(mig ~ TV + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogI
            |0|0|orig, data=distDummy)
 m4 <- felm(mig ~ origdist + destdist + mi_to_county
            |0|0|0, data=distDummy)
-stargazer(m1,m2,m3,m4, out = "../../Output/Regs/mig_distdummyOITVP.tex", title="Effect of TV on Migration, Outside Sample Distance Dummy, Placebo")
+stargazer(m1,m2,m3, out = "../../Output/Regs/mig_distdummyOITVP.tex", title="Effect of TV on Migration, Outside Sample Distance Dummy, Placebo")
 
   
 # from outside to 'inside'
