@@ -8,6 +8,7 @@ library(raster)
 library(rgeos)
 library(dplyr)
 library(stringr)
+library(stargazer)
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/education') 
@@ -94,10 +95,34 @@ contours_project <- spTransform(contours1, CRS("+proj=aea +lat_1=29.5 +lat_2=45.
 leas_project <- spTransform(leas, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
 
 contourLEADist <- gDistance(contours_project,leas_project, byid = TRUE)
-contourTrumpMinDist <- apply(contourTrumpDist,1,FUN=min)  # 428 counties that intersect!
-saveRDS(contourTrumpMinDist,'contourTrumpMinDist.Rdata')
-stargazer(matrix(contourTrumpMinDist,ncol=1), out="../../../Output/Summary/ContourTrumpMinDist.tex", title="Contour-Donation Minimum Distances", summary = TRUE)
+contourLEAMinDist <- apply(contourLEADist,1,FUN=min)  # 428 counties that intersect!
+saveRDS(contourLEAMinDist,'contourLEAMinDist.Rdata')
+stargazer(matrix(contourLEAMinDist,ncol=1), out="../../Output/Summary/ContourLEAMinDist.tex", title="Contour-LEA Minimum Distances", summary = TRUE)
 
+contours_poly <-SpatialPolygons(
+  lapply(1:length(contours_project), 
+         function(i) Polygons(lapply(coordinates(contours_project)[[i]], function(y) Polygon(y)), as.character(i))))
+crs(contours_poly) <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
+contourLEAIntersect <- gIntersects(contours_poly,leas_project, byid = TRUE)
+contourLEAIntersect[contourLEAIntersect == "FALSE"] <- 0
+contourLEAIntersect[contourLEAIntersect == "TRUE"] <- 1
+contourLEAInterAll <- apply(contourLEAIntersect,1,FUN=sum)  
+saveRDS(contourLEAInterAll,'contourLEAInterAll.Rdata')
+stargazer(matrix(contourLEAInterAll,ncol=1), out="../../Output/Summary/ContourLEAInterAll.tex", title="LEA Within Contours", summary = TRUE)
+
+contourLEAMinDist <- readRDS('contourLEAMinDist.Rdata')
+contourLEAInterAll <- readRDS('contourLEAInterAll.Rdata')
+
+leas@data <- leas@data %>%
+  mutate(minDist = contourLEAMinDist, inside = contourLEAInterAll)
+
+### merge in county level data
+leaCountyLink <- over(leas,counties,returnList = FALSE)
+leas@data <- leas@data %>%
+  mutate(stateCounty = leaCountyLink$stateCounty)
+
+leas2 <- merge(leas, instrument, by = 'stateCounty', all.x = TRUE)
+saveRDS(leas2, 'LEAReadyRaster.Rdata')
 
 
 ## of interest
