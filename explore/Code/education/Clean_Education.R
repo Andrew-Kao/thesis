@@ -3,6 +3,9 @@
 
 library(data.table)
 library(rgdal)
+library(sf)
+library(raster)
+library(dplyr)
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/education') 
@@ -16,6 +19,7 @@ write.csv(toClassify, '2015-16-crdc-data/Output/LEA_Adresses.csv')
 
 ## merge in data
 
+# 17,337 unique LEAs, all have att least one school
 leaMaster <- fread('2015-16-crdc-data/Data Files and Layouts/CRDC 2015-16 LEA Data.csv')
 
 schoolMaster <- fread('2015-16-crdc-data/Data Files and Layouts/CRDC 2015-16 School Data.csv')
@@ -23,7 +27,8 @@ schoolMaster <- fread('2015-16-crdc-data/Data Files and Layouts/CRDC 2015-16 Sch
 ged <- leaMaster %>%
   select('LEA_ADDRESS','LEA_CITY','LEA_ZIP', 
          'LEA_GED_IND', 'LEA_GEDPART_HI_M', 'LEA_GEDPART_HI_F', 'TOT_GEDPART_M', 'TOT_GEDPART_F', # participate, hispanic m/f, total m/f
-          'LEA_GEDCRED_HI_M', 'LEA_GEDCRED_HI_F', 'TOT_GEDCRED_M', 'TOT_GEDCRED_F') #credit
+          'LEA_GEDCRED_HI_M', 'LEA_GEDCRED_HI_F', 'TOT_GEDCRED_M', 'TOT_GEDCRED_F') %>% #credit
+  filter(LEA_GED_IND == "Yes") # remove negatives/recode to 0... figure it out. TOT_GEDCRED_M >= 0
 
 specialSchool <- schoolMaster %>%
   select('SCHID',
@@ -54,14 +59,14 @@ calculus <- schoolMaster %>%
   select('SCHID','SCH_MATHCLASSES_CALC', 'SCH_MATHCERT_CALC', # classes/teachers
          'SCH_MATHENR_CALC_HI_M', 'SCH_MATHENR_CALC_HI_F', 'TOT_MATHENR_CALC_M', 'TOT_MATHENR_CALC_M') # taking
 
+stargazer(ged, out="../../Output/Summary/EduDFGed.tex", title="GED Completions", summary = TRUE)
+
 ## AP next
 
 
 ## need to get the .shp
-schoolLoc <- rgdal::readOGR("2015-16-crdc-data/Output/a0000000b.spx.shp")
-counties<-spTransform(counties, CRS("+proj=longlat +datum=NAD83"))
-counties@data <- counties@data %>%
-  mutate(stateCounty = paste0(STATE,COUNTY))
+schoolLoc <- rgdal::readOGR("2015-16-crdc-data/Output/Export_Output.shp")
+leas <- spTransform(schoolLoc, CRS("+proj=longlat +datum=NAD83"))
 
 
 
