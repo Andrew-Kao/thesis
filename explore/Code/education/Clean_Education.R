@@ -5,7 +5,9 @@ library(data.table)
 library(rgdal)
 library(sf)
 library(raster)
+library(rgeos)
 library(dplyr)
+library(stringr)
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/education') 
@@ -64,10 +66,37 @@ stargazer(ged, out="../../Output/Summary/EduDFGed.tex", title="GED Completions",
 ## AP next
 
 
-## need to get the .shp
+#### SPATIAL MERGE ####
+# Strategy: do all spatial computations with the LEAs, merge in to school data as needed
 schoolLoc <- rgdal::readOGR("2015-16-crdc-data/Output/Export_Output.shp")
 leas <- spTransform(schoolLoc, CRS("+proj=longlat +datum=NAD83"))
 
+## need to match up data to counties and merge
+
+instrument <- readRDS("../instrument/countyInstrumentCovariate.Rdata")
+counties <- rgdal::readOGR("../instrument/nhgis0002_shapefile_tl2000_us_county_1990/US_county_1990.shp")
+counties<-spTransform(counties, CRS("+proj=longlat +datum=NAD83"))
+counties@data <- counties@data %>%
+  mutate(stateCounty = paste0(STATE,COUNTY))
+
+### need a spatial level county dataset
+instrument <- instrument %>%
+  rename_all(~ paste0("orig",.)) %>%
+  rename(COUNTY = origcounty, STATE = origstate) %>%
+  mutate(STATE = str_pad(STATE,3,side="right","0"), COUNTY = str_pad(COUNTY,4,side="right","0"),
+         stateCounty = paste0(STATE,COUNTY)) %>%
+  filter(!is.na(COUNTY) & !is.na(STATE))
+
+### distances to contours 
+contours1 <- readRDS('../instrument/spanishCountourSLDF.Rdata')
+contours <- spTransform(contours1, CRS("+proj=longlat +datum=NAD83"))
+contours_project <- spTransform(contours1, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
+leas_project <- spTransform(leas, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
+
+contourLEADist <- gDistance(contours_project,leas_project, byid = TRUE)
+contourTrumpMinDist <- apply(contourTrumpDist,1,FUN=min)  # 428 counties that intersect!
+saveRDS(contourTrumpMinDist,'contourTrumpMinDist.Rdata')
+stargazer(matrix(contourTrumpMinDist,ncol=1), out="../../../Output/Summary/ContourTrumpMinDist.tex", title="Contour-Donation Minimum Distances", summary = TRUE)
 
 
 
