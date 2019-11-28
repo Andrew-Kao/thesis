@@ -51,7 +51,7 @@ gifted <- schoolMaster %>%
 saveRDS(gifted, 'SchGifted.Rdata')
 
 algebra1 <- schoolMaster %>%
-  select('SCHID', 'SCH_ALGCLASSES_GS0708', 'SCH_ALGCERT_GS0708', # number of classes, teachers
+  select('SCHID', 'SCH_ALGCLASSES_GS0708', 'SCH_ALGCERT_GS0708', 'LEAID', # number of classes, teachers
           'SCH_ALGENR_G08_HI_M', 'SCH_ALGENR_G08_HI_F', 'TOT_ALGENR_G08_M', 'TOT_ALGENR_G08_F', # Grade 8
           'SCH_ALGENR_GS0910_HI_M', 'SCH_ALGENR_GS0910_HI_F', 'TOT_ALGENR_GS0910_M', 'TOT_ALGENR_GS0910_F', # G9/10
           'SCH_ALGENR_GS1112_HI_M', 'SCH_ALGENR_GS1112_HI_F', 'TOT_ALGENR_GS1112_M', 'TOT_ALGENR_GS1112_M', # G11/12
@@ -67,6 +67,52 @@ calculus <- schoolMaster %>%
   select('SCHID','SCH_MATHCLASSES_CALC', 'SCH_MATHCERT_CALC', # classes/teachers
          'SCH_MATHENR_CALC_HI_M', 'SCH_MATHENR_CALC_HI_F', 'TOT_MATHENR_CALC_M', 'TOT_MATHENR_CALC_M') # taking
 saveRDS(calculus, 'SchCalc.Rdata')
+
+ap <- schoolMaster %>%
+  select('SCHID','LEAID','SCH_APENR_IND', 'SCH_APMATHENR_IND', 'SCH_APSCIENR_IND', # AP indicator/math/sci
+         'SCH_APENR_HI_M','SCH_APENR_HI_F','TOT_APENR_M','TOT_APENR_F', # number enrolled in AP classes
+         'SCH_APMATHENR_HI_M', 'SCH_APMATHENR_HI_F', 'TOT_APMATHENR_M', 'TOT_APMATHENR_F', # math
+         'SCH_APSCIENR_HI_M','SCH_APSCIENR_HI_F','TOT_APSCIENR_M','TOT_APSCIENR_F', # science
+         'SCH_APEXAM_ONEORMORE_HI_M', 'SCH_APEXAM_ONEORMORE_HI_F', 'TOT_APEXAM_ONEORMORE_M', 'TOT_APEXAM_ONEORMORE_F', # actual test taken?
+         'SCH_APPASS_ONEORMORE_HI_M', 'SCH_APPASS_ONEORMORE_HI_F', 'TOT_APPASS_ONEORMORE_M', 'TOT_APPASS_ONEORMORE_F') # pass?
+saveRDS(ap, 'SchAP.Rdata')
+
+## page 82
+exam <- schoolMaster %>%
+  select('SCHID','LEAID',
+         'SCH_SATACT_HI_M', 'SCH_SATACT_HI_F', 'TOT_SATACT_M', 'TOT_SATACT_F')
+saveRDS(exam, 'SchExam.Rdata')
+
+absent <- schoolMaster %>%
+  select('SCHID','LEAID',
+         'SCH_ABSENT_HI_M','SCH_ABSENT_HI_F','TOT_ABSENT_M','TOT_ABSENT_F')
+saveRDS(absent, 'SchAbsent.Rdata')
+
+## RETENTION: do we care? seems messy, but can fight identification of moving
+# see if we need
+
+# there is a disabilities category, not sure it matters for our analysis
+punish <- schoolMaster %>%
+  select('SCHID','LEAID', 'SCH_CORPINSTANCES_IND',  
+         'SCH_PSDISC_CORP_HI_M','SCH_PSDISC_CORP_HI_F', 'SCH_PSCORPINSTANCES_ALL', # preschool corporal punish
+         'SCH_DISCWODIS_CORP_HI_M', 'SCH_DISCWODIS_CORP_HI_F', 'TOT_DISCWODIS_CORP_M', 'TOT_DISCWODIS_CORP_F')  %>%
+  filter(SCH_CORPINSTANCES_IND == "Yes")
+saveRDS(punish, 'SchPunish.Rdata')
+  
+suspend <- schoolMaster %>%
+  select('SCHID','LEAID', 
+         'SCH_PSDISC_SINGOOS_HI_M', 'SCH_PSDISC_SINGOOS_HI_F', 'TOT_PSDISC_SINGOOS_M', 'TOT_PSDISC_SINGOOS_F', # preschool one OsS
+         'SCH_PSDISC_MULTOOS_HI_M', 'SCH_PSDISC_MULTOOS_HI_F', 'TOT_PSDISC_MULTOOS_M', 'TOT_PSDISC_MULTOOS_F', # preschool multiple oss
+         'SCH_DISCWODIS_ISS_HI_M', 'SCH_DISCWODIS_ISS_HI_F', 'TOT_DISCWODIS_ISS_M', 'TOT_DISCWODIS_ISS_F', # ever got ISS
+         'SCH_DISCWODIS_SINGOOS_HI_M', 'SCH_DISCWODIS_SINGOOS_HI_F', 'SCH_DISCWODIS_SINGOOS_HI_M', 'SCH_DISCWODIS_SINGOOS_HI_F', # one OSS
+         'SCH_DISCWODIS_MULTOOS_HI_M', 'SCH_DISCWODIS_MULTOOS_HI_F', 'TOT_DISCWODIS_MULTOOS_M', 'TOT_DISCWODIS_MULTOOS_F', # multiple oss
+         'SCH_DAYSMISSED_HI_M', 'SCH_DAYSMISSED_HI_F', 'TOT_DAYSMISSED_M', 'TOT_DAYSMISSED_F')  # days missed bc OSS
+saveRDS(suspend, 'SchSuspend.Rdata')
+         
+                 
+
+
+
 
 stargazer(ged, out="../../Output/Summary/EduDFGed.tex", title="GED Completions", summary = TRUE)
 
