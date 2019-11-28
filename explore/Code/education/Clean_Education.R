@@ -28,23 +28,27 @@ leaMaster <- fread('2015-16-crdc-data/Data Files and Layouts/CRDC 2015-16 LEA Da
 schoolMaster <- fread('2015-16-crdc-data/Data Files and Layouts/CRDC 2015-16 School Data.csv')
 
 ged <- leaMaster %>%
-  select('LEA_ADDRESS','LEA_CITY','LEA_ZIP', 
+  select('LEA_ADDRESS','LEA_CITY','LEA_ZIP', 'LEAID',
          'LEA_GED_IND', 'LEA_GEDPART_HI_M', 'LEA_GEDPART_HI_F', 'TOT_GEDPART_M', 'TOT_GEDPART_F', # participate, hispanic m/f, total m/f
           'LEA_GEDCRED_HI_M', 'LEA_GEDCRED_HI_F', 'TOT_GEDCRED_M', 'TOT_GEDCRED_F') %>% #credit
   filter(LEA_GED_IND == "Yes") # remove negatives/recode to 0... figure it out. TOT_GEDCRED_M >= 0
+saveRDS(ged, 'LEAGED.Rdata')
 
 specialSchool <- schoolMaster %>%
   select('SCHID',
           'SCH_STATUS_MAGNET', 'SCH_STATUS_CHARTER', 'SCH_STATUS_ALT') # special status; can also get grades
+saveRDS(specialSchool, 'SchSpecial.Rdata')
 
 enroll <- schoolMaster %>%
   select('SCHID',
          'SCH_ENR_HI_M', 'SCH_ENR_HI_F', 'TOT_ENR_M', 'TOT_ENR_F', # overall enrollment
          'SCH_LEPENR_HI_M', 'SCH_LEPENR_HI_F', 'TOT_LEPENR_F', 'TOT_LEPENR_M')  # limited english proficiency
+saveRDS(enroll, 'SchEnroll.Rdata')
 
 gifted <- schoolMaster %>%
   select('SCHID','SCH_GT_IND', # has gifted?
           'SCH_GTENR_HI_M', 'SCH_GTENR_HI_F', 'TOT_GTENR_M', 'TOT_GTENR_F') 
+saveRDS(gifted, 'SchGifted.Rdata')
 
 algebra1 <- schoolMaster %>%
   select('SCHID', 'SCH_ALGCLASSES_GS0708', 'SCH_ALGCERT_GS0708', # number of classes, teachers
@@ -54,6 +58,7 @@ algebra1 <- schoolMaster %>%
           'SCH_ALGPASS_G08_HI_M', 'SCH_ALGPASS_G08_HI_F', 'TOT_ALGPASS_G08_M', 'TOT_ALGPASS_G08_F', # pass g8
           'SCH_ALGPASS_GS0910_HI_M', 'SCH_ALGPASS_GS0910_HI_F', 'TOT_ALGPASS_GS0910_M', 'TOT_ALGPASS_GS0910_F', # pass g9/10
           'SCH_ALGPASS_GS1112_HI_M', 'SCH_ALGPASS_GS1112_HI_F', 'TOT_ALGPASS_GS1112_M', 'TOT_ALGPASS_GS1112_F') # pass g11/12
+saveRDS(algebra1, 'SchAlg1.Rdata')
 
 # geometry/alg 2/advanced math has no pass rate
 # same with chem/phys/bio
@@ -61,6 +66,7 @@ algebra1 <- schoolMaster %>%
 calculus <- schoolMaster %>%
   select('SCHID','SCH_MATHCLASSES_CALC', 'SCH_MATHCERT_CALC', # classes/teachers
          'SCH_MATHENR_CALC_HI_M', 'SCH_MATHENR_CALC_HI_F', 'TOT_MATHENR_CALC_M', 'TOT_MATHENR_CALC_M') # taking
+saveRDS(calculus, 'SchCalc.Rdata')
 
 stargazer(ged, out="../../Output/Summary/EduDFGed.tex", title="GED Completions", summary = TRUE)
 
@@ -123,6 +129,9 @@ leas@data <- leas@data %>%
 
 leas2 <- merge(leas, instrument, by = 'stateCounty', all.x = TRUE)
 saveRDS(leas2, 'LEAReadyRaster.Rdata')
+
+# let's see if we can get something more fine than school districts - school name and state might get us close enough
+# state and school is 90,962/96,360 and 96,326 for LEA
 
 
 ## of interest
