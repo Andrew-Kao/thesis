@@ -109,9 +109,43 @@ suspend <- schoolMaster %>%
          'SCH_DAYSMISSED_HI_M', 'SCH_DAYSMISSED_HI_F', 'TOT_DAYSMISSED_M', 'TOT_DAYSMISSED_F')  # days missed bc OSS
 saveRDS(suspend, 'SchSuspend.Rdata')
          
-                 
+expulsion <- schoolMaster %>%
+  select('SCHID','LEAID',
+         'SCH_PSDISC_EXP_HI_M', 'SCH_PSDISC_EXP_HI_F', 'TOT_PSDISC_EXP_M', 'TOT_PSDISC_EXP_F', # preschool
+         'SCH_DISCWODIS_EXPWE_HI_M', 'SCH_DISCWODIS_EXPWE_HI_F', 'TOT_DISCWODIS_EXPWE_M', 'TOT_DISCWODIS_EXPWE_F', # w/ educ services
+         'SCH_DISCWODIS_EXPWOE_HI_M', 'SCH_DISCWODIS_EXPWOE_HI_F', 'TOT_DISCWODIS_EXPWOE_M', 'TOT_DISCWODIS_EXPWOE_F',  #w/o educ services
+         'SCH_DISCWODIS_EXPZT_HI_M', 'SCH_DISCWODIS_EXPZT_HI_F', 'TOT_DISCWODIS_EXPZT_M', 'TOT_DISCWODIS_EXPZT_F') # zero tolerance
+saveRDS(expulsion, 'SchExpulsion.Rdata')
 
+transfer <- schoolMaster %>%
+  select('SCHID','LEAID',
+        'SCH_DISCWODIS_TFRALT_HI_M', 'SCH_DISCWODIS_TFRALT_HI_F', 'TOT_DISCWODIS_TFRALT_M', 'TOT_DISCWODIS_TFRALT_F') # transfer for disiciplinary 
+saveRDS(transfer, 'SchTransfer.Rdata')                 
 
+law <- schoolMaster %>%
+  select('SCHID','LEAID',
+         'SCH_DISCWODIS_REF_HI_M', 'SCH_DISCWODIS_REF_HI_F', 'SCH_DISCWODIS_REF_HI_M', 'SCH_DISCWODIS_REF_HI_F', # law enforce referral
+         'SCH_DISCWODIS_ARR_HI_M', 'SCH_DISCWODIS_ARR_HI_F', 'TOT_DISCWODIS_ARR_M', 'TOT_DISCWODIS_ARR_F') # school related arrest
+saveRDS(law, 'SchLaw.Rdata')                 
+
+## OFFENSES: can look at overall rate, but not control..
+
+harass <- schoolMaster %>%
+  select('SCHID','LEAID',
+         'SCH_HBREPORTED_SEX_HI_M', 'SCH_HBREPORTED_SEX_HI_F', 'TOT_HBREPORTED_SEX_M', 'TOT_HBREPORTED_SEX_F', # victim sex
+         'SCH_HBREPORTED_RAC_HI_M', 'SCH_HBREPORTED_RAC_HI_F', 'TOT_HBREPORTED_RAC_M', 'TOT_HBREPORTED_RAC_F', # victim race
+         'SCH_HBDISCIPLINED_SEX_HI_M', 'SCH_HBDISCIPLINED_SEX_HI_F', 'TOT_HBDISCIPLINED_SEX_M', 'TOT_HBDISCIPLINED_SEX_F', # offender sex
+         'SCH_HBDISCIPLINED_RAC_HI_M', 'SCH_HBDISCIPLINED_RAC_HI_F', 'TOT_HBDISCIPLINED_RAC_M', 'TOT_HBDISCIPLINED_RAC_F') # offender race
+saveRDS(harass, 'SchHarass.Rdata')   
+
+restraint <- schoolMaster %>%
+  select('SCHID','LEAID',
+         'SCH_RS_NONIDEA_MECH_HI_M', 'SCH_RS_NONIDEA_MECH_HI_F', 'TOT_RS_NONIDEA_MECH_M', 'TOT_RS_NONIDEA_MECH_F', # mechanical restraint
+         'SCH_RS_NONIDEA_PHYS_HI_M', 'SCH_RS_NONIDEA_PHYS_HI_F', 'TOT_RS_NONIDEA_PHYS_M', 'TOT_RS_NONIDEA_PHYS_F', # physical restraint 
+         'SCH_RS_NONIDEA_SECL_HI_M', 'SCH_RS_NONIDEA_SECL_HI_F', 'TOT_RS_NONIDEA_SECL_M', 'TOT_RS_NONIDEA_SECL_M') # seclusion
+saveRDS(restraint, 'SchRestraint.Rdata')   
+
+## funding... how to interpret?
 
 
 stargazer(ged, out="../../Output/Summary/EduDFGed.tex", title="GED Completions", summary = TRUE)
