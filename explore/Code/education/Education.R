@@ -37,10 +37,10 @@ cleanGED <- ged %>%
          total_attempt_ged = TOT_GEDPART_F + TOT_GEDPART_M,
          total_cred_ged = TOT_GEDCRED_F + TOT_GEDCRED_M)
 
-### GEED REGS ###
+### GED REGS ###
 
-educ <- merge(educ, cleanGED, by = 'LEAID', all.x = TRUE)
-educData <- educ@data
+educGed <- merge(educ, cleanGED, by = 'LEAID', all.x = TRUE)
+educData <- educGed@data
 
 # distances : 100 km
 distDummy <- educData %>%
@@ -76,13 +76,79 @@ stargazer(m1, m2, m3, m4, out = "../../Output/Regs/edu_gedh50.tex", title="Effec
 
 
 
-
-
-
-
-
-
 #### Gifted ####
+enroll <- readRDS('SchEnroll.Rdata') %>%
+  mutate(schlea = paste0(SCHID,LEAID)) %>%
+  select(-LEAID)
+gifted <- readRDS('SchGifted.Rdata')%>%
+  filter(SCH_GT_IND == "Yes") %>%
+  mutate(schlea = paste0(SCHID,LEAID)) %>%
+  left_join(enroll, by = 'schlea') %>%
+  mutate(pcHisp_gifted = (SCH_GTENR_HI_M + SCH_GTENR_HI_F)/(SCH_ENR_HI_M + SCH_ENR_HI_F),
+         pcTot_gifted = (TOT_GTENR_M + TOT_GTENR_F)/(TOT_ENR_M + TOT_ENR_F)) %>%
+  left_join(educ@data, by = 'LEAID' )
+
+### Gifted regs ###
+
+# distances : 100 km
+distDummy <- gifted %>%
+  mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
+  filter(origdist < 100000 ) %>%
+  mutate(origdist = origdist/1000,
+         origLogPop = log(origpopulation), origLogInc = log(origincome))
+
+m1 <- lm(pcHisp_gifted ~ TV*origdist,data=distDummy)
+m2 <- lm(pcHisp_gifted ~ TV*origdist + origLogPop + origpcHisp,data=distDummy)
+m3 <- lm(pcHisp_gifted ~ TV*origdist + origLogPop + origpcHisp + origLogInc,data=distDummy)
+m4 <- lm(pcHisp_gifted ~ TV*origdist + origLogPop + origpcHisp + origLogInc + pcTot_gifted,data=distDummy)
+stargazer(m1, m2, m3, m4, out = "../../Output/Regs/edu_giftedh.tex", title="Effect of TV on Hispanic \\% Gifted",
+          notes = "Distance in KM, 100 KM cutoff",
+          omit.stat = c('f','ser'))
+
+# distances : 50 km
+distDummy <- gifted %>%
+  mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
+  filter(origdist < 50000 ) %>%
+  mutate(origdist = origdist/1000,
+         origLogPop = log(origpopulation), origLogInc = log(origincome))
+
+m1 <- lm(pcHisp_gifted ~ TV*origdist,data=distDummy)
+m2 <- lm(pcHisp_gifted ~ TV*origdist + origLogPop + origpcHisp,data=distDummy)
+m3 <- lm(pcHisp_gifted ~ TV*origdist + origLogPop + origpcHisp + origLogInc,data=distDummy)
+m4 <- lm(pcHisp_gifted ~ TV*origdist + origLogPop + origpcHisp + origLogInc + pcTot_gifted,data=distDummy)
+stargazer(m1, m2, m3, m4, out = "../../Output/Regs/edu_giftedh50.tex", title="Effect of TV on Hispanic \\% Gifted",
+          notes = "Distance in KM, 50 KM cutoff",
+          omit.stat = c('f','ser'))
+
+# distances : 25 km
+distDummy <- gifted %>%
+  mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
+  filter(origdist < 25000 ) %>%
+  mutate(origdist = origdist/1000,
+         origLogPop = log(origpopulation), origLogInc = log(origincome))
+
+m1 <- lm(pcHisp_gifted ~ TV*origdist,data=distDummy)
+m2 <- lm(pcHisp_gifted ~ TV*origdist + origLogPop + origpcHisp,data=distDummy)
+m3 <- lm(pcHisp_gifted ~ TV*origdist + origLogPop + origpcHisp + origLogInc,data=distDummy)
+m4 <- lm(pcHisp_gifted ~ TV*origdist + origLogPop + origpcHisp + origLogInc + pcTot_gifted,data=distDummy)
+stargazer(m1, m2, m3, m4, out = "../../Output/Regs/edu_giftedh25.tex", title="Effect of TV on Hispanic \\% Gifted",
+          notes = "Distance in KM, 25 KM cutoff",
+          omit.stat = c('f','ser'))
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### Algebra ####
+
 
 
 

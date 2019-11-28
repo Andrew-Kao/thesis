@@ -40,13 +40,13 @@ specialSchool <- schoolMaster %>%
 saveRDS(specialSchool, 'SchSpecial.Rdata')
 
 enroll <- schoolMaster %>%
-  select('SCHID',
+  select('SCHID', 'LEAID',
          'SCH_ENR_HI_M', 'SCH_ENR_HI_F', 'TOT_ENR_M', 'TOT_ENR_F', # overall enrollment
          'SCH_LEPENR_HI_M', 'SCH_LEPENR_HI_F', 'TOT_LEPENR_F', 'TOT_LEPENR_M')  # limited english proficiency
 saveRDS(enroll, 'SchEnroll.Rdata')
 
 gifted <- schoolMaster %>%
-  select('SCHID','SCH_GT_IND', # has gifted?
+  select('SCHID','SCH_GT_IND', 'LEAID', # has gifted?
           'SCH_GTENR_HI_M', 'SCH_GTENR_HI_F', 'TOT_GTENR_M', 'TOT_GTENR_F') 
 saveRDS(gifted, 'SchGifted.Rdata')
 
