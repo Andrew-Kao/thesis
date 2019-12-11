@@ -1,8 +1,19 @@
 ###### Education Regs ####
 
+
+# TODO: 
+# 1. clean data and get summary stats
+# 2. tease out causal relationships that make sense
+# 3. there must be a way to get graduation data.
+# 4. do as Ferrell commands
+# 5. read spatial RD metrics
+# 6. 
+
 library(stargazer)
 library(dplyr)
 library(sp)
+library(purrr)
+library(data.table)
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/education') 
@@ -15,6 +26,30 @@ educ@data <- educ@data %>%
   mutate(LEAID = leaMaster$LEAID)
   
 ## how to deal with non-uniqueness  (i.e., we're going to have to geolocate schools)
+
+#### master school data ####
+
+special <- readRDS('SchSpecial.Rdata') %>%
+  left_join(educ@data, by = 'LEAID' ) %>%
+  mutate(schlea = paste0(SCHID,LEAID)) %>%
+  select(-LEAID, -SCHID) 
+
+dataList <- c('SchEnroll.Rdata', 'SchGifted.Rdata', 'SchAlg1.Rdata', 'SchCalc.Rdata', 'SchAP.Rdata',
+              'SchExam.Rdata', 'SchAbsent.Rdata', 'SchPunish.Rdata', 'SchSuspend.Rdata',
+              'SchExpulsion.Rdata', 'SchTransfer.Rdata', 'SchLaw.Rdata', 'SchHarass.Rdata',
+              'SchRestraint.Rdata')
+
+mergeByName <- function(n1,n2) {
+    print(nrow(n1))
+  
+  readRDS(n2) %>%
+    mutate(schlea = paste0(SCHID,LEAID)) %>%
+    select(-LEAID, -SCHID) %>%
+    right_join(n1, by = 'schlea', copy = TRUE)
+}
+
+# figure out number here (too many somehow)
+schoolAll <- reduce(dataList,.f = mergeByName, .init = special)
 
 
 #### GED ####

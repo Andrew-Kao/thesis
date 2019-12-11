@@ -25,7 +25,20 @@ write.csv(toClassify, '2015-16-crdc-data/Output/LEA_Adresses.csv')
 # 17,337 unique LEAs, all have att least one school
 leaMaster <- fread('2015-16-crdc-data/Data Files and Layouts/CRDC 2015-16 LEA Data.csv')
 
-schoolMaster <- fread('2015-16-crdc-data/Data Files and Layouts/CRDC 2015-16 School Data.csv')
+schoolMaster <- fread('2015-16-crdc-data/Data Files and Layouts/CRDC 2015-16 School Data.csv') 
+
+# TODO: investigate duplicate schlea
+# 133602430
+# 242100540
+# 6482803360
+# 6522803360
+# 6612803450
+
+schoolMaster <- fread('2015-16-crdc-data/Data Files and Layouts/CRDC 2015-16 School Data.csv') %>%
+  mutate(schlea = paste0(SCHID,LEAID)) %>%
+  group_by(schlea) %>%
+  summarize(count = n()) %>%
+  filter(count > 1)
 
 ged <- leaMaster %>%
   select('LEA_ADDRESS','LEA_CITY','LEA_ZIP', 'LEAID',
@@ -35,7 +48,7 @@ ged <- leaMaster %>%
 saveRDS(ged, 'LEAGED.Rdata')
 
 specialSchool <- schoolMaster %>%
-  select('SCHID',
+  select('SCHID','LEAID',
           'SCH_STATUS_MAGNET', 'SCH_STATUS_CHARTER', 'SCH_STATUS_ALT') # special status; can also get grades
 saveRDS(specialSchool, 'SchSpecial.Rdata')
 
@@ -64,7 +77,8 @@ saveRDS(algebra1, 'SchAlg1.Rdata')
 # same with chem/phys/bio
 
 calculus <- schoolMaster %>%
-  select('SCHID','SCH_MATHCLASSES_CALC', 'SCH_MATHCERT_CALC', # classes/teachers
+  select('SCHID', 'LEAID',
+         'SCH_MATHCLASSES_CALC', 'SCH_MATHCERT_CALC', # classes/teachers
          'SCH_MATHENR_CALC_HI_M', 'SCH_MATHENR_CALC_HI_F', 'TOT_MATHENR_CALC_M', 'TOT_MATHENR_CALC_M') # taking
 saveRDS(calculus, 'SchCalc.Rdata')
 
