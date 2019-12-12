@@ -34,12 +34,6 @@ schoolMaster <- fread('2015-16-crdc-data/Data Files and Layouts/CRDC 2015-16 Sch
 # 6522803360
 # 6612803450
 
-schoolMaster <- fread('2015-16-crdc-data/Data Files and Layouts/CRDC 2015-16 School Data.csv') %>%
-  mutate(schlea = paste0(SCHID,LEAID)) %>%
-  group_by(schlea) %>%
-  summarize(count = n()) %>%
-  filter(count > 1)
-
 ged <- leaMaster %>%
   select('LEA_ADDRESS','LEA_CITY','LEA_ZIP', 'LEAID',
          'LEA_GED_IND', 'LEA_GEDPART_HI_M', 'LEA_GEDPART_HI_F', 'TOT_GEDPART_M', 'TOT_GEDPART_F', # participate, hispanic m/f, total m/f

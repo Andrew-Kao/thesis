@@ -32,7 +32,8 @@ educ@data <- educ@data %>%
 special <- readRDS('SchSpecial.Rdata') %>%
   left_join(educ@data, by = 'LEAID' ) %>%
   mutate(schlea = paste0(SCHID,LEAID)) %>%
-  select(-LEAID, -SCHID) 
+  select(-LEAID, -SCHID) %>%
+  filter(schlea != 133602430 & schlea != 242100540 & schlea !=  6482803360 & schlea !=  6522803360 & schlea != 6612803450)
 
 dataList <- c('SchEnroll.Rdata', 'SchGifted.Rdata', 'SchAlg1.Rdata', 'SchCalc.Rdata', 'SchAP.Rdata',
               'SchExam.Rdata', 'SchAbsent.Rdata', 'SchPunish.Rdata', 'SchSuspend.Rdata',
@@ -40,16 +41,55 @@ dataList <- c('SchEnroll.Rdata', 'SchGifted.Rdata', 'SchAlg1.Rdata', 'SchCalc.Rd
               'SchRestraint.Rdata')
 
 mergeByName <- function(n1,n2) {
-    print(nrow(n1))
-  
   readRDS(n2) %>%
     mutate(schlea = paste0(SCHID,LEAID)) %>%
+    filter(schlea != 133602430 & schlea != 242100540 & schlea !=  6482803360 & schlea !=  6522803360 & schlea != 6612803450) %>%
     select(-LEAID, -SCHID) %>%
     right_join(n1, by = 'schlea', copy = TRUE)
 }
 
-# figure out number here (too many somehow)
+
 schoolAll <- reduce(dataList,.f = mergeByName, .init = special)
+
+varList <- c('SCH_HBREPORTED_RAC_HI_','TOT_HBREPORTED_RAC_' )
+
+# cred: https://stackoverflow.com/questions/59294898/creating-a-function-in-dplyr-that-operates-on-columns-through-variable-string-ma
+adder <- function(data, name) {
+  data %>%
+    mutate(!! name := select(., starts_with(name)) %>% 
+             map(function(x) ifelse(x <0, NA,x)) %>% 
+             reduce(`+`))
+}
+
+cleanSchoolAll <- reduce(varList, .f = function(data,varname) adder(data,varname), .init = schoolAll)
+
+test <- adder(schoolAll, 'SCH_HBREPORTED_RAC_HI_')
+
+test <- schoolAll %>%
+  mutate(y = adder("SCH_HBREPORTED_RAC_HI_"))
+
+cleanSchoolAll <- schoolAll %>%
+  mutate(hisp_students = SCH_ENR_HI_M + SCH_ENR_HI_F, total_students = TOT_ENR_M + TOT_ENR_F,
+         hisp_harassVicRaceDum = if_else( SCH_HBREPORTED_RAC_HI_M > 0 | SCH_HBREPORTED_RAC_HI_F > 0,1,0),  # dummies 
+         total_harassVicRaceDum = if_else( TOT_HBREPORTED_RAC_M > 0 | TOT_HBREPORTED_RAC_F > 0,1,0),
+         hisp_offendVicRaceDum = if_else( SCH_HBDISCIPLINED_RAC_HI_M > 0 | SCH_HBDISCIPLINED_RAC_HI_F > 0,1,0),
+         total_offendVicRaceDum = if_else( TOT_HBDISCIPLINED_RAC_M > 0 | TOT_HBDISCIPLINED_RAC_F > 0,1,0),
+         hisp_harassVicRace = max(0, as.integer(SCH_HBREPORTED_RAC_HI_M)) + max(0, as.integer(SCH_HBREPORTED_RAC_HI_F)),         # raw count
+         hisp_harassVicRaceRate = hisp_harassVicRace/hisp_students,                                      # % students
+         total_harassVicRace = max(0, TOT_HBREPORTED_RAC_M) + max(0, TOT_HBREPORTED_RAC_M),
+         total_harassVicRaceRate = total_harassVicRace/total_students,
+         his_harassVicComp = hisp_harassVicRace/total_harassVicRace                                      # % of all incidents 
+  )
+
+  
+
+summaryData <- cleanSchoolAll %>%
+  select(hisp_harassVicRace, hisp_harassVicRaceRate, total_harassVicRace, total_harassVicRaceRate)
+stargazer(cleanSchoolAll, out = "../../Output/Summary/EduClean.tex", title="School Level Summary Statistics",
+          keep = c('hisp_harassVicRace', 'total_harassVicRace'),
+          covariate.labels = c('Hispanic Harassment Victims', 'All Harassment Victims',
+                               '\\% of Hispanic Students Harassment Victims', '\\% of All Students Harassment Victims'),
+          notes = "Harassment restricted to rase-based harassment", summary = TRUE)
 
 
 #### GED ####
