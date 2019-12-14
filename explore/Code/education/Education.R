@@ -21,6 +21,7 @@ library(ggplot2)
 library(DescTools)
 library(glmnet)
 library(hdm)
+library(pscl)
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/education') 
@@ -434,6 +435,7 @@ makePlots(logit,logit$y2,logit$rs2,'../../Output/Diagnostics/edu_OOSLogit2')
 makePlots(logit,logit$y3,logit$rs3,'../../Output/Diagnostics/edu_OOSLogit3')
 makePlots(logit,logit$y4,logit$rs4,'../../Output/Diagnostics/edu_OOSLogit4')
 
+anova(bm4,bm5, test="LRT")
 
 base <- glm(hisp_OOSDum ~ TV*origdist ,data=suspend, family = binomial)
 full <- glm(hisp_OOSDum ~ TV*origdist + origLogPop + origpcHisp + origLogInc +
@@ -451,8 +453,9 @@ stargazer(bm1, bm2, bm3, bm4, bm5, out = "../../Output/Regs/edu_OOSLogit.tex", t
           order = ('TV' ), 
           covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
                                'Log(Population)','\\% County Hispanic', 'Log(Income)',"\\# Teachers at School",
-                               '\\# Hispanic Students', 'Total Students', '\\# Students in Grade 1', '\\# Students in Grade 6',
-                               '\\# Students in Grade 9') )
+                               '\\# Hispanic Students', 'Total Students', 'Contains Grade 1', 'Contains Grade 6',
+                               'Contains Grade 9'),
+          dep.var.labels = 'Dummy for Hispanic Out of School Suspension')
 logit <- logit %>%
   mutate( rs5 = rstudent(bm5), y5 = predict(bm5,suspend)
   )
@@ -466,6 +469,30 @@ X <- model.matrix(~ TV*origdist + origLogPop + origpcHisp + origLogInc +
 #need to subtract the intercept
 X <- X[,-1]
 hdm.ci <- rlassoEffects(x = X, y = suspend$hisp_OOSDum, index=c("TV","origdist","TV:origdist"), family = binomial)
+
+
+bm0 <- glm(hisp_OOSDum ~ TV*origdist + origLogPop +
+             origpcHisp + origLogInc + hisp_students + total_students,data=suspend,family = binomial)
+z1 <- zeroinfl(sch_discwodis_singoos_hi ~ TV*origdist, data = suspend, link = "logit", dist = "poisson")
+z2 <- zeroinfl(sch_discwodis_singoos_hi ~ TV*origdist + origLogPop +
+                 origpcHisp + origLogInc, data = suspend, link = "logit", dist = "poisson")
+z3 <- zeroinfl(sch_discwodis_singoos_hi ~ TV*origdist + origLogPop +
+                 origpcHisp + origLogInc +SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+                 total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data = suspend, link = "logit", dist = "poisson")
+stargazer(z1,z2,z3, out = "../../Output/Regs/edu_OOSZi.tex", title="Effect of TV on Hispanic Out of School Suspension Dummy, Zero-Inflated",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+                               'Log(Population)','\\% County Hispanic', 'Log(Income)',"\\# Teachers at School",
+                               '\\# Hispanic Students', 'Total Students', 'Contains Grade 1', 'Contains Grade 6',
+                               'Contains Grade 9'),
+          dep.var.labels = '\\# Hispanic Out of School Suspensions')
+
+  # this one works...
+z3 <- zeroinfl(hisp_OOSDum ~ TV*origdist + origLogPop +
+                 origpcHisp + origLogInc +SCH_TEACHERS_CURR_TOT  + 
+                 total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data = suspend, link = "logit", dist = "poisson")
+
 
 
 ### FUNCTIONS ###

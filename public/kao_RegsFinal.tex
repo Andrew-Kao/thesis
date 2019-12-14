@@ -79,9 +79,53 @@ Some summary statistics of interest are presented below:
 \input{../explore/output/summary/SchoolInfo.tex}
 \clearpage
 
-\subsection*{}
+\subsection*{Suspensions}
 
+In the following regressions, I examine out of school suspensions. First, with a logit approach using a dummy for a school in the past year ever having a Hispanic student receiving at least one out of school suspension: 
 
+\input{../explore/output/regs/edu_OOSLogit.tex}
+\clearpage
+
+Column 1 presents the most simple model without any additional controls. The figure below presents some regression diagnostics (the fitted outcome against studentized residuals, a histogram of the studentized residuals, and a QQ plot of the studentized residuals): 
+
+\begin{figure}[!hbtp]
+\centering
+\caption{Table 3, Column 1 Regression Diagnostics}
+\includegraphics[width=6cm]{../explore/Output/diagnostics/edu_OOSLogit1Plot.pdf}
+\includegraphics[width=6cm]{../explore/Output/diagnostics/edu_OOSLogit1Hist.pdf}
+\includegraphics[width=6cm]{../explore/Output/diagnostics/edu_OOSLogit1QQ.pdf}
+\end{figure} 
+It is clear that are outstanding issues with the regression: they are clumped into two groups based on whether the outcome holds or not. This indicates that there are still large underlying sources of variation that are not being captured by the regression itself. Given the spatial nature of the identification method, it is natural to control for the demographic features of the areas in which the schools are located, which is what is done in columns (2) and (3). 
+
+The key result, that television drives negative outcomes, is nonetheless present in this first regression: this is visible from the positive television dummy, but also from the interaction term. If there is indeed an effect from television, we would expect these to be significant in the same direction, as the dummy captures the FCC regulation imposed cutoff, while there is also a natural decay in signal strength over distance.  
+
+Column (5) adds in school-level controls. However, the universe of these is large, and they are potentially collinear.  Thus, the variables present in the regression are selected using forward stepwise BIC. While the partial $F$ test is inappropriate for this context (logit), employing a likelihood ratio test also justifies each successive addition of variables across the columns of this regression.
+\clearpage
+
+\begin{figure}[!hbtp]
+\centering
+\caption{Table 3, Column 5 Regression Diagnostics}
+\includegraphics[width=12cm]{../explore/Output/regs/edu_OOSLasso}
+\end{figure} 
+
+Finally, a regression utilizing LASSO is presented; the information matches what we saw in the prior regressions, with the effect of television and the interaction both being positive and significant for $\alpha = .1$.
+
+To verify that these additional controls have mitigated the concerns of non-normal residuals noted above, the diagnostics for the regression in column (5) are presented:
+
+\begin{figure}[!hbtp]
+\centering
+\caption{Table 3, Column 5 Regression Diagnostics}
+\includegraphics[width=6cm]{../explore/Output/diagnostics/edu_OOSLogit5Plot.pdf}
+\includegraphics[width=6cm]{../explore/Output/diagnostics/edu_OOSLogit5Hist.pdf}
+\includegraphics[width=6cm]{../explore/Output/diagnostics/edu_OOSLogit5QQ.pdf}
+\end{figure} 
+
+There are still two apparent clusters, but they are substantially less differentiated than in the simplest regression above. It's worth noting that most of the progress is made with the addition of county-level variables. Nonetheless, it still appears as if there is non-constant variance and an overall non-normal distribution. These problems can likely be attributed to the large number of 0s present in the regression (close to $2/3$ of values). Thus, a zero-inflated model with logit as the link and a Poisson distribution is used too, with results verified:
+
+\input{../explore/Output/regs/edu_OOSZi.tex}
+\clearpage
+
+From this, we glean that it is plausible for there to be a link between the presence of television and students acting out in ways leading to suspension. 
 
 %\input{../explore/output/summary/EduDFGed.tex}
 
