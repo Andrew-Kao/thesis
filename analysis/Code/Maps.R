@@ -16,3 +16,12 @@ leaflet(spanishCont) %>%
   addTiles()
 # save img/SpanishContours.png
 
+if (Sys.info()["user"] == "AndrewKao") {
+  setwd('~/Documents/College/All/thesis/explore/Data/education') 
+}
+
+educ <- readRDS('LEAReadyRaster.Rdata')
+
+leaflet(educ) %>%
+  addCircleMarkers(opacity = .001, radius = 1) %>%
+  addTiles()

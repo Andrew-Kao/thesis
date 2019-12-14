@@ -19,6 +19,8 @@ library(sandwich)
 library(lfe)
 library(ggplot2)
 library(DescTools)
+library(glmnet)
+library(hdm)
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/education') 
@@ -353,11 +355,11 @@ makePlots(ihs,ihs$y4,ihs$rs4,'../../Output/Diagnostics/edu_harOLSIHS4')
 
 # Logit on Dummy
 bm1 <- glm(hisp_harassVicRaceDum ~ TV*origdist ,data=ihs, family = binomial)
-bm2 <- lm(hisp_harassVicRaceDum ~ TV*origdist + origLogPop +
+bm2 <- glm(hisp_harassVicRaceDum ~ TV*origdist + origLogPop +
             origpcHisp, data=ihs, family = binomial)
-bm3 <- lm(hisp_harassVicRaceDum ~ TV*origdist + origLogPop +
+bm3 <- glm(hisp_harassVicRaceDum ~ TV*origdist + origLogPop +
             origpcHisp + origLogInc,data=ihs,family = binomial)
-bm4 <- lm(hisp_harassVicRaceDum ~ TV*origdist + origLogPop +
+bm4 <- glm(hisp_harassVicRaceDum ~ TV*origdist + origLogPop +
             origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT,data=ihs,family = binomial)
 stargazer(bm1, bm2, bm3, bm4, out = "../../Output/Regs/edu_harhLogit.tex", title="Effect of TV on Hispanic \\% Harassment Victims",
           omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
@@ -378,26 +380,19 @@ temp <- sample_n(logit, 300) %>%
 
 ggplot(data = temp) + geom_point(aes(x=y3, y= rs3, colour=hisp_harassVicRaceDum))
 
-
-##### Suspensions ####
-suspend <- cleanSchoolAll %>%
-  filter(!is.na(hisp_OOSDum)) %>%
-  mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
-  filter(origdist < 100000 ) %>%
-  mutate(origdist = origdist/1000,
-         origLogPop = log(origpopulation), origLogInc = log(origincome))
-
-bm1 <- glm(hisp_harassVicRaceDum ~ TV*origdist ,data=ihs, family = binomial)
-bm2 <- lm(hisp_harassVicRaceDum ~ TV*origdist + origLogPop +
-            origpcHisp, data=ihs, family = binomial)
-bm3 <- lm(hisp_harassVicRaceDum ~ TV*origdist + origLogPop +
-            origpcHisp + origLogInc,data=ihs,family = binomial)
-bm4 <- lm(hisp_harassVicRaceDum ~ TV*origdist + origLogPop +
-            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT,data=ihs,family = binomial)
-stargazer(bm1, bm2, bm3, bm4, out = "../../Output/Regs/edu_harhLogit.tex", title="Effect of TV on Hispanic \\% Harassment Victims",
+# Logit on Dummy, dist sq
+bm1 <- glm(hisp_harassVicRaceDum ~ TV*origdist + TV*I(origdist^2) ,data=ihs, family = binomial)
+bm2 <- glm(hisp_harassVicRaceDum ~ TV*origdist + TV*I(origdist^2) + origLogPop +
+             origpcHisp, data=ihs, family = binomial)
+bm3 <- glm(hisp_harassVicRaceDum ~ TV*origdist + TV*I(origdist^2) + origLogPop +
+             origpcHisp + origLogInc,data=ihs,family = binomial)
+bm4 <- glm(hisp_harassVicRaceDum ~ TV*origdist +TV*I(origdist^2) + origLogPop +
+             origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT,data=ihs,family = binomial)
+stargazer(bm1, bm2, bm3, bm4, out = "../../Output/Regs/edu_harhLogitSq.tex", title="Effect of TV on Hispanic \\% Harassment Victims",
           omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
           order = ('TV' ), 
-          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'TV Dummy $\\times$ Distance\\^2',
+                               'Distance to Boundary (meters)', 'Distance\\^2',
                                'Log(Population)','\\% County Hispanic', 'Log(Income)',"\\# Teachers at School") )
 logit <- distDummy %>%
   mutate( rs1 = rstudent(bm1), rs2 = rstudent(bm2), rs3 = rstudent(bm3), rs4 = rstudent(bm4),
@@ -407,9 +402,70 @@ makePlots(logit,logit$y1,logit$rs1,'../../Output/Diagnostics/edu_harOLSLogit1')
 makePlots(logit,logit$y2,logit$rs2,'../../Output/Diagnostics/edu_harOLSLogit2')
 makePlots(logit,logit$y3,logit$rs3,'../../Output/Diagnostics/edu_harOLSLogit3')
 makePlots(logit,logit$y4,logit$rs4,'../../Output/Diagnostics/edu_harOLSLogit4')
+ggplot(data=logit) + geom_point(aes(x=y2,y=rs2,colour=hisp_harassVicRaceDum))
 
 
+##### Suspensions ####
+suspend <- cleanSchoolAll %>%
+  filter(!is.na(hisp_OOSDum)) %>%
+  mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
+  filter(origdist < 100000 ) %>%
+  mutate(origdist = origdist/1000,
+         origLogPop = log(origpopulation), origLogInc = log(origincome))
 
+bm1 <- glm(hisp_OOSDum ~ TV*origdist ,data=suspend, family = binomial)
+bm2 <- glm(hisp_OOSDum ~ TV*origdist + origLogPop +
+            origpcHisp, data=suspend, family = binomial)
+bm3 <- glm(hisp_OOSDum ~ TV*origdist + origLogPop +
+            origpcHisp + origLogInc,data=suspend,family = binomial)
+bm4 <- glm(hisp_OOSDum ~ TV*origdist + origLogPop +
+            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT,data=suspend,family = binomial)
+stargazer(bm1, bm2, bm3, bm4, out = "../../Output/Regs/edu_OOSLogit.tex", title="Effect of TV on Hispanic Out of School Suspension Dummy",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+                               'Log(Population)','\\% County Hispanic', 'Log(Income)',"\\# Teachers at School") )
+logit <- suspend %>%
+  mutate( rs1 = rstudent(bm1), rs2 = rstudent(bm2), rs3 = rstudent(bm3), rs4 = rstudent(bm4),
+          y1 = predict(bm1,suspend), y2 = predict(bm2,suspend), y3 = predict(bm3,suspend), y4 = predict(bm4,suspend)
+  )
+makePlots(logit,logit$y1,logit$rs1,'../../Output/Diagnostics/edu_OOSLogit1')
+makePlots(logit,logit$y2,logit$rs2,'../../Output/Diagnostics/edu_OOSLogit2')
+makePlots(logit,logit$y3,logit$rs3,'../../Output/Diagnostics/edu_OOSLogit3')
+makePlots(logit,logit$y4,logit$rs4,'../../Output/Diagnostics/edu_OOSLogit4')
+
+
+base <- glm(hisp_OOSDum ~ TV*origdist ,data=suspend, family = binomial)
+full <- glm(hisp_OOSDum ~ TV*origdist + origLogPop + origpcHisp + origLogInc +
+              SCH_TEACHERS_CURR_TOT + SCH_SAL_TOTPERS_WFED + SCH_NPE_WFED +
+              SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + SCH_GRADE_G12 +
+              hisp_students + total_students
+              ,data=suspend, family = binomial)
+fwdBIC <- step(base, scope=formula(full), direction="forward", k=log(62438))
+
+bm5 <- glm(hisp_OOSDum ~ TV + origdist + origLogInc + origpcHisp + 
+  origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+    total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + TV:origdist,data=suspend,family = binomial)
+stargazer(bm1, bm2, bm3, bm4, bm5, out = "../../Output/Regs/edu_OOSLogit.tex", title="Effect of TV on Hispanic Out of School Suspension Dummy",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+                               'Log(Population)','\\% County Hispanic', 'Log(Income)',"\\# Teachers at School",
+                               '\\# Hispanic Students', 'Total Students', '\\# Students in Grade 1', '\\# Students in Grade 6',
+                               '\\# Students in Grade 9') )
+logit <- logit %>%
+  mutate( rs5 = rstudent(bm5), y5 = predict(bm5,suspend)
+  )
+makePlots(logit,logit$y5,logit$rs5,'../../Output/Diagnostics/edu_OOSLogit5')
+            
+X <- model.matrix(~ TV*origdist + origLogPop + origpcHisp + origLogInc +
+                    SCH_TEACHERS_CURR_TOT + SCH_SAL_TOTPERS_WFED + SCH_NPE_WFED +
+                    SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + SCH_GRADE_G12 +
+                    hisp_students + total_students
+                  ,data=suspend) 
+#need to subtract the intercept
+X <- X[,-1]
+hdm.ci <- rlassoEffects(x = X, y = suspend$hisp_OOSDum, index=c("TV","origdist","TV:origdist"), family = binomial)
 
 
 ### FUNCTIONS ###
