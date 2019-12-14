@@ -31,7 +31,7 @@
 
 The media we consume is critical to shaping our sense of identity, and prior work has highlighted its importance across domains and in multiple contexts: Oberholzer-Gee, Waldfogel (AER 2009) demonstrate that the presence of Spanish language local news increases Hispanic voter turnout, while Yanigazawa-Drott (QJE 2014) shows that radio broadcasts in Rwanda contributed to the violence and genocide that took place in the 90s.
 
-In the next few pages, I aim to examine the causal effect of Spanish language television (SLTV) on schooling outcomes for Hispanic people. Specifically, I look at the potentially adverse discipline consequences that may arise from the presence of television, ranging from out-of-school suspensions to race/ethnicity-based harassment. 
+In the next few pages, I aim to examine the causal effect of Spanish language television (SLTV) on schooling outcomes for Hispanic people. Specifically, I look at two potentially adverse discipline consequences that may arise from the presence of television, increased absenteeism and out-of-school suspensions.
 
 
 \subsection*{Method and Model}
@@ -70,18 +70,74 @@ The data on public schools comes from the US government's CRDC (Civil Rights Dat
 \includegraphics[width=12cm]{../analysis/Output/img/LEAMap.png}
 \end{figure} 
 
-Additional controls like population, income, density of Hispanic population etc. at the county level are from IPUMS.
+To limit the problem of multiple testing, I limit analysis to two outcomes of interest: chronic absenteeism and out-of-school suspensions. Both are important outcomes in and of themselves, and one can reasonably interpret them for being good proxies for level of engagement in school (absenteeism) and disciplinary/behavioral issues (suspensions).
+
+Several variables that frequently appear as controls include the number of teachers, students, Hispanic students, and whether the school services grades 1/6/9. The number of teachers and students give us (roughly) a school's size and how well staffed it is, which maybe a confound, given that it probably affects the outcomes (larger schools or ones with fewer teachers might have more trouble enforcing discipline), and is related to distance from the contour boundary (more rural/urban schools are different in size). A similar story can be told with Hispanic students and whether the school contains a primary/middle/high school.
+
+Additional controls like population, income, density of Hispanic population etc. at the county level are from IPUMS. These variables are also added as controls, given their ability to affect both outcome and distance/presence of television (for instance, higher incomes might be associated with better upbringing or threat of lawsuit, decreasing school suspensions, while they might also be associated with the suburbs/owning more televisions to watch shows etc.) 
+
+By limiting the analysis to a small distance from the contour boundary ($100$ KM/63 miles by default), we also minimize the potential concerns of omitted variable bias etc., as these schools must now be at least fairly close to one another, meaning that they probably share many overarching characteristics.
 
 Some summary statistics of interest are presented below:
 
-\clearpage
 \input{../explore/output/summary/LEAInfo.tex}
 \input{../explore/output/summary/SchoolInfo.tex}
 \clearpage
 
+\section*{Absentees}
+
+In the following regressions, I examine the number of Hispanic students identified as chronically absent (missing more than 15 days of school in a year). Running a regression on an untransformed variable leads to problems easily solved by a log transform (right skew, heteroskedasticity with variance increasing in the predicted outcome). However, there are a fair number of 0s, so instead of a log, the comparable Inverse Hyperbolic Sine (IHS) transform is used instead:
+
+\input{../explore/output/regs/edu_absh.tex}
+\clearpage
+%% MULTIPLE DISTANCES
+Column 1 presents the most simple model without any additional controls. The figure below presents some regression diagnostics (the fitted outcome against studentized residuals, a histogram of the studentized residuals, and a QQ plot of the studentized residuals): 
+
+\begin{figure}[!hbtp]
+\centering
+\caption{Table 3, Column 1 Regression Diagnostics}
+\includegraphics[width=5.5cm]{../explore/Output/diagnostics/edu_AbsOLS1Plot.pdf}
+\includegraphics[width=5.5cm]{../explore/Output/diagnostics/edu_AbsOLS1Hist.pdf}
+\includegraphics[width=5.5cm]{../explore/Output/diagnostics/edu_AbsOLS1QQ.pdf}
+\end{figure} 
+
+The histogram and QQ plots look roughly normal, but the presence of a large number of 0s creates a skew in the data that can be difficult to correct for. Nonetheless, adding extra controls helps to address this problem, as shown with the column 3 data:
+
+\begin{figure}[!hbtp]
+\centering
+\caption{Table 3, Column 3 Regression Diagnostics}
+\includegraphics[width=4cm]{../explore/Output/diagnostics/edu_AbsOLS3Hist.pdf}
+\includegraphics[width=4cm]{../explore/Output/diagnostics/edu_AbsOLS3QQ.pdf}
+\end{figure}
+
+
+Column (5) adds in a number of school-level controls. However, the universe of these is large, and they are potentially collinear. Thus, the variables present in the regression are selected using forward stepwise BIC. Further, employing a partial F-test also justifies each successive addition of variables across the columns of this regression.
+
+To check for robustness, these results are replicated using different specifications. Column 1 is identical to Table 3, Column 5, with the distance cutoff for inclusion in the regression discontinuity set at 100 KM. This is reduced to 75 KM in column 2 and 50 in column 3. Column 4 clusters errors by ZIP code instead. While the directional results hold, significance is lost due to the lower amount of information linked with having fewer observations, or fewer clusters.
+\input{../explore/output/regs/edu_abshDist.tex}
+%\input{../explore/output/regs/edu_abshFE.tex}
+
+\begin{figure}[!hbtp]
+\centering
+\caption{Table 3, Column 5 Regression Diagnostics}
+\includegraphics[width=12cm]{../explore/Output/regs/edu_absLasso}
+\end{figure} 
+
+Finally, a regression utilizing LASSO is presented; the information matches what we saw in the prior regressions, with the effect of television and the interaction both being positive and significant for $\alpha = .1$.
+
+Given the relative consistency of these results, how should we interpret them? If you buy that the regression discontinuity operates, whether in a hard cut-off sense associated with the FCC regulation, or in the weaker, decaying signal over distance sense, then this implies that the presence of Spanish Language Television causes more Hispanic students to become chronically absent.
+
+This is immediately clear from the sign on the coefficient of TV, and note that the interaction is positive, meaning that for those within the contour, being further away from the boundary (i.e. closer to the source signal) causes higher absenteeism; this sign on distance flips for those outside the TV contour.
+
+The magnitude of this effect is fair. Given the comparability of IHS and log, the point estimates ranging from around $.05$ to $.25$ represents a similar percentage increase in chronic absenteeism due to the presence of SLTV, which one could reasonably think would be large enough to be worth worrying about. 
+
+
+
+\clearpage
+
 \subsection*{Suspensions}
 
-In the following regressions, I examine out of school suspensions. First, with a logit approach using a dummy for a school in the past year ever having a Hispanic student receiving at least one out of school suspension: 
+In the following regressions, I examine out of school suspensions (these do not contribute towards absenteeism). First, with a logit approach using a dummy for a school in the past year ever having a Hispanic student receiving at least one out of school suspension: 
 
 \input{../explore/output/regs/edu_OOSLogit.tex}
 \clearpage
@@ -90,7 +146,7 @@ Column 1 presents the most simple model without any additional controls. The fig
 
 \begin{figure}[!hbtp]
 \centering
-\caption{Table 3, Column 1 Regression Diagnostics}
+\caption{Table 5, Column 1 Regression Diagnostics}
 \includegraphics[width=6cm]{../explore/Output/diagnostics/edu_OOSLogit1Plot.pdf}
 \includegraphics[width=6cm]{../explore/Output/diagnostics/edu_OOSLogit1Hist.pdf}
 \includegraphics[width=6cm]{../explore/Output/diagnostics/edu_OOSLogit1QQ.pdf}
@@ -104,7 +160,7 @@ Column (5) adds in school-level controls. However, the universe of these is larg
 
 \begin{figure}[!hbtp]
 \centering
-\caption{Table 3, Column 5 Regression Diagnostics}
+\caption{Table 5, Column 5 Regression Diagnostics}
 \includegraphics[width=12cm]{../explore/Output/regs/edu_OOSLasso}
 \end{figure} 
 
@@ -125,11 +181,14 @@ There are still two apparent clusters, but they are substantially less different
 \input{../explore/Output/regs/edu_OOSZi.tex}
 \clearpage
 
-From this, we glean that it is plausible for there to be a link between the presence of television and students acting out in ways leading to suspension. 
+From this, we glean that it is plausible for there to be a link between the presence of television and students acting out in ways leading to suspension. The conclusion is perhaps not as strong as in the case of absenteeism, given that the underlying regression assumptions are more frequently violated/in greater degree, but it is certainly suggestive of a similar story, where television causes greater rates of problematic behavior and hence suspension.
+
+Though it cannot be confirmed that the driver of this mechanism is identity (this may simply be due to more television being watched), it does suggest that the media we broadcast and consume can have a potentially negative impact on educational attainment. I might take a look at some other related outcomes present in the dataset, and so would appreciate feedback apart from a letter grade! (Although I understand that this may not be possible given time constraints)
 
 %\input{../explore/output/summary/EduDFGed.tex}
 
 %\input{../explore/output/summary/EduDFGed.tex}
+
 
 
 

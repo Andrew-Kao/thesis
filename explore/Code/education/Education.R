@@ -65,7 +65,7 @@ saveRDS(schoolAll, file='SchAll.Rdata')
 schoolAll <- readRDS('SchAll.Rdata')
 
 varList <- c('SCH_HBREPORTED_RAC_HI_','TOT_HBREPORTED_RAC_', 'SCH_HBDISCIPLINED_RAC_HI_', 'TOT_HBDISCIPLINED_RAC_',
-             'SCH_DISCWODIS_EXPWE_HI_M', 'SCH_DISCWODIS_SINGOOS_HI_')
+             'SCH_DISCWODIS_EXPWE_HI_M', 'SCH_DISCWODIS_SINGOOS_HI_', 'SCH_ABSENT_HI_')
 
 # cred: https://stackoverflow.com/questions/59294898/creating-a-function-in-dplyr-that-operates-on-columns-through-variable-string-ma
 adder <- function(data, name) {
@@ -87,6 +87,7 @@ cleanSchoolAll <- reduce(varList, .f = function(data,varname) adder(data,varname
          hisp_harassOffRaceDum = if_else(sch_hbdisciplined_rac_hi > 0,1,0),  # dummies 
          total_harassOffRaceDum = if_else(tot_hbdisciplined_rac > 0,1,0),
          hisp_OOSDum = if_else(sch_discwodis_singoos_hi > 0,1,0),
+         hisp_AbsDum = if_else(sch_absent_hi > 0,1,0)
   )
 
   
@@ -494,6 +495,129 @@ z3 <- zeroinfl(hisp_OOSDum ~ TV*origdist + origLogPop +
                  total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data = suspend, link = "logit", dist = "poisson")
 
 
+######### ABSENCES ##########
+
+absent <- cleanSchoolAll %>%
+  filter(!is.na(sch_absent_hi)) %>%
+  mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
+  filter(origdist < 100000 ) %>%
+  mutate(origdist = origdist/1000,
+         origLogPop = log(origpopulation), origLogInc = log(origincome),
+         ihs_absent_hi = ihs(sch_absent_hi))
+
+
+# Postal FE fails
+# LEAID Cluster loses significance similar to Postal FE but reverse sign
+m1 <- felm(ihs_absent_hi ~ TV*origdist |0|0|Postal,data=absent)
+m2 <- felm(ihs_absent_hi ~ TV*origdist + origLogPop +
+             origpcHisp |0|0|Postal ,data=absent)
+m3 <- felm(ihs_absent_hi ~ TV*origdist + origLogPop +
+             origpcHisp + origLogInc |0|0|Postal,data=absent)
+m4 <- felm(ihs_absent_hi ~ TV*origdist + origLogPop +
+             origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT |0|0|Postal,data=absent)
+m5 <- felm(ihs_absent_hi ~ TV + TV:origdist + origdist + origLogPop +
+            origpcHisp + origLogInc +SCH_TEACHERS_CURR_TOT + hisp_students +
+            +  total_students + SCH_GRADE_G06 | 0 |0 |Postal
+          ,data=absent)
+stargazer(m1, m2, m3, m4, m5, out = "../../Output/Regs/edu_abshFE.tex", title="Effect of TV on Hispanic \\% Harassment Victims",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+                               'Log(Population)','\\% County Hispanic', 'Log(Income)',"\\# Teachers at School") )
+
+
+# OLS
+om1 <- lm(ihs_absent_hi ~ TV*origdist ,data=absent)
+om2 <- lm(ihs_absent_hi ~ TV*origdist + origLogPop +
+            origpcHisp, data=absent)
+om3 <- lm(ihs_absent_hi ~ TV*origdist + origLogPop +
+            origpcHisp + origLogInc,data=absent)
+om4 <- lm(ihs_absent_hi ~ TV*origdist + origLogPop +
+            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT,data=absent)
+base <- glm(ihs_absent_hi ~ TV*origdist ,data=absent)
+full <- glm(ihs_absent_hi ~ TV*origdist + origLogPop + origpcHisp + origLogInc +
+              SCH_TEACHERS_CURR_TOT + SCH_SAL_TOTPERS_WFED + SCH_NPE_WFED +
+              SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + SCH_GRADE_G12 +
+              hisp_students + total_students
+            ,data=absent)
+fwdBIC <- step(base, scope=formula(full), direction="forward", k=log(45952))
+
+om5 <- lm(ihs_absent_hi ~ TV + TV:origdist + origdist + origLogPop +
+            origpcHisp + origLogInc +SCH_TEACHERS_CURR_TOT + hisp_students +
+               +  total_students + SCH_GRADE_G06 
+            ,data=absent)
+stargazer(om1, om2, om3, om4, om5, out = "../../Output/Regs/edu_absh.tex", title="Effect of TV on Hispanic Absentees",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+                               'Log(Population)','\\% County Hispanic', 'Log(Income)',"\\# Teachers at School",
+                               '\\# Hispanic Students', 'Total Students' ,'Contains Grade 6'),
+          dep.var.labels = "IHS(Hispanic Absentees)")
+
+# next: regression diagnostics and model building
+diagnostics <- absent %>%
+  mutate( rs1 = rstudent(om1), rs2 = rstudent(om2), rs3 = rstudent(om3), rs4 = rstudent(om4), rs5 = rstudent(om5),
+          y1 = predict(om1,absent), y2 = predict(om2,absent), y3 = predict(om3,absent), y4 = predict(om4,absent),
+          y5 = predict(om5,absent)
+  )
+makePlots(diagnostics,diagnostics$y1,diagnostics$rs1,'../../Output/Diagnostics/edu_AbsOLS1')
+makePlots(diagnostics,diagnostics$y2,diagnostics$rs2,'../../Output/Diagnostics/edu_AbsOLS2')
+makePlots(diagnostics,diagnostics$y3,diagnostics$rs3,'../../Output/Diagnostics/edu_AbsOLS3')
+makePlots(diagnostics,diagnostics$y4,diagnostics$rs4,'../../Output/Diagnostics/edu_AbsOLS4')
+makePlots(diagnostics,diagnostics$y5,diagnostics$rs5,'../../Output/Diagnostics/edu_AbsOLS5')
+
+anova(om1, om2)
+anova(om2, om3)
+anova(om3, om4)
+anova(om4, om5)
+
+
+X <- model.matrix(~ TV*origdist + origLogPop + origpcHisp + origLogInc +
+                    SCH_TEACHERS_CURR_TOT + SCH_SAL_TOTPERS_WFED + SCH_NPE_WFED +
+                    SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + SCH_GRADE_G12 +
+                    hisp_students + total_students
+                  ,data=absent) 
+#need to subtract the intercept
+X <- X[,-1]
+hdm.ci <- rlassoEffects(x = X, y = absent$ihs_absent_hi, index=c("TV","origdist","TV:origdist"), family = binomial)
+summary(hdm.ci)
+
+
+absent75 <- cleanSchoolAll %>%
+  filter(!is.na(sch_absent_hi)) %>%
+  mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
+  filter(origdist < 75000 ) %>%
+  mutate(origdist = origdist/1000,
+         origLogPop = log(origpopulation), origLogInc = log(origincome),
+         ihs_absent_hi = ihs(sch_absent_hi))
+
+absent50 <- cleanSchoolAll %>%
+  filter(!is.na(sch_absent_hi)) %>%
+  mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
+  filter(origdist < 50000 ) %>%
+  mutate(origdist = origdist/1000,
+         origLogPop = log(origpopulation), origLogInc = log(origincome),
+         ihs_absent_hi = ihs(sch_absent_hi))
+
+omd1 <- lm(ihs_absent_hi ~ TV + TV:origdist + origdist + origLogPop +
+            origpcHisp + origLogInc +SCH_TEACHERS_CURR_TOT + hisp_students +
+            +  total_students + SCH_GRADE_G06 
+          ,data=absent)
+omd2 <- lm(ihs_absent_hi ~ TV + TV:origdist + origdist + origLogPop +
+             origpcHisp + origLogInc +SCH_TEACHERS_CURR_TOT + hisp_students +
+             +  total_students + SCH_GRADE_G06 
+           ,data=absent75)
+omd3 <- lm(ihs_absent_hi ~ TV + TV:origdist + origdist + origLogPop +
+             origpcHisp + origLogInc +SCH_TEACHERS_CURR_TOT + hisp_students +
+             +  total_students + SCH_GRADE_G06 
+           ,data=absent50)
+stargazer(omd1, omd2, omd3, m5, out = "../../Output/Regs/edu_abshDist.tex", title="Effect of TV on Hispanic Absentees",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+                               'Log(Population)','\\% County Hispanic', 'Log(Income)',"\\# Teachers at School",
+                               '\\# Hispanic Students', 'Total Students' ,'Contains Grade 6'),
+          dep.var.labels = "IHS(Hispanic Absentees)", model.names = FALSE)
 
 ### FUNCTIONS ###
 makePlots <- function(data, y, r, string) {
