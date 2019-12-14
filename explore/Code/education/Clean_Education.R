@@ -97,7 +97,22 @@ absent <- schoolMaster %>%
 saveRDS(absent, 'SchAbsent.Rdata')
 
 ## RETENTION: do we care? seems messy, but can fight identification of moving
-# see if we need
+retention <- schoolMaster %>%
+  select('SCHID','LEAID',
+         'SCH_RET_G01_HI_M', 'SCH_RET_G01_HI_F', 'SCH_RET_G01_HI_M', 'TOT_RET_G01_M', 'TOT_RET_G01_F',
+         'SCH_RET_G02_HI_M', 'SCH_RET_G02_HI_F', 'SCH_RET_G02_HI_M', 'TOT_RET_G02_M', 'TOT_RET_G02_F',
+         'SCH_RET_G03_HI_M', 'SCH_RET_G03_HI_F', 'SCH_RET_G03_HI_M', 'TOT_RET_G03_M', 'TOT_RET_G03_F',
+         'SCH_RET_G04_HI_M', 'SCH_RET_G04_HI_F', 'SCH_RET_G04_HI_M', 'TOT_RET_G04_M', 'TOT_RET_G04_F',
+         'SCH_RET_G05_HI_M', 'SCH_RET_G05_HI_F', 'SCH_RET_G05_HI_M', 'TOT_RET_G05_M', 'TOT_RET_G05_F',
+         'SCH_RET_G06_HI_M', 'SCH_RET_G06_HI_F', 'SCH_RET_G06_HI_M', 'TOT_RET_G06_M', 'TOT_RET_G06_F',
+         'SCH_RET_G07_HI_M', 'SCH_RET_G07_HI_F', 'SCH_RET_G07_HI_M', 'TOT_RET_G07_M', 'TOT_RET_G07_F',
+         'SCH_RET_G08_HI_M', 'SCH_RET_G08_HI_F', 'SCH_RET_G08_HI_M', 'TOT_RET_G08_M', 'TOT_RET_G08_F',
+         'SCH_RET_G09_HI_M', 'SCH_RET_G09_HI_F', 'SCH_RET_G09_HI_M', 'TOT_RET_G09_M', 'TOT_RET_G09_F',
+         'SCH_RET_G10_HI_M', 'SCH_RET_G10_HI_F', 'SCH_RET_G10_HI_M', 'TOT_RET_G10_M', 'TOT_RET_G10_F',
+         'SCH_RET_G11_HI_M', 'SCH_RET_G11_HI_F', 'SCH_RET_G11_HI_M', 'TOT_RET_G11_M', 'TOT_RET_G11_F',
+         'SCH_RET_G12_HI_M', 'SCH_RET_G12_HI_F', 'SCH_RET_G12_HI_M', 'TOT_RET_G12_M', 'TOT_RET_G12_F') 
+saveRDS(retention, 'SchRetention.Rdata') 
+         
 
 # there is a disabilities category, not sure it matters for our analysis
 punish <- schoolMaster %>%
@@ -154,6 +169,12 @@ restraint <- schoolMaster %>%
 saveRDS(restraint, 'SchRestraint.Rdata')   
 
 ## funding... how to interpret?
+controls <- schoolMaster %>%
+  select('SCHID', 'LEAID',
+         'SCH_SAL_TOTPERS_WFED', 'SCH_NPE_WFED', 'SCH_TEACHERS_CURR_TOT', # personal salaries, other expenditures, teachers
+         'SCH_GRADE_G01', 'SCH_GRADE_G02', 'SCH_GRADE_G03', 'SCH_GRADE_G04', 'SCH_GRADE_G05', 'SCH_GRADE_G06', # students in grade
+         'SCH_GRADE_G07', 'SCH_GRADE_G08', 'SCH_GRADE_G09', 'SCH_GRADE_G10', 'SCH_GRADE_G11', 'SCH_GRADE_G12') 
+saveRDS(controls, 'SchControls.Rdata')             
 
 
 stargazer(ged, out="../../Output/Summary/EduDFGed.tex", title="GED Completions", summary = TRUE)

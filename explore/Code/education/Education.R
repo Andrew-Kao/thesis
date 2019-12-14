@@ -14,6 +14,11 @@ library(dplyr)
 library(sp)
 library(purrr)
 library(data.table)
+library(stringr)
+library(sandwich)
+library(lfe)
+library(ggplot2)
+library(DescTools)
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/education') 
@@ -29,16 +34,18 @@ educ@data <- educ@data %>%
 
 #### master school data ####
 
+
+## merge the data back together
+
 special <- readRDS('SchSpecial.Rdata') %>%
   left_join(educ@data, by = 'LEAID' ) %>%
   mutate(schlea = paste0(SCHID,LEAID)) %>%
-  select(-LEAID, -SCHID) %>%
   filter(schlea != 133602430 & schlea != 242100540 & schlea !=  6482803360 & schlea !=  6522803360 & schlea != 6612803450)
 
 dataList <- c('SchEnroll.Rdata', 'SchGifted.Rdata', 'SchAlg1.Rdata', 'SchCalc.Rdata', 'SchAP.Rdata',
               'SchExam.Rdata', 'SchAbsent.Rdata', 'SchPunish.Rdata', 'SchSuspend.Rdata',
               'SchExpulsion.Rdata', 'SchTransfer.Rdata', 'SchLaw.Rdata', 'SchHarass.Rdata',
-              'SchRestraint.Rdata')
+              'SchRestraint.Rdata', 'SchControls.Rdata', 'SchRetention.Rdata')
 
 mergeByName <- function(n1,n2) {
   readRDS(n2) %>%
@@ -48,47 +55,46 @@ mergeByName <- function(n1,n2) {
     right_join(n1, by = 'schlea', copy = TRUE)
 }
 
-
 schoolAll <- reduce(dataList,.f = mergeByName, .init = special)
+saveRDS(schoolAll, file='SchAll.Rdata')
 
-varList <- c('SCH_HBREPORTED_RAC_HI_','TOT_HBREPORTED_RAC_' )
+## clean the variables
+schoolAll <- readRDS('SchAll.Rdata')
+
+varList <- c('SCH_HBREPORTED_RAC_HI_','TOT_HBREPORTED_RAC_', 'SCH_HBDISCIPLINED_RAC_HI_', 'TOT_HBDISCIPLINED_RAC_',
+             'SCH_DISCWODIS_EXPWE_HI_M', 'SCH_DISCWODIS_SINGOOS_HI_')
 
 # cred: https://stackoverflow.com/questions/59294898/creating-a-function-in-dplyr-that-operates-on-columns-through-variable-string-ma
 adder <- function(data, name) {
   data %>%
-    mutate(!! name := select(., starts_with(name)) %>% 
+    mutate(!! str_to_lower(str_sub(name, end=-2)) := select(., starts_with(name)) %>% 
              map(function(x) ifelse(x <0, NA,x)) %>% 
              reduce(`+`))
 }
 
-cleanSchoolAll <- reduce(varList, .f = function(data,varname) adder(data,varname), .init = schoolAll)
-
-test <- adder(schoolAll, 'SCH_HBREPORTED_RAC_HI_')
-
-test <- schoolAll %>%
-  mutate(y = adder("SCH_HBREPORTED_RAC_HI_"))
-
-cleanSchoolAll <- schoolAll %>%
+cleanSchoolAll <- reduce(varList, .f = function(data,varname) adder(data,varname), .init = schoolAll) %>%
   mutate(hisp_students = SCH_ENR_HI_M + SCH_ENR_HI_F, total_students = TOT_ENR_M + TOT_ENR_F,
-         hisp_harassVicRaceDum = if_else( SCH_HBREPORTED_RAC_HI_M > 0 | SCH_HBREPORTED_RAC_HI_F > 0,1,0),  # dummies 
-         total_harassVicRaceDum = if_else( TOT_HBREPORTED_RAC_M > 0 | TOT_HBREPORTED_RAC_F > 0,1,0),
-         hisp_offendVicRaceDum = if_else( SCH_HBDISCIPLINED_RAC_HI_M > 0 | SCH_HBDISCIPLINED_RAC_HI_F > 0,1,0),
-         total_offendVicRaceDum = if_else( TOT_HBDISCIPLINED_RAC_M > 0 | TOT_HBDISCIPLINED_RAC_F > 0,1,0),
-         hisp_harassVicRace = max(0, as.integer(SCH_HBREPORTED_RAC_HI_M)) + max(0, as.integer(SCH_HBREPORTED_RAC_HI_F)),         # raw count
-         hisp_harassVicRaceRate = hisp_harassVicRace/hisp_students,                                      # % students
-         total_harassVicRace = max(0, TOT_HBREPORTED_RAC_M) + max(0, TOT_HBREPORTED_RAC_M),
-         total_harassVicRaceRate = total_harassVicRace/total_students,
-         his_harassVicComp = hisp_harassVicRace/total_harassVicRace                                      # % of all incidents 
+         hisp_harassVicRaceDum = if_else(sch_hbreported_rac_hi > 0,1,0),  # dummies 
+         total_harassVicRaceDum = if_else(tot_hbreported_rac > 0,1,0),
+         hisp_offendVicRaceDum = if_else(sch_hbdisciplined_rac_hi > 0,1,0),
+         total_offendVicRaceDum = if_else(tot_hbdisciplined_rac > 0,1,0),
+         hisp_harassVicRaceRate = sch_hbreported_rac_hi/hisp_students * 100,                                      # % students
+         total_harassVicRaceRate = tot_hbreported_rac/total_students * 100,
+         his_harassVicComp = sch_hbreported_rac_hi/tot_hbreported_rac * 100,                                      # % of all incidents 
+         hisp_harassOffRaceDum = if_else(sch_hbdisciplined_rac_hi > 0,1,0),  # dummies 
+         total_harassOffRaceDum = if_else(tot_hbdisciplined_rac > 0,1,0),
+         hisp_OOSDum = if_else(sch_discwodis_singoos_hi > 0,1,0),
   )
 
   
 
 summaryData <- cleanSchoolAll %>%
-  select(hisp_harassVicRace, hisp_harassVicRaceRate, total_harassVicRace, total_harassVicRaceRate)
-stargazer(cleanSchoolAll, out = "../../Output/Summary/EduClean.tex", title="School Level Summary Statistics",
-          keep = c('hisp_harassVicRace', 'total_harassVicRace'),
-          covariate.labels = c('Hispanic Harassment Victims', 'All Harassment Victims',
-                               '\\% of Hispanic Students Harassment Victims', '\\% of All Students Harassment Victims'),
+  select(sch_hbreported_rac_hi, hisp_harassVicRaceRate, tot_hbreported_rac, total_harassVicRaceRate,
+         sch_hbdisciplined_rac_hi, tot_hbdisciplined_rac)
+stargazer(summaryData, out = "../../Output/Summary/EduClean.tex", title="School Level Summary Statistics",
+          covariate.labels = c('Hispanic Harassment Victims', '\\% of Hispanic Students Harassment Victims',
+                               'All Harassment Victims', '\\% of All Students Harassment Victims',
+                               'Hispanic Harassment Offenders', 'All Harassment Offenders'),
           notes = "Harassment restricted to rase-based harassment", summary = TRUE)
 
 
@@ -214,16 +220,219 @@ stargazer(m1, m2, m3, m4, out = "../../Output/Regs/edu_giftedh25.tex", title="Ef
 
 
 
-
-
-
-
-
-
-
-
 #### Algebra ####
 
 
 
 
+##### Harrassment ####
+# distances : 100 km
+distDummy <- cleanSchoolAll %>%
+  filter(!is.na(hisp_harassVicRaceRate)) %>%
+  mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
+  filter(origdist < 100000 ) %>%
+  mutate(origdist = origdist/1000,
+         origLogPop = log(origpopulation), origLogInc = log(origincome))
+
+m1 <- felm(hisp_harassVicRaceRate ~ TV*origdist |0|0|LEAID,data=distDummy, keepX = TRUE)
+m2 <- felm(hisp_harassVicRaceRate ~ TV*origdist + origLogPop +
+             origpcHisp |0|0|LEAID ,data=distDummy)
+m3 <- felm(hisp_harassVicRaceRate ~ TV*origdist + origLogPop +
+             origpcHisp + origLogInc |0|0|LEAID,data=distDummy)
+m4 <- felm(hisp_harassVicRaceRate ~ TV*origdist + origLogPop +
+             origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT |0|0|LEAID,data=distDummy)
+stargazer(m1, m2, m3, m4, out = "../../Output/Regs/edu_harh.tex", title="Effect of TV on Hispanic \\% Harassment Victims",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+                               'Log(Population)','\\% County Hispanic', 'Log(Income)',"\\# Teachers at School") )
+
+# TODO: https://stackoverflow.com/questions/38886442/formatting-notes-in-rs-stargazer-tables
+note.latex <- "\\parbox[t]{\\textwidth}{Distance in KM, 100 KM cutoff. Demographic controls at county level. Errors clustered by school district aoesnuhasnteouh saeotnusaou  aoesutn}"
+star[grepl("Note",star)] <- note.latex
+# mess with this later
+# \begin{tablenotes}[flushleft]
+# \item \textit{Notes:}  No flexible betas used in the IV. Adjustment involves adjusting voteshare by national Hispanic voterate to compute non-Arab/Latin American voteshares.   \end{tablenotes}
+cat(star, sep = "\n", file = "../../Output/Regs/edu_harh.tex")
+
+# OLS
+om1 <- lm(hisp_harassVicRaceRate ~ TV*origdist ,data=distDummy)
+om2 <- lm(hisp_harassVicRaceRate ~ TV*origdist + origLogPop +
+             origpcHisp, data=distDummy)
+om3 <- lm(hisp_harassVicRaceRate ~ TV*origdist + origLogPop +
+             origpcHisp + origLogInc,data=distDummy)
+om4 <- lm(hisp_harassVicRaceRate ~ TV*origdist + origLogPop +
+             origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT,data=distDummy)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_harhOLS.tex", title="Effect of TV on Hispanic \\% Harassment Victims",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+                               'Log(Population)','\\% County Hispanic', 'Log(Income)',"\\# Teachers at School") )
+
+# next: regression diagnostics and model building
+diagnostics <- distDummy %>%
+  mutate( rs1 = rstudent(om1), rs2 = rstudent(om2), rs3 = rstudent(om3), rs4 = rstudent(om4),
+          y1 = predict(om1,distDummy), y2 = predict(om2,distDummy), y3 = predict(om3,distDummy), y4 = predict(om4,distDummy)
+      )
+ggplot(data=diagnostics) + geom_point(aes(x=y1,y=rs1))
+ggsave('../../Output/Diagnostics/edu_harOLSPlot1.pdf')
+ggplot(data=diagnostics) + geom_histogram(aes(x=rs1), bins = 15)
+ggsave('../../Output/Diagnostics/edu_harOLSHist1.pdf')
+ggplot(data=diagnostics) + geom_qq(aes(sample=rs1)) + geom_abline(intercept=0,slope=1)
+ggsave('../../Output/Diagnostics/edu_harOLSQQ1.pdf')
+ggplot(data=diagnostics) + geom_point(aes(x=y2,y=rs2))
+ggsave('../../Output/Diagnostics/edu_harOLSPlot2.pdf')
+ggplot(data=diagnostics) + geom_histogram(aes(x=rs2), bins = 15)
+ggsave('../../Output/Diagnostics/edu_harOLSHist2.pdf')
+ggplot(data=diagnostics) + geom_qq(aes(sample=rs2)) + geom_abline(intercept=0,slope=1)
+ggsave('../../Output/Diagnostics/edu_harOLSQQ2.pdf')
+ggplot(data=diagnostics) + geom_point(aes(x=y3,y=rs3))
+ggsave('../../Output/Diagnostics/edu_harOLSPlot3.pdf')
+ggplot(data=diagnostics) + geom_histogram(aes(x=rs3), bins = 15)
+ggsave('../../Output/Diagnostics/edu_harOLSHist3.pdf')
+ggplot(data=diagnostics) + geom_qq(aes(sample=rs3)) + geom_abline(intercept=0,slope=1)
+ggsave('../../Output/Diagnostics/edu_harOLSQQ3.pdf')
+ggplot(data=diagnostics) + geom_point(aes(x=y4,y=rs4))
+ggsave('../../Output/Diagnostics/edu_harOLSPlot4.pdf')
+ggplot(data=diagnostics) + geom_histogram(aes(x=rs4), bins = 15)
+ggsave('../../Output/Diagnostics/edu_harOLSHist4.pdf')
+ggplot(data=diagnostics) + geom_qq(aes(sample=rs4)) + geom_abline(intercept=0,slope=1)
+ggsave('../../Output/Diagnostics/edu_harOLSQQ4.pdf')
+
+ggplot(data=diagnostics) + geom_point(aes(y=y1,x=origdist))
+
+## winsorize
+wins <- distDummy %>%
+  mutate(hisp_harassVicRaceRate = Winsorize(hisp_harassVicRaceRate,probs=c(0,.99)))
+om1 <- lm(hisp_harassVicRaceRate ~ TV*origdist ,data=wins)
+om2 <- lm(hisp_harassVicRaceRate ~ TV*origdist + origLogPop +
+            origpcHisp, data=wins)
+om3 <- lm(hisp_harassVicRaceRate ~ TV*origdist + origLogPop +
+            origpcHisp + origLogInc,data=wins)
+om4 <- lm(hisp_harassVicRaceRate ~ TV*origdist + origLogPop +
+            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT,data=wins)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_harhOLSWins.tex", title="Effect of TV on Hispanic \\% Harassment Victims",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+                               'Log(Population)','\\% County Hispanic', 'Log(Income)',"\\# Teachers at School") )
+wins <- wins %>%
+  mutate( rs1 = rstudent(om1), rs2 = rstudent(om2), rs3 = rstudent(om3), rs4 = rstudent(om4),
+          y1 = predict(om1,distDummy), y2 = predict(om2,distDummy), y3 = predict(om3,distDummy), y4 = predict(om4,distDummy)
+  )
+ggplot(data=wins) + geom_point(aes(x=y1,y=rs1))
+makePlots(wins,wins$y1,wins$rs1,'../../Output/Diagnostics/edu_harOLSWins1')
+makePlots(wins,wins$y2,wins$rs2,'../../Output/Diagnostics/edu_harOLSWins2')
+makePlots(wins,wins$y3,wins$rs3,'../../Output/Diagnostics/edu_harOLSWins3')
+makePlots(wins,wins$y4,wins$rs4,'../../Output/Diagnostics/edu_harOLSWins4')
+
+## IHS
+ihs <- distDummy %>%
+  mutate(hisp_harassVicRaceRate = ihs(hisp_harassVicRaceRate))
+om1 <- lm(hisp_harassVicRaceRate ~ TV*origdist ,data=ihs)
+om2 <- lm(hisp_harassVicRaceRate ~ TV*origdist + origLogPop +
+            origpcHisp, data=ihs)
+om3 <- lm(hisp_harassVicRaceRate ~ TV*origdist + origLogPop +
+            origpcHisp + origLogInc,data=ihs)
+om4 <- lm(hisp_harassVicRaceRate ~ TV*origdist + origLogPop +
+            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT,data=ihs)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_harhOLSIHS.tex", title="Effect of TV on Hispanic \\% Harassment Victims",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+                               'Log(Population)','\\% County Hispanic', 'Log(Income)',"\\# Teachers at School") )
+ihs <- ihs %>%
+  mutate( rs1 = rstudent(om1), rs2 = rstudent(om2), rs3 = rstudent(om3), rs4 = rstudent(om4),
+          y1 = predict(om1,distDummy), y2 = predict(om2,distDummy), y3 = predict(om3,distDummy), y4 = predict(om4,distDummy)
+  )
+makePlots(ihs,ihs$y1,ihs$rs1,'../../Output/Diagnostics/edu_harOLSIHS1')
+makePlots(ihs,ihs$y2,ihs$rs2,'../../Output/Diagnostics/edu_harOLSIHS2')
+makePlots(ihs,ihs$y3,ihs$rs3,'../../Output/Diagnostics/edu_harOLSIHS3')
+makePlots(ihs,ihs$y4,ihs$rs4,'../../Output/Diagnostics/edu_harOLSIHS4')
+
+
+# Logit on Dummy
+bm1 <- glm(hisp_harassVicRaceDum ~ TV*origdist ,data=ihs, family = binomial)
+bm2 <- lm(hisp_harassVicRaceDum ~ TV*origdist + origLogPop +
+            origpcHisp, data=ihs, family = binomial)
+bm3 <- lm(hisp_harassVicRaceDum ~ TV*origdist + origLogPop +
+            origpcHisp + origLogInc,data=ihs,family = binomial)
+bm4 <- lm(hisp_harassVicRaceDum ~ TV*origdist + origLogPop +
+            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT,data=ihs,family = binomial)
+stargazer(bm1, bm2, bm3, bm4, out = "../../Output/Regs/edu_harhLogit.tex", title="Effect of TV on Hispanic \\% Harassment Victims",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+                               'Log(Population)','\\% County Hispanic', 'Log(Income)',"\\# Teachers at School") )
+logit <- distDummy %>%
+  mutate( rs1 = rstudent(bm1), rs2 = rstudent(bm2), rs3 = rstudent(bm3), rs4 = rstudent(bm4),
+          y1 = predict(bm1,distDummy), y2 = predict(bm2,distDummy), y3 = predict(bm3,distDummy), y4 = predict(bm4,distDummy)
+  )
+makePlots(logit,logit$y1,logit$rs1,'../../Output/Diagnostics/edu_harOLSLogit1')
+makePlots(logit,logit$y2,logit$rs2,'../../Output/Diagnostics/edu_harOLSLogit2')
+makePlots(logit,logit$y3,logit$rs3,'../../Output/Diagnostics/edu_harOLSLogit3')
+makePlots(logit,logit$y4,logit$rs4,'../../Output/Diagnostics/edu_harOLSLogit4')
+
+temp <- sample_n(logit, 300) %>%
+  select(rs3,y3,TV,origdist, hisp_harassVicRaceDum)
+
+ggplot(data = temp) + geom_point(aes(x=y3, y= rs3, colour=hisp_harassVicRaceDum))
+
+
+##### Suspensions ####
+suspend <- cleanSchoolAll %>%
+  filter(!is.na(hisp_OOSDum)) %>%
+  mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
+  filter(origdist < 100000 ) %>%
+  mutate(origdist = origdist/1000,
+         origLogPop = log(origpopulation), origLogInc = log(origincome))
+
+bm1 <- glm(hisp_harassVicRaceDum ~ TV*origdist ,data=ihs, family = binomial)
+bm2 <- lm(hisp_harassVicRaceDum ~ TV*origdist + origLogPop +
+            origpcHisp, data=ihs, family = binomial)
+bm3 <- lm(hisp_harassVicRaceDum ~ TV*origdist + origLogPop +
+            origpcHisp + origLogInc,data=ihs,family = binomial)
+bm4 <- lm(hisp_harassVicRaceDum ~ TV*origdist + origLogPop +
+            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT,data=ihs,family = binomial)
+stargazer(bm1, bm2, bm3, bm4, out = "../../Output/Regs/edu_harhLogit.tex", title="Effect of TV on Hispanic \\% Harassment Victims",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+                               'Log(Population)','\\% County Hispanic', 'Log(Income)',"\\# Teachers at School") )
+logit <- distDummy %>%
+  mutate( rs1 = rstudent(bm1), rs2 = rstudent(bm2), rs3 = rstudent(bm3), rs4 = rstudent(bm4),
+          y1 = predict(bm1,distDummy), y2 = predict(bm2,distDummy), y3 = predict(bm3,distDummy), y4 = predict(bm4,distDummy)
+  )
+makePlots(logit,logit$y1,logit$rs1,'../../Output/Diagnostics/edu_harOLSLogit1')
+makePlots(logit,logit$y2,logit$rs2,'../../Output/Diagnostics/edu_harOLSLogit2')
+makePlots(logit,logit$y3,logit$rs3,'../../Output/Diagnostics/edu_harOLSLogit3')
+makePlots(logit,logit$y4,logit$rs4,'../../Output/Diagnostics/edu_harOLSLogit4')
+
+
+
+
+
+### FUNCTIONS ###
+makePlots <- function(data, y, r, string) {
+  ggplot(data=data) + geom_point(aes(x=y,y=r))
+  ggsave(paste0(string,'Plot','.pdf'))
+  ggplot(data=data) + geom_histogram(aes(x=r), bins = 15)
+  ggsave(paste0(string,'Hist','.pdf'))
+  ggplot(data=data) + geom_qq(aes(sample=r)) + geom_abline(intercept=0,slope=1)
+  ggsave(paste0(string,'QQ','.pdf'))
+}
+
+ihs <- function(x) {
+  y <- log(x + sqrt(x ^ 2 + 1))
+  return(y)
+}
+
+
+# need a more efficient implementation
+student <- function(model) {
+  model$residuals/(
+    (1/(model$df - model$rank - 1))*(sum(model$residuals^2) - model$residuals^2) *
+      diag(m1$X %*% solve(t(m1$X) %*% m1$X)  %*% t(m1$X))
+  )
+  
+}
