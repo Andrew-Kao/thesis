@@ -1,13 +1,5 @@
-###### Education Regs ####
+###### Education: Exploratory Regs ####
 
-
-# TODO: 
-# 1. clean data and get summary stats
-# 2. tease out causal relationships that make sense
-# 3. there must be a way to get graduation data.
-# 4. do as Ferrell commands
-# 5. read spatial RD metrics
-# 6. 
 
 library(stargazer)
 library(dplyr)
@@ -618,6 +610,9 @@ stargazer(omd1, omd2, omd3, m5, out = "../../Output/Regs/edu_abshDist.tex", titl
                                'Log(Population)','\\% County Hispanic', 'Log(Income)',"\\# Teachers at School",
                                '\\# Hispanic Students', 'Total Students' ,'Contains Grade 6'),
           dep.var.labels = "IHS(Hispanic Absentees)", model.names = FALSE)
+
+# see why it matters for sources
+# https://www2.ed.gov/datastory/chronicabsenteeism.html
 
 ### FUNCTIONS ###
 makePlots <- function(data, y, r, string) {
