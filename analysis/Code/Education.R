@@ -23,7 +23,8 @@ schoolAll <- readRDS('SchAll.Rdata')
 
 varList <- c('SCH_HBREPORTED_RAC_HI_','TOT_HBREPORTED_RAC_', 'SCH_HBDISCIPLINED_RAC_HI_', 'TOT_HBDISCIPLINED_RAC_',
              'SCH_DISCWODIS_EXPWE_HI_M', 'SCH_DISCWODIS_SINGOOS_HI_', 'SCH_ABSENT_HI_', 'TOT_ABSENT_',
-             'SCH_APENR_HI_','TOT_APENR_','SCH_APPASS_ONEORMORE_HI_','TOT_APPASS_ONEORMORE_')
+             'SCH_APENR_HI_','TOT_APENR_','SCH_APPASS_ONEORMORE_HI_','TOT_APPASS_ONEORMORE_',
+             'SCH_LEPENR_HI_','TOT_LEPENR_', 'SCH_GTENR_HI_','TOT_GTENR_')
 
 # cred: https://stackoverflow.com/questions/59294898/creating-a-function-in-dplyr-that-operates-on-columns-through-variable-string-ma
 adder <- function(data, name) {
@@ -72,7 +73,7 @@ om4 <- lm(tot_absent ~ TV*origdist + origLogPop +
 
 # TODO: try with a bunch of early stage results and explore interesting ones 
 
-#### HARASS
+##### HARASS #####
 harass <- cleanSchoolAll %>%
   filter(!is.na(sch_hbreported_rac_hi)) %>%
   mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
@@ -111,7 +112,7 @@ stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_harhOLSIHS_spec.tex",
                                "\\# Teachers at School",'\\# Hispanic Students', 'Total Students',
                                'Contains Grade 1', 'Contains Grade 6','Contains Grade 9',
                                'Log(Population)','\\% County Hispanic', 'Log(Income)'),
-          dep.var.labels = '\\# Hispanic Victims of Harassment')
+          dep.var.labels = 'IHS(\\# Hispanic Victims of Harassment)')
 
 # zero inflate
 z1 <- zeroinfl(sch_hbreported_rac_hi ~ TV*origdist, data = harass, link = "logit", dist = "poisson")
@@ -161,7 +162,7 @@ stargazer(z1,z2,z3, out = "../../Output/Regs/edu_harhdZi.tex", title="Effect of 
           dep.var.labels = '\\# Hispanic Offenders of Harassment')
 
 
-### APs
+##### APs ######
 aps <- cleanSchoolAll %>%
   filter(!is.na(sch_apenr_hi)) %>%
   mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
@@ -257,7 +258,64 @@ stargazer(z1,z2,z3,z4, out = "../../Output/Regs/edu_appIHS_spec.tex", title="Eff
           dep.var.labels = '\\# IHS(Hispanic Students Passing AP)')
 
 
-### FUNCTIONS ###
+
+##### LEP - limited proficiency #####
+lep <- cleanSchoolAll %>%
+  filter(!is.na(sch_lepenr_hi)) %>%
+  mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
+  filter(origdist < 100000 ) %>%
+  mutate(origdist = origdist/1000,
+         origLogPop = log(origpopulation), origLogInc = log(origincome))
+
+
+om1 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist, data=lep)
+om2 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=lep)
+om3 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=lep)
+om4 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + origLogPop +
+            origpcHisp + origLogInc ,data=lep)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_lepOLSIHS_spec.tex", title="Effect of TV on Hispanic \\% Harassment Victims",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+                               "\\# Teachers at School",'\\# Hispanic Students', 'Total Students',
+                               'Contains Grade 1', 'Contains Grade 6','Contains Grade 9',
+                               'Log(Population)','\\% County Hispanic', 'Log(Income)'),
+          dep.var.labels = 'IHS(Hispanic \\# Limited English Proficiency)')
+
+# regular OLS - signs flip with controls
+om1 <- lm(sch_lepenr_hi ~ TV*origdist, data=lep)
+om2 <- lm(sch_lepenr_hi ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=lep)
+om3 <- lm(sch_lepenr_hi ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=lep)
+om4 <- lm(sch_lepenr_hi ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + origLogPop +
+            origpcHisp + origLogInc ,data=lep)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_lepOLS_spec.tex", title="Effect of TV on Hispanic \\% Harassment Victims",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+                               "\\# Teachers at School",'\\# Hispanic Students', 'Total Students',
+                               'Contains Grade 1', 'Contains Grade 6','Contains Grade 9',
+                               'Log(Population)','\\% County Hispanic', 'Log(Income)'),
+          dep.var.labels = 'Hispanic \\# Limited English Proficiency')
+
+
+#### GIFTED ####
+gifted <- cleanSchoolAll %>%
+  filter(!is.na(sch_gtenr_hi)) %>%
+  mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
+  filter(origdist < 100000 ) %>%
+  mutate(origdist = origdist/1000,
+         origLogPop = log(origpopulation), origLogInc = log(origincome))
+
+
+
+
+#### FUNCTIONS ####
 makePlots <- function(data, y, r, string) {
   ggplot(data=data) + geom_point(aes(x=y,y=r))
   ggsave(paste0(string,'Plot','.pdf'))
