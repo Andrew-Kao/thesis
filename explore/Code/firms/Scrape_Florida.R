@@ -28,6 +28,9 @@ completed <- lapply(filelist, str_extract, "[0-9]+")
 for(date in calls$dates) {
   if (!(date %in% completed)) {
     ### SCRAPE
+    url <- paste0('ftp://ftp.dos.state.fl.us/public/doc/cor/',date,'c.txt')
+    try(saveRDS(readLines(url),paste0('scrapes/',date,'.Rdata')))
+             #,error = saveError(date))
   }
 }
 
@@ -35,6 +38,9 @@ thepage <- readLines('ftp://ftp.dos.state.fl.us/public/doc/cor/20110103c.txt')
 saveRDS(thepage,'scrapes/20110103.Rdata')
 # ftp://ftp.dos.state.fl.us/public/doc/cor/20110103c.txt
 
+saveError <- function(date) {
+  saveRDS("a",paste0('scrapes/',date,'.Rdata'))
+}
 
 
 
