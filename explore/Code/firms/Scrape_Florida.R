@@ -3,6 +3,8 @@
 
 
 library(stringr)
+library(dplyr)
+library(purrr)
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/firms/florida') 
@@ -15,7 +17,8 @@ options(stringsAsFactors = FALSE)
 yearList <- c(2011:2019)
 monthList <- c(1:12) %>%
   str_pad(width=2,side="left",pad="0")
-dayList <- c(1:31) %>%
+# original, 1:31... progress at starting num
+dayList <- c(31:31) %>%
   str_pad(width=2,side="left",pad="0")
 dates <- cross3(yearList,monthList,dayList)
 
@@ -34,9 +37,13 @@ for(date in calls$dates) {
   }
 }
 
+
+#### testing
 thepage <- readLines('ftp://ftp.dos.state.fl.us/public/doc/cor/20110103c.txt')
 saveRDS(thepage,'scrapes/20110103.Rdata')
 # ftp://ftp.dos.state.fl.us/public/doc/cor/20110103c.txt
+
+test <- readRDS('scrapes/20110127.Rdata')
 
 saveError <- function(date) {
   saveRDS("a",paste0('scrapes/',date,'.Rdata'))
