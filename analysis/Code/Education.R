@@ -50,6 +50,23 @@ cleanSchoolAll <- reduce(varList, .f = function(data,varname) adder(data,varname
   )
 
 
+label_spec <- c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+                "\\# Teachers at School",'\\# Hispanic Students', 'Total Students',
+                'Contains Grade 1', 'Contains Grade 6','Contains Grade 9',
+                'Log(Population)','\\% County Hispanic', 'Log(Income)')
+label2_spec <- c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary','TV Dummy $\\times$ Distance2',
+  'Distance to Boundary (meters)', 'Distance2',
+  "\\# Teachers at School",'\\# Hispanic Students', 'Total Students',
+  'Contains Grade 1', 'Contains Grade 6','Contains Grade 9',
+  'Log(Population)','\\% County Hispanic', 'Log(Income)')
+label2_spec2 <- c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary','TV Dummy $\\times$ Distance2',
+                 'Distance to Boundary (meters)', 'Distance2', '\\% County Hispanic', 'Log(Population)',
+                 "\\# Teachers at School",'\\# Hispanic Students', 'Total Students',
+                 'Contains Grade 1', 'Contains Grade 6','Contains Grade 9',
+                 'Log(Income)')
+
+###### REGRESSIONS ########
+
 absent <- cleanSchoolAll %>%
   filter(!is.na(sch_absent_hi)) %>%
   mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
@@ -73,12 +90,86 @@ om4 <- lm(tot_absent ~ TV*origdist + origLogPop +
 
 # TODO: try with a bunch of early stage results and explore interesting ones 
 
+#### SUSPENSION ####
+suspend <- cleanSchoolAll %>%
+  filter(!is.na(hisp_OOSDum)) %>%
+  mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
+  filter(origdist < 100000 ) %>%
+  mutate(origdist = origdist/1000, dist2 = origdist^2,
+         origLogPop = log(origpopulation), origLogInc = log(origincome))
+
+bm1 <- glm(hisp_OOSDum ~ TV*origdist ,data=suspend, family = binomial)
+bm2 <- glm(hisp_OOSDum ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+             total_students, data=suspend, family = binomial)
+bm3 <- glm(hisp_OOSDum ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+             total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09,data=suspend,family = binomial)
+bm4 <- glm(hisp_OOSDum ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+             total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + origLogPop +
+             origpcHisp + origLogInc,data=suspend,family = binomial)
+stargazer(bm1, bm2, bm3, bm4, out = "../../Output/Regs/edu_OOSLogit_spec.tex", title="Effect of TV on Hispanic Out of School Suspension Dummy",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+                               "\\# Teachers at School",'\\# Hispanic Students', 'Total Students',
+                               'Contains Grade 1', 'Contains Grade 6','Contains Grade 9',
+                               'Log(Population)','\\% County Hispanic', 'Log(Income)') )
+
+om1 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist, data=suspend)
+om2 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=suspend)
+om3 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=suspend)
+om4 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + origLogPop +
+            origpcHisp + origLogInc ,data=suspend)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_OOSIHS_spec.tex", title="Effect of TV on IHS(Hispanic Out of School Suspension)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+                               "\\# Teachers at School",'\\# Hispanic Students', 'Total Students',
+                               'Contains Grade 1', 'Contains Grade 6','Contains Grade 9',
+                               'Log(Population)','\\% County Hispanic', 'Log(Income)'),
+          dep.var.labels = 'IHS(\\# Hispanic Out of School Suspension)')
+om1 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + TV*dist2, data=suspend)
+om2 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + TV*dist2 + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=suspend)
+om3 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + TV*dist2 + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=suspend)
+om4 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + TV*dist2 + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + origLogPop +
+            origpcHisp + origLogInc ,data=suspend)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_OOSIHS2_spec.tex", title="Effect of TV on IHS(Hispanic Out of School Suspension)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = label2_spec,
+          dep.var.labels = 'IHS(\\# Hispanic Out of School Suspension)')
+om1 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + TV*dist2 + 
+            origpcHisp + origLogInc, data=suspend)
+om2 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + TV*dist2 + 
+            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=suspend)
+om3 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + TV*dist2 + 
+            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=suspend)
+om4 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + TV*dist2 + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + origLogPop +
+            origpcHisp + origLogInc ,data=suspend)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_OOSIHS2_spec2.tex", title="Effect of TV on IHS(Hispanic Out of School Suspension)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = label2_spec2,
+          dep.var.labels = 'IHS(\\# Hispanic Out of School Suspension)')
+
+
+lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + origLogInc + origpcHisp, data=suspend)
+
 ##### HARASS #####
 harass <- cleanSchoolAll %>%
   filter(!is.na(sch_hbreported_rac_hi)) %>%
   mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
   filter(origdist < 100000 ) %>%
-  mutate(origdist = origdist/1000,
+  mutate(origdist = origdist/1000, dist2 = origdist^2,
          origLogPop = log(origpopulation), origLogInc = log(origincome))
 
 # IHS
@@ -109,6 +200,24 @@ stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_harhOLSIHS_spec.tex",
           omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
           order = ('TV' ), 
           covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+                               "\\# Teachers at School",'\\# Hispanic Students', 'Total Students',
+                               'Contains Grade 1', 'Contains Grade 6','Contains Grade 9',
+                               'Log(Population)','\\% County Hispanic', 'Log(Income)'),
+          dep.var.labels = 'IHS(\\# Hispanic Victims of Harassment)')
+
+om1 <- lm(ihs(sch_hbreported_rac_hi) ~ TV*origdist + TV*dist2, data=harass)
+om2 <- lm(ihs(sch_hbreported_rac_hi) ~ TV*origdist + TV*dist2 + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_hbreported_rac_hi) ~ TV*origdist + TV*dist2 + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om4 <- lm(ihs(sch_hbreported_rac_hi) ~ TV*origdist + TV*dist2 + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + origLogPop +
+            origpcHisp + origLogInc ,data=harass)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_harhOLSIHS2_spec.tex", title="Effect of TV on Hispanic \\% Harassment Victims",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary','TV Dummy $\\times$ Distance2',
+                               'Distance to Boundary (meters)', 'Distance2',
                                "\\# Teachers at School",'\\# Hispanic Students', 'Total Students',
                                'Contains Grade 1', 'Contains Grade 6','Contains Grade 9',
                                'Log(Population)','\\% County Hispanic', 'Log(Income)'),

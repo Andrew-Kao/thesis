@@ -102,9 +102,16 @@ tidy <- as_tibble(base)
 tidy2 <- tidy %>% 
   filter(PRINC_NAME != "") %>%
   filter(COR_STATUS == 'A') %>%
-  filter(PRINC_STATE == 'FL')
+  filter(PRINC_STATE == 'FL') %>%
+  filter(PRINC_NAME_TYPE == 'P')
 
 write.csv(tidy2, "tidy_merged.csv")
+
+addresses <- tidy2 %>%
+  select(PRINC_ADD_1, PRINC_CITY, PRINC_STATE, PRINC_ZIP5) %>%
+  distinct()
+
+write.csv(addresses, "FLAdresses.csv")
 
 # all at once
 merged_FL <- reduce(filelist[-2], mergeFL,
