@@ -62,7 +62,7 @@ parseFL <- function(text) {
                    PRINC_NAME = str_sub(text,674,715), PRINC_ADD_1 = str_sub(text,716,757),
                    PRINC_CITY = str_sub(text,758,785), PRINC_STATE = str_sub(text,786,787),
                    PRINC_ZIP5 = str_sub(text,788,793), PRINC_ZIP4 = str_sub(text,794,797)) %>%
-        sapply(iconv,from="UTF-8",to="UTF-8",sub='') %>%
+        sapply(iconv,from="UTF-8",to="UTF-8",sub='') %>% # this slows it down lots, so only use if necessary
         sapply(str_trim)})
   
   
@@ -93,14 +93,23 @@ while (i < 23) {
   i = i + 1
 }
 
+base <- readRDS('tidy_merged.Rdata')
 
-batch1 <- reduce(filelist[3:100], mergeFL,
-                 .init = base) 
+# rebuild (faster than remerging)
+tidy <- as_tibble(base)
 
+# clean and move to csv
+tidy2 <- tidy %>% 
+  filter(PRINC_NAME != "") %>%
+  filter(COR_STATUS == 'A') %>%
+  filter(PRINC_STATE == 'FL')
+
+write.csv(tidy2, "tidy_merged.csv")
+
+# all at once
 merged_FL <- reduce(filelist[-2], mergeFL,
        .init = base) 
 
-rbind
 # UTF error that necessitates tryCatch
 test2 <- readRDS(paste0('scrapes/','20140407.Rdata')) # start at 2 bc 1 is a dud
 base2 <- parseFL(test2)
