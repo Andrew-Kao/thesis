@@ -15,4 +15,18 @@ addresses <- donations %>%
   dplyr::select(street, city, state2, zip) %>%
   distinct() %>%
   mutate(country = "USA") %>%
-  write_csv('TrumpAddresses.csv')
+  write.csv('TrumpAddresses.csv')
+
+
+if (Sys.info()["user"] == "AndrewKao") {
+  setwd('~/Documents/College/All/thesis/explore/Data/politics/clinton_donations') 
+}
+
+donations <- fread('ClintonDonations.csv', data.table=TRUE) 
+
+addresses <- donations %>%
+  rename(street = contributor_street_1, city = contributor_city, state2 = contributor_state, zip = postcode) %>%
+  dplyr::select(street, city, state2, zip) %>%
+  distinct() %>%
+  mutate(country = "USA") %>%
+  write.csv('ClintonAddresses.csv')

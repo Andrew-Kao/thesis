@@ -12,7 +12,7 @@ if regexm(c(hostname), "ak") == 1 {
  global wkdir = "~/Documents/College/All/thesis/explore/Data/politics/clinton_donations"
 } 
 else if regexm(c(hostname), "midway") == 1 {
- global wkdir = "/project2/bursztyn/"
+ global wkdir = "/project2/bursztyn/contour/Data/clinton_donations"
 }
 cd "${wkdir}"
 
