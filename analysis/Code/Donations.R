@@ -92,6 +92,7 @@ r <- raster( xmn =-124.784, xmx=-66.951,ymn=24.743,ymx=49.346,crs= "+proj=longla
              nrow = 100, ncol = 200)
 rDonCount <- rasterize(trump2, r, field=trump2$donationCount,fun=sum)
 rHispSum <- rasterize(trump2, r, field=trump2$hisp_sum,fun=mean)
+rRace <- rasterize(trump2, r, field=trump2$race,fun=mean)
 rPop <- rasterize(trump2, r, field=trump2$origpopulation,fun=mean)
 rPCHisp <- rasterize(trump2, r, field=trump2$origpcHisp,fun=mean)
 rIntersect <- rasterize(trump2, r, field=trump2$inside,fun=mean)
@@ -102,9 +103,9 @@ plot(r)
 ## TODO: figure out how to change size of plots
 
 ### run regressions with point pattern
-s <- stack(rDonCount, rHispSum, rPop, rPCHisp, rIntersect, rMinDist, rIncome)
+s <- stack(rDonCount, rHispSum, rRace, rPop, rPCHisp, rIntersect, rMinDist, rIncome)
 regData <- data.frame(na.omit(values(s)))
-names(regData) <- c('rawDonations', 'hispanicSum', 'population', 'pcHispanic', 'intersects', 'distance',
+names(regData) <- c('rawDonations', 'hispanicSum', 'hispanicDummy' , 'population', 'pcHispanic', 'intersects', 'distance',
                     'income')
 
 # no restrictions
@@ -116,6 +117,7 @@ m1 <- lm(donations ~ intersects + distance + population , data=reg1)
 # 100 km distance
 reg2 <- regData %>%
   mutate(donations = rawDonations*hispanicSum, logPop = log(population),
+         donations_d = rawDonations * hispanicDummy,
          dist2 = distance^2) %>%
   filter(distance < 100000)
 
@@ -130,12 +132,26 @@ m1 <- lm(donations ~ intersects*distance + intersects*dist2  , data=reg2)
 m2 <- lm(donations ~ intersects*distance + intersects*dist2 + logPop, data=reg2) 
 m3 <- lm(donations ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=reg2)
 m4 <- lm(donations ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=reg2)
-stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_d2.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_b2.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
           omit.stat = c('f','ser'), column.sep.width = '-5pt')
 m1 <- lm(donations ~ intersects*distance  , data=reg2)
 m2 <- lm(donations ~ intersects*distance + logPop, data=reg2) 
 m3 <- lm(donations ~ intersects*distance + logPop + pcHispanic, data=reg2)
 m4 <- lm(donations ~ intersects*distance + logPop + pcHispanic + income, data=reg2)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_b.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+
+## 'd' is dummy for race instead of summing in 'b'
+m1 <- lm(donations_d ~ intersects*distance + intersects*dist2  , data=reg2)
+m2 <- lm(donations_d ~ intersects*distance + intersects*dist2 + logPop, data=reg2) 
+m3 <- lm(donations_d ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=reg2)
+m4 <- lm(donations_d ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=reg2)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_d2.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+m1 <- lm(donations_d ~ intersects*distance  , data=reg2)
+m2 <- lm(donations_d ~ intersects*distance + logPop, data=reg2) 
+m3 <- lm(donations_d ~ intersects*distance + logPop + pcHispanic, data=reg2)
+m4 <- lm(donations_d ~ intersects*distance + logPop + pcHispanic + income, data=reg2)
 stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_d.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
           omit.stat = c('f','ser'), column.sep.width = '-5pt')
 
