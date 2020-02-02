@@ -80,7 +80,8 @@ census <- read.csv('names_predict_census.csv')
 wiki <- read.csv('names_predict_wiki.csv')
 
 # 3. Location data
-rawLocs <- read.csv('ClintonAddresses_gov.csv')
+rawLocs <- read.csv('ClintonAddresses_gov.csv') %>%
+  mutate(street = sapply(street, URLdecode), city = sapply(city, URLdecode))
 clinton <- st_as_sf(rawLocs, coords = c("long","lat"),crs = CRS("+proj=longlat +datum=NAD83"))
 clinton <- as_Spatial(clinton)
 plot(clinton)
@@ -96,7 +97,8 @@ locationNames <- donations %>%
          hispOne = hispanic, # don't weight by multiple donations
          hispMaj = ifelse(hispanic > .5,1,0)) %>%
   group_by(contributor_street_1,contributor_city,contributor_state, contributor_zip) %>%
-  summarise(hisp_sum = sum(hisp), non_hisp_sum = sum(non_hisp)) %>%
+  summarise(hisp_sum = sum(hisp), non_hisp_sum = sum(non_hisp),
+            hispOne_sum = sum(hispOne), hispMaj_sum = sum(hispMaj)) %>%
   mutate(race = ifelse(hisp_sum >= non_hisp_sum, 1, 0)) ## race is a dummy for Hispanic
 
 locationCounts <- donations %>%
@@ -105,10 +107,10 @@ locationCounts <- donations %>%
 
 # Merge
 # Names & Donor Data
-trump2 <- merge(trump, locationNames, all.x=TRUE, by.x = c("street", "city_1","state2", "zip"),
+clinton2 <- merge(clinton, locationNames, all.x=TRUE, by.x = c("street", "city","state2", "zip"),
                 by.y = c("contributor_street_1","contributor_city","contributor_state","contributor_zip" ))
-trump2 <- merge(trump2, locationCounts, all.x=TRUE, by.x = c("street", "city_1","state2", "zip"),
+clinton2 <- merge(clinton2, locationCounts, all.x=TRUE, by.x = c("street", "city","state2", "zip"),
                 by.y = c("contributor_street_1","contributor_city","contributor_state","contributor_zip" ))
 
-saveRDS(trump2,file='TrumpAll.Rdata')
+saveRDS(clinton2,file='ClintonAll.Rdata')
 
