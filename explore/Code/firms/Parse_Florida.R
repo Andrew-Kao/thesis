@@ -111,7 +111,7 @@ addresses <- tidy2 %>%
   select(PRINC_ADD_1, PRINC_CITY, PRINC_STATE, PRINC_ZIP5) %>%
   distinct()
 
-write.csv(addresses, "FLAdresses.csv")
+write.csv(addresses, "FLAddresses.csv")
 
 # all at once
 merged_FL <- reduce(filelist[-2], mergeFL,
