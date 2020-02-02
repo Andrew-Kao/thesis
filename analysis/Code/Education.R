@@ -64,6 +64,11 @@ label2_spec2 <- c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary','TV Dumm
                  "\\# Teachers at School",'\\# Hispanic Students', 'Total Students',
                  'Contains Grade 1', 'Contains Grade 6','Contains Grade 9',
                  'Log(Income)')
+label_spec2 <- c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary',
+                  'Distance to Boundary (meters)', '\\% County Hispanic', 'Log(Population)',
+                  "\\# Teachers at School",'\\# Hispanic Students', 'Total Students',
+                  'Contains Grade 1', 'Contains Grade 6','Contains Grade 9',
+                  'Log(Income)')
 
 ###### REGRESSIONS ########
 
@@ -223,6 +228,23 @@ stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_harhOLSIHS2_spec.tex"
                                'Log(Population)','\\% County Hispanic', 'Log(Income)'),
           dep.var.labels = 'IHS(\\# Hispanic Victims of Harassment)')
 
+om1 <- lm(ihs(sch_hbreported_rac_hi) ~ TV*origdist + TV*dist2 + 
+            origpcHisp + origLogInc, data=harass)
+om2 <- lm(ihs(sch_hbreported_rac_hi) ~ TV*origdist + TV*dist2 + 
+            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_hbreported_rac_hi) ~ TV*origdist + TV*dist2 + 
+            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om4 <- lm(ihs(sch_hbreported_rac_hi) ~ TV*origdist + TV*dist2 + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + origLogPop +
+            origpcHisp + origLogInc ,data=harass)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_harhOLSIHS2_spec2.tex", title="Effect of TV on IHS(Hispanic \\# Harassment Victims)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = label2_spec2,
+          dep.var.labels = 'IHS(\\# Hispanic Victims of Harassment)')
+
 # zero inflate
 z1 <- zeroinfl(sch_hbreported_rac_hi ~ TV*origdist, data = harass, link = "logit", dist = "poisson")
 z2 <- zeroinfl(sch_hbreported_rac_hi ~ TV*origdist + origLogPop +
@@ -276,7 +298,7 @@ aps <- cleanSchoolAll %>%
   filter(!is.na(sch_apenr_hi)) %>%
   mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
   filter(origdist < 100000 ) %>%
-  mutate(origdist = origdist/1000,
+  mutate(origdist = origdist/1000, dist2 = origdist^2,
          origLogPop = log(origpopulation), origLogInc = log(origincome))
 
 z1 <- lm(ihs(sch_apenr_hi) ~ TV*origdist, data = aps)
@@ -323,7 +345,7 @@ aps <- cleanSchoolAll %>%
   filter(!is.na(sch_appass_oneormore_hi)) %>%
   mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
   filter(origdist < 100000 ) %>%
-  mutate(origdist = origdist/1000,
+  mutate(origdist = origdist/1000, dist2 = origdist^2,
          origLogPop = log(origpopulation), origLogInc = log(origincome))
 
 z1 <- lm(ihs(sch_appass_oneormore_hi) ~ TV*origdist, data = aps)
@@ -366,6 +388,39 @@ stargazer(z1,z2,z3,z4, out = "../../Output/Regs/edu_appIHS_spec.tex", title="Eff
                               'Log(Population)','\\% County Hispanic', 'Log(Income)'),
           dep.var.labels = '\\# IHS(Hispanic Students Passing AP)')
 
+om1 <- lm(ihs(sch_apenr_hi) ~ TV*origdist + TV*dist2 + 
+            origpcHisp + origLogInc, data=aps)
+om2 <- lm(ihs(sch_apenr_hi) ~ TV*origdist + TV*dist2 + 
+            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=aps)
+om3 <- lm(ihs(sch_apenr_hi) ~ TV*origdist + TV*dist2 + 
+            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=aps)
+om4 <- lm(ihs(sch_apenr_hi) ~ TV*origdist + TV*dist2 + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + origLogPop +
+            origpcHisp + origLogInc ,data=aps)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_aptIHS2_spec2.tex", title="Effect of TV on IHS(APs Taken)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = label2_spec2,
+          dep.var.labels = 'IHS(APs Taken by Hispanic Students)')
+om1 <- lm(ihs(sch_appass_oneormore_hi) ~ TV*origdist + TV*dist2 + 
+            origpcHisp + origLogInc, data=aps)
+om2 <- lm(ihs(sch_appass_oneormore_hi) ~ TV*origdist + TV*dist2 + 
+            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=aps)
+om3 <- lm(ihs(sch_appass_oneormore_hi) ~ TV*origdist + TV*dist2 + 
+            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=aps)
+om4 <- lm(ihs(sch_appass_oneormore_hi) ~ TV*origdist + TV*dist2 + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + origLogPop +
+            origpcHisp + origLogInc ,data=aps)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_appIHS2_spec2.tex", title="Effect of TV on IHS(APs Passed)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = label2_spec2,
+          dep.var.labels = 'IHS(APs Passed by Hispanic Students)')
+
 
 
 ##### LEP - limited proficiency #####
@@ -373,7 +428,7 @@ lep <- cleanSchoolAll %>%
   filter(!is.na(sch_lepenr_hi)) %>%
   mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
   filter(origdist < 100000 ) %>%
-  mutate(origdist = origdist/1000,
+  mutate(origdist = origdist/1000, dist2 = origdist^2,
          origLogPop = log(origpopulation), origLogInc = log(origincome))
 
 
@@ -392,6 +447,39 @@ stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_lepOLSIHS_spec.tex", 
                                "\\# Teachers at School",'\\# Hispanic Students', 'Total Students',
                                'Contains Grade 1', 'Contains Grade 6','Contains Grade 9',
                                'Log(Population)','\\% County Hispanic', 'Log(Income)'),
+          dep.var.labels = 'IHS(Hispanic \\# Limited English Proficiency)')
+
+om1 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist + TV*dist2 + 
+            origpcHisp + origLogInc, data=lep)
+om2 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist + TV*dist2 + 
+            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=lep)
+om3 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist + TV*dist2 + 
+            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=lep)
+om4 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist + TV*dist2 + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + origLogPop +
+            origpcHisp + origLogInc ,data=lep)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_lepOLSIHS2_spec2.tex", title="Effect of TV on IHS(LEP)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = label2_spec2,
+          dep.var.labels = 'IHS(Hispanic \\# Limited English Proficiency)')
+om1 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc, data=lep)
+om2 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=lep)
+om3 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=lep)
+om4 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + origLogPop +
+            origpcHisp + origLogInc ,data=lep)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_lepOLSIHS_spec2.tex", title="Effect of TV on IHS(LEP)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = label_spec2,
           dep.var.labels = 'IHS(Hispanic \\# Limited English Proficiency)')
 
 # regular OLS - signs flip with controls
@@ -418,9 +506,41 @@ gifted <- cleanSchoolAll %>%
   filter(!is.na(sch_gtenr_hi)) %>%
   mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
   filter(origdist < 100000 ) %>%
-  mutate(origdist = origdist/1000,
+  mutate(origdist = origdist/1000, dist2 = origdist^2,
          origLogPop = log(origpopulation), origLogInc = log(origincome))
 
+om1 <- lm(ihs(sch_gtenr_hi) ~ TV*origdist + TV*dist2 + 
+            origpcHisp + origLogInc, data=gifted)
+om2 <- lm(ihs(sch_gtenr_hi) ~ TV*origdist + TV*dist2 + 
+            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=gifted)
+om3 <- lm(ihs(sch_gtenr_hi) ~ TV*origdist + TV*dist2 + 
+            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=gifted)
+om4 <- lm(ihs(sch_gtenr_hi) ~ TV*origdist + TV*dist2 + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + origLogPop +
+            origpcHisp + origLogInc ,data=gifted)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_giftedOLSIHS2_spec2.tex", title="Effect of TV on IHS(Gifted)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = label2_spec2,
+          dep.var.labels = 'IHS(Hispanic \\# Gifted Students)')
+om1 <- lm(ihs(sch_gtenr_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc, data=gifted)
+om2 <- lm(ihs(sch_gtenr_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=gifted)
+om3 <- lm(ihs(sch_gtenr_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=gifted)
+om4 <- lm(ihs(sch_gtenr_hi) ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + origLogPop +
+            origpcHisp + origLogInc ,data=gifted)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_giftedOLSIHS_spec2.tex", title="Effect of TV on IHS(Gifted)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          covariate.labels = label_spec2,
+          dep.var.labels = 'IHS(Hispanic \\# Gifted Students)')
 
 
 

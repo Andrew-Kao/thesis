@@ -87,6 +87,7 @@ saveRDS(trump2, 'TrumpReadyRaster.Rdata')
 ####### REGRESSIONS
 ### hand rasterize
 #### determine boundaries of trump data :: source jsundram/cull.py
+trump2 <- readRDS('TrumpReadyRaster.Rdata')
 r <- raster( xmn =-124.784, xmx=-66.951,ymn=24.743,ymx=49.346,crs= "+proj=longlat +datum=NAD83",
              nrow = 100, ncol = 200)
 rDonCount <- rasterize(trump2, r, field=trump2$donationCount,fun=sum)
@@ -114,14 +115,30 @@ m1 <- lm(donations ~ intersects + distance + population , data=reg1)
 
 # 100 km distance
 reg2 <- regData %>%
-  mutate(donations = rawDonations*hispanicSum, logPop = log(population)) %>%
+  mutate(donations = rawDonations*hispanicSum, logPop = log(population),
+         dist2 = distance^2) %>%
   filter(distance < 100000)
 
 m1 <- lm(donations ~ intersects + distance + logPop , data=reg2)
 m2 <- lm(donations ~ intersects + distance + logPop + pcHispanic, data=reg2)
 m3 <- lm(donations ~ intersects + distance + logPop + pcHispanic + income, data=reg2)
-# m4 <- lm(donations ~ intersects*distance + logPop + pcHispanic + income, data=reg2)   ## not super interpretable, weird result too
-stargazer(m1,m2,m3, out = "../../../Output/Regs/trump_100.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius")
+m4 <- lm(donations ~ intersects*distance + logPop + pcHispanic + income, data=reg2)   ## not super interpretable, weird result too
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_100.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+
+m1 <- lm(donations ~ intersects*distance + intersects*dist2  , data=reg2)
+m2 <- lm(donations ~ intersects*distance + intersects*dist2 + logPop, data=reg2) 
+m3 <- lm(donations ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=reg2)
+m4 <- lm(donations ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=reg2)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_d2.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+m1 <- lm(donations ~ intersects*distance  , data=reg2)
+m2 <- lm(donations ~ intersects*distance + logPop, data=reg2) 
+m3 <- lm(donations ~ intersects*distance + logPop + pcHispanic, data=reg2)
+m4 <- lm(donations ~ intersects*distance + logPop + pcHispanic + income, data=reg2)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_d.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+
 
 # 100 km distance placebo
 reg2 <- regData %>%
