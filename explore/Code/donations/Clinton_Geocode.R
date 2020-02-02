@@ -48,9 +48,16 @@ while (progress < size) {
 }
 
 
-## extract uncompleted ones
+## save matches
+match_address <- addresses %>%
+  filter(lat != 0)
+write.csv(match_address,"ClintonAddresses_gov.csv")
 
-## save the rest
+## extract uncompleted ones
+unmatch_address <- addresses %>%
+  filter(lat == 0)
+write.csv(match_address,"ClintonAddresses_fail.csv")
+
 
 
 
