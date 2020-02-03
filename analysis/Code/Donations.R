@@ -167,13 +167,36 @@ rHispSum <- rasterize(clinton2, r, field=clinton2$hisp_sum,fun=mean)
 values(rHispSum) <- ifelse(is.na(values(rHispSum)),0,values(rHispSum))
 rRace <- rasterize(clinton2, r, field=clinton2$race,fun=mean)
 values(rRace) <- ifelse(is.na(values(rRace)),0,values(rRace))
-rPop <- rasterize(clinton2, r, field=clinton2$origpopulation,fun=mean)
-rPCHisp <- rasterize(clinton2, r, field=clinton2$origpcHisp,fun=mean)
-rIntersect <- rasterize(clinton2, r, field=clinton2$inside,fun=mean)
-rMinDist <- rasterize(clinton2, r, field=clinton2$minDist,fun=mean)
-rIncome <- rasterize(clinton2, r, field=clinton2$origincome,fun=mean)
 
-test <- rPop
+#### COUNTIES
+rgdf <- as(rPop,'SpatialGridDataFrame')
+testLink <- over(rgdf,counties,returnList=FALSE)
+rgdf@data <- rgdf@data %>%
+  mutate(stateCounty = testLink$stateCounty)
+rgdf2 <- merge(rgdf, instrument, by = 'stateCounty', all.x = TRUE)
+
+rPCHisp <- raster(rgdf2,layer=14)
+rPop <- raster(rgdf2,layer=15)
+rIncome <- raster(rgdf2,layer=17)
+
+#### INSTRUMENT
+rspdf <- as(rDonCount,'SpatialPointsDataFrame')
+rspdf <- spTransform(rspdf, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
+contourDist <- gDistance(contours_project,rspdf, byid = TRUE)
+contourMinDist <- apply(contourDist,1,FUN=min)
+
+contourIntersect <- gIntersects(contours_poly,rspdf, byid = TRUE)
+contourIntersect[contourIntersect == "FALSE"] <- 0
+contourIntersect[contourIntersect == "TRUE"] <- 1
+contourInterAll <- apply(contourIntersect,1,FUN=sum)  # 590 counties inside/intersecting!
+
+rspdf@data <- rspdf@data %>%
+  mutate(minDist = contourMinDist, inside = contourInterAll)
+rspdf <- spTransform(rspdf, CRS("+proj=longlat +datum=NAD83"))
+
+rMinDist <- rasterize(rspdf, r, field=rspdf$minDist,fun=mean)
+rIntersect <- rasterize(rspdf, r, field=rspdf$inside,fun=mean)
+
 
 plot(r)
 ## TODO: figure out how to change size of plots
@@ -193,9 +216,10 @@ m1 <- lm(donations ~ intersects + distance + population , data=reg1)
 # 100 km distance
 reg2 <- regData %>%
   mutate(donations = rawDonations*hispanicSum, logPop = log(population),
-         donations_d = rawDonations * hispanicDummy,
-         dist2 = distance^2) %>%
-  filter(distance < 100000)
+         donations_d = rawDonations * ceiling(hispanicDummy),
+         distance = distance/1000, dist2 = distance^2,
+         donations_dum = ifelse(donations_d > 0, 1, 0)) %>%
+  filter(distance < 100)
 
 
 m1 <- lm(donations ~ intersects*distance + intersects*dist2  , data=reg2)
@@ -225,6 +249,27 @@ m4 <- lm(donations_d ~ intersects*distance + logPop + pcHispanic + income, data=
 stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/clinton_d.tex", title="Effect of TV on Hispanic Donations to Clinton, 100 KM Radius",
           omit.stat = c('f','ser'), column.sep.width = '-5pt')
 
+## logit
+m1 <- glm(donations_dum ~ intersects*distance + intersects*dist2, data=reg2, family = binomial)
+m2 <- glm(donations_dum ~ intersects*distance + intersects*dist2 + logPop, data=reg2, family = binomial) 
+m3 <- glm(donations_dum ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=reg2, family = binomial)
+m4 <- glm(donations_dum ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=reg2, family = binomial)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/clinton_dum2.tex", title="Effect of TV on Hispanic Donations to Clinton, 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+m1 <- glm(donations_dum ~ intersects*distance, data=reg2, family = binomial)
+m2 <- glm(donations_dum ~ intersects*distance + logPop, data=reg2, family = binomial) 
+m3 <- glm(donations_dum ~ intersects*distance + logPop + pcHispanic, data=reg2, family = binomial)
+m4 <- glm(donations_dum ~ intersects*distance + logPop + pcHispanic + income, data=reg2, family = binomial)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/clinton_dum.tex", title="Effect of TV on Hispanic Donations to Clinton, 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+
+## zero inflate
+m1 <- zeroinfl(donations_d ~ intersects*distance + intersects*dist2  , data=reg2)
+m2 <- zeroinfl(donations_d ~ intersects*distance + intersects*dist2 + logPop, data=reg2) 
+m3 <- zeroinfl(donations_d ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=reg2)
+m4 <- zeroinfl(donations_d ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=reg2)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/clinton_z2.tex", title="Effect of TV on Hispanic Donations to Clinton, 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
 
 # 100 km distance placebo
 reg2 <- regData %>%
