@@ -31,6 +31,7 @@ trump <- sf::st_read(dsn='a00000009.gdbtable', layer = 'a00000009') %>%
   filter(Status == "M")  ## only keep precise matches
 trump <- as_Spatial(trump)
 
+#### TODO: postcode instead of contributor_zip
 # Per Location Data
 locationNames <- donations %>%
   group_by(contributor_street_1,contributor_city,contributor_state, contributor_zip,contributor_first_name, contributor_last_name) %>%
@@ -90,27 +91,27 @@ plot(clinton)
 
 # Per Location Data
 locationNames <- donations %>%
-  group_by(contributor_street_1,contributor_city,contributor_state, contributor_zip,contributor_first_name, contributor_last_name) %>%
+  group_by(contributor_street_1,contributor_city,contributor_state, postcode,contributor_first_name, contributor_last_name) %>%
   summarise(count = n()) %>%
   left_join(census, by = c("contributor_first_name","contributor_last_name")) %>%
   mutate(hisp = count*hispanic, non_hisp = count*black + count*white,
          hispOne = hispanic, # don't weight by multiple donations
          hispMaj = ifelse(hispanic > .5,1,0)) %>%
-  group_by(contributor_street_1,contributor_city,contributor_state, contributor_zip) %>%
+  group_by(contributor_street_1,contributor_city,contributor_state, postcode) %>%
   summarise(hisp_sum = sum(hisp), non_hisp_sum = sum(non_hisp),
             hispOne_sum = sum(hispOne), hispMaj_sum = sum(hispMaj)) %>%
   mutate(race = ifelse(hisp_sum >= non_hisp_sum, 1, 0)) ## race is a dummy for Hispanic
 
 locationCounts <- donations %>%
-  group_by(contributor_street_1,contributor_city,contributor_state, contributor_zip) %>%
+  group_by(contributor_street_1,contributor_city,contributor_state, postcode) %>%
   summarise(donationCount = n())
 
 # Merge
 # Names & Donor Data
 clinton2 <- merge(clinton, locationNames, all.x=TRUE, by.x = c("street", "city","state2", "zip"),
-                by.y = c("contributor_street_1","contributor_city","contributor_state","contributor_zip" ))
+                by.y = c("contributor_street_1","contributor_city","contributor_state","postcode" ))
 clinton2 <- merge(clinton2, locationCounts, all.x=TRUE, by.x = c("street", "city","state2", "zip"),
-                by.y = c("contributor_street_1","contributor_city","contributor_state","contributor_zip" ))
+                by.y = c("contributor_street_1","contributor_city","contributor_state","postcode" ))
 
 saveRDS(clinton2,file='ClintonAll.Rdata')
 

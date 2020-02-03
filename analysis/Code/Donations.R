@@ -96,9 +96,9 @@ clinton <- readRDS(file='ClintonAll.Rdata')
 clinton <-spTransform(clinton, CRS("+proj=longlat +datum=NAD83"))
 
 ### some summary stats
-trumpData <- trump@data %>%
-  select(hisp_sum, non_hisp_sum, race, donationCount)
-stargazer(trumpData, out="../../../Output/Summary/TrumpDonations.tex", title="Trump Donors",
+clintonData <- clinton@data %>%
+  dplyr::select(hisp_sum, hispOne_sum,hispMaj_sum, non_hisp_sum, race, donationCount)
+stargazer(clintonData, out="../../../Output/Summary/ClintonDonations.tex", title="Clinton Donors",
           summary = TRUE, font.size = 'scriptsize')
 
 ## need to match up data to counties and merge
