@@ -85,6 +85,106 @@ trump@data <- trump@data %>%
 trump2 <- merge(trump, instrument, by = 'stateCounty', all.x = TRUE)
 saveRDS(trump2, 'TrumpReadyRaster.Rdata')
 
+#### raster
+trump2 <- readRDS('TrumpReadyRaster.Rdata')
+r <- raster( xmn =-124.784, xmx=-66.951,ymn=24.743,ymx=49.346,crs= "+proj=longlat +datum=NAD83",
+             nrow = 100, ncol = 200)
+rDonCount <- rasterize(trump2, r, field=trump2$donationCount,fun=sum)
+values(rDonCount) <- ifelse(is.na(values(rDonCount)),0,values(rDonCount))
+rHispSum <- rasterize(trump2, r, field=trump2$hisp_sum,fun=mean)
+values(rHispSum) <- ifelse(is.na(values(rHispSum)),0,values(rHispSum))
+rRace <- rasterize(trump2, r, field=trump2$race,fun=mean)
+values(rRace) <- ifelse(is.na(values(rRace)),0,values(rRace))
+
+#### COUNTIES
+rgdf <- as(rPop,'SpatialGridDataFrame')
+testLink <- over(rgdf,counties,returnList=FALSE)
+rgdf@data <- rgdf@data %>%
+  mutate(stateCounty = testLink$stateCounty)
+rgdf2 <- merge(rgdf, instrument, by = 'stateCounty', all.x = TRUE)
+
+rPCHisp <- raster(rgdf2,layer=14)
+rPop <- raster(rgdf2,layer=15)
+rIncome <- raster(rgdf2,layer=17)
+
+#### INSTRUMENT
+rspdf <- as(rDonCount,'SpatialPointsDataFrame')
+rspdf <- spTransform(rspdf, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
+contourDist <- gDistance(contours_project,rspdf, byid = TRUE)
+contourMinDist <- apply(contourDist,1,FUN=min)
+
+contourIntersect <- gIntersects(contours_poly,rspdf, byid = TRUE)
+contourIntersect[contourIntersect == "FALSE"] <- 0
+contourIntersect[contourIntersect == "TRUE"] <- 1
+contourInterAll <- apply(contourIntersect,1,FUN=sum)  # 590 counties inside/intersecting!
+
+rspdf@data <- rspdf@data %>%
+  mutate(minDist = contourMinDist, inside = contourInterAll)
+rspdf <- spTransform(rspdf, CRS("+proj=longlat +datum=NAD83"))
+
+rMinDist <- rasterize(rspdf, r, field=rspdf$minDist,fun=mean)
+rIntersect <- rasterize(rspdf, r, field=rspdf$inside,fun=mean)
+
+
+plot(r)
+## TODO: figure out how to change size of plots
+
+### run regressions with point pattern
+s <- stack(rDonCount, rHispSum, rRace, rPop, rPCHisp, rIntersect, rMinDist, rIncome)
+regDataT <- data.frame(na.omit(values(s)))
+names(regDataT) <- c('rawDonations', 'hispanicSum', 'hispanicDummy' , 'population', 'pcHispanic', 'intersects', 'distance',
+                    'income')
+
+###### TRUMP REGS #####
+# 100 km distance
+regT2 <- regDataT %>%
+  mutate(donations = rawDonations*hispanicSum, logPop = log(population),
+         donations_d = rawDonations * ceiling(hispanicDummy),
+         distance = distance/1000, dist2 = distance^2,
+         donations_dum = ifelse(donations_d > 0, 1, 0)) %>%
+  filter(distance < 100)
+
+m1 <- lm(donations ~ intersects*distance + intersects*dist2  , data=regT2)
+m2 <- lm(donations ~ intersects*distance + intersects*dist2 + logPop, data=regT2) 
+m3 <- lm(donations ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=regT2)
+m4 <- lm(donations ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=regT2)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_b2.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+m1 <- lm(donations ~ intersects*distance  , data=regT2)
+m2 <- lm(donations ~ intersects*distance + logPop, data=regT2) 
+m3 <- lm(donations ~ intersects*distance + logPop + pcHispanic, data=regT2)
+m4 <- lm(donations ~ intersects*distance + logPop + pcHispanic + income, data=regT2)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_b.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+
+## 'd' is dummy for race instead of summing in 'b'
+m1 <- lm(donations_d ~ intersects*distance + intersects*dist2  , data=regT2)
+m2 <- lm(donations_d ~ intersects*distance + intersects*dist2 + logPop, data=regT2) 
+m3 <- lm(donations_d ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=regT2)
+m4 <- lm(donations_d ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=regT2)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_d2.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+m1 <- lm(donations_d ~ intersects*distance  , data=regT2)
+m2 <- lm(donations_d ~ intersects*distance + logPop, data=regT2) 
+m3 <- lm(donations_d ~ intersects*distance + logPop + pcHispanic, data=regT2)
+m4 <- lm(donations_d ~ intersects*distance + logPop + pcHispanic + income, data=regT2)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_d.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+
+## logit
+m1 <- glm(donations_dum ~ intersects*distance + intersects*dist2, data=regT2, family = binomial)
+m2 <- glm(donations_dum ~ intersects*distance + intersects*dist2 + logPop, data=regT2, family = binomial) 
+m3 <- glm(donations_dum ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=regT2, family = binomial)
+m4 <- glm(donations_dum ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=regT2, family = binomial)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_dum2.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+m1 <- glm(donations_dum ~ intersects*distance, data=regT2, family = binomial)
+m2 <- glm(donations_dum ~ intersects*distance + logPop, data=regT2, family = binomial) 
+m3 <- glm(donations_dum ~ intersects*distance + logPop + pcHispanic, data=regT2, family = binomial)
+m4 <- glm(donations_dum ~ intersects*distance + logPop + pcHispanic + income, data=regT2, family = binomial)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_dum.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+
 ###### CLINTON ######
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/politics/clinton_donations') 
@@ -155,7 +255,7 @@ clinton@data <- clinton@data %>%
 clinton2 <- merge(clinton, instrument, by = 'stateCounty', all.x = TRUE)
 saveRDS(clinton2, 'ClintonReadyRaster.Rdata')
 
-####### REGRESSIONS #########
+####### CLINTON REGRESSIONS #########
 ### hand rasterize
 #### determine boundaries of trump data :: source jsundram/cull.py
 clinton2 <- readRDS('ClintonReadyRaster.Rdata')
