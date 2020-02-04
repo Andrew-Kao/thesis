@@ -139,16 +139,16 @@ names(regDataT) <- c('rawDonations', 'hispanicSum', 'hispanicDummy' , 'populatio
 # 100 km distance
 regT2 <- regDataT %>%
   mutate(donations = rawDonations*hispanicSum, logPop = log(population),
-         donations_d = rawDonations * ceiling(hispanicDummy),
+         donations_d = rawDonations * (hispanicDummy), # ceiling(dummy)
          distance = distance/1000, dist2 = distance^2,
          donations_dum = ifelse(donations_d > 0, 1, 0)) %>%
   filter(distance < 100)
 
-m1 <- lm(donations ~ intersects*distance + intersects*dist2  , data=regT2)
+# m1 <- lm(donations ~ intersects*distance + intersects*dist2  , data=regT2)
 m2 <- lm(donations ~ intersects*distance + intersects*dist2 + logPop, data=regT2) 
 m3 <- lm(donations ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=regT2)
 m4 <- lm(donations ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=regT2)
-stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_b2.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
+stargazer(m2,m3,m4, out = "../../../Output/Regs/trump_b2.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
           omit.stat = c('f','ser'), column.sep.width = '-5pt')
 m1 <- lm(donations ~ intersects*distance  , data=regT2)
 m2 <- lm(donations ~ intersects*distance + logPop, data=regT2) 
@@ -158,11 +158,11 @@ stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_b.tex", title="Effect o
           omit.stat = c('f','ser'), column.sep.width = '-5pt')
 
 ## 'd' is dummy for race instead of summing in 'b'
-m1 <- lm(donations_d ~ intersects*distance + intersects*dist2  , data=regT2)
+# m1 <- lm(donations_d ~ intersects*distance + intersects*dist2  , data=regT2)
 m2 <- lm(donations_d ~ intersects*distance + intersects*dist2 + logPop, data=regT2) 
 m3 <- lm(donations_d ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=regT2)
 m4 <- lm(donations_d ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=regT2)
-stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_d2.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
+stargazer(m2,m3,m4, out = "../../../Output/Regs/trump_d2.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
           omit.stat = c('f','ser'), column.sep.width = '-5pt')
 m1 <- lm(donations_d ~ intersects*distance  , data=regT2)
 m2 <- lm(donations_d ~ intersects*distance + logPop, data=regT2) 
@@ -316,17 +316,17 @@ m1 <- lm(donations ~ intersects + distance + population , data=reg1)
 # 100 km distance
 reg2 <- regData %>%
   mutate(donations = rawDonations*hispanicSum, logPop = log(population),
-         donations_d = rawDonations * ceiling(hispanicDummy),
+         donations_d = rawDonations * hispanicDummy,
          distance = distance/1000, dist2 = distance^2,
          donations_dum = ifelse(donations_d > 0, 1, 0)) %>%
   filter(distance < 100)
 
 
-m1 <- lm(donations ~ intersects*distance + intersects*dist2  , data=reg2)
+#m1 <- lm(donations ~ intersects*distance + intersects*dist2  , data=reg2)
 m2 <- lm(donations ~ intersects*distance + intersects*dist2 + logPop, data=reg2) 
 m3 <- lm(donations ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=reg2)
 m4 <- lm(donations ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=reg2)
-stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/clinton_b2.tex", title="Effect of TV on Hispanic Donations to Clinton, 100 KM Radius",
+stargazer(m2,m3,m4, out = "../../../Output/Regs/clinton_b2.tex", title="Effect of TV on Hispanic Donations to Clinton, 100 KM Radius",
           omit.stat = c('f','ser'), column.sep.width = '-5pt')
 m1 <- lm(donations ~ intersects*distance  , data=reg2)
 m2 <- lm(donations ~ intersects*distance + logPop, data=reg2) 
@@ -336,11 +336,11 @@ stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/clinton_b.tex", title="Effect
           omit.stat = c('f','ser'), column.sep.width = '-5pt')
 
 ## 'd' is dummy for race instead of summing in 'b'
-m1 <- lm(donations_d ~ intersects*distance + intersects*dist2  , data=reg2)
+# m1 <- lm(donations_d ~ intersects*distance + intersects*dist2  , data=reg2)
 m2 <- lm(donations_d ~ intersects*distance + intersects*dist2 + logPop, data=reg2) 
 m3 <- lm(donations_d ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=reg2)
 m4 <- lm(donations_d ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=reg2)
-stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/clinton_d2.tex", title="Effect of TV on Hispanic Donations to Clinton, 100 KM Radius",
+stargazer(m2,m3,m4, out = "../../../Output/Regs/clinton_d2.tex", title="Effect of TV on Hispanic Donations to Clinton, 100 KM Radius",
           omit.stat = c('f','ser'), column.sep.width = '-5pt')
 m1 <- lm(donations_d ~ intersects*distance  , data=reg2)
 m2 <- lm(donations_d ~ intersects*distance + logPop, data=reg2) 
