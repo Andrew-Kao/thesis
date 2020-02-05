@@ -87,7 +87,7 @@
 
 \begin{document}
 \title{\textbf{TV Identities: \\ TITLE}%Unravel}
-\thanks{We would like to thank XYZ.}\\
+\thanks{We would like to thank XYZ and Trip from SatelliteGuys for technical advice.}\\
 }
 
 
@@ -203,30 +203,32 @@ There's good reason to believe that identity, as reinforced through mass media, 
 \section{Data}\label{secdata}
 
 
-\subsection{Broadcast TV and Controls}
+\subsection{Broadcast TV}
 
-To build the coverage contours of SLTV stations in the US, we collected a list of all SLTV stations via the TMS API (a large provider of data on TV, movies, and other media). 
+To build the coverage contours of SLTV stations in the US, we collected a list of the callsigns for all SLTV stations via the TMS (a large provider of data on TV, movies, and other media) API.\footnote{ A TV station is defined to be SLTV if at least one of the primary broadcasts languages are Spanish.} These callsigns are then matched against data from the FCC's OET-69 Bulletin and the FCC's CDBS Database to directly obtain the relevant coverage contour boundaries as prescribed and regulated by the FCC. \footnote{ 2015 coverage contour data is used due to the 'FCC Spectrum Repack' that began in 2018, which relocates a number of signals, affecting the reception and coverage for a substantial number of stations.} %@CITE https://www.commlawblog.com/2018/03/articles/fcc/fcc-updates-dtv-reception-map/
 
-Data for the instrument comes from both the FCC and TMS (a telecommunications company that was kind enough to let me use their API for free), and the instrument is fully constructed. The relevant data here is essentially just the coverage contour spatial data and the broadcast language of the station.
+For data that take the form of spatial points (such as the location of a school), determining whether the datapoint falls within the coverage boundary (and receives SLTV coverage) and its distance to the boundary is a straightforward process. For data that cover a wider area (such as a county), in the standard specification, the area is said to fall within the coverage boundary if at least some portion of it does, and the distance from the area to the boundary is taken as the minimum distance from the boundary to the area. In locations covered by multiple SLTV stations, the distance to the boundary is taken as the distance to the closest boundary.
+% TODO: robustness; experiment with this for county controls data! calculate area... maybe also for campaigns
 
+\subsection{Controls and Other Non-Outcome Data}
+Controls at the county level are sourced from IPUMS, and consist of basic relevant demographic information: population, income, percent of county that is Hispanic etc.
 
-I get additional controls for things like population, income, density of Hispanic population etc. at the county level from IPUMS.
+Data on migration comes from the 2011-2015 ACS, which reports the number of people moving from each origin county to destination county (aggregated over the years).\footnote{ Historically, approximately 15\% of the ACS migration data has been allocated (imputed based on salient characteristics). @CITTE(https://www.census.gov/acs/www/methodology/sample-size-and-data-quality/) } This sample also contains migration flows by Hispanic origin, allowing us to determine whether they move based on geographic boundaries.
+% TODO: propagate errors based on the margin of error
 
-Gov migration data
-
-\subsection{Outcomes}
-
-
-The data on public schools comes from the US government's CRDC (Civil Rights Data Collection) dataset. It's a very large dataset with a ton of outcome/control variables, but importantly, it breaks down all major variables of interest by ethnicity. These variables includes graduation rates, chronic absenteeism, suspensions, expulsions, arrests, bullying, AP test results, English proficiency, math class performances, gifted program enrolment etc., so I can look at effects on both the top and bottom end of the distribution, and examine potential mechanisms driving outcomes. These are all at the school level, and so I can run this through ArcGIS to get physical locations of these schools as well.
-
-\input{../../explore/output/summary/LEAInfo.tex}
-\input{../../explore/output/summary/SchoolInfo.tex}
+Finally, data for specific outcomes are discussed under their relevant section.
 
 
 
 \section{Empirical Strategy}\label{secrd}
 
-To isolate the causal effect of Spanish language television, I adopt the technique used in \cite{velez_tuning_2019}  and generalize it from three counties to the entirety of the US. Newman and Velez exploit a FCC (Federal Communications Commission) regulation which determines the distance from a TV station in which the station's broadcast signal is protected from interference. This creates a natural regression discontinuity, where the decaying strength of a signal over distance is combined with this cutoff in broadcast protection to create a split among people just inside and outside these coverage 'contours' that are presumably comparable save for their access to broadcast TV. 
+To isolate the causal effect of Spanish language television, I adopt the technique used in \cite{velez_tuning_2019}  and generalize it from three counties to the entirety of the US. Newman and Velez exploit a FCC (Federal Communications Commission) regulation which determines the distance from a TV station in which the station's broadcast signal is protected from interference. 
+
+(An example of a contour boundary can be seen in Figure \ref{contourexamplefig})
+
+The instrument consists of two variables interacted: First, a dummy whether the outcome data falls 
+
+This creates a natural regression discontinuity, where the decaying strength of a signal over distance is combined with this cutoff in broadcast protection to create a split among people just inside and outside these coverage 'contours' that are presumably comparable save for their access to broadcast TV. 
 
 In the case of Spanish language TV in particular, this should allow me to examine its causal effect on Hispanic populations for spatially located outcomes, such as public schooling results. It's worth noting that these contours are purely determined by an algorithm that looks at things like local elevation and antennae strength, so that the cutoffs are located in more or less random locations, and that coverage is large enough that these contours tend to cut across towns and suburbs, rather than cities. Finally, regressions using US census data indicate that Hispanic people do not migrate across counties in response to these contours.
 
@@ -246,8 +248,16 @@ By limiting the analysis to a small distance from the contour boundary ($100$ KM
 
 \section{Public Schools}\label{secschool}
 \subsection{Data}
+
+The data on public schools comes from the US government's CRDC (Civil Rights Data Collection) dataset. It's a very large dataset with a ton of outcome/control variables, but importantly, it breaks down all major variables of interest by ethnicity. These variables includes graduation rates, chronic absenteeism, suspensions, expulsions, arrests, bullying, AP test results, English proficiency, math class performances, gifted program enrolment etc., so I can look at effects on both the top and bottom end of the distribution, and examine potential mechanisms driving outcomes. These are all at the school level, and so I can run this through ArcGIS to get physical locations of these schools as well.
+
+\input{../../explore/output/summary/LEAInfo.tex}
+\input{../../explore/output/summary/SchoolInfo.tex}
+
 \subsection{Results}
+
 \subsection{Discussion}
+Interpret magnitudes
 \paragraph{Evidence of Mechanism}
 Targeting based on identity
 
@@ -297,6 +307,12 @@ Targeting based on identity
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Figure 1: Coverage Contours
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[!hbtp]
+\centering
+\caption{Coverage Map for WUVC-DT}\label{contourexamplefig}
+\includegraphics[width=15cm]{../../analysis/Output/img/ContourExample.png}
+\end{figure} 
 
 \begin{figure}[!hbtp]
 \centering

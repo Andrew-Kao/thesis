@@ -25,10 +25,11 @@ busnAll <- as_Spatial(busnAll)
 
 
 # Per Location Data
-locationNames <- busn %>%
-  group_by(contributor_street_1,contributor_city,contributor_state, postcode,contributor_first_name, contributor_last_name) %>%
+locationNames <- sbusn %>%
+  group_by(COR_NAME,PRINC_NAME,PRINC_ADD_1,PRINC_CITY,PRINC_STATE,PRINC_ZIP5) %>%
   summarise(count = n()) %>%
-  left_join(census, by = c("contributor_first_name","contributor_last_name")) %>%
+  left_join(names, by = c("PRINC_NAME")) %>%
+  
   mutate(hisp = count*hispanic, non_hisp = count*black + count*white,
          hispOne = hispanic, # don't weight by multiple donations
          hispMaj = ifelse(hispanic > .5,1,0)) %>%
