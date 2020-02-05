@@ -202,18 +202,22 @@ There's good reason to believe that identity, as reinforced through mass media, 
 
 \section{Data}\label{secdata}
 
-Overall data and brief explanation of sources
+
+\subsection{Broadcast TV and Controls}
+
+To build the coverage contours of SLTV stations in the US, we collected a list of all SLTV stations via the TMS API (a large provider of data on TV, movies, and other media). 
 
 Data for the instrument comes from both the FCC and TMS (a telecommunications company that was kind enough to let me use their API for free), and the instrument is fully constructed. The relevant data here is essentially just the coverage contour spatial data and the broadcast language of the station.
 
-The data on public schools comes from the US government's CRDC (Civil Rights Data Collection) dataset. It's a very large dataset with a ton of outcome/control variables, but importantly, it breaks down all major variables of interest by ethnicity. These variables includes graduation rates, chronic absenteeism, suspensions, expulsions, arrests, bullying, AP test results, English proficiency, math class performances, gifted program enrolment etc., so I can look at effects on both the top and bottom end of the distribution, and examine potential mechanisms driving outcomes. These are all at the school level, and so I can run this through ArcGIS to get physical locations of these schools as well.
 
 I get additional controls for things like population, income, density of Hispanic population etc. at the county level from IPUMS.
 
-\subsection{Broadcast TV}
-
+Gov migration data
 
 \subsection{Outcomes}
+
+
+The data on public schools comes from the US government's CRDC (Civil Rights Data Collection) dataset. It's a very large dataset with a ton of outcome/control variables, but importantly, it breaks down all major variables of interest by ethnicity. These variables includes graduation rates, chronic absenteeism, suspensions, expulsions, arrests, bullying, AP test results, English proficiency, math class performances, gifted program enrolment etc., so I can look at effects on both the top and bottom end of the distribution, and examine potential mechanisms driving outcomes. These are all at the school level, and so I can run this through ArcGIS to get physical locations of these schools as well.
 
 \input{../../explore/output/summary/LEAInfo.tex}
 \input{../../explore/output/summary/SchoolInfo.tex}
@@ -305,6 +309,21 @@ Targeting based on identity
 \caption{Map of School Districts in the US}\label{schooldistrictfig}
 \includegraphics[width=12cm]{../../analysis/Output/img/LEAMap.png}
 \end{figure} 
+
+\input{../../explore/Output/Regs/mig_distdummyOITV.tex}
+\input{../../explore/Output/Regs/migrev_distdummyOITV.tex}
+\input{../../explore/Output/Regs/trump_b2.tex}
+\input{../../explore/Output/Regs/trump_d2.tex}
+\input{../../explore/Output/Regs/clinton_b2.tex}
+\input{../../explore/Output/Regs/clinton_d2.tex}
+\input{../../explore/Output/Regs/edu_OOSIHS2_spec2.tex}
+\input{../../explore/Output/Regs/edu_harhOLSIHS2_spec2.tex}
+\input{../../explore/Output/Regs/edu_aptIHS2_spec2.tex}
+\input{../../explore/Output/Regs/edu_appIHS2_spec2.tex}
+\input{../../explore/Output/Regs/edu_lepOLSIHS_spec2.tex} % motivate with this, then add square
+\input{../../explore/Output/Regs/edu_giftedOLSIHS2_spec2.tex}
+\input{../../explore/Output/Regs/edu_giftedOLSIHS_spec2.tex}
+
 
 %\begin{figure}[!h]
 %\begin{center}

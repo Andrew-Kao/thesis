@@ -6,7 +6,13 @@ if (Sys.info()["user"] == "AndrewKao") {
 
 # 1. Cleaned donor data (direct)
 busn <- readRDS('tidy_merged.Rdata')
-# business names with google cloud
+# business names with google cloud?
+
+sbusn <- as_tibble(busn) %>%
+  dplyr::select(COR_NAME, REPORT_YEAR_1, PRINC_NAME,
+                PRINC_ADD_1, PRINC_CITY, PRINC_STATE,
+                PRINC_ZIP5)
+
 # 2. Name classification data
 names <- read.csv('names_predict_FL.csv') 
 
