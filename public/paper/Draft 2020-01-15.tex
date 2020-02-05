@@ -160,6 +160,11 @@ Three domains
 
 - Politics
 
+
+The high level research question is to look at the effect of reinforcing identity within Hispanic populations on their schooling outcomes. Specifically, I'll be using the influence of Spanish language television as the channel by which identity is reinforced, and look at how it affects everything from graduation rates to disciplinary action taken to math abilities and English proficiency for Hispanic students in public schools. In short, if I have access to more programming from my home country, does this make me less engaged in school (perhaps because there are more distractions or because it socially ostracizes me etc.), or does this make me perform better (perhaps because l have more role models or because I have something to talk with peers about in school, and hence motivation to attend/perform)?
+
+There's good reason to believe that identity, as reinforced through mass media, has a large effect on the lives people lead.   Oberholzer-Gee, Waldfogel (AER 2009) demonstrate that the presence of Spanish language local news increases Hispanic voter turnout, while Yanigazawa-Drott (QJE 2014) shows that radio broadcasts in Rwanda contributed to the violence and genocide that took place in the 90s. It would be reasonable to think then, that there could be a meaningful effect of Spanish language TV on education. 
+
 %Social norms are an important element of any society: some behaviors and opinions are socially desirable, while others are stigmatized. There is growing evidence that individuals care to a large extent about how they are perceived by others and that such concerns might affect important decisions in a variety of settings
 
 % viewed by half of all Spanish-dominant Latinos (http://www.horowitzresearch.com/press/spanish-language-tv-content-remains-integral-to-u-s-hispanics-tv-diet-new-horowitz-survey-shows/)
@@ -187,21 +192,49 @@ Three domains
 %% spatial errors: http://www.trfetzer.com/using-r-to-estimate-spatial-hac-errors-per-conley/
 
 
-\section{Model/Background/Hypothesis}\label{sectheory}
 
-x
+%% FOR LATER
+% \section{Model/Background/Hypothesis}\label{sectheory}
+
+
 
 \section{Data}\label{secdata}
 
 Overall data and brief explanation of sources
+
+Data for the instrument comes from both the FCC and TMS (a telecommunications company that was kind enough to let me use their API for free), and the instrument is fully constructed. The relevant data here is essentially just the coverage contour spatial data and the broadcast language of the station.
+
+The data on public schools comes from the US government's CRDC (Civil Rights Data Collection) dataset. It's a very large dataset with a ton of outcome/control variables, but importantly, it breaks down all major variables of interest by ethnicity. These variables includes graduation rates, chronic absenteeism, suspensions, expulsions, arrests, bullying, AP test results, English proficiency, math class performances, gifted program enrolment etc., so I can look at effects on both the top and bottom end of the distribution, and examine potential mechanisms driving outcomes. These are all at the school level, and so I can run this through ArcGIS to get physical locations of these schools as well.
+
+I get additional controls for things like population, income, density of Hispanic population etc. at the county level from IPUMS.
+
 \subsection{Broadcast TV}
 
+
 \subsection{Outcomes}
+
+\input{../../explore/output/summary/LEAInfo.tex}
+\input{../../explore/output/summary/SchoolInfo.tex}
 
 
 
 \section{Empirical Strategy}\label{secrd}
+
+To isolate the causal effect of Spanish language television, I adopt the technique used in \citep{velez_tuning_2019} Newman, Velez (AJPS 2019) and generalize it from three counties to the entirety of the US. Newman and Velez exploit a FCC (Federal Communications Commission) regulation which determines the distance from a TV station in which the station's broadcast signal is protected from interference. This creates a natural regression discontinuity, where the decaying strength of a signal over distance is combined with this cutoff in broadcast protection to create a split among people just inside and outside these coverage 'contours' that are presumably comparable save for their access to broadcast TV. 
+
+In the case of Spanish language TV in particular, this should allow me to examine its causal effect on Hispanic populations for spatially located outcomes, such as public schooling results. It's worth noting that these contours are purely determined by an algorithm that looks at things like local elevation and antennae strength, so that the cutoffs are located in more or less random locations, and that coverage is large enough that these contours tend to cut across towns and suburbs, rather than cities. Finally, regressions using US census data indicate that Hispanic people do not migrate across counties in response to these contours.
+
+A standard regression thus looks like restricting the universe of schools to only those within a small radius of the contour boundary, where the key independent variable of interest is an indicator for the school being inside or outside the boundary.
+
 \subsection{Main Specification}
+
+A standard regression thus looks like restricting the universe of schools to only those within a small radius of the contour boundary, where the key independent variable of interest is an indicator for the school being inside or outside the boundary, interacted with the distance to the boundary:
+\[ Y_i^{j,k} = \beta_0 + \beta \mathbb{I}[InsideContour_i] \times Distance_i + \gamma X_i + \delta Z^j + \epsilon_i^k \, \, \, \, \, \, \, \epsilon \stackrel{iid}{\sim}   N(0,\sigma_i^{k^2})\]
+
+where $Y_i$ is an outcome for school $i$ in county $j$ and school district $k$, $X$ is a vector of school-level controls, and $Z$ is a vector of county-level controls. Errors are often clustered by school district, meaning that $Corr(\sigma_i^k, \sigma_{i'}^k) \neq 0$ is permissible.
+
+By limiting the analysis to a small distance from the contour boundary ($100$ KM/63 miles by default), we also minimize the potential concerns of omitted variable bias etc., as these schools must now be at least fairly close to one another, meaning that they probably share many overarching characteristics.
+
 
 \subsection{Migration}
 
@@ -210,6 +243,7 @@ Overall data and brief explanation of sources
 \subsection{Results}
 \subsection{Discussion}
 \paragraph{Evidence of Mechanism}
+Targeting based on identity
 
 \section{Firms}\label{secfirm}
 \subsection{Data}
@@ -244,8 +278,10 @@ Overall data and brief explanation of sources
 \pagebreak
 
 \begin{singlespace}
-\bibliographystyle{aea}
-%\bibliography{xenophobia_bib2}
+%\bibliographystyle{aea}
+\bibliographystyle{plainnat}
+\bibliography{tv_bib.bib}
+abc
 \end{singlespace}
 
 \pagebreak
@@ -254,8 +290,20 @@ Overall data and brief explanation of sources
 \section*{Figures and Tables}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Figure 1: MAIN EXPERIMENT
+% Figure 1: Coverage Contours
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[!hbtp]
+\centering
+\caption{The Coverage Contours of Spanish Language TV stations}\label{contourfig}
+\includegraphics[width=8cm]{../../analysis/Output/img/SpanishContours.png}
+\end{figure} 
+
+\begin{figure}[!hbtp]
+\centering
+\caption{Map of School Districts in the US}\label{schooldistrictfig}
+\includegraphics[width=12cm]{../../analysis/Output/img/LEAMap.png}
+\end{figure} 
 
 %\begin{figure}[!h]
 %\begin{center}
