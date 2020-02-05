@@ -6,7 +6,7 @@ if (Sys.info()["user"] == "AndrewKao") {
 
 # 1. Cleaned donor data (direct)
 busn <- readRDS('tidy_merged.Rdata')
-
+# business names with google cloud
 # 2. Name classification data
 names <- read.csv('names_predict_FL.csv') 
 
@@ -43,3 +43,44 @@ clinton2 <- merge(clinton2, locationCounts, all.x=TRUE, by.x = c("street", "city
                   by.y = c("contributor_street_1","contributor_city","contributor_state","postcode" ))
 
 saveRDS(clinton2,file='ClintonAll.Rdata')
+
+
+test <- c('Tacot','aob','etacor')
+
+### Check if name contains common Latin American words/food identifiers/countries
+# substrings: taqueria, taco, empanada, huevo, pollo, burrito, arepa, pupusa, tamale, tortilla
+# salsa, asado, lechon, mojo, ropa, vieja, chorizo, 
+# countries: latin, mexic, bolivia, chile, argentin, venezuela, beliz, costa rica, salvador
+# guatemala, hondur, nicaragua, panama, brazil, colombia, ecuador, guyana, paragua, peru
+# surinam, urugu, cuba, dominican, haiti, puerto
+# words: la, de, como, su, que, el, para, en, por, los, casa, caliente
+latinCheck <- function(names) {
+ 
+  count <- 0
+  output <- grepl('taco', names,ignore.case=TRUE)
+  
+  patterns <- c('taqueria', 'taco', 'empanada', 'huevo', 'pollo', 'burrito', 'arepa',
+                'pupusa', 'tamale', 'tortilla', 'salsa', 'asado', 'lechon', 'mojo', 'ropa',
+                'vieja', 'chorizo', 'latin', 'mexic', 'bolivia', 'chile', 'argentin', 
+                'venezuela', 'beliz', 'costa rica', 'salvador', 'guatemala', 'hondur',
+                'nicaragua', 'panama', 'brazil', 'colombia', 'ecuador', 'guyana', 'paragua',
+                'peru', 'surinam', 'urugu', 'cuba', 'dominican', 'haiti', 'puerto',
+                '^la ', ' la ', '^de ', ' de ', '^como ', 'como ', '^su ', ' su ',
+                ' que ', '^el ', ' el ', '^para ', ' para ', '^en ', ' en ',
+                '^por ', ' por ', '^los ', ' los ', '^casa ', ' casa ',
+                '^caliente ', ' caliente ')
+  for (p in patterns) {
+    output <- output + grepl(p, names, ignore.case=TRUE) 
+  }
+  
+  
+  return(output) 
+}
+
+
+
+
+
+
+
+
