@@ -5,7 +5,7 @@ if (Sys.info()["user"] == "AndrewKao") {
 }
 
 # 1. Cleaned donor data (direct)
-busn <- read.csv('tidy_merged.csv')
+busn <- readRDS('tidy_merged.Rdata')
 
 # 2. Name classification data
 names <- read.csv('names_predict_FL.csv') 

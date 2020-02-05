@@ -21,7 +21,7 @@ florida_names = florida_names.drop_duplicates()
 
 names = florida_names['PRINC_NAME'].str.split(None,2,True)
 florida_names['last_name'] = names[0]
-florida_names['first_name'] = names[0]
+florida_names['first_name'] = names[1]
 
 
 # just do with FL (voter reg) training data for now to save time
