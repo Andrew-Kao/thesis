@@ -1,8 +1,13 @@
 #### MERGE FL BUSN DATA ####
+library(dplyr)
+library(sf)
+library(rgdal)
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/firms/florida') 
 }
+
+options(stringsAsFactors = FALSE)
 
 # 1. Cleaned donor data (direct)
 busn <- readRDS('tidy_merged.Rdata')

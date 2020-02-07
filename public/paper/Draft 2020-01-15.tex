@@ -203,15 +203,30 @@ There's good reason to believe that identity, as reinforced through mass media, 
 \section{Data}\label{secdata}
 
 
-\subsection{Broadcast TV}
+\subsection{Broadcast TV and Geography}
 
-To build the coverage contours of SLTV stations in the US, we collected a list of the callsigns for all SLTV stations via the TMS (a large provider of data on TV, movies, and other media) API.\footnote{ A TV station is defined to be SLTV if at least one of the primary broadcasts languages are Spanish.} These callsigns are then matched against data from the FCC's OET-69 Bulletin and the FCC's CDBS Database to directly obtain the relevant coverage contour boundaries as prescribed and regulated by the FCC. \footnote{ 2015 coverage contour data is used due to the 'FCC Spectrum Repack' that began in 2018, which relocates a number of signals, affecting the reception and coverage for a substantial number of stations.} %@CITE https://www.commlawblog.com/2018/03/articles/fcc/fcc-updates-dtv-reception-map/
+The central instrument in this paper is the discontinuity in coverage contours introduced via FCC regulation.
 
-For data that take the form of spatial points (such as the location of a school), determining whether the datapoint falls within the coverage boundary (and receives SLTV coverage) and its distance to the boundary is a straightforward process. For data that cover a wider area (such as a county), in the standard specification, the area is said to fall within the coverage boundary if at least some portion of it does, and the distance from the area to the boundary is taken as the minimum distance from the boundary to the area. In locations covered by multiple SLTV stations, the distance to the boundary is taken as the distance to the closest boundary.
+\paragraph{Coverage Contours} Digital and satellite TV stations operate by broadcasting signals from a central antenna, and the field strength at a given point resulting from this antenna is a mechanical product of several factors: The antenna's ERP (Effective Radiated Power, which is the amount of input power given to the antenna adjusted for idiosyncrasies in the antenna that may boost or attenuate the effective power), the antenna's HAAT (High Above Average Terrain), and the distance from the point to the antenna.
+
+%CITE https://www.fcc.gov/media/radio/fm-and-tv-propagation-curves
+%CITE White Paper TAC
+
+This signal declines in strength as one grows more distant from the station, making it subject to interference. The FCC regulation OET Bulletin No. 69 @CITE protects signals for commercial TV stations from interference in a contour area for which service holds at 50\% of locations 90\% of the time.\footnote{ There is a small adjustment made for different channel numbers, which have varying noise-limited coverage. } An example of this coverage contour can be seen in Figure \ref{contourexamplefig}; note that they tend to be sizable enough to fully cover major metropolitan areas, with contours boundaries ending substantially beyond them.
+
+To build the coverage contours of SLTV stations in the US, we collected a list of the callsigns for all SLTV stations via the TMS (a large provider of data on TV, movies, and other media) API.\footnote{ A TV station is defined to be SLTV if at least one of the primary broadcasts languages are Spanish.} There are 100 of these stations located across the United States. These callsigns were then matched against data from the FCC's OET Bulletin 69 and the FCC's CDBS Database to directly obtain the relevant coverage contour boundaries as prescribed and regulated by the FCC. \footnote{ 2015 coverage contour data is used due to the 'FCC Spectrum Repack' that began in 2018, which relocates a number of signals, affecting the reception and coverage for a substantial number of stations.} 
+%@CITE https://www.commlawblog.com/2018/03/articles/fcc/fcc-updates-dtv-reception-map/
+A map of all these contours can be seen in Figure \ref{contourfig}.
+
+\paragraph{Geocoding}
+
+Location data for outcomes was all collected in the form of text addresses. To transform this into proper spatial data/coordinates, two geocoding tools were used: (1) ArcGIS, which has its own proprietary database of locations. Over 99\% of addresses were successfully matched to one location and geocoded. This was used to geocode the schooling data, as well as portions of the campaign contribution data. (2) The US Census Geocoder, which contains the census database of locations. Over 80\% of addresses were successfully matched to one location and geocoded.\footnote{The US Census geocoder, unlike the ArcGIS geocoder, is free. However, due to the higher precision of the ArcGIS geocoder, data constructed from it is used wherever possible. } This was used to geocode the business data, as well as portions of the campaign contribution data. It is unlikely for non-geocoded addresses to be correlated with the instrument, given the relatively narrow band around the contour retained for the spatial regression discontinuity.
+
+For data that take the form of spatial points (such as the location of a school), determining its distance to the boundary and whether the datapoint falls within the coverage boundary is a straightforward process. For data that cover a wider area (such as a county), in the standard specification, the area is said to fall within the coverage boundary if at least some portion of it does, and the distance from the area to the boundary is taken as the minimum distance from the boundary to the area. In locations covered by multiple SLTV stations, the distance to the boundary is taken as the distance to the closest boundary.
 % TODO: robustness; experiment with this for county controls data! calculate area... maybe also for campaigns
 
 \subsection{Controls and Other Non-Outcome Data}
-Controls at the county level are sourced from IPUMS, and consist of basic relevant demographic information: population, income, percent of county that is Hispanic etc.
+Controls at the county level are sourced from IPUMS and consist of basic relevant demographic information: population, income, percent of county that is Hispanic etc. County level data is mapped to its relevant location using census data as well. 
 
 Data on migration comes from the 2011-2015 ACS, which reports the number of people moving from each origin county to destination county (aggregated over the years).\footnote{ Historically, approximately 15\% of the ACS migration data has been allocated (imputed based on salient characteristics). @CITTE(https://www.census.gov/acs/www/methodology/sample-size-and-data-quality/) } This sample also contains migration flows by Hispanic origin, allowing us to determine whether they move based on geographic boundaries.
 % TODO: propagate errors based on the margin of error
@@ -222,9 +237,9 @@ Finally, data for specific outcomes are discussed under their relevant section.
 
 \section{Empirical Strategy}\label{secrd}
 
-To isolate the causal effect of Spanish language television, I adopt the technique used in \cite{velez_tuning_2019}  and generalize it from three counties to the entirety of the US. Newman and Velez exploit a FCC (Federal Communications Commission) regulation which determines the distance from a TV station in which the station's broadcast signal is protected from interference. 
+To isolate the causal effect of Spanish language television, I adopt the technique used in \cite{velez_tuning_2019}  and generalize it from three counties to the entirety of the US.\footnote{ The paper was retracted in 2019, but this was due to usage of unauthorized data, and unrelated to the efficacy of the underlying identification strategy.} Newman and Velez exploit a FCC (Federal Communications Commission) regulation which determines the distance from a TV station in which the station's broadcast signal is protected from interference. 
 
-(An example of a contour boundary can be seen in Figure \ref{contourexamplefig})
+
 
 The instrument consists of two variables interacted: First, a dummy whether the outcome data falls 
 
@@ -249,7 +264,12 @@ By limiting the analysis to a small distance from the contour boundary ($100$ KM
 \section{Public Schools}\label{secschool}
 \subsection{Data}
 
-The data on public schools comes from the US government's CRDC (Civil Rights Data Collection) dataset. It's a very large dataset with a ton of outcome/control variables, but importantly, it breaks down all major variables of interest by ethnicity. These variables includes graduation rates, chronic absenteeism, suspensions, expulsions, arrests, bullying, AP test results, English proficiency, math class performances, gifted program enrolment etc., so I can look at effects on both the top and bottom end of the distribution, and examine potential mechanisms driving outcomes. These are all at the school level, and so I can run this through ArcGIS to get physical locations of these schools as well.
+The data on public schools comes from the US Department of Education's CRDC (Civil Rights Data Collection) dataset in 2015. In order to prevent discrimination and for transparency purposes, all public schools in the United States are required to report a substantial amount of information for the CRDC on an annualized basis.\footnote{ In practice, this data is not released to the public every year. Furthermore, not all schools report all data (or correct data) required of them, which is why the number of observations for different variables in this dataset fluctuates} 
+
+ It's a very large dataset with a ton of outcome/control variables, but importantly, it breaks down all major variables of interest by ethnicity. These variables includes graduation rates, chronic absenteeism, suspensions, expulsions, arrests, bullying, AP test results, English proficiency, math class performances, gifted program enrolment etc., so I can look at effects on both the top and bottom end of the distribution, and examine potential mechanisms driving outcomes. 
+ 
+ As mentioned, the locations of these schools are found using ArcGIS.
+ % school district
 
 \input{../../explore/output/summary/LEAInfo.tex}
 \input{../../explore/output/summary/SchoolInfo.tex}
@@ -269,7 +289,9 @@ Targeting based on identity
 \section{Campaign Contributions}\label{seccamp}
 \subsection{Data}
 \subsection{Results}
-\paragraph{Wave 1: Intervention Before the Election.}
+
+% robustness: also geocode trump with US?
+
 % Univision and Telemundo emphasize their lineups of telenovelas, sports and reality programming.
 % Reasons for Trump: (1) broadcasts in SLTV lean conservative, reflect conservative values, (2) legal immigration, (3) news might lean conservative: https://www.nytimes.com/2012/08/13/business/media/mundofox-new-spanish-language-network-to-make-debut.html
 % contrary to public opinion: https://www.npr.org/sections/itsallpolitics/2014/04/01/297827352/conservative-media-watchdog-univision-telemundo-favor-liberals
@@ -289,6 +311,9 @@ Targeting based on identity
 
 \section{Conclusion} \label{secconcl}
 
+Summary
+
+Future work: Political angle, examining mechs
 
 \clearpage
 \pagebreak
