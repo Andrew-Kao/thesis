@@ -34,30 +34,27 @@ locationNames <- sbusn %>%
   group_by(COR_NAME,PRINC_NAME,PRINC_ADD_1,PRINC_CITY,PRINC_STATE,PRINC_ZIP5) %>%
   summarise(count = n()) %>%
   left_join(names, by = c("PRINC_NAME")) %>%
-  
-  mutate(hisp = count*hispanic, non_hisp = count*black + count*white,
-         hispOne = hispanic, # don't weight by multiple donations
-         hispMaj = ifelse(hispanic > .5,1,0)) %>%
-  group_by(contributor_street_1,contributor_city,contributor_state, postcode) %>%
-  summarise(hisp_sum = sum(hisp), non_hisp_sum = sum(non_hisp),
-            hispOne_sum = sum(hispOne), hispMaj_sum = sum(hispMaj)) %>%
-  mutate(race = ifelse(hisp_sum >= non_hisp_sum, 1, 0)) ## race is a dummy for Hispanic
+  mutate(hispName1 = latinCheck(PRINC_NAME), hispFoodName1 = latinCheck(PRINC_NAME,2)) %>%
+  group_by(PRINC_ADD_1,PRINC_CITY,PRINC_STATE,PRINC_ZIP5) %>%
+  summarise(hispName = sum(hispName1), hispFoodName = sum(hispFoodName1)) %>%
+  mutate(hispNameD = ifelse(hispName > 0, 1, 0))
 
-locationCounts <- donations %>%
-  group_by(contributor_street_1,contributor_city,contributor_state, postcode) %>%
-  summarise(donationCount = n())
+locationCounts <- sbusn %>%
+  group_by(PRINC_ADD_1,PRINC_CITY,PRINC_STATE,PRINC_ZIP5) %>%
+  summarise(busnCount = n())
 
 # Merge
 # Names & Donor Data
-clinton2 <- merge(clinton, locationNames, all.x=TRUE, by.x = c("street", "city","state2", "zip"),
-                  by.y = c("contributor_street_1","contributor_city","contributor_state","postcode" ))
-clinton2 <- merge(clinton2, locationCounts, all.x=TRUE, by.x = c("street", "city","state2", "zip"),
-                  by.y = c("contributor_street_1","contributor_city","contributor_state","postcode" ))
+busn2 <- merge(busnAll, locationNames, all.x=TRUE, by.x = c("PRINC_ADD_1", "PRINC_CITY","PRINC_STATE", "PRINC_ZIP5"),
+                  by.y = c("PRINC_ADD_1", "PRINC_CITY","PRINC_STATE", "PRINC_ZIP5"))
+busn2 <- merge(busn2, locationCounts, all.x=TRUE, by.x = c("PRINC_ADD_1", "PRINC_CITY","PRINC_STATE", "PRINC_ZIP5"),
+                  by.y = c("PRINC_ADD_1", "PRINC_CITY","PRINC_STATE", "PRINC_ZIP5"))
 
-saveRDS(clinton2,file='ClintonAll.Rdata')
+saveRDS(busn2,file='BusnAll.Rdata')
 
 
-test <- c('Tacot','aob','etacor')
+
+
 
 ### Check if name contains common Latin American words/food identifiers/countries
 # substrings: taqueria, taco, empanada, huevo, pollo, burrito, arepa, pupusa, tamale, tortilla
@@ -66,14 +63,15 @@ test <- c('Tacot','aob','etacor')
 # guatemala, hondur, nicaragua, panama, brazil, colombia, ecuador, guyana, paragua, peru
 # surinam, urugu, cuba, dominican, haiti, puerto
 # words: la, de, como, su, que, el, para, en, por, los, casa, caliente
-latinCheck <- function(names) {
+latinCheck <- function(names, spec = 1) {
  
-  count <- 0
-  output <- grepl('taco', names,ignore.case=TRUE)
+  output <- 0
   
-  patterns <- c('taqueria', 'taco', 'empanada', 'huevo', 'pollo', 'burrito', 'arepa',
-                'pupusa', 'tamale', 'tortilla', 'salsa', 'asado', 'lechon', 'mojo', 'ropa',
-                'vieja', 'chorizo', 'latin', 'mexic', 'bolivia', 'chile', 'argentin', 
+  # spec:
+  # == 1 : everythting
+  # == 2 : no food
+  
+  patterns <- c('latin', 'mexic', 'bolivia', 'chile', 'argentin', 
                 'venezuela', 'beliz', 'costa rica', 'salvador', 'guatemala', 'hondur',
                 'nicaragua', 'panama', 'brazil', 'colombia', 'ecuador', 'guyana', 'paragua',
                 'peru', 'surinam', 'urugu', 'cuba', 'dominican', 'haiti', 'puerto',
@@ -81,6 +79,11 @@ latinCheck <- function(names) {
                 ' que ', '^el ', ' el ', '^para ', ' para ', '^en ', ' en ',
                 '^por ', ' por ', '^los ', ' los ', '^casa ', ' casa ',
                 '^caliente ', ' caliente ')
+  if (spec == 2) {
+    patterns <- c(patterns,'taqueria', 'taco', 'empanada', 'huevo', 'pollo', 'burrito', 'arepa',
+    'pupusa', 'tamale', 'tortilla', 'salsa', 'asado', 'lechon', 'mojo', 'ropa',
+    'vieja', 'chorizo')
+  }
   for (p in patterns) {
     output <- output + grepl(p, names, ignore.case=TRUE) 
   }
@@ -88,7 +91,6 @@ latinCheck <- function(names) {
   
   return(output) 
 }
-
 
 
 
