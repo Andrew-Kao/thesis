@@ -17,16 +17,22 @@ options(stringsAsFactors = FALSE)
 
 
 ## go back to the trump data and recheck this works
-trump <- readRDS(file='TrumpAll.Rdata')
+busn <- readRDS(file='BusnAll.Rdata')
 
 ## approach 1: point pattern 
-trump <-spTransform(trump, CRS("+proj=longlat +datum=NAD83"))
+busn <-spTransform(busn, CRS("+proj=longlat +datum=NAD83"))
 
 ### some summary stats
-trumpData <- trump@data %>%
-  select(hisp_sum, non_hisp_sum, race, donationCount)
-stargazer(trumpData, out="../../../Output/Summary/TrumpDonations.tex", title="Trump Donors",
+busnData <- busn@data %>%
+  dplyr::select(hispName, hispFoodName, hispNameD)
+stargazer(busnData, out="../../../Output/Summary/FirmNames.tex", title="Firm Names",
           summary = TRUE, font.size = 'scriptsize')
+
+instrument <- readRDS("../../instrument/countyInstrumentCovariate.Rdata")
+counties <- rgdal::readOGR("../../instrument/nhgis0002_shapefile_tl2000_us_county_1990/US_county_1990.shp")
+counties<-spTransform(counties, CRS("+proj=longlat +datum=NAD83"))
+counties@data <- counties@data %>%
+  mutate(stateCounty = paste0(STATE,COUNTY))
 
 ### need a spatial level county dataset
 instrument <- instrument %>%
@@ -47,7 +53,6 @@ crs(contours_poly) <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 
 
 
 #### raster
-trump2 <- readRDS('TrumpReadyRaster.Rdata')
 r <- raster( xmn =-124.784, xmx=-66.951,ymn=24.743,ymx=49.346,crs= "+proj=longlat +datum=NAD83",
              nrow = 100, ncol = 200)
 rDonCount <- rasterize(trump2, r, field=trump2$donationCount,fun=sum)
