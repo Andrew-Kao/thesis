@@ -49,15 +49,33 @@ busn_project <- spTransform(busn, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=
 
 contourBusnDist <- gDistance(contours_project,busn_project, byid = TRUE)
 contourBusnMinDist <- apply(contourBusnDist,1,FUN=min)  # 428 counties that intersect!
-saveRDS(contourTrumpMinDist,'contourTrumpMinDist.Rdata')
-stargazer(matrix(contourTrumpMinDist,ncol=1), out="../../../Output/Summary/ContourTrumpMinDist.tex", title="Contour-Donation Minimum Distances", summary = TRUE)
+saveRDS(contourBusnMinDist,'contourBusnMinDist.Rdata')
+stargazer(matrix(contourBusnMinDist,ncol=1), out="../../../Output/Summary/ContourBusnMinDist.tex", title="Contour-Firm Minimum Distances", summary = TRUE)
 
 
 contours_poly <-SpatialPolygons(
   lapply(1:length(contours_project), 
          function(i) Polygons(lapply(coordinates(contours_project)[[i]], function(y) Polygon(y)), as.character(i))))
 crs(contours_poly) <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
+contourBusnIntersect <- gIntersects(contours_poly,busn_project, byid = TRUE)
+contourBusnIntersect[contourBusnIntersect == "FALSE"] <- 0
+contourBusnIntersect[contourBusnIntersect == "TRUE"] <- 1
+contourBusnInterAll <- apply(contourBusnIntersect,1,FUN=sum)  # 590 counties inside/intersecting!
+saveRDS(contourBusnInterAll,'contourBusnInterAll.Rdata')
+stargazer(matrix(contourBusnInterAll,ncol=1), out="../../../Output/Summary/ContourBusnInterAll.tex", title="Firms Within Contours", summary = TRUE)
 
+busn@data <- busn@data %>%
+  mutate(minDist = contourBusnMinDist, inside = contourBusnInterAll)
+
+### merge in county level data
+busnCountyLink <- over(busn,counties,returnList = FALSE)
+busn@data <- busn@data %>%
+  mutate(stateCounty = busnCountyLink$stateCounty)
+
+### TODO: fix the pdens and hs and college
+
+busn2 <- merge(busn, instrument, by = 'stateCounty', all.x = TRUE)
+saveRDS(busn2, 'BusnReadyRaster.Rdata')
 
 #### raster
 # florida bounds: https://openmaptiles.com/downloads/north-america/us/florida/
@@ -118,13 +136,42 @@ m1 <- lm(busnCount ~ intersects*distance + intersects*dist2  , data=regF2)
 m2 <- lm(busnCount ~ intersects*distance + intersects*dist2 + logPop, data=regF2) 
 m3 <- lm(busnCount ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=regF2)
 m4 <- lm(busnCount ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=regF2)
-stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/firms_n2.tex", title="Effect of TV on Hispanic Owned Businesses, 100 KM Radius",
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/firms_rastern2.tex", title="Effect of TV on Hispanic Owned Businesses, 100 KM Radius",
           omit.stat = c('f','ser'), column.sep.width = '-5pt')
 
 
+regF2 <- busn2@data %>%
+  mutate(logPop = log(origpopulation), # ceiling(dummy)
+         distance = minDist/1000, dist2 = minDist^2,
+         hispFoodNameD = ifelse(hispFoodName > 0, 1,0),
+         hispNameD = ifelse(hispName > 0, 1,0),) %>%
+  filter(distance < 100)
 
+m1 <- lm(busnCount ~ inside*distance + inside*dist2  , data=regF2)
+m2 <- lm(busnCount ~ inside*distance + inside*dist2 + logPop, data=regF2) 
+m3 <- lm(busnCount ~ inside*distance + inside*dist2 + logPop + origpcHisp, data=regF2)
+m4 <- lm(busnCount ~ inside*distance + inside*dist2 + logPop + origpcHisp + origincome, data=regF2)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/firms_n2.tex", title="Effect of TV on Hispanic Owned Businesses, 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
 
-
+m1 <- lm(hispFoodName ~ inside*distance + inside*dist2  , data=regF2)
+m2 <- lm(hispFoodName ~ inside*distance + inside*dist2 + logPop, data=regF2) 
+m3 <- lm(hispFoodName ~ inside*distance + inside*dist2 + logPop + origpcHisp, data=regF2)
+m4 <- lm(hispFoodName ~ inside*distance + inside*dist2 + logPop + origpcHisp + origincome, data=regF2)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/firms_fname2.tex", title="Effect of TV on Hispanic Name Businesses (Food), 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+m1 <- glm(hispFoodNameD ~ inside*distance + inside*dist2  , data=regF2, family = binomial)
+m2 <- glm(hispFoodNameD ~ inside*distance + inside*dist2 + logPop, data=regF2, family = binomial) 
+m3 <- glm(hispFoodNameD ~ inside*distance + inside*dist2 + logPop + origpcHisp, data=regF2, family = binomial)
+m4 <- glm(hispFoodNameD ~ inside*distance + inside*dist2 + logPop + origpcHisp + origincome, data=regF2, family = binomial)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/firms_fname2_bin.tex", title="Effect of TV on Hispanic Name Businesses (Food), 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+m1 <- glm(hispNameD ~ inside*distance + inside*dist2  , data=regF2, family = binomial)
+m2 <- glm(hispNameD ~ inside*distance + inside*dist2 + logPop, data=regF2, family = binomial) 
+m3 <- glm(hispNameD ~ inside*distance + inside*dist2 + logPop + origpcHisp, data=regF2, family = binomial)
+m4 <- glm(hispNameD ~ inside*distance + inside*dist2 + logPop + origpcHisp + origincome, data=regF2, family = binomial)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/firms_name2_bin.tex", title="Effect of TV on Hispanic Name Businesses (No Food), 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
 
 
 
