@@ -53,6 +53,7 @@ crs(contours_poly) <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 
 
 
 #### raster
+# florida bounds: https://openmaptiles.com/downloads/north-america/us/florida/
 r <- raster( xmn =-88.47, xmx=-24.2,ymn=-79.4,ymx=31.0,crs= "+proj=longlat +datum=NAD83",
              nrow = 100, ncol = 200)
 rBusnCount <- rasterize(busn, r, field=busn$busnCount,fun=sum)
@@ -94,8 +95,23 @@ rspdf <- spTransform(rspdf, CRS("+proj=longlat +datum=NAD83"))
 rMinDist <- rasterize(rspdf, r, field=rspdf$minDist,fun=mean)
 rIntersect <- rasterize(rspdf, r, field=rspdf$inside,fun=mean)
 
+# stack
+s <- stack(rBusnCount, rHispName, rHispFoodName, rHispNameD, rPop, rPCHisp, rIntersect, rMinDist, rIncome)
+regDataF <- data.frame(na.omit(values(s)))
+names(regDataF) <- c('busnCount', 'hispName', 'hispFoodName', 'hispNameD', 'population', 'pcHispanic', 'intersects', 'distance',
+                     'income')
 
+regF2 <- regDataF %>%
+  mutate(logPop = log(population), # ceiling(dummy)
+         distance = distance/1000, dist2 = distance^2) %>%
+  filter(distance < 100)
 
+m1 <- lm(busnCount ~ intersects*distance + intersects*dist2  , data=regF2)
+m2 <- lm(busnCount ~ intersects*distance + intersects*dist2 + logPop, data=regF2) 
+m3 <- lm(busnCount ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=regF2)
+m4 <- lm(busnCount ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=regF2)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/firms_n2.tex", title="Effect of TV on Hispanic Owned Businesses, 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
 
 
 
