@@ -4,45 +4,46 @@ The top-level auxiliary file: Draft 2020-01-15.aux
 The style file: aea.bst
 Database file #1: tv.bib
 Warning--I didn't find a database entry for ""
-You've used 1 entry,
+Warning--empty institution in united_states_census_american_2020
+You've used 4 entries,
             2695 wiz_defined-function locations,
-            591 strings with 4080 characters,
-and the built_in function-call counts, 6505 in all, are:
-= -- 1092
-> -- 64
+            609 strings with 4588 characters,
+and the built_in function-call counts, 20948 in all, are:
+= -- 3468
+> -- 256
 < -- 0
-+ -- 526
-- -- 20
-* -- 582
-:= -- 1269
-add.period$ -- 7
-call.type$ -- 1
-change.case$ -- 13
-chr.to.int$ -- 1
-cite$ -- 1
-duplicate$ -- 15
-empty$ -- 43
-format.name$ -- 20
-if$ -- 1167
++ -- 1672
+- -- 80
+* -- 1865
+:= -- 4151
+add.period$ -- 26
+call.type$ -- 4
+change.case$ -- 52
+chr.to.int$ -- 4
+cite$ -- 5
+duplicate$ -- 56
+empty$ -- 148
+format.name$ -- 80
+if$ -- 3748
 int.to.chr$ -- 5
 int.to.str$ -- 0
 missing$ -- 0
-newline$ -- 10
-num.names$ -- 11
-pop$ -- 1
+newline$ -- 19
+num.names$ -- 44
+pop$ -- 6
 preamble$ -- 1
-purify$ -- 15
+purify$ -- 60
 quote$ -- 0
-skip$ -- 13
+skip$ -- 44
 stack$ -- 0
-substring$ -- 1570
-swap$ -- 6
-text.length$ -- 14
+substring$ -- 4938
+swap$ -- 22
+text.length$ -- 56
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 4
-warning$ -- 0
-while$ -- 26
+type$ -- 16
+warning$ -- 1
+while$ -- 100
 width$ -- 0
-write$ -- 8
-(There was 1 warning)
+write$ -- 21
+(There were 2 warnings)

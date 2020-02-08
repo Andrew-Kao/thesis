@@ -12,11 +12,13 @@ plotdf <- regDataF %>%
   mutate(inout = ifelse(intersects == 1, 1, -1),
          distance = distance/1000, dist2 = distance^2,
         dist = inout * distance,
-        logPop = log(population)) %>%
+        logPop = log(population),
+        busn = busnCount * hispSum,
+        hispFoodNameD = ifelse(hispFoodName * hispSum > 0, 1, 0)) %>%
   filter(distance < 100)
-ggplot() + geom_smooth(data = plotdf, aes(dist,ihs(busnCount)))
+ggplot() + geom_smooth(data = plotdf, aes(dist,ihs(busn)))
 ggplot(data = plotdf, aes(x=cut(dist,5),ihs(busnCount))) + geom_boxplot()
-ggplot() + geom_smooth(data = plotdf, aes(dist,hispFoodName))
+ggplot() + geom_smooth(data = plotdf, aes(dist,hispFoodNameD))
 ggplot(data = plotdf, aes(dist,hispFoodName)) + geom_smooth(method = lm, formula = y ~ splines::bs(x, 10), se = FALSE)
 m1 <- lm(busnCount ~ logPop + pcHispanic + income + dist2 , data=plotdf)
 pred_busnCount <- predict(m1,plotdf)
@@ -28,15 +30,24 @@ plotdf <- plotdf %>%
 ggplot() + geom_smooth(data = plotdf, aes(dist,pred_busnCount))
 ggplot() + geom_smooth(data = plotdf, aes(dist,pred_foodName))
 ggplot(data = plotdf, aes(dist,pred_foodName)) + geom_smooth(method = lm, formula = y ~ splines::bs(x, 5), se = FALSE)
+ggplot(data = plotdf, aes(dist,pred_busnCount)) + geom_point() + geom_quantile()
 
 plotdf <- busn2@data %>%
   mutate(inout = ifelse(inside == 1, 1, -1),
          distance = minDist/1000,
-         dist = inout * distance)  %>%
+         dist = inout * distance,
+         logPop = log(origpopulation),
+         hispFoodNameD = ifelse(hispFoodName * hisp_sum > 0, 1,0))  %>%
   filter(distance < 100)
-ggplot() + geom_smooth(data = plotdf, aes(dist,hispFoodName))
+ggplot() + geom_smooth(data = plotdf, aes(dist,hispFoodNameD), n = 9)
+m1 <- glm(hispFoodNameD ~ logPop + origpcHisp + origincome , data=plotdf, family = binomial)
+pred_foodName <- predict(m1,plotdf)
+plotdf <- plotdf %>%
+  mutate(pred_foodName = pred_foodName)
+ggplot() + geom_smooth(data = plotdf, aes(dist,pred_foodName), n = 12)
 
 
+# Schools
 # cut these all from -50 to 50??
 plotdf <- cleanSchoolAll %>%
   mutate(inout = ifelse(inside == 1, 1, -1),

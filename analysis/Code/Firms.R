@@ -86,6 +86,10 @@ r2 <- raster( xmn =-83.4, xmx=-80,ymn=24.3,ymx=29,crs= "+proj=longlat +datum=NAD
 r <- merge(r,r2)
 rBusnCount <- rasterize(busn, r, field=busn$busnCount,fun=sum)
 values(rBusnCount) <- ifelse(is.na(values(rBusnCount)),0,values(rBusnCount))
+rHispSum <- rasterize(busn, r, field=busn$hisp_sum,fun=sum)
+values(rHispSum) <- ifelse(is.na(values(rHispSum)),0,values(rHispSum))
+rHispMajSum <- rasterize(busn, r, field=busn$hispMaj_sum,fun=sum)
+values(rHispMajSum) <- ifelse(is.na(values(rHispMajSum)),0,values(rHispMajSum))
 rHispName <- rasterize(busn, r, field=busn$hispName,fun=sum)
 values(rHispName) <- ifelse(is.na(values(rHispName)),0,values(rHispName))
 rHispFoodName <- rasterize(busn, r, field=busn$hispFoodName,fun=sum)
@@ -124,9 +128,11 @@ rMinDist <- rasterize(rspdf, r, field=rspdf$minDist,fun=mean)
 rIntersect <- rasterize(rspdf, r, field=rspdf$inside,fun=mean)
 
 # stack
-s <- stack(rBusnCount, rHispName, rHispFoodName, rHispNameD, rPop, rPCHisp, rIntersect, rMinDist, rIncome)
+s <- stack(rBusnCount, rHispName, rHispSum, rHispMajSum, rHispFoodName, rHispNameD,
+           rPop, rPCHisp, rIntersect, rMinDist, rIncome)
 regDataF <- data.frame(na.omit(values(s)))
-names(regDataF) <- c('busnCount', 'hispName', 'hispFoodName', 'hispNameD', 'population', 'pcHispanic', 'intersects', 'distance',
+names(regDataF) <- c('busnCount', 'hispName', 'hispSum', 'hispMajSum',
+                     'hispFoodName', 'hispNameD', 'population', 'pcHispanic', 'intersects', 'distance',
                      'income')
 saveRDS(regDataF, 'FirmStackDF.Rdata')
 
@@ -135,21 +141,30 @@ saveRDS(regDataF, 'FirmStackDF.Rdata')
 regF2 <- regDataF %>%
   mutate(logPop = log(population), # ceiling(dummy)
          distance = distance/1000, dist2 = distance^2,
-         hispFoodNameD = ifelse(hispFoodName > 0, 1, 0)) %>%
+         hispFoodNameD = ifelse(hispFoodName * hispSum > 0, 1, 0),
+         busn = busnCount * hispSum,
+         busnD = busnCount * hispMajSum) %>%
   filter(distance < 100)
 
-m1 <- lm(busnCount ~ intersects*distance + intersects*dist2  , data=regF2)
-m2 <- lm(busnCount ~ intersects*distance + intersects*dist2 + logPop, data=regF2) 
-m3 <- lm(busnCount ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=regF2)
-m4 <- lm(busnCount ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=regF2)
+m1 <- lm(busn ~ intersects*distance + intersects*dist2  , data=regF2)
+m2 <- lm(busn ~ intersects*distance + intersects*dist2 + logPop, data=regF2) 
+m3 <- lm(busn ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=regF2)
+m4 <- lm(busn ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=regF2)
 stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/firms_rastern2.tex", title="Effect of TV on Hispanic Owned Businesses, 100 KM Radius",
           omit.stat = c('f','ser'), column.sep.width = '-5pt',
           order = c('intersects','intersects:distance','intersects:dist2'))
-m1 <- lm(ihs(busnCount) ~ intersects*distance + intersects*dist2  , data=regF2)
-m2 <- lm(ihs(busnCount) ~ intersects*distance + intersects*dist2 + logPop, data=regF2) 
-m3 <- lm(ihs(busnCount) ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=regF2)
-m4 <- lm(ihs(busnCount) ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=regF2)
-stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/firms_rastern2_ihs.tex", title="Effect of TV on IHS Hispanic Owned Businesses, 100 KM Radius",
+m1 <- lm(ihs(busn) ~ intersects*distance + intersects*dist2  , data=regF2)
+m2 <- lm(ihs(busn) ~ intersects*distance + intersects*dist2 + logPop, data=regF2) 
+m3 <- lm(ihs(busn) ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=regF2)
+m4 <- lm(ihs(busn) ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=regF2)
+m5 <- lm(ihs(busn) ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income + busnCount, data=regF2)
+stargazer(m1,m2,m3,m4, m5, out = "../../../Output/Regs/firms_rastern2_ihs.tex", title="Effect of TV on IHS Hispanic Owned Businesses, 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+m1 <- lm(ihs(busnD) ~ intersects*distance + intersects*dist2  , data=regF2)
+m2 <- lm(ihs(busnD) ~ intersects*distance + intersects*dist2 + logPop, data=regF2) 
+m3 <- lm(ihs(busnD) ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=regF2)
+m4 <- lm(ihs(busnD) ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=regF2)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/firms_rastern2_dihs.tex", title="Effect of TV on IHS Hispanic Owned Businesses (50\\% threshold), 100 KM Radius",
           omit.stat = c('f','ser'), column.sep.width = '-5pt')
 m1 <- lm(ihs(hispFoodName) ~ intersects*distance + intersects*dist2  , data=regF2)
 m2 <- lm(ihs(hispFoodName) ~ intersects*distance + intersects*dist2 + logPop, data=regF2) 
@@ -186,8 +201,8 @@ stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/firms_rasterfname2_bin_50.tex
 regF2 <- busn2@data %>%
   mutate(logPop = log(origpopulation), # ceiling(dummy)
          distance = minDist/1000, dist2 = minDist^2,
-         hispFoodNameD = ifelse(hispFoodName > 0, 1,0),
-         hispNameD = ifelse(hispName > 0, 1,0)) %>%
+         hispFoodNameD = ifelse(hispFoodName * hisp_sum > 0, 1,0),
+         hispNameD = ifelse(hispName * hisp_sum > 0, 1,0)) %>%
   filter(distance < 100)
 
 m1 <- lm(busnCount ~ inside*distance + inside*dist2  , data=regF2)

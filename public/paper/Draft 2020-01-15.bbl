@@ -4,11 +4,27 @@
 
 \begin{thebibliography}{xx}
 
+\harvarditem[Census]{United~States
+  Census}{2020}{united_states_census_american_2020}
+{\bf Census, United~States.} 2020. ``American {Community} {Survey} {Sample}
+  {Size} and {Data} {Quality}.''
+
+\harvarditem[Fletcher, Heald \harvardand\ Hildreth]{Fletcher, Heald
+  \harvardand\ Hildreth}{2018}{fletcher_fcc_2018}
+{\bf Fletcher, Heald, and Hildreth.} 2018. ``{FCC} {Updates} {DTV} {Reception}
+  {Map}.''
+
 \harvarditem[Velez \harvardand\ Newman]{Yamil~Ricardo Velez \harvardand\
   Benjamin~J. Newman}{2019}{velez_tuning_2019}
 {\bf Velez, Yamil~Ricardo, and Benjamin~J. Newman.} 2019. ``Tuning {In}, {Not}
   {Turning} {Out}: {Evaluating} the {Impact} of {Ethnic} {Television} on
   {Political} {Participation}.'' {\em American Journal of Political Science},
   63(4):~808--823.
+
+\harvarditem[Wolf \harvardand\ Kupchik]{Kerrin~C. Wolf \harvardand\ Aaron
+  Kupchik}{2017}{wolf_school_2017}
+{\bf Wolf, Kerrin~C., and Aaron Kupchik.} 2017. ``School {Suspensions} and
+  {Adverse} {Experiences} in {Adulthood}.'' {\em Justice Quarterly},
+  34(3):~407--430.
 
 \end{thebibliography}

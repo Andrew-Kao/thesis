@@ -209,13 +209,12 @@ The central instrument in this paper is the discontinuity in coverage contours i
 
 \paragraph{Coverage Contours} Digital and satellite TV stations operate by broadcasting signals from a central antenna, and the field strength at a given point resulting from this antenna is a mechanical product of several factors: The antenna's ERP (Effective Radiated Power, which is the amount of input power given to the antenna adjusted for idiosyncrasies in the antenna that may boost or attenuate the effective power), the antenna's HAAT (High Above Average Terrain), and the distance from the point to the antenna.
 
-%CITE https://www.fcc.gov/media/radio/fm-and-tv-propagation-curves
-%CITE White Paper TAC
+%@CITE https://www.fcc.gov/media/radio/fm-and-tv-propagation-curves
+%@CITE White Paper TAC
 
 This signal declines in strength as one grows more distant from the station, making it subject to interference. The FCC regulation OET Bulletin No. 69 @CITE protects signals for commercial TV stations from interference in a contour area for which service holds at 50\% of locations 90\% of the time.\footnote{ There is a small adjustment made for different channel numbers, which have varying noise-limited coverage. } An example of this coverage contour can be seen in Figure \ref{contourexamplefig}; note that they tend to be sizable enough to fully cover major metropolitan areas, with contours boundaries ending substantially beyond them.
 
-To build the coverage contours of SLTV stations in the US, we collected a list of the callsigns for all SLTV stations via the TMS (a large provider of data on TV, movies, and other media) API.\footnote{ A TV station is defined to be SLTV if at least one of the primary broadcasts languages are Spanish.} There are 100 of these stations located across the United States. These callsigns were then matched against data from the FCC's OET Bulletin 69 and the FCC's CDBS Database to directly obtain the relevant coverage contour boundaries as prescribed and regulated by the FCC. \footnote{ 2015 coverage contour data is used due to the 'FCC Spectrum Repack' that began in 2018, which relocates a number of signals, affecting the reception and coverage for a substantial number of stations.} 
-%@CITE https://www.commlawblog.com/2018/03/articles/fcc/fcc-updates-dtv-reception-map/
+To build the coverage contours of SLTV stations in the US, we collected a list of the callsigns for all SLTV stations via the TMS (a large provider of data on TV, movies, and other media) API.\footnote{ A TV station is defined to be SLTV if at least one of the primary broadcasts languages are Spanish.} There are 100 of these stations located across the United States. These callsigns were then matched against data from the FCC's OET Bulletin 69 and the FCC's CDBS Database to directly obtain the relevant coverage contour boundaries as prescribed and regulated by the FCC. \footnote{ 2015 coverage contour data is used due to the 'FCC Spectrum Repack' that began in 2018, which relocates a number of signals, affecting the reception and coverage for a substantial number of stations \citep{fletcher_fcc_2018}.} 
 A map of all these contours can be seen in Figure \ref{contourfig}.
 
 \paragraph{Geocoding}
@@ -228,7 +227,7 @@ For data that take the form of spatial points (such as the location of a school)
 \subsection{Controls and Other Non-Outcome Data}
 Controls at the county level are sourced from IPUMS and consist of basic relevant demographic information: population, income, percent of county that is Hispanic etc. County level data is mapped to its relevant location using census data as well. 
 
-Data on migration comes from the 2011-2015 ACS, which reports the number of people moving from each origin county to destination county (aggregated over the years).\footnote{ Historically, approximately 15\% of the ACS migration data has been allocated (imputed based on salient characteristics). @CITTE(https://www.census.gov/acs/www/methodology/sample-size-and-data-quality/) } This sample also contains migration flows by Hispanic origin, allowing us to determine whether they move based on geographic boundaries.
+Data on migration comes from the 2011-2015 ACS, which reports the number of people moving from each origin county to destination county (aggregated over the years).\footnote{ Historically, approximately 15\% of the ACS migration data has been allocated, or imputed based on salient characteristics \citep{united_states_census_american_2020}. } This sample also contains migration flows by Hispanic origin, allowing us to determine whether they move based on geographic boundaries.
 % TODO: propagate errors based on the margin of error
 
 Finally, data for specific outcomes are discussed under their relevant section.
@@ -266,18 +265,45 @@ By limiting the analysis to a small distance from the contour boundary ($100$ KM
 
 The data on public schools comes from the US Department of Education's CRDC (Civil Rights Data Collection) dataset in 2015. In order to prevent discrimination and for transparency purposes, all public schools in the United States are required to report a substantial amount of information for the CRDC on an annualized basis.\footnote{ In practice, this data is not released to the public every year. Furthermore, not all schools report all data (or correct data) required of them, which is why the number of observations for different variables in this dataset fluctuates} 
 
+The outcome data from the CRDC can be split into two categories:
+\begin{itemize}
+\item \textbf{Academic Achievements:} We focus on two outcomes that track the effect of television on the top end of the academic distribution of students: the number of Advanced Placement (AP) classes students enrol in and pass, as well as the number of students placed into gifted programs, and one outcome on the bottom: the number of students with Limited English Proficiency (LEP).
+
+The AP program is administered by the College Board, and defines a standardized college-level curriculum that is taught to high school students in AP Classes. In conjunction with AP Classes, AP Exams are national examinations which are designed to test mastery of material taught in AP classes. These exams are given scores ranging from 1 to 5, with scores below a 3 marked as a failed exam. Even among the selective students who opt into these classes (22\% in 2015\footnote{ Data computed from number of high school graduates in 2015 \citep{@CITE Clearinghouse}, and number of seniors who sat an AP exam in 2015. This is how the College Board currently tracks national AP participation (no comparable summary statistic was released in 2015) \citep{@CITE AP archive data}}), a substantial number of students who take these exams fail them - approximately 35\% \citep{@CITE AP score distn}. 
+
+Gifted and talented programs are ``programs during regular school hours that provide special educational opportunities including accelerated promotion through grades and classes and an enriched curriculum for students who are endowed with a high degree of mental ability or who demonstrate unusual physical coordination, creativity, interest, or talent." \citep{@ CITE CCRDC} These programs, while not mandatory, are common across school districts, and vary in their implementation. % HOW MANY STUDENTS?
+
+LEP students (also called English Learner students) are students that, as a result of their limited command over the English language, have difficulty participating in regular school activities.\footnote{The specific definition of a LEP student depends on individual state regulation, but must also satisfy the criteria outlined under Title IX of the Elementary and Secondary Education Act \citep{@CITE }. The most salient features of Title IX are that students must either not speak English as a native language or come from an environment where non-English languages are dominant, and also face substantial difficulty in engaging with others on the basis of their English ability.} 9\% of all public school students are considered LEP, and while students are placed into the program is at the discretion of individual school districts, all districts must provide language assistance services and have staff qualified to implement the LEP programs. 
+
+\item \textbf{Disciplinary Issues:} Two forms of academic discipline are considered as outcome variables: the number of out of school suspensions, and the amount of harassment and bullying on the basis of race/ethnicity experienced by students.
+
+Out of school suspensions are instances ``in which a child is temporarily removed from his/her regular school for at least half a day (but less than the remainder of the school year) for disciplinary purposes to another setting (e.g., home, behavior center)." \citep{@CITE CRDC} We consider only students without disabilities, and note that depending on school policy, educational services may still be provided during this time.\footnote{Students with disabilities served under IDEA face substantially different suspension policy.}
+
+Harassment or bullying on the basis of race, color, or national origin ``refers to intimidation or abusive behavior toward a student based on actual or perceived race, color, or national origin. Harassing conduct may take many forms, including verbal acts and name-calling, as well as non-verbal behavior, such as graphic and written statements, or conduct that is physically threatening, harmful or humiliating. The conduct can be carried out by school employees, other students, and non-employee third parties. Bullying on the basis of race, color, or national origin constitutes racial harassment." \citep{@CITE CRDC} Though there are other categories of bullying and harassment reported (and other types of infractions and disciplinary measures taken), these are less directly relevant to the question at hand.
+
+
+\end{itemize}
+
+Notably, all the outcome information described above is also provided for Hispanic subpopulations --- hence, the outcome of interest is generally the number of Hispanic students passing AP tests, or being bullied on the basis of their ethnicity, etc. These variables are all reported at the school level. 
+
+School level controls include \\
+Demographic control variables are sourced at the county level (income, percent Hispanic, population) from IPUMs.
+
  It's a very large dataset with a ton of outcome/control variables, but importantly, it breaks down all major variables of interest by ethnicity. These variables includes graduation rates, chronic absenteeism, suspensions, expulsions, arrests, bullying, AP test results, English proficiency, math class performances, gifted program enrolment etc., so I can look at effects on both the top and bottom end of the distribution, and examine potential mechanisms driving outcomes. 
  
  As mentioned, the locations of these schools are found using ArcGIS.
  % school district
 
-\input{../../explore/output/summary/LEAInfo.tex}
-\input{../../explore/output/summary/SchoolInfo.tex}
+
 
 \subsection{Results}
 
 \subsection{Discussion}
 Interpret magnitudes
+
+These increases in disciplinary outcomes can have serious downstream effects beyond the disciplinary event itself: the literature suggests that not only are suspended students at immediate risk of academic harm and further disciplinary issues (@CITE Arcia), but that these students are also more likely to be incarcerated as adults  \citep{wolf_school_2017}. Non-disciplined students appear to suffer from spillover effects in their academic performance as well. (@CITE perry schools)
+
+
 \paragraph{Evidence of Mechanism}
 Targeting based on identity
 
@@ -351,6 +377,8 @@ Future work: Political angle, examining mechs
 \includegraphics[width=12cm]{../../analysis/Output/img/LEAMap.png}
 \end{figure} 
 
+\input{../../explore/output/summary/LEAInfo.tex}
+\input{../../explore/output/summary/SchoolInfo.tex}
 \input{../../explore/Output/Regs/mig_distdummyOITV.tex}
 \input{../../explore/Output/Regs/migrev_distdummyOITV.tex}
 \input{../../explore/Output/Regs/trump_b2.tex}
