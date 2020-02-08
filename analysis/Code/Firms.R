@@ -128,6 +128,9 @@ s <- stack(rBusnCount, rHispName, rHispFoodName, rHispNameD, rPop, rPCHisp, rInt
 regDataF <- data.frame(na.omit(values(s)))
 names(regDataF) <- c('busnCount', 'hispName', 'hispFoodName', 'hispNameD', 'population', 'pcHispanic', 'intersects', 'distance',
                      'income')
+saveRDS(regDataF, 'FirmStackDF.Rdata')
+
+
 
 regF2 <- regDataF %>%
   mutate(logPop = log(population), # ceiling(dummy)
@@ -140,7 +143,8 @@ m2 <- lm(busnCount ~ intersects*distance + intersects*dist2 + logPop, data=regF2
 m3 <- lm(busnCount ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=regF2)
 m4 <- lm(busnCount ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=regF2)
 stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/firms_rastern2.tex", title="Effect of TV on Hispanic Owned Businesses, 100 KM Radius",
-          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+          omit.stat = c('f','ser'), column.sep.width = '-5pt',
+          order = c('intersects','intersects:distance','intersects:dist2'))
 m1 <- lm(ihs(busnCount) ~ intersects*distance + intersects*dist2  , data=regF2)
 m2 <- lm(ihs(busnCount) ~ intersects*distance + intersects*dist2 + logPop, data=regF2) 
 m3 <- lm(ihs(busnCount) ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=regF2)

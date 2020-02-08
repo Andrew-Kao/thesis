@@ -29,7 +29,7 @@ varList <- c('SCH_HBREPORTED_RAC_HI_','TOT_HBREPORTED_RAC_', 'SCH_HBDISCIPLINED_
 # cred: https://stackoverflow.com/questions/59294898/creating-a-function-in-dplyr-that-operates-on-columns-through-variable-string-ma
 adder <- function(data, name) {
   data %>%
-    mutate(!! str_to_lower(str_sub(name, end=-2)) := select(., starts_with(name)) %>% 
+    mutate(!! str_to_lower(str_sub(name, end=-2)) := dplyr::select(., starts_with(name)) %>% 
              map(function(x) ifelse(x <0, NA,x)) %>% 
              reduce(`+`))
 }

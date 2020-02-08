@@ -86,7 +86,7 @@
 
 
 \begin{document}
-\title{\textbf{TV Identities: \\ TITLE}%Unravel}
+\title{\textbf{Seeing is Believing: The Effect of Television on the Identity and Lives of Hispanic People }%Unravel}
 \thanks{We would like to thank XYZ and Trip from SatelliteGuys for technical advice.}\\
 }
 
@@ -222,7 +222,7 @@ A map of all these contours can be seen in Figure \ref{contourfig}.
 
 Location data for outcomes was all collected in the form of text addresses. To transform this into proper spatial data/coordinates, two geocoding tools were used: (1) ArcGIS, which has its own proprietary database of locations. Over 99\% of addresses were successfully matched to one location and geocoded. This was used to geocode the schooling data, as well as portions of the campaign contribution data. (2) The US Census Geocoder, which contains the census database of locations. Over 80\% of addresses were successfully matched to one location and geocoded.\footnote{The US Census geocoder, unlike the ArcGIS geocoder, is free. However, due to the higher precision of the ArcGIS geocoder, data constructed from it is used wherever possible. } This was used to geocode the business data, as well as portions of the campaign contribution data. It is unlikely for non-geocoded addresses to be correlated with the instrument, given the relatively narrow band around the contour retained for the spatial regression discontinuity.
 
-For data that take the form of spatial points (such as the location of a school), determining its distance to the boundary and whether the datapoint falls within the coverage boundary is a straightforward process. For data that cover a wider area (such as a county), in the standard specification, the area is said to fall within the coverage boundary if at least some portion of it does, and the distance from the area to the boundary is taken as the minimum distance from the boundary to the area. In locations covered by multiple SLTV stations, the distance to the boundary is taken as the distance to the closest boundary.
+For data that take the form of spatial points (such as the location of a school), determining its distance to the boundary and whether the datapoint falls within the coverage boundary is a straightforward process. For data that cover a wider area (such as a county), in the standard specification, the area is said to fall within the coverage boundary if at least some portion of it does, and the distance from the area to the boundary is taken as the minimum distance from the boundary to the area. In locations covered by multiple SLTV stations, the distance to the boundary is taken as the distance to the closest boundary. %% FIX THIS: not true for migration. True for Trump, but smaller grid
 % TODO: robustness; experiment with this for county controls data! calculate area... maybe also for campaigns
 
 \subsection{Controls and Other Non-Outcome Data}
