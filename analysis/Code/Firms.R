@@ -164,6 +164,24 @@ m4 <- glm(hispFoodNameD ~ intersects*distance + intersects*dist2 + logPop + pcHi
 stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/firms_rasterfname2_bin.tex", title="Effect of TV on Binomial Hispanic Name Businesses, 100 KM Radius",
           omit.stat = c('f','ser'), column.sep.width = '-5pt')
 
+regF2 <- regDataF %>%
+  mutate(logPop = log(population), # ceiling(dummy)
+         distance = distance/1000, dist2 = distance^2,
+         hispFoodNameD = ifelse(hispFoodName > 0, 1, 0)) %>%
+  filter(distance < 50)
+m1 <- lm(ihs(busnCount) ~ intersects*distance + intersects*dist2  , data=regF2)
+m2 <- lm(ihs(busnCount) ~ intersects*distance + intersects*dist2 + logPop, data=regF2) 
+m3 <- lm(ihs(busnCount) ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=regF2)
+m4 <- lm(ihs(busnCount) ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=regF2)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/firms_rastern2_ihs_50.tex", title="Effect of TV on IHS Hispanic Owned Businesses, 50 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+m1 <- glm(hispFoodNameD ~ intersects*distance + intersects*dist2  , data=regF2, family = binomial)
+m2 <- glm(hispFoodNameD ~ intersects*distance + intersects*dist2 + logPop, data=regF2, family = binomial) 
+m3 <- glm(hispFoodNameD ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=regF2, family = binomial)
+m4 <- glm(hispFoodNameD ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=regF2, family = binomial)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/firms_rasterfname2_bin_50.tex", title="Effect of TV on Binomial Hispanic Name Businesses, 50 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+
 
 regF2 <- busn2@data %>%
   mutate(logPop = log(origpopulation), # ceiling(dummy)
