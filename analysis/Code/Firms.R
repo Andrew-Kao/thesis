@@ -45,6 +45,13 @@ instrument <- instrument %>%
 contours1 <- readRDS('../../instrument/spanishCountourSLDF.Rdata')
 contours <- spTransform(contours1, CRS("+proj=longlat +datum=NAD83"))
 contours_project <- spTransform(contours1, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
+busn_project <- spTransform(busn, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
+
+contourBusnDist <- gDistance(contours_project,busn_project, byid = TRUE)
+contourBusnMinDist <- apply(contourBusnDist,1,FUN=min)  # 428 counties that intersect!
+saveRDS(contourTrumpMinDist,'contourTrumpMinDist.Rdata')
+stargazer(matrix(contourTrumpMinDist,ncol=1), out="../../../Output/Summary/ContourTrumpMinDist.tex", title="Contour-Donation Minimum Distances", summary = TRUE)
+
 
 contours_poly <-SpatialPolygons(
   lapply(1:length(contours_project), 
@@ -106,6 +113,7 @@ regF2 <- regDataF %>%
          distance = distance/1000, dist2 = distance^2) %>%
   filter(distance < 100)
 
+# only 27 obs, won't fly
 m1 <- lm(busnCount ~ intersects*distance + intersects*dist2  , data=regF2)
 m2 <- lm(busnCount ~ intersects*distance + intersects*dist2 + logPop, data=regF2) 
 m3 <- lm(busnCount ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=regF2)
