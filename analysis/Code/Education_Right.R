@@ -12,7 +12,7 @@ library(glmnet)
 library(hdm)
 library(pscl)
 library(spdep)
-#library(spatialreg)
+library(spatialreg)
 
 
 if (Sys.info()["user"] == "AndrewKao") {
@@ -284,19 +284,48 @@ m1.lag <- lagsarlm(ihs(sch_hbreported_rac_hi) ~ TV*origdist +
            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass,
          listw=wt4, type="lag",method="MC")
 summary(m1.lag, Nagelkerke=T)
-m1.err <- lagsarlm(ihs(sch_hbreported_rac_hi) ~ TV*origdist +
+m1.lag <- lagsarlm(ihs(sch_hbreported_rac_hi) ~ TV*origdist +
+                     origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+                     total_students, data=harass,
+                   listw=wt4, type="lag",method="MC")
+m1.err <- errorsarlm(ihs(sch_hbreported_rac_hi) ~ TV*origdist +
                      origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
                      total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass,
-                   listw=wt4, type="error",method="MC")
+                   listw=wt4, etype="error",method="MC")
 summary(m1.err, Nagelkerke=T)
+m2.err <- errorsarlm(ihs(sch_hbreported_rac_hi) ~ TV*origdist +
+                       origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+                       total_students, data=harass,
+                     listw=wt4, etype="error",method="MC")
+summary(m2.err, Nagelkerke=T)
+m1.durb <- lagsarlm(ihs(sch_hbreported_rac_hi) ~ TV*origdist +
+                       origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+                       total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass,
+                     listw=wt4, type="mixed",method="MC")
+summary(m1.durb, Nagelkerke=T)
+
 W <- as(wt4, "CsparseMatrix")
 trMC <- trW(W, type="MC")
+im.durb <- impacts(m1.durb, tr=trMC, R=100)
 im.lag <- impacts(m1.lag, tr=trMC, R=100)
-im.err <- impacts(m1.err, tr=trMC, R=100)
+
+stargazer(m1.lag, out = "../../Output/Regs/edu_harhOLSIHS_spec3_spatial.tex", title="Effect of TV on IHS(Hispanic \\# Harassment Victims)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          keep = c('TV' ), 
+          covariate.labels = c(label_spec3),
+          dep.var.labels = 'IHS(\\# Hispanic Victims of Harassment)')
+
+
+
 
 spplot(spdat,"mortrate", at=quantile(spdat$mortrate), col.regions=brewer.pal(n=5, "Reds"), main="Spatial Distribution of US Mortality Rate")
 
-conleyHAC(ihs(harass$sch_hbreported_rac_hi),m1$fitted.values,harass$TV,harass[,c("X","Y")],coefficients=m1$coefficients,timeid=harass$Country,panelid=harass$Country,dist_cutoff=10000,lag_cutoff=10)
+# conleyHAC(ihs(harass$sch_hbreported_rac_hi),m1$fitted.values,harass$TV,harass[,c("X","Y")],coefficients=m1$coefficients,timeid=harass$Country,panelid=harass$Country,dist_cutoff=10000,lag_cutoff=10)
+
+
+
+
+
 
 #####VECTORISED FUNCTION
 # credit: https://gist.github.com/devmag/f18ec223df7aef78402b
