@@ -21,7 +21,7 @@ if (Sys.info()["user"] == "AndrewKao") {
 
 
 
-cleanSchoolAll <- readRDS("CleanSchoolAll.Rdata")
+cleanSchoolAll <- readRDS("CleanSchlAll.Rdata")
 
 harass <- cleanSchoolAll %>%
   mutate(TV = inside) %>%
@@ -76,9 +76,9 @@ om2 <- lm(ihs(sch_hbreported_rac_hi) ~ TV*origdist +
 om3 <- lm(ihs(sch_hbreported_rac_hi) ~ TV*origdist +
             origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
             total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
-# om4 <- lm(ihs(sch_hbreported_rac_hi) ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
-#             total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + origLogPop +
-#             origpcHisp + origLogInc + tot_hbreported_rac,data=harass)
+om4 <- lm(ihs(sch_hbreported_rac_hi) ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_students  +
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + origLogPop +
+            origpcHisp + origLogInc + tot_hbreported_rac,data=harass)
 stargazer(om1, om2, om3, out = "../../Output/Regs/edu_harhOLSIHS_spec3.tex", title="Effect of TV on IHS(Hispanic \\# Harassment Victims)",
           omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
           omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
@@ -417,4 +417,9 @@ conleyHAC<-function(y,yhat,X,coords,coefficients=NULL,timeid,panelid, dist_cutof
   
   V
   
+}
+
+ihs <- function(x) {
+  y <- log(x + sqrt(x ^ 2 + 1))
+  return(y)
 }

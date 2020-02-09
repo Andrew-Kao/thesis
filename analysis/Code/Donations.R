@@ -97,7 +97,7 @@ rRace <- rasterize(trump2, r, field=trump2$race,fun=mean)
 values(rRace) <- ifelse(is.na(values(rRace)),0,values(rRace))
 
 #### COUNTIES
-rgdf <- as(rPop,'SpatialGridDataFrame')
+rgdf <- as(rDonCount,'SpatialGridDataFrame')
 testLink <- over(rgdf,counties,returnList=FALSE)
 rgdf@data <- rgdf@data %>%
   mutate(stateCounty = testLink$stateCounty)
@@ -134,6 +134,7 @@ s <- stack(rDonCount, rHispSum, rRace, rPop, rPCHisp, rIntersect, rMinDist, rInc
 regDataT <- data.frame(na.omit(values(s)))
 names(regDataT) <- c('rawDonations', 'hispanicSum', 'hispanicDummy' , 'population', 'pcHispanic', 'intersects', 'distance',
                     'income')
+saveRDS(regDataT,"TrumpStackDF")
 
 ###### TRUMP REGS #####
 # 100 km distance

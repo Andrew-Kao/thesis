@@ -13,6 +13,10 @@ White space in argument---line 43 of file Draft 2020-01-15.aux
  : \citation{@CITE
  :                 CRDC}
 I'm skipping whatever remains of this command
+White space in argument---line 44 of file Draft 2020-01-15.aux
+ : \citation{@CITE
+ :                 CRDC}
+I'm skipping whatever remains of this command
 The style file: aea.bst
 Database file #1: tv.bib
 Warning--empty author in noauthor_american_2020
@@ -62,4 +66,4 @@ warning$ -- 6
 while$ -- 100
 width$ -- 0
 write$ -- 47
-(There were 3 error messages)
+(There were 4 error messages)

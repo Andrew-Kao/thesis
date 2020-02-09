@@ -172,6 +172,12 @@ There's good reason to believe that identity, as reinforced through mass media, 
 
 %Social norms are an important element of any society: some behaviors and opinions are socially desirable, while others are stigmatized. There is growing evidence that individuals care to a large extent about how they are perceived by others and that such concerns might affect important decisions in a variety of settings
 
+% Market sizing: CITE FCC Hispanic TV 
+% The Hispanic community is made up of 13.96 million television households nationally, which account for approximately 12.2 percent of the 114.65 million television households in the United States (as of 2012)
+% Nationwide, approximately 9.6 percent of U.S. television households are ?broadcast-only;? thus the overwhelming majority subscribe to a pay television service.14 The comparable figure nationwide for Hispanic households is 15.7 percent.15 
+% roughly half do not use cable (page 29) - Alternative Distribution Service (ADS)/satellite and broadcast). We find that the majority of Hispanic television households appear to be either cable or Alternative Delivery System (ADS) households. ADS designations refer to households with one or more televisionsetsthatreceiveprogrammingfromoneoffourtypesofsystems: DBS;satellitedish (C-Band); satellite antenna television (SMATV); and multi-channel, multi-point distribution systems (MMDS). Broadcast television households,
+% programming split fairly evenly between locally produced segments, news, telenovelas, and paid programming, the latter three of which may come from abroad
+
 % viewed by half of all Spanish-dominant Latinos (http://www.horowitzresearch.com/press/spanish-language-tv-content-remains-integral-to-u-s-hispanics-tv-diet-new-horowitz-survey-shows/)
 % better: Nielsen, 78% Spanish-dominant watch Spanish TV, 50% in multi-language homes, over 85% broadcast -- in 2010, top 10 broadcast shows in Hispanic demographic were all Spanish language
 % market size: millions in LA, New York etc. https://www.statista.com/statistics/189824/largest-hispanic-television-markets-in-the-united-states-2011/
@@ -245,9 +251,17 @@ This creates a natural spatial regression discontinuity, where the decaying stre
 
 In the case of Spanish language TV in particular, this should allow us to examine its causal effect on Hispanic populations for spatially located outcomes. As mentioned, these contours are purely determined by an algorithm and is only dependent on physical variables like local elevation and antennae strength. Thus, the precise regulatory boundaries are located in more or less random locations, and coverage is large enough that these contours tend to cut across towns and suburbs, rather than large cities --- television networks are not constructing their antennas to be just large enough to only cover the most dense and populous areas. 
 
-In order for the causal effect of SLTV to be identified, the actual coverage of the contours must be uncorrelated with any of the other determinants for the outcome variables with which we are interested. % control for observables anyways, migration and selection
+In order for the causal effect of SLTV to be identified, the actual coverage of the contours must be uncorrelated with any of the other determinants for the outcome variables with which we are interested. One reassurance is that the interference protection regulation, OET Bulletin 69, was only codified in 1977 --- in contrast, Univision, the largest owner of SLTV stations, was founded in 1955, and had built a substantial number of their television stations and antennas by 1977.\footnote{ Though Telemundo, the second largest owner of SLTV, was technically founded in 1984, the stations it initially acquired were built in 1954, while its expansion was often through the acquisition of existing stations, rather than building out its own new ones. }  % control for observables anyways, migration and selection  
+% @CITE univisino, telemundo
 
 The instrument consists of two variables interacted: First, a dummy for whether the outcome data falls within a SLTV station's coverage contour boundaries, and second, the distance from the outcome of interest to the closest coverage boundary. To guarantee similarity between the people inside and outside the boundaries, only data points located within a distance of 100 KM of the boundary are kept.\footnote{ Using a round number in kilometers rather than miles makes the cutoff less likely to be correlated with some real-world phenomena.} 
+
+Several concerns that potentially remain:
+\begin{itemize}
+\item \textit{Can we guarantee that it is Hispanic people who watch SLTV?} If it were the case that non-Hispanic people were frequent viewers of SLTV, the interpretation of the main effects would potentially be different: we would be looking at the effect of SLTV on all people. Thus, though outcomes restrict the analysis to how the lives of Hispanic people change, this could be driven by, for instance, white people treating Hispanic people differently due to having viewed SLTV. This does not empirically bear out---only 4\% of total SLTV station programming watched can be attributed to non-Hispanic people, a number that is only as high as it is because some SLTV stations also broadcast in English. \citep{@CITE FCC TV} Similarly, $<1\%$ of all programming watched by non-Hispanics is in the Spanish language.
+
+\item \textit{How do we account for the possibility of selection?} It is theoretically possible that Hispanic people move in response to these television coverage contour boundaries, and that the effects seen are therefore a result of Hispanic people self-sorting. If this were true, it would be a fairly remarkable result---people moving in significant quantities for access to better television in a way that influences life outcomes ranging from education to business to politics. As the subsection on Migration beneath demonstrates, the selection story does not appear to be borne out by the data.
+\end{itemize}
 
 \subsection{Main Specification}
 
@@ -313,7 +327,13 @@ Finally, we may be concerned about the potential effects of spatial autocorrelat
 \subsection{Discussion}
 
 \paragraph{Evidence of Mechanism}
-The results in Table \ref{edu_mech} provide some evidence for the mechanism behind the other results displayed in this section.
+The results in Table \ref{edu_mech} provide some evidence for the mechanism driving the other results displayed in this section. We believe that access to SLTV reinforces Hispanic identities, making them more salient to the Hispanic individuals consuming the broadcast programs. The most direct evidence for this stems from the results on harassment and bullying based on ethnicity. Given that very few non-Hispanic people view SLTV programming, the fact that more Hispanic students are bullied on the basis of their ethnicity suggests that some change must be occurring within the students along this dimension.\footnote{ This increase in bullying does not appear to be the result of `retaliation' to Hispanic students bullying others: the coefficient only attenuates slightly when further controlling for the total number of students bullied, and running the main specification with the number of Hispanic students as perpetrators of race/ethnicity based bullying yields an insignificant negative coefficient. } 
+
+Compared to other viewers of television, Hispanics are uniquely likely to watch television in a social context rather than watching alone---this is partially driven by the fact that non-Hispanic households have 40\% more TV sets per person than Hispanic ones \citep{@CITE Coghill}. This social aspect, wherein SLTV is watched with family/friends (or people that speak Spanish), may be one way in which identity is further reinforced.
+% https://www.effectv.com/blog/tuning-hispanic-audiences
+% even the largest markets do not locally source more than 20\% of their Spanish language programming - from foreign countries or domestic
+
+greater television coverage contour boundary find their Hispanic identity to be more salient. The greater number of Hispanic students classified under Limited English Proficiency (LEP) demonstrates a lower degree of command over the English language
 
 Looking first at 
 
@@ -337,6 +357,8 @@ Why Florida
 \subsection{Results}
 \subsection{Discussion}
 
+% paid programming, which makes up 30.9\% of Hispanic owned SLTV networks programming time, compared to 10.8\% in the general population - advertising Hispanic firms
+
 \section{Campaign Contributions}\label{seccamp}
 \subsection{Data}
 
@@ -352,6 +374,8 @@ Why Florida
 % https://foreignpolicy.com/2018/04/16/the-trumpification-of-the-latin-american-right/
 \subsection{Discussion}
 
+
+% less than half as many SLTV programs rated for sexual content or strong language (FCC TV)
 
 
 %We implemented the first experiment respectively in the two weeks before and in the week after the 2016 presidential election. The timing of the experiment allowed us to exploit the uniqueness of the situation and study the process of information aggregation as it was unfolding. We conducted both waves with workers from the online platform MTurk. A number of recent papers in economics have used the same platform to conduct surveys or experiments (e.g., \citealp{kuziemco_et_al_2015_elastic}). The platform draws workers from very diverse backgrounds, though it is not representative of the U.S. population as a whole.
@@ -393,6 +417,14 @@ Future work: Political angle, examining mechs, complement or substitute with oth
 \includegraphics[width=12cm]{../../analysis/Output/graphs/hispanicsuspensions.pdf}
 
 \textit{Notes:} The figure presents data at a school level, where a smoothed average of the inverse hyperbolic sine transformed counts of Hispanic students suspended is plotted against the distance of the school to the closest Spanish Language Television station contour boundary. Positive distances denote schools that are located within the boundary, while negative distances denote schools outside of them.
+\end{figure} 
+
+\begin{figure}[!hbtp]
+\centering
+\caption{IHS(\# Hispanic Donations to Trump) by Distance to Contour Boundary }\label{donationsfig}
+\includegraphics[width=12cm]{../../analysis/Output/graphs/hispanictrump.pdf}
+
+\textit{Notes:} The figure presents data aggregated into squares of size approximately 1.5 KM$^2$, where a smoothed average of the inverse hyperbolic sine transformed counts of Hispanic campaign contributions to Trump for the 2016 election is plotted against the distance of the school to the closest Spanish Language Television station contour boundary. Positive distances denote schools that are located within the boundary, while negative distances denote schools outside of them.
 \end{figure} 
 
 \begin{figure}[!hbtp]
