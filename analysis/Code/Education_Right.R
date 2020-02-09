@@ -12,7 +12,7 @@ library(glmnet)
 library(hdm)
 library(pscl)
 library(spdep)
-
+#library(spatialreg)
 
 
 if (Sys.info()["user"] == "AndrewKao") {
@@ -253,10 +253,113 @@ stargazer(m1, m3, m5, m2, m4, out = "../../Output/Regs/edu_harhOLSIHS_spec3_robu
 #               origpcHisp + origLogInc  | LEAID | 0 | 0 ,data=harass)
 
 # Spatial Autocorr
-set.seed(42)
-jitter <- runif(n = nrow(harass), min = -.001, max = .001)
-harass <- harass %>%
-  mutate(jitter = X + jitter)
-coordinates(harass) <- c('X','Y')
-nb4<-knearneigh(coordinates(harass), k=10, longlat = TRUE)
+# credit: https://rpubs.com/corey_sparks/109650
 
+harass <- cleanSchoolAll %>%
+  mutate(TV = inside) %>%
+  filter(minDist < 100000 ) %>%
+  mutate(origdist = minDist/1000, dist2 = origdist^2,
+         origLogPop = log(origpopulation), origLogInc = log(origincome)) %>%
+  filter(!is.na(sch_hbreported_rac_hi) & !is.na(TV) & !is.na(origdist) &
+           !is.na(origpcHisp) & !is.na(hisp_students))
+
+m1 <- lm(ihs(sch_hbreported_rac_hi) ~ TV*origdist +
+           origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+           total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+
+set.seed(42)
+jitterX <- runif(n = nrow(harass), min = -.01, max = .01)
+jitterY <- runif(n = nrow(harass), min = -.01, max = .01)
+harass <- harass %>%
+  mutate(X = X + jitterX,
+         Y = Y + jitterY)
+coordinates(harass) <- c('X','Y')
+nb4<-knearneigh(coordinates(harass), k=4, longlat = TRUE)
+nb4 <- knn2nb(nb4)
+wt4<-nb2listw(nb4, style="W")
+
+lm.morantest(m1,listw=wt4, zero.policy = TRUE)
+m1.lag <- lagsarlm(ihs(sch_hbreported_rac_hi) ~ TV*origdist +
+           origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+           total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass,
+         listw=wt4, type="lag",method="MC")
+summary(m1.lag, Nagelkerke=T)
+m1.err <- lagsarlm(ihs(sch_hbreported_rac_hi) ~ TV*origdist +
+                     origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+                     total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass,
+                   listw=wt4, type="error",method="MC")
+summary(m1.err, Nagelkerke=T)
+W <- as(wt4, "CsparseMatrix")
+trMC <- trW(W, type="MC")
+im.lag <- impacts(m1.lag, tr=trMC, R=100)
+im.err <- impacts(m1.err, tr=trMC, R=100)
+
+spplot(spdat,"mortrate", at=quantile(spdat$mortrate), col.regions=brewer.pal(n=5, "Reds"), main="Spatial Distribution of US Mortality Rate")
+
+conleyHAC(ihs(harass$sch_hbreported_rac_hi),m1$fitted.values,harass$TV,harass[,c("X","Y")],coefficients=m1$coefficients,timeid=harass$Country,panelid=harass$Country,dist_cutoff=10000,lag_cutoff=10)
+
+#####VECTORISED FUNCTION
+# credit: https://gist.github.com/devmag/f18ec223df7aef78402b
+library(data.table)
+library(geosphere)
+library(foreign)
+library(lfe)
+library(reshape)
+
+
+iterateObs<-function(y1,e1,X1,fordist,coefficients,cutoff=250000) {
+  
+  ##recognise whether it is lat/long or single dimension (i.e. time) for distance computation
+  if(ncol(fordist)==2) {
+    distances<-lapply(1:nrow(X1), function(k) distHaversine(fordist[k,],as.matrix(fordist)))
+    XeeXhs<-lapply(1:nrow(X1), function(k) (  t(t(X1[k,])) %*% matrix(nrow=1,ncol=nrow(X1),data=e1[k])   * (matrix(nrow=length(coefficients),ncol=1,1)%*% (t(e1) * (distances[[k]]<=cutoff)))) %*% X1) 
+    
+  } else {
+    abstimediff <-lapply(1:nrow(fordist), function(k) abs(fordist[k]-fordist) )
+    window<-lapply(1:nrow(fordist), function(k) ((abstimediff[[k]] <= cutoff) * (1-abstimediff[[k]])/(cutoff+1)) * (fordist!=fordist[k])  )	
+    
+    XeeXhs<-lapply(1:nrow(X1), function(k) (  t(t(X1[k,])) %*% matrix(nrow=1,ncol=nrow(X1),data=e1[k])   * (matrix(nrow=length(coefficients),ncol=1,1)%*% (t(e1) * (t(window[[k]]))))) %*% X1) 
+  }
+  XeeXhs <- Reduce("+", XeeXhs)
+  
+  XeeXhs
+}
+###try to vectorise the function
+
+
+
+conleyHAC<-function(y,yhat,X,coords,coefficients=NULL,timeid,panelid, dist_cutoff=200000,lag_cutoff=3) {
+  
+  e<-y-yhat
+  XeeX = matrix(data=0, nrow=length(coefficients),ncol=length(coefficients))
+  times<-names(table(timeid))
+  n=length(y)
+  X<-as.matrix(X)
+  
+  ###spatial correlation correction
+  XeeXhs<-lapply(times, function(x) iterateObs(y[timeid==x],e[timeid==x],matrix(X[timeid==x,]),as.matrix(coords[timeid==x,]),coefficients,cutoff=dist_cutoff))
+  
+  ##first reduce
+  XeeX <- Reduce("+", XeeXhs)
+  
+  invXX = solve(t(X)%*%X) * n
+  
+  XeeX_spatial = XeeX / n
+  
+  V = (invXX %*% XeeX_spatial %*% invXX) / n
+  
+  V
+  
+  
+  #####serial correlation correction
+  panel<-names(table(panelid))
+  XeeXhs<-lapply(panel, function(x) iterateObs(y[panelid==x],e[panelid==x],matrix(X[panelid==x,]),matrix(timeid[panelid==x]),coefficients,cutoff=lag_cutoff))
+  XeeX <- XeeX+Reduce("+", XeeXhs)
+  
+  XeeX_spatial_HAC = XeeX / n
+  
+  V = (invXX %*% XeeX_spatial_HAC %*% invXX) / n
+  
+  V
+  
+}
