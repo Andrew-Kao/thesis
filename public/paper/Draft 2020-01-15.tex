@@ -241,15 +241,13 @@ Finally, data for specific outcomes are discussed under their relevant section.
 
 To isolate the causal effect of Spanish language television, I adopt the technique used in \cite{velez_tuning_2019}  and generalize it from three counties to the entirety of the US.\footnote{ The paper was retracted in 2019, but this was due to usage of unauthorized data, and unrelated to the efficacy of the underlying identification strategy.} Newman and Velez exploit a FCC (Federal Communications Commission) regulation which determines the distance from a TV station in which the station's broadcast signal is protected from interference. 
 
+This creates a natural spatial regression discontinuity, where the decaying strength of a signal over distance is combined with this cutoff in broadcast protection to create a split among people just inside and outside these coverage contours that are presumably comparable save for their access to broadcast TV. 
 
+In the case of Spanish language TV in particular, this should allow us to examine its causal effect on Hispanic populations for spatially located outcomes. As mentioned, these contours are purely determined by an algorithm and is only dependent on physical variables like local elevation and antennae strength. Thus, the precise regulatory boundaries are located in more or less random locations, and coverage is large enough that these contours tend to cut across towns and suburbs, rather than large cities --- television networks are not constructing their antennas to be just large enough to only cover the most dense and populous areas. 
 
-The instrument consists of two variables interacted: First, a dummy whether the outcome data falls 
+In order for the causal effect of SLTV to be identified, the actual coverage of the contours must be uncorrelated with any of the other determinants for the outcome variables with which we are interested. % control for observables anyways, migration and selection
 
-This creates a natural regression discontinuity, where the decaying strength of a signal over distance is combined with this cutoff in broadcast protection to create a split among people just inside and outside these coverage 'contours' that are presumably comparable save for their access to broadcast TV. 
-
-In the case of Spanish language TV in particular, this should allow me to examine its causal effect on Hispanic populations for spatially located outcomes, such as public schooling results. It's worth noting that these contours are purely determined by an algorithm that looks at things like local elevation and antennae strength, so that the cutoffs are located in more or less random locations, and that coverage is large enough that these contours tend to cut across towns and suburbs, rather than cities. Finally, regressions using US census data indicate that Hispanic people do not migrate across counties in response to these contours.
-
-A standard regression thus looks like restricting the universe of schools to only those within a small radius of the contour boundary, where the key independent variable of interest is an indicator for the school being inside or outside the boundary.
+The instrument consists of two variables interacted: First, a dummy for whether the outcome data falls within a SLTV station's coverage contour boundaries, and second, the distance from the outcome of interest to the closest coverage boundary. To guarantee similarity between the people inside and outside the boundaries, only data points located within a distance of 100 KM of the boundary are kept.\footnote{ Using a round number in kilometers rather than miles makes the cutoff less likely to be correlated with some real-world phenomena.} 
 
 \subsection{Main Specification}
 
@@ -269,7 +267,7 @@ By limiting the analysis to a small distance from the contour boundary ($100$ KM
 \section{Public Schools}\label{secschool}
 \subsection{Data}
 
-The data on public schools comes from the US Department of Education's CRDC (Civil Rights Data Collection) dataset in 2015. In order to prevent discrimination and for transparency purposes, all public schools in the United States are required to report a substantial amount of information for the CRDC on an annualized basis.\footnote{ In practice, this data is not released to the public every year. Furthermore, not all schools report all data (or correct data) required of them, which is why the number of observations for different variables in this dataset fluctuates} 
+The data on public schools comes from the US Department of Education's CRDC (Civil Rights Data Collection) dataset in 2015. In order to prevent discrimination and for transparency purposes, all public schools in the United States are required to report a substantial amount of information for the CRDC on an annualized basis.\footnote{ In practice, this data is not released to the public every year. Furthermore, not all schools report all data (or correct data) required of them, which is why the number of observations for different variables in this dataset fluctuates. Some data, such as that on AP examinations, are not mandatory, but the bulk of outcome variables are, with non-compliance on the mandatory data typically representing $<1\%$ of total data.} 
 
 The dataset contains information on a total of 96,350 schools across 17,280 school districts. Figure \ref{schooldistrictfig} contains a map of these schools, while summary statistics for the variables of interest can be found at Table @REF..
 
@@ -283,9 +281,11 @@ Gifted and talented programs are ``programs during regular school hours that pro
 
 LEP students (also called English Learner students) are students that, as a result of their limited command over the English language, have difficulty participating in regular school activities.\footnote{The specific definition of a LEP student depends on individual state regulation, but must also satisfy the criteria outlined under Title IX of the Elementary and Secondary Education Act (US Department of Education \cite{noauthor_elementary_2004}). The most salient features of Title IX are that students must either not speak English as a native language or come from an environment where non-English languages are dominant, and also face substantial difficulty in engaging with others on the basis of their English ability.} 9\% of all public school students are considered LEP, and while students are placed into the program is at the discretion of individual school districts, all districts must provide language assistance services and have staff qualified to implement the LEP programs.\footnote{ Department of Justice and Department of Education \cite{noauthor_ensuring_2015} contains a full enumeration of the responsibilities school districts have. It further includes requirements such as ensuring equal access to various school programs etc. } 
 
-\item \textbf{Disciplinary Issues:} Two forms of academic discipline are considered as outcome variables: the number of out of school suspensions, and the amount of harassment and bullying on the basis of race/ethnicity experienced by students.
+\item \textbf{Disciplinary Issues:} Three forms of academic discipline are considered as outcome variables: the number of out of school suspensions, the number of absences, and the amount of harassment and bullying on the basis of race/ethnicity experienced by students.
 
 Out of school suspensions are instances ``in which a child is temporarily removed from his/her regular school for at least half a day (but less than the remainder of the school year) for disciplinary purposes to another setting (e.g., home, behavior center)." \citep{@CITE CRDC} We consider only students without disabilities, and note that depending on school policy, educational services may still be provided during this time.\footnote{Students with disabilities served under IDEA face substantially different suspension policy.}
+
+A chronically absent student is one ``who is absent 15 or more school days during the school year. A student is absent if he or she is not physically on school grounds and is not participating in instruction or instruction-related activities at an approved off-grounds location for at least half the school day." \citep{@CITE CRDC}  Each day for which a student is absent for 50 percent or more of the school day is counted. Absences are counted regardless of whether they are excused or not, and so include absences due to illness, needing to care for a family member, or simple truancy.
 
 Harassment or bullying on the basis of race, color, or national origin ``refers to intimidation or abusive behavior toward a student based on actual or perceived race, color, or national origin. Harassing conduct may take many forms, including verbal acts and name-calling, as well as non-verbal behavior, such as graphic and written statements, or conduct that is physically threatening, harmful or humiliating. The conduct can be carried out by school employees, other students, and non-employee third parties. Bullying on the basis of race, color, or national origin constitutes racial harassment." \citep{@CITE CRDC} Though there are other categories of bullying and harassment reported (and other types of infractions and disciplinary measures taken), these are less directly relevant to the question at hand.
 
@@ -294,25 +294,36 @@ Harassment or bullying on the basis of race, color, or national origin ``refers 
 
 Notably, all the outcome information described above is also provided for Hispanic subpopulations --- hence, the outcome of interest is generally the number of Hispanic students passing AP tests, or being bullied on the basis of their ethnicity, etc. These variables are all reported at the school level. 
 
-School level controls include the number of teachers, the number of total students, the number of Hispanic students, as well as dummies for whether the school contains a primary school, middle school, and high school. Demographic control variables are sourced at the county level (income, percent Hispanic, population) from IPUMs as described in the Data section.
- 
- As mentioned, the locations of these schools are found using ArcGIS.
+School level controls include the number of teachers, the number of total students, the number of Hispanic students, as well as dummies for whether the school contains a primary school, middle school, and high school. Demographic control variables are sourced at the county level (income, percent Hispanic, population) from IPUMs as described in the Data section. These schools are geolocated using ArcGIS.
  % school district
 
 \subsection{Results}
 
+Table \ref{edu_top} presents the standard specification for the education dataset, looking at the effect of television on schools within 100 KM of a coverage contour. For each of these measures of academic achievement, column (1) includes only county level controls, column (2) adds controls for school size (number of students and teachers), and column (3) adds controls for whether the school contains primary/middle/high school divisions. Panel A examines the effect of television on the IHS of the number Hispanic students considered gifted,\footnote{ IHS, or inverse hyperbolic sine, is comparable to the log transformation, but allows for 0s to be considered} while panel B and C look at the effect on the number of Hispanic students enrolled in an AP course or passing at least one AP course respectively. The coefficient of interest, the dummy for whether the school is located within a coverage contour or not, is significant at the 5\% level for all columns and panels. The effect sizes are modest, but non-trivial: an approximately 1.5\% increase in the number of gifted students, and increases on the order of roughly 5\% for the number of students involved in Advanced Placement curricula. 
+
+Table \ref{edu_bot} examines the effect of SLTV on disciplinary incidents: Panel A presents the effect on the number of Hispanic students ever given an out of school suspension over the prior school year, while Panel B presents this on the number of Hispanic students considered chronically absent. These results are all significant at the 1\% level for all columns and panels. The effect sizes are comparable to that regarding academic achievement, displaying a 1.5\% decrease in the number of students suspended, and a 7\% decrease in the number of students who are chronically absent.
+
+Table \ref{edu_mech} examines the effect of SLTV on outcomes more directly tied to identity: Panel A presents the effect on the number of students categorized as having Limited English Proficiency. These effects are significant at the 1\% level, and represent a 3-4\% increase in the number of students designated under this category. Panel B, on the other hand, presents the effect on the number of Hispanic students who are ever victims of harassment on the basis of their ethnicity. These results are significant at the 10\% and 5\% levels, and account for a small .2\% bump in the number of such cases. 
+
+\paragraph{Robustness} To test the robustness of these results, we present Table \ref{edu_ap_robust}, which uses as its outcome variable the number of Hispanic students passing the AP. We choose to present robustness on this outcome in particular due to its lower sample size --- it is a priori the most likely to be underpowered. Column (1) presents the baseline results (it is identical to column (3) of Table \ref{edu_top}), while column (2) includes the interaction of the TV dummy with the distance to the boundary squared. This is plausibly relevant to the main effect, given that television signals decay in strength in proportion to the square of the distance. Columns (3) and (6) reduce the cutoff distance from the boundary to one half and one third of the original 100 KM limit. Column (4) includes county level fixed effects. Column (5) additionally controls for the total number of APs passed by all students. The robustness checks hold up across the board with all columns maintaining significance, although the 33 KM boundary limit is close to underpowered. Robustness checks on the other outcome variables of interest hold up to a similar analysis.
+
+Finally, we may be concerned about the potential effects of spatial autocorrelation in the data. A Moran's I test using 4 nearest neighbours between the schools indicate that there is spatial autocorrelation at any reasonable level $\alpha$. Hence, Table \ref{edu_spatial} presents two alternate models that control for the effects of spatial autocorrelation. Column (2) uses a spatially autoregressive lag model, wherein the outcome variable may be correlated with its neighbours. Column (3) uses a spatially autoregressive error model, wherein the presence of missing spatial covariates (causing correlated errors) is adjusted for. In both cases, the alternate models yield results that closely resemble the standard specification in column (1). 
 
 
 \subsection{Discussion}
-Interpret magnitudes
+
+\paragraph{Evidence of Mechanism}
+The results in Table \ref{edu_mech} provide some evidence for the mechanism behind the other results displayed in this section.
+
+Looking first at 
 
 Do not harass or bully on the basis of ethnicity at higher rates
+% HOW MANY STUDENTS get bullied? 7169 cases, so 22 students
 
 These increases in disciplinary outcomes can have serious downstream effects beyond the disciplinary event itself: the literature suggests that not only are suspended students at immediate risk of academic harm and further disciplinary issues (@CITE Arcia), but that these students are also more likely to be incarcerated as adults  \citep{wolf_school_2017}. Non-disciplined students appear to suffer from spillover effects in their academic performance as well. (@CITE perry schools)
 
 
-\paragraph{Evidence of Mechanism}
-Targeting based on identity
+
 
 \section{Firms}\label{secfirm}
 \subsection{Data}
