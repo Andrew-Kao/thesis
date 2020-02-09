@@ -16,6 +16,10 @@
 \usepackage{appendix}
 \usepackage[hidelinks, hypertexnames=false]{hyperref}
 \usepackage{lscape}
+\usepackage{tabularx}
+\usepackage{threeparttable}
+\usepackage{caption}
+\usepackage{booktabs}
 
 \setcounter{MaxMatrixCols}{10}
 
@@ -292,9 +296,9 @@ School level controls include the number of teachers, the number of total studen
  As mentioned, the locations of these schools are found using ArcGIS.
  % school district
 
-
-
 \subsection{Results}
+
+
 
 \subsection{Discussion}
 Interpret magnitudes
@@ -369,6 +373,14 @@ Future work: Political angle, examining mechs, complement or substitute with oth
 
 \begin{figure}[!hbtp]
 \centering
+\caption{IHS(\# Hispanic Students Suspended) by Distance to Contour Boundary }\label{suspensionsfig}
+\includegraphics[width=12cm]{../../analysis/Output/graphs/hispanicsuspensions.pdf}
+
+\textit{Notes:} The figure presents data at a school level, where a smoothed average of the inverse hyperbolic sine transformed counts of Hispanic students suspended is plotted against the distance of the school to the closest Spanish Language Television station contour boundary. Positive distances denote schools that are located within the boundary, while negative distances denote schools outside of them.
+\end{figure} 
+
+\begin{figure}[!hbtp]
+\centering
 \caption{Coverage Map for WUVC-DT}\label{contourexamplefig}
 \includegraphics[width=15cm]{../../analysis/Output/img/ContourExample.png}
 \end{figure} 
@@ -393,13 +405,15 @@ Future work: Political angle, examining mechs, complement or substitute with oth
 \input{../../explore/Output/Regs/trump_d2.tex}
 \input{../../explore/Output/Regs/clinton_b2.tex}
 \input{../../explore/Output/Regs/clinton_d2.tex}
-\input{../../explore/Output/Regs/edu_OOSIHS2_spec2.tex}
-\input{../../explore/Output/Regs/edu_harhOLSIHS2_spec2.tex}
-\input{../../explore/Output/Regs/edu_aptIHS2_spec2.tex}
-\input{../../explore/Output/Regs/edu_appIHS2_spec2.tex}
-\input{../../explore/Output/Regs/edu_lepOLSIHS_spec2.tex} % motivate with this, then add square
-\input{../../explore/Output/Regs/edu_giftedOLSIHS2_spec2.tex}
-\input{../../explore/Output/Regs/edu_giftedOLSIHS_spec2.tex}
+%\input{../../explore/Output/Regs/edu_OOSIHS2_spec2.tex}
+%\input{../../explore/Output/Regs/edu_harhOLSIHS2_spec2.tex}
+%\input{../../explore/Output/Regs/edu_aptIHS2_spec2.tex}
+%\input{../../explore/Output/Regs/edu_appIHS2_spec2.tex}
+%\input{../../explore/Output/Regs/edu_lepOLSIHS_spec2.tex} % motivate with this, then add square
+%\input{../../explore/Output/Regs/edu_giftedOLSIHS2_spec2.tex}
+%\input{../../explore/Output/Regs/edu_giftedOLSIHS_spec2.tex}
+\input{../../analysis/Output/regs/edu_top.tex}
+\input{../../analysis/Output/regs/edu_bot.tex}
 
 
 %\begin{figure}[!h]

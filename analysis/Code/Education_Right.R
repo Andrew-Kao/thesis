@@ -32,6 +32,22 @@ harass <- cleanSchoolAll %>%
 label_spec3 <- c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
                  '\\# Hispanic Students')
 
+om1 <- lm(ihs(sch_absent_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + hisp_students, data=harass)
+om2 <- lm(ihs(sch_absent_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_absent_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_absentIHS_spec3.tex", title="Effect of TV on IHS(\\# Hispanic Chronically Absent)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','hisp_students' ), 
+          covariate.labels = c(label_spec3),
+          dep.var.labels = 'IHS(\\# Hispanic Chronically Absent)')
+
 om1 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + 
             origpcHisp + origLogInc + origLogPop + hisp_students, data=harass)
 om2 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist +
@@ -184,6 +200,10 @@ m1 <- lm(ihs(sch_appass_oneormore_hi) ~ TV*origdist +
             origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
             total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
 
+m6 <- lm(ihs(sch_appass_oneormore_hi) ~ TV*origdist + TV*dist2 +
+           origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+           total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+
 
 harass <- cleanSchoolAll %>%
   mutate(TV = inside) %>%
@@ -238,10 +258,11 @@ stargazer(om1, om3, om5, om2, om4, out = "../../Output/Regs/edu_giftedIHS_spec3_
           covariate.labels = c(label_spec3,'Total Gifted Students'),
           dep.var.labels = 'IHS(Hispanic Gifted Students)')
 
-stargazer(m1, m3, m5, m2, m4, out = "../../Output/Regs/edu_harhOLSIHS_spec3_robust.tex", title="Robustness Check - APs Passed",
+stargazer(m1, m6, m3, m5, m2, m4, out = "../../Output/Regs/edu_harhOLSIHS_spec3_robust.tex", title="Robustness Check - APs Passed",
           omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
           omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
-                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes',
+                   'dist2','TV:dist2'),
           order = c('TV','TV:origdist','origdist','hisp_students' ), 
           covariate.labels = c(label_spec3,'Total APs Passed'),
           dep.var.labels = 'IHS(Hispanic APs Passed)')
@@ -288,19 +309,21 @@ m1.lag <- lagsarlm(ihs(sch_hbreported_rac_hi) ~ TV*origdist +
                      origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
                      total_students, data=harass,
                    listw=wt4, type="lag",method="MC")
+m2.lag <- lagsarlm(ihs(sch_hbreported_rac_hi) ~ TV*origdist +
+                     origpcHisp + origLogInc + origLogPop +  hisp_students, data=harass,
+                   listw=wt4, type="lag",method="MC")
+summary(m2.lag, Nagelkerke=T)
 m1.err <- errorsarlm(ihs(sch_hbreported_rac_hi) ~ TV*origdist +
                      origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
                      total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass,
                    listw=wt4, etype="error",method="MC")
 summary(m1.err, Nagelkerke=T)
 m2.err <- errorsarlm(ihs(sch_hbreported_rac_hi) ~ TV*origdist +
-                       origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
-                       total_students, data=harass,
+                       origpcHisp + origLogInc + origLogPop +  hisp_students, data=harass,
                      listw=wt4, etype="error",method="MC")
 summary(m2.err, Nagelkerke=T)
 m1.durb <- lagsarlm(ihs(sch_hbreported_rac_hi) ~ TV*origdist +
-                       origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
-                       total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass,
+                       origpcHisp + origLogInc + origLogPop +  hisp_students, data=harass,
                      listw=wt4, type="mixed",method="MC")
 summary(m1.durb, Nagelkerke=T)
 
@@ -309,7 +332,10 @@ trMC <- trW(W, type="MC")
 im.durb <- impacts(m1.durb, tr=trMC, R=100)
 im.lag <- impacts(m1.lag, tr=trMC, R=100)
 
-stargazer(m1.lag, out = "../../Output/Regs/edu_harhOLSIHS_spec3_spatial.tex", title="Effect of TV on IHS(Hispanic \\# Harassment Victims)",
+om1 <- lm(ihs(sch_hbreported_rac_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + hisp_students, data=harass)
+
+stargazer(om1,m2.lag, m2.err, out = "../../Output/Regs/edu_harhOLSIHS_spec3_spatial.tex", title="Spatial Robustness - Harassment",
           omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
           keep = c('TV' ), 
           covariate.labels = c(label_spec3),
