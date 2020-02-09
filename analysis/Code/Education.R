@@ -1,4 +1,4 @@
-###### Education: Main Regs #####
+###### Education: Old Regs #####
 
 library(stargazer)
 library(dplyr)
@@ -22,7 +22,8 @@ if (Sys.info()["user"] == "AndrewKao") {
 schoolAll <- readRDS('SchAll.Rdata')
 
 varList <- c('SCH_HBREPORTED_RAC_HI_','TOT_HBREPORTED_RAC_', 'SCH_HBDISCIPLINED_RAC_HI_', 'TOT_HBDISCIPLINED_RAC_',
-             'SCH_DISCWODIS_EXPWE_HI_M', 'SCH_DISCWODIS_SINGOOS_HI_', 'SCH_ABSENT_HI_', 'TOT_ABSENT_',
+             'SCH_DISCWODIS_EXPWE_HI_M', 'SCH_DISCWODIS_SINGOOS_HI_', 'TOT_DISCWODIS_MULTOOS_',
+             'SCH_ABSENT_HI_', 'TOT_ABSENT_',
              'SCH_APENR_HI_','TOT_APENR_','SCH_APPASS_ONEORMORE_HI_','TOT_APPASS_ONEORMORE_',
              'SCH_LEPENR_HI_','TOT_LEPENR_', 'SCH_GTENR_HI_','TOT_GTENR_')
 
@@ -49,6 +50,7 @@ cleanSchoolAll <- reduce(varList, .f = function(data,varname) adder(data,varname
          hisp_AbsDum = if_else(sch_absent_hi > 0,1,0)
   )
 
+saveRDS(cleanSchoolAll, "CleanSchlAll.Rdata")
 
 label_spec <- c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
                 "\\# Teachers at School",'\\# Hispanic Students', 'Total Students',
@@ -102,6 +104,32 @@ suspend <- cleanSchoolAll %>%
   filter(origdist < 100000 ) %>%
   mutate(origdist = origdist/1000, dist2 = origdist^2,
          origLogPop = log(origpopulation), origLogInc = log(origincome))
+
+suspend <- cleanSchoolAll %>%
+  filter(!is.na(hisp_OOSDum)) %>%
+  mutate(TV = inside) %>%
+  filter(minDist < 100000 ) %>%
+  mutate(origdist = minDist/1000, dist2 = origdist^2,
+         origLogPop = log(origpopulation), origLogInc = log(origincome))
+
+
+om1 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop, data=suspend)
+om2 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=suspend)
+om3 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=suspend)
+om4 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + origLogPop +
+            origpcHisp + origLogInc ,data=suspend)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_OOSOLSIHS_spec3.tex", title="Effect of TV on IHS(Hispanic Out of School Suspension)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          #covariate.labels = label_spec2,
+          dep.var.labels = 'IHS(Hispanic Out of School Suspension)')
+
 
 bm1 <- glm(hisp_OOSDum ~ TV*origdist ,data=suspend, family = binomial)
 bm2 <- glm(hisp_OOSDum ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
