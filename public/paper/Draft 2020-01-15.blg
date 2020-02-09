@@ -1,49 +1,66 @@
 This is BibTeX, Version 0.99d (TeX Live 2016)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: Draft 2020-01-15.aux
+White space in argument---line 40 of file Draft 2020-01-15.aux
+ : \citation{@
+ :             CITE CCRDC}
+I'm skipping whatever remains of this command
+White space in argument---line 43 of file Draft 2020-01-15.aux
+ : \citation{@CITE
+ :                 CRDC}
+I'm skipping whatever remains of this command
+White space in argument---line 44 of file Draft 2020-01-15.aux
+ : \citation{@CITE
+ :                 CRDC}
+I'm skipping whatever remains of this command
 The style file: aea.bst
 Database file #1: tv.bib
 Warning--I didn't find a database entry for ""
-Warning--empty institution in united_states_census_american_2020
-You've used 4 entries,
+Warning--empty author in noauthor_american_2020
+Warning--empty author in noauthor_ap_2015
+Warning--empty author in noauthor_ap_2020
+Warning--empty author in noauthor_elementary_2004
+Warning--empty author in noauthor_ensuring_2015
+Warning--empty author in noauthor_high_2015
+You've used 9 entries,
             2695 wiz_defined-function locations,
-            609 strings with 4588 characters,
-and the built_in function-call counts, 20948 in all, are:
-= -- 3468
-> -- 256
+            629 strings with 5419 characters,
+and the built_in function-call counts, 19705 in all, are:
+= -- 3249
+> -- 222
 < -- 0
-+ -- 1672
-- -- 80
-* -- 1865
-:= -- 4151
-add.period$ -- 26
-call.type$ -- 4
-change.case$ -- 52
-chr.to.int$ -- 4
-cite$ -- 5
-duplicate$ -- 56
-empty$ -- 148
-format.name$ -- 80
-if$ -- 3748
-int.to.chr$ -- 5
++ -- 1393
+- -- 70
+* -- 1735
+:= -- 3858
+add.period$ -- 50
+call.type$ -- 9
+change.case$ -- 87
+chr.to.int$ -- 6
+cite$ -- 15
+duplicate$ -- 91
+empty$ -- 338
+format.name$ -- 70
+if$ -- 3711
+int.to.chr$ -- 8
 int.to.str$ -- 0
 missing$ -- 0
-newline$ -- 19
-num.names$ -- 44
-pop$ -- 6
+newline$ -- 34
+num.names$ -- 33
+pop$ -- 5
 preamble$ -- 1
-purify$ -- 60
+purify$ -- 105
 quote$ -- 0
-skip$ -- 44
+skip$ -- 103
 stack$ -- 0
-substring$ -- 4938
-swap$ -- 22
-text.length$ -- 56
+substring$ -- 4217
+swap$ -- 40
+text.length$ -- 66
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 16
-warning$ -- 1
+type$ -- 36
+warning$ -- 6
 while$ -- 100
 width$ -- 0
-write$ -- 21
-(There were 2 warnings)
+write$ -- 47
+(There were 3 error messages)

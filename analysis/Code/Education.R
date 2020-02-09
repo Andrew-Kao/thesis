@@ -54,13 +54,13 @@ label_spec <- c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance
                 "\\# Teachers at School",'\\# Hispanic Students', 'Total Students',
                 'Contains Grade 1', 'Contains Grade 6','Contains Grade 9',
                 'Log(Population)','\\% County Hispanic', 'Log(Income)')
-label2_spec <- c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary','TV Dummy $\\times$ Distance2',
-  'Distance to Boundary (meters)', 'Distance2',
+label2_spec <- c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary','TV Dummy $\\times$ Distance$^{2}$',
+  'Distance to Boundary (meters)', 'Distance$^{2}$',
   "\\# Teachers at School",'\\# Hispanic Students', 'Total Students',
   'Contains Grade 1', 'Contains Grade 6','Contains Grade 9',
   'Log(Population)','\\% County Hispanic', 'Log(Income)')
-label2_spec2 <- c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary','TV Dummy $\\times$ Distance2',
-                 'Distance to Boundary (meters)', 'Distance2', '\\% County Hispanic', 'Log(Population)',
+label2_spec2 <- c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary','TV Dummy $\\times$ Distance$^{2}$',
+                 'Distance to Boundary (meters)', 'Distance$^{2}$', '\\% County Hispanic', 'Log(Population)',
                  "\\# Teachers at School",'\\# Hispanic Students', 'Total Students',
                  'Contains Grade 1', 'Contains Grade 6','Contains Grade 9',
                  'Log(Income)')
@@ -170,11 +170,18 @@ lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_s
             total_students + origLogInc + origpcHisp, data=suspend)
 
 ##### HARASS #####
+# harass <- cleanSchoolAll %>%
+#   filter(!is.na(sch_hbreported_rac_hi)) %>%
+#   mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
+#   filter(origdist < 100000 ) %>%
+#   mutate(origdist = origdist/1000, dist2 = origdist^2,
+#          origLogPop = log(origpopulation), origLogInc = log(origincome))
+
 harass <- cleanSchoolAll %>%
   filter(!is.na(sch_hbreported_rac_hi)) %>%
-  mutate(TV = ifelse(origintersects == 1 & (origareaRatio > .95 | origdist > 0 ), 1, 0)) %>%
-  filter(origdist < 100000 ) %>%
-  mutate(origdist = origdist/1000, dist2 = origdist^2,
+  mutate(TV = inside) %>%
+  filter(minDist < 100000 ) %>%
+  mutate(origdist = minDist/1000, dist2 = origdist^2,
          origLogPop = log(origpopulation), origLogInc = log(origincome))
 
 # IHS
@@ -244,6 +251,56 @@ stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_harhOLSIHS2_spec2.tex
           order = ('TV' ), 
           covariate.labels = label2_spec2,
           dep.var.labels = 'IHS(\\# Hispanic Victims of Harassment)')
+om1 <- lm(ihs(sch_hbreported_rac_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop, data=harass)
+om2 <- lm(ihs(sch_hbreported_rac_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_hbreported_rac_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om4 <- lm(ihs(sch_hbreported_rac_hi) ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + origLogPop +
+            origpcHisp + origLogInc ,data=harass)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_harhOLSIHS_spec3.tex", title="Effect of TV on IHS(Hispanic \\# Harassment Victims)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          #covariate.labels = label_spec2,
+          dep.var.labels = 'IHS(\\# Hispanic Victims of Harassment)')
+om1 <- lm(ihs(sch_hbreported_rac_hi) ~ TV*origdist + TV*dist2 + 
+            origpcHisp + origLogInc + origLogPop, data=harass)
+om2 <- lm(ihs(sch_hbreported_rac_hi) ~ TV*origdist + TV*dist2 +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_hbreported_rac_hi) ~ TV*origdist + TV*dist2 +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om4 <- lm(ihs(sch_hbreported_rac_hi) ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + origLogPop +
+            origpcHisp + origLogInc ,data=harass)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_harhOLSIHS2_spec3.tex", title="Effect of TV on IHS(Hispanic \\# Harassment Victims)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          #covariate.labels = label_spec2,
+          dep.var.labels = 'IHS(\\# Hispanic Victims of Harassment)')
+
+
+om1 <- glm(hisp_harassVicRaceDum ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop, data=harass, family = binomial)
+om2 <- glm(hisp_harassVicRaceDum ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=harass, family = binomial)
+om3 <- glm(hisp_harassVicRaceDum ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass, family = binomial)
+om4 <- glm(hisp_harassVicRaceDum ~ TV*origdist + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + origLogPop +
+            origpcHisp + origLogInc ,data=harass, family = binomial)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_harhLogit_spec3.tex", title="Effect of TV on Hispanic \\# Harassment Victim Dummy)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE, omit = "Constant",
+          order = ('TV' ), 
+          #covariate.labels = label_spec2,
+          dep.var.labels = 'IHS(\\# Hispanic Victim Dummy)')
 
 # zero inflate
 z1 <- zeroinfl(sch_hbreported_rac_hi ~ TV*origdist, data = harass, link = "logit", dist = "poisson")

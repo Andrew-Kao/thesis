@@ -4,15 +4,39 @@
 
 \begin{thebibliography}{xx}
 
-\harvarditem[Census]{United~States
-  Census}{2020}{united_states_census_american_2020}
-{\bf Census, United~States.} 2020. ``American {Community} {Survey} {Sample}
-  {Size} and {Data} {Quality}.''
+\harvarditem[]{}{2020{\em a}}{noauthor_american_2020}
+{\bf American {Community} {Survey} {Sample} {Size} and {Data} {Quality}.}
+  2020{\em a}. ``American {Community} {Survey} {Sample} {Size} and {Data}
+  {Quality}.'' United States Census Bureau.
+
+\harvarditem[]{}{2015{\em b}}{noauthor_ap_2015}
+{\bf {AP} {Data} – {Archived} {Data} 2015.} 2015{\em b}. ``{AP} {Data} –
+  {Archived} {Data} 2015.'' College Board.
+
+\harvarditem[]{}{2020{\em b}}{noauthor_ap_2020}
+{\bf {AP} {Score} {Distributions}.} 2020{\em b}. ``{AP} {Score}
+  {Distributions}.'' College Board.
+
+\harvarditem[]{}{2004}{noauthor_elementary_2004}
+{\bf Elementary and {Secondary} {Education} {Act} {Title} {IX} - {General}
+  {Provisions}.} 2004. ``Elementary and {Secondary} {Education} {Act} {Title}
+  {IX} - {General} {Provisions}.'' U.S. Department of Education.
+
+\harvarditem[]{}{2015{\em c}}{noauthor_ensuring_2015}
+{\bf Ensuring {English} {Learner} {Students} {Can} {Participate} {Meaningfully}
+  and {Equally} in {Educational} {Programs}.} 2015{\em c}. ``Ensuring {English}
+  {Learner} {Students} {Can} {Participate} {Meaningfully} and {Equally} in
+  {Educational} {Programs}.'' U.S. Department of Justice, Civil Rights Division
+  and U.S. Department of Education, Office for Civil Rights.
 
 \harvarditem[Fletcher, Heald \harvardand\ Hildreth]{Fletcher, Heald
   \harvardand\ Hildreth}{2018}{fletcher_fcc_2018}
 {\bf Fletcher, Heald, and Hildreth.} 2018. ``{FCC} {Updates} {DTV} {Reception}
   {Map}.''
+
+\harvarditem[]{}{2015{\em a}}{noauthor_high_2015}
+{\bf High {School} {Benchmarks} – 2015.} 2015{\em a}. ``High {School}
+  {Benchmarks} – 2015.'' National Student Clearinghouse Research Center.
 
 \harvarditem[Velez \harvardand\ Newman]{Yamil~Ricardo Velez \harvardand\
   Benjamin~J. Newman}{2019}{velez_tuning_2019}

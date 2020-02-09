@@ -165,7 +165,6 @@ The high level research question is to look at the effect of reinforcing identit
 
 There's good reason to believe that identity, as reinforced through mass media, has a large effect on the lives people lead. @CITE  Oberholzer-Gee, Waldfogel (AER 2009) demonstrate that the presence of Spanish language local news increases Hispanic voter turnout, while @CITE Yanigazawa-Drott (QJE 2014) shows that radio broadcasts in Rwanda contributed to the violence and genocide that took place in the 90s. It would be reasonable to think then, that there could be a meaningful effect of Spanish language TV on education. 
 
-\citep{} 
 
 %Social norms are an important element of any society: some behaviors and opinions are socially desirable, while others are stigmatized. There is growing evidence that individuals care to a large extent about how they are perceived by others and that such concerns might affect important decisions in a variety of settings
 
@@ -227,7 +226,7 @@ For data that take the form of spatial points (such as the location of a school)
 \subsection{Controls and Other Non-Outcome Data}
 Controls at the county level are sourced from IPUMS and consist of basic relevant demographic information: population, income, percent of county that is Hispanic etc. County level data is mapped to its relevant location using census data as well. 
 
-Data on migration comes from the 2011-2015 ACS, which reports the number of people moving from each origin county to destination county (aggregated over the years).\footnote{ Historically, approximately 15\% of the ACS migration data has been allocated, or imputed based on salient characteristics \citep{united_states_census_american_2020}. } This sample also contains migration flows by Hispanic origin, allowing us to determine whether they move based on geographic boundaries.
+Data on migration comes from the 2011-2015 ACS, which reports the number of people moving from each origin county to destination county (aggregated over the years).\footnote{ Historically, approximately 15\% of the ACS migration data has been allocated, or imputed based on salient characteristics (United States Census Bureau \cite{noauthor_american_2020}). } This sample also contains migration flows by Hispanic origin, allowing us to determine whether they move based on geographic boundaries.
 % TODO: propagate errors based on the margin of error
 
 Finally, data for specific outcomes are discussed under their relevant section.
@@ -265,15 +264,17 @@ By limiting the analysis to a small distance from the contour boundary ($100$ KM
 
 The data on public schools comes from the US Department of Education's CRDC (Civil Rights Data Collection) dataset in 2015. In order to prevent discrimination and for transparency purposes, all public schools in the United States are required to report a substantial amount of information for the CRDC on an annualized basis.\footnote{ In practice, this data is not released to the public every year. Furthermore, not all schools report all data (or correct data) required of them, which is why the number of observations for different variables in this dataset fluctuates} 
 
+The dataset contains information on a total of 96,350 schools across 17,280 school districts. Figure \ref{schooldistrictfig} contains a map of these schools, while summary statistics for the variables of interest can be found at Table @REF..
+
 The outcome data from the CRDC can be split into two categories:
 \begin{itemize}
 \item \textbf{Academic Achievements:} We focus on two outcomes that track the effect of television on the top end of the academic distribution of students: the number of Advanced Placement (AP) classes students enrol in and pass, as well as the number of students placed into gifted programs, and one outcome on the bottom: the number of students with Limited English Proficiency (LEP).
 
-The AP program is administered by the College Board, and defines a standardized college-level curriculum that is taught to high school students in AP Classes. In conjunction with AP Classes, AP Exams are national examinations which are designed to test mastery of material taught in AP classes. These exams are given scores ranging from 1 to 5, with scores below a 3 marked as a failed exam. Even among the selective students who opt into these classes (22\% in 2015\footnote{ Data computed from number of high school graduates in 2015 \citep{@CITE Clearinghouse}, and number of seniors who sat an AP exam in 2015. This is how the College Board currently tracks national AP participation (no comparable summary statistic was released in 2015) \citep{@CITE AP archive data}}), a substantial number of students who take these exams fail them - approximately 35\% \citep{@CITE AP score distn}. 
+The AP program is administered by the College Board, and defines a standardized college-level curriculum that is taught to high school students in AP Classes. In conjunction with AP Classes, AP Exams are national examinations which are designed to test mastery of material taught in AP classes. These exams are given scores ranging from 1 to 5, with scores below a 3 marked as a failed exam. Even among the selective students who opt into these classes (22\% in 2015\footnote{ Data computed from number of high school graduates in 2015 (National Student Clearinghouse Research Center \cite{noauthor_high_2015}), and number of seniors who sat an AP exam in 2015. This is how the College Board currently tracks national AP participation (no comparable summary statistic was released in 2015) (College Board \cite{noauthor_ap_2015})}), a substantial number of students who take these exams fail them - approximately 35\% (College Board \cite{noauthor_ap_2020}). 
 
 Gifted and talented programs are ``programs during regular school hours that provide special educational opportunities including accelerated promotion through grades and classes and an enriched curriculum for students who are endowed with a high degree of mental ability or who demonstrate unusual physical coordination, creativity, interest, or talent." \citep{@ CITE CCRDC} These programs, while not mandatory, are common across school districts, and vary in their implementation. % HOW MANY STUDENTS?
 
-LEP students (also called English Learner students) are students that, as a result of their limited command over the English language, have difficulty participating in regular school activities.\footnote{The specific definition of a LEP student depends on individual state regulation, but must also satisfy the criteria outlined under Title IX of the Elementary and Secondary Education Act \citep{@CITE }. The most salient features of Title IX are that students must either not speak English as a native language or come from an environment where non-English languages are dominant, and also face substantial difficulty in engaging with others on the basis of their English ability.} 9\% of all public school students are considered LEP, and while students are placed into the program is at the discretion of individual school districts, all districts must provide language assistance services and have staff qualified to implement the LEP programs. 
+LEP students (also called English Learner students) are students that, as a result of their limited command over the English language, have difficulty participating in regular school activities.\footnote{The specific definition of a LEP student depends on individual state regulation, but must also satisfy the criteria outlined under Title IX of the Elementary and Secondary Education Act (US Department of Education \cite{noauthor_elementary_2004}). The most salient features of Title IX are that students must either not speak English as a native language or come from an environment where non-English languages are dominant, and also face substantial difficulty in engaging with others on the basis of their English ability.} 9\% of all public school students are considered LEP, and while students are placed into the program is at the discretion of individual school districts, all districts must provide language assistance services and have staff qualified to implement the LEP programs.\footnote{ Department of Justice and Department of Education \cite{noauthor_ensuring_2015} contains a full enumeration of the responsibilities school districts have. It further includes requirements such as ensuring equal access to various school programs etc. } 
 
 \item \textbf{Disciplinary Issues:} Two forms of academic discipline are considered as outcome variables: the number of out of school suspensions, and the amount of harassment and bullying on the basis of race/ethnicity experienced by students.
 
@@ -286,10 +287,7 @@ Harassment or bullying on the basis of race, color, or national origin ``refers 
 
 Notably, all the outcome information described above is also provided for Hispanic subpopulations --- hence, the outcome of interest is generally the number of Hispanic students passing AP tests, or being bullied on the basis of their ethnicity, etc. These variables are all reported at the school level. 
 
-School level controls include \\
-Demographic control variables are sourced at the county level (income, percent Hispanic, population) from IPUMs.
-
- It's a very large dataset with a ton of outcome/control variables, but importantly, it breaks down all major variables of interest by ethnicity. These variables includes graduation rates, chronic absenteeism, suspensions, expulsions, arrests, bullying, AP test results, English proficiency, math class performances, gifted program enrolment etc., so I can look at effects on both the top and bottom end of the distribution, and examine potential mechanisms driving outcomes. 
+School level controls include the number of teachers, the number of total students, the number of Hispanic students, as well as dummies for whether the school contains a primary school, middle school, and high school. Demographic control variables are sourced at the county level (income, percent Hispanic, population) from IPUMs as described in the Data section.
  
  As mentioned, the locations of these schools are found using ArcGIS.
  % school district
@@ -309,11 +307,21 @@ Targeting based on identity
 
 \section{Firms}\label{secfirm}
 \subsection{Data}
+
+Why Florida
+
+\paragraph{Principal Name Classification} To determine whether a business is owned and run by a Hispanic person or not,
+
+\paragraph{Firm Name Classification} Unlike the names of firm principals, there is no readily available or standardized method to determine whether a firm's name is characteristic of a Hispanic identity or not.
+
 \subsection{Results}
 \subsection{Discussion}
 
 \section{Campaign Contributions}\label{seccamp}
 \subsection{Data}
+
+\paragraph{Donor Name Classification} Following the approach taken to firms, donor names are also classified using 
+
 \subsection{Results}
 
 % robustness: also geocode trump with US?
@@ -339,7 +347,7 @@ Targeting based on identity
 
 Summary
 
-Future work: Political angle, examining mechs
+Future work: Political angle, examining mechs, complement or substitute with other news
 
 \clearpage
 \pagebreak
