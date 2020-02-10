@@ -33,13 +33,13 @@ ggplot() + geom_smooth(data = plotdf, aes(dist,ihs(pcHispanic)))
 ggplot(data = plotdf, aes(x=cut(dist,5),ihs(busnCount))) + geom_boxplot()
 ggplot() + geom_smooth(data = plotdf, aes(dist,hispFoodNameD))
 ggplot(data = plotdf, aes(dist,hispFoodName)) + geom_smooth(method = lm, formula = y ~ splines::bs(x, 10), se = FALSE)
-m1 <- lm(busnCount ~ logPop + pcHispanic + income + dist2 , data=plotdf)
+m1 <- lm(busn ~ logPop + pcHispanic + income + dist2 , data=plotdf)
 pred_busnCount <- predict(m1,plotdf)
-m2 <- lm(hispFoodName ~ logPop + pcHispanic + income + dist2, data=plotdf)
+m2 <- lm(hispFoodNameD ~ logPop + pcHispanic + income + dist2, data=plotdf)
 pred_foodName <- predict(m2,plotdf)
 plotdf <- plotdf %>%
-  mutate(pred_busnCount = pred_busnCount,
-         pred_foodName = pred_foodName)
+  mutate(pred_busnCount = busn - pred_busnCount,
+         pred_foodName = hispFoodNameD - pred_foodName)
 ggplot() + geom_smooth(data = plotdf, aes(dist,pred_busnCount))
 ggplot() + geom_smooth(data = plotdf, aes(dist,pred_foodName))
 ggplot(data = plotdf, aes(dist,pred_foodName)) + geom_smooth(method = lm, formula = y ~ splines::bs(x, 5), se = FALSE)
@@ -52,14 +52,16 @@ plotdf <- busn2@data %>%
          logPop = log(origpopulation),
          hispFoodNameD = ifelse(hispFoodName * hisp_sum > 0, 1,0),
          hispFoodName = hispFoodName * hisp_sum)  %>%
-  filter(distance < 100)
+  filter(distance < 50)
 ggplot() + geom_smooth(data = plotdf, aes(dist,hispFoodNameD))
 ggplot() + geom_smooth(data = plotdf, aes(dist,hispFoodName))
 m1 <- glm(hispFoodNameD ~ logPop + origpcHisp + origincome , data=plotdf, family = binomial)
 pred_foodName <- predict(m1,plotdf)
 plotdf <- plotdf %>%
-  mutate(pred_foodName = pred_foodName)
-ggplot() + geom_smooth(data = plotdf, aes(dist,pred_foodName), n = 12)
+  mutate(pred_foodName = hispFoodNameD - pred_foodName - 4.835) # subtract mean?
+ggplot() + geom_smooth(data = plotdf, aes(dist,pred_foodName), n = 9) +
+  labs(x = "Distance to Contour Boundary (KM)", y = "Dummy(Hispanic Businesses with Hispanic Name)") # do w/ 50
+ggsave("hispanicbusnname.pdf")
 
 
 # Schools
@@ -67,13 +69,20 @@ ggplot() + geom_smooth(data = plotdf, aes(dist,pred_foodName), n = 12)
 plotdf <- cleanSchoolAll %>%
   mutate(inout = ifelse(inside == 1, 1, -1),
          distance = minDist/1000,
-         dist = inout * distance)  %>%
-  filter(distance < 27)
+         dist = inout * distance,
+         origLogPop = log(origpopulation), origLogInc = log(origincome))  %>%
+  filter(distance < 50)
 ggplot() + geom_smooth(data = plotdf, aes(dist,ihs(sch_lepenr_hi)), n = 9)
 ggplot() + geom_smooth(data = plotdf, aes(dist,ihs(sch_apenr_hi)))
 ggplot() + geom_smooth(data = plotdf, aes(dist,ihs(sch_discwodis_singoos_hi)), n = 8) +
   labs(x = "Distance to Contour Boundary (KM)", y = "IHS(Hispanic Students Suspended)") # do w/ 50
 ggsave("hispanicsuspensions.pdf")
+m1 <- lm(ihs(sch_discwodis_singoos_hi) ~ origpcHisp + origLogInc + origLogPop + hisp_students, data=plotdf)
+pred_suspend <- predict(m1,plotdf)
+plotdf <- plotdf %>%
+  mutate(pred_suspend = ihs(sch_discwodis_singoos_hi) - pred_suspend)
+ggplot() + geom_smooth(data = plotdf, aes(dist,pred_suspend), n = 8) +
+  labs(x = "Distance to Contour Boundary (KM)", y = "IHS(Hispanic Students Suspended)") # do w/ 50
 ggplot() + geom_boxplot(data = plotdf, aes(cut(dist,5),ihs(sch_discwodis_singoos_hi)))
 ggplot() + geom_smooth(data = plotdf, aes(dist,ihs(sch_hbreported_rac_hi)), n = 9)
 ggplot() + geom_smooth(data = plotdf, aes(dist,ihs(sch_absent_hi)),n=7) +

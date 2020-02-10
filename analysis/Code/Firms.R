@@ -137,6 +137,11 @@ names(regDataF) <- c('busnCount', 'hispName', 'hispSum', 'hispMajSum',
 saveRDS(regDataF, 'FirmStackDF.Rdata')
 
 
+##### REGRESSIONS #####
+regDataF <- readRDS('FirmStackDF.Rdata')
+busn2 <- readRDS('BusnReadyRaster.Rdata')
+
+
 
 regF2 <- regDataF %>%
   mutate(logPop = log(population), # ceiling(dummy)

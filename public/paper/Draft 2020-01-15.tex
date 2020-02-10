@@ -90,7 +90,7 @@
 
 
 \begin{document}
-\title{\textbf{Seeing is Believing: The Effect of Television on the Identity and Lives of Hispanic People }%Unravel}
+\title{\textbf{Seeing is Believing: The Effect of Television on the Identity and Lives of Hispanic People}%Unravel}
 \thanks{We would like to thank XYZ and Trip from SatelliteGuys for technical advice.}\\
 }
 
@@ -246,14 +246,14 @@ Data on migration comes from the 2011-2015 ACS, which reports the number of peop
 % TODO: propagate errors based on the margin of error
 
 Finally, data for specific outcomes are discussed under their relevant section.
-
+% TODO: summary stats table - split by inside/outside boundary?
 
 
 \section{Empirical Strategy}\label{secrd}
 
 To isolate the causal effect of Spanish language television, I adopt the technique used in \cite{velez_tuning_2019}  and generalize it from three counties to the entirety of the US.\footnote{ The paper was retracted in 2019, but this was due to usage of unauthorized data, and unrelated to the efficacy of the underlying identification strategy.} Newman and Velez exploit a FCC (Federal Communications Commission) regulation which determines the distance from a TV station in which the station's broadcast signal is protected from interference. 
 
-This creates a natural spatial regression discontinuity, where the decaying strength of a signal over distance is combined with this cutoff in broadcast protection to create a split among people just inside and outside these coverage contours that are presumably comparable save for their access to broadcast TV. 
+This creates a natural spatial regression discontinuity, where the decaying strength of a signal over distance is combined with this cutoff in broadcast protection to create a split among people just inside and outside these coverage contours that are presumably comparable save for their access to broadcast TV.  This minimizes the potential concern of omitted variable bias, as the groups we are comparing across this border should share many overarching characteristics.
 
 In the case of Spanish language TV in particular, this should allow us to examine its causal effect on Hispanic populations for spatially located outcomes. As mentioned, these contours are purely determined by an algorithm and is only dependent on physical variables like local elevation and antennae strength. Thus, the precise regulatory boundaries are located in more or less random locations, and coverage is large enough that these contours tend to cut across towns and suburbs, rather than large cities --- television networks are not constructing their antennas to be just large enough to only cover the most dense and populous areas. This implies that network executives, if they are aiming to maximize profit, ratings, or audiences, would not consider these boundaries at the forefront of their calculus.
 
@@ -272,11 +272,11 @@ Several concerns that potentially remain:
 \subsection{Main Specification}
 
 A standard regression thus looks like restricting the universe of schools to only those within a small radius of the contour boundary, where the key independent variable of interest is an indicator for the school being inside or outside the boundary, interacted with the distance to the boundary:
-\[ Y_i^{j,k} = \beta_0 + \beta \mathbb{I}[InsideContour_i] \times Distance_i + \gamma X_i + \delta Z^j + \epsilon_i^k \, \, \, \, \, \, \, \epsilon \stackrel{iid}{\sim}   N(0,\sigma_i^{k^2})\]
+\[ Y_i^{j,k} = \beta_0 + \beta \mathbb{I}[InsideContour_i] \times Distance_i + \gamma X_i + \delta Z^j + \epsilon_i \, \, \, \, \, \, \, \epsilon \stackrel{iid}{\sim}   N(0,\sigma_i^{2})\]
 
-where $Y_i$ is an outcome for school $i$ in county $j$ and school district $k$, $X$ is a vector of school-level controls, and $Z$ is a vector of county-level controls. Errors are often clustered by school district, meaning that $Corr(\sigma_i^k, \sigma_{i'}^k) \neq 0$ is permissible.
+where $Y_i$ is an outcome for school $i$ in county $j$ and school district $k$, $X$ is a vector of school-level controls, and $Z$ is a vector of county-level controls. 
 
-By limiting the analysis to a small distance from the contour boundary ($100$ KM/63 miles by default), we also minimize the potential concerns of omitted variable bias etc., as these schools must now be at least fairly close to one another, meaning that they probably share many overarching characteristics.
+
 
 
 \subsection{Migration}
@@ -335,11 +335,17 @@ Finally, we may be concerned about the potential effects of spatial autocorrelat
 \paragraph{Evidence of Identity as a Mechanism}
 The results in Table \ref{edu_mech} provide some concrete evidence that identity changes as a result of the effect of television. We believe that access to SLTV reinforces Hispanic identities, making them more salient to the Hispanic individuals consuming the broadcast programs. The most direct evidence for this stems from the results on harassment and bullying based on ethnicity. Given that very few non-Hispanic people view SLTV programming, the fact that more Hispanic students are bullied on the basis of their ethnicity suggests that some change must be occurring within the students along this dimension.\footnote{ This increase in bullying does not appear to be the result of `retaliation' to Hispanic students bullying others: the coefficient only attenuates slightly when further controlling for the total number of students bullied, and running the main specification with the number of Hispanic students as perpetrators of race/ethnicity based bullying yields an insignificant negative coefficient. } 
 
-greater television coverage contour boundary find their Hispanic identity to be more salient. The greater number of Hispanic students classified under Limited English Proficiency (LEP) demonstrates a lower degree of command over the English language
+A substantial literature has shown that increased visibility of (non-majority) ethnicities is associated with greater amounts of bullying,\footnote{ See \cite{@CITE Scherr} for a review of this literature.}, consistent with the results that we see. Though it is impossible to rule out all other stories (perhaps children who watch more TV overall are more likely to be victims of bullying---but this is not supported by the literature. If anything, there is support for television causing children to become bullies \cite{@CITE Kuntsche}, but this is not borne out in our data), the most parsimonious explanation is one in which television increases identity salience and hence ethnicity-based bullying.
 
-Looking first at 
+We make a similar argument in the interpretation of the greater number of Hispanic students classified as having Limited English Proficiency. This increase demonstrates that these students possess a lower degree of command over the English language, suggesting two possibilities: either (1) that academic/linguistic abilities are lowered across the board, or that (2) there is some substitution in ability towards the Spanish language instead. Given that academic abilities appear to be \textit{enhanced} by the presence of SLTV, the substitution story appears more plausible to us.\footnote{ Granted, the measures of academic ability measure only the performance of students at the top end. But given the existence of these results, a countervailing narrative in which SLTV decreases the academic performance for other Hispanic students would need require a mechanism that could produce such differential effects.} Unfortunately, we do not have direct evidence on the Spanish-speaking abilities of students, and so recognize that this is not a settled matter. Thus, while the evidence presented is fairly suggestive, more research could be done on this matter.
 
-Do not harass or bully on the basis of ethnicity at higher rates
+\paragraph{Effects on Academic Achievement and Discipline} 
+We next turn our attention to the results presented in Tables \ref{edu_top} and \ref{edu_bot}. The results on academic achievement unambiguously show that, for the top end of Hispanic students, performance is bolstered by the presence of SLTV. This effect appears to hold across students of all ages --- while gifted programs are typically aimed at students in primary and middle schools, AP courses and exams are almost exclusive taken by high schoolers. 
+
+ The number of observations recorded for these regressions is worth addressing: compared to the 40,000 schools seen in other regressions, there are only 26,000 seen for gifted students, and fewer than 10,000 for the AP results. In the case of gifted programs, this drop is due to the fact that schools which do not have gifted student programs were omitted from the sample. We find it unlikely that the presence of a gifted program in a school is correlated with the the school being placed just inside or outside a television coverage contour, and so do not believe that this omission introduces any bias. Similarly, in the case of the AP results, only 9,765 of the schools in the sample are high schools with 12th graders enrolled in them---hence, the observed 6,089 schools opting to self-report AP course results is still sizable. Though the number of schools reporting AP exam results is substantially lower and may be concerning for this result, this can at least partially be attributed to the fact that students directly receive their AP scores, and the schools at which they are enrolled may not always have access to their AP scores. Furthermore, given that overall AP scores do not meaningfully change, it is unlikely that there is substantial selection into score reporting over the concerns of Hispanic students passing AP scores---especially because there are no real-world incentives or benefits attached to doing so.
+
+Thinking next on the size of the effects observed, 
+
 % HOW MANY STUDENTS get bullied? 7169 cases, so 22 students
 
 These increases in disciplinary outcomes can have serious downstream effects beyond the disciplinary event itself: the literature suggests that not only are suspended students at immediate risk of academic harm and further disciplinary issues (@CITE Arcia), but that these students are also more likely to be incarcerated as adults  \citep{wolf_school_2017}. Non-disciplined students appear to suffer from spillover effects in their academic performance as well. (@CITE perry schools)
@@ -409,16 +415,25 @@ Future work: Political angle, examining mechs, complement or substitute with oth
 
 \section*{Figures and Tables}
 
+\subsection{Figures}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Figure 1: Coverage Contours
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \begin{figure}[!hbtp]
 \centering
 \caption{IHS(\# Hispanic Students Suspended) by Distance to Contour Boundary }\label{suspensionsfig}
 \includegraphics[width=12cm]{../../analysis/Output/graphs/hispanicsuspensions.pdf}
 
 \textit{Notes:} The figure presents data at a school level, where a smoothed average of the inverse hyperbolic sine transformed counts of Hispanic students suspended is plotted against the distance of the school to the closest Spanish Language Television station contour boundary. Positive distances denote schools that are located within the boundary, while negative distances denote schools outside of them.
+\end{figure} 
+
+\begin{figure}[!hbtp]
+\centering
+\caption{Dummy for Hispanic Owned Business with Hispanic Name by Distance to Contour Boundary }\label{busnnnamefig}
+\includegraphics[width=12cm]{../../analysis/Output/graphs/hispanicbusnname.pdf}
+
+\textit{Notes:} The figure presents data at the firm level, where a smoothed average of a residualized dummy for Hispanic businesses with Hispanic-indicating names is plotted against the distance of the school to the closest Spanish Language Television station contour boundary. Positive distances denote schools that are located within the boundary, while negative distances denote schools outside of them. Controls at the county level include log population, income, and percentage population Hispanic.
 \end{figure} 
 
 \begin{figure}[!hbtp]
@@ -431,7 +446,7 @@ Future work: Political angle, examining mechs, complement or substitute with oth
 
 \begin{figure}[!hbtp]
 \centering
-\caption{Coverage Map for WUVC-DT}\label{contourexamplefig}
+\caption{Coverage Map for TV Station WUVC-DT}\label{contourexamplefig}
 \includegraphics[width=15cm]{../../analysis/Output/img/ContourExample.png}
 \end{figure} 
 
@@ -446,6 +461,9 @@ Future work: Political angle, examining mechs, complement or substitute with oth
 \caption{Map of School Districts in the US}\label{schooldistrictfig}
 \includegraphics[width=12cm]{../../analysis/Output/img/LEAMap.png}
 \end{figure} 
+
+\clearpage
+\subsection{Tables}
 
 \input{../../explore/output/summary/LEAInfo.tex}
 \input{../../explore/output/summary/SchoolInfo.tex}
