@@ -8,6 +8,8 @@ library(sf)
 library(stargazer)
 library(stringr)
 library(purrr)
+library(survival)
+library(clusterSEs)
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/firms/florida') 
@@ -77,6 +79,7 @@ busn@data <- busn@data %>%
 busn2 <- merge(busn, instrument, by = 'stateCounty', all.x = TRUE)
 saveRDS(busn2, 'BusnReadyRaster.Rdata')
 
+busn <- readRDS('BusnReadyRaster.Rdata')
 #### raster
 # florida bounds: https://openmaptiles.com/downloads/north-america/us/florida/
 r <- raster( xmn =-87, xmx=-80,ymn=29,ymx=31.1,crs= "+proj=longlat +datum=NAD83",
@@ -103,7 +106,7 @@ rgdf <- as(rBusnCount,'SpatialGridDataFrame')
 testLink <- over(rgdf,counties,returnList=FALSE)
 rgdf@data <- rgdf@data %>%
   mutate(stateCounty = testLink$stateCounty)
-rgdf2 <- merge(rgdf, instrument, by = 'stateCounty', all.x = TRUE)
+rgdf2 <- raster::merge(rgdf, instrument, by = 'stateCounty', all.x = TRUE)
 
 rPCHisp <- raster(rgdf2,layer=14)
 rPop <- raster(rgdf2,layer=15)
@@ -235,6 +238,170 @@ m3 <- glm(hispNameD ~ inside*distance + inside*dist2 + logPop + origpcHisp, data
 m4 <- glm(hispNameD ~ inside*distance + inside*dist2 + logPop + origpcHisp + origincome, data=regF2, family = binomial)
 stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/firms_name2_bin.tex", title="Effect of TV on Hispanic Name Businesses (No Food), 100 KM Radius",
           omit.stat = c('f','ser'), column.sep.width = '-5pt')
+
+
+
+regF2 <- busn2@data %>%
+  mutate(logPop = log(origpopulation), # ceiling(dummy)
+         distance = minDist/1000, dist2 = minDist^2,
+         hispFoodNameD = ifelse(hispFoodName > 0, 1,0),
+         hispNameD = ifelse(hispName > 0, 1,0),
+         nhispFoodNameD = ifelse(hispFoodName * (busnCount-hisp_sum) > 0, 1,0)) %>%
+  filter(distance < 100 & hispMaj_sum > 0 )
+
+m1 <- glm(hispFoodNameD ~ inside*distance  , data=regF2, family = binomial)
+m2 <- glm(hispFoodNameD ~ inside*distance + logPop, data=regF2, family = binomial) 
+m3 <- glm(hispFoodNameD ~ inside*distance + logPop + origpcHisp, data=regF2, family = binomial)
+m4 <- glm(hispFoodNameD ~ inside*distance + logPop + origpcHisp + origincome, data=regF2, family = binomial)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/firms_fname_bin.tex", title="Effect of TV on Hispanic Name Businesses (Food), 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+m1 <- glm(hispNameD ~ inside*distance  , data=regF2, family = binomial)
+m2 <- glm(hispNameD ~ inside*distance + logPop, data=regF2, family = binomial) 
+m3 <- glm(hispNameD ~ inside*distance + logPop + origpcHisp, data=regF2, family = binomial)
+m4 <- glm(hispNameD ~ inside*distance + logPop + origpcHisp + origincome, data=regF2, family = binomial)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/firms_name_bin.tex", title="Effect of TV on Hispanic Name Businesses (Food), 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+
+regF2 <- busn2@data %>%
+  mutate(logPop = log(origpopulation), # ceiling(dummy)
+         distance = minDist/1000, dist2 = minDist^2,
+         hispFoodNameD = ifelse(hispFoodName > 0, 1,0),
+         hispNameD = ifelse(hispName > 0, 1,0),
+         nhispFoodNameD = ifelse(hispFoodName * (busnCount-hisp_sum) > 0, 1,0)) %>%
+  filter(distance < 100 & hispMaj_sum == 0 )
+
+m1 <- glm(hispFoodNameD ~ inside*distance  , data=regF2, family = binomial)
+m2 <- glm(hispFoodNameD ~ inside*distance + logPop, data=regF2, family = binomial) 
+m3 <- glm(hispFoodNameD ~ inside*distance + logPop + origpcHisp, data=regF2, family = binomial)
+m4 <- glm(hispFoodNameD ~ inside*distance + logPop + origpcHisp + origincome, data=regF2, family = binomial)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/firms_fnamenh_bin.tex", title="Effect of TV on Hispanic Name Businesses (Food), 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+m1 <- glm(hispNameD ~ inside*distance  , data=regF2, family = binomial)
+m2 <- glm(hispNameD ~ inside*distance + logPop, data=regF2, family = binomial) 
+m3 <- glm(hispNameD ~ inside*distance + logPop + origpcHisp, data=regF2, family = binomial)
+m4 <- glm(hispNameD ~ inside*distance + logPop + origpcHisp + origincome, data=regF2, family = binomial)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/firms_namenh_bin.tex", title="Effect of TV on Hispanic Name Businesses (Food), 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+
+### MAIN ###
+
+label_spec3 <- c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+                 'Log(Population)','County \\% Hispanic','Log(Income)')
+
+regF2 <- regDataF %>%
+  mutate(logPop = log(population), # ceiling(dummy)
+         distance = distance/1000, dist2 = distance^2,
+         hispFoodNameD = ifelse(hispFoodName > 0, 1, 0),
+         hhispFoodNameD = ifelse(hispFoodName * hispMajSum > 0, 1, 0),
+         nhispFoodNameD = ifelse(hispFoodName * (busnCount - hispMajSum) > 0, 1, 0),
+         busn = busnCount * hispSum,
+         busnD = busnCount * hispMajSum,
+         income = log(income)) %>%
+  filter(distance < 100)
+
+
+m1 <- lm(ihs(busnD) ~ intersects*distance  , data=regF2)
+m2 <- lm(ihs(busnD) ~ intersects*distance + logPop, data=regF2) 
+m3 <- lm(ihs(busnD) ~ intersects*distance + logPop + pcHispanic, data=regF2)
+m4 <- lm(ihs(busnD) ~ intersects*distance + logPop + pcHispanic + income, data=regF2)
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/firms_rastern_ihs.tex", title="Effect of TV on IHS(\\# Hispanic Owned Businesses), 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt',
+          order = c('intersects','intersects:distance','distance'),
+          covariate.labels = label_spec3,
+          dep.var.labels = 'IHS(\\# Hispanic Owned Businesses)',
+          omit = c('Constant'))
+m1 <- glm(hispFoodNameD ~ intersects*distance  , data=regF2, family = binomial)
+m2 <- glm(hispFoodNameD ~ intersects*distance + logPop, data=regF2, family = binomial) 
+m3 <- glm(hispFoodNameD ~ intersects*distance + logPop + pcHispanic, data=regF2, family = binomial)
+m4 <- glm(hispFoodNameD ~ intersects*distance + logPop + pcHispanic + income, data=regF2, family = binomial)
+m5 <- glm(hhispFoodNameD ~ intersects*distance + logPop + pcHispanic + income, data=regF2, family = binomial)
+m6 <- glm(nhispFoodNameD ~ intersects*distance + logPop + pcHispanic + income, data=regF2, family = binomial)
+stargazer(m1,m2,m3,m4,m5,m6, out = "../../../Output/Regs/firms_rasterfname_bin.tex", title="Effect of TV on Binomial Hispanic Name Businesses, 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt',
+          order = c('intersects','intersects:distance','distance'),
+          covariate.labels = label_spec3,
+          dep.var.labels = 'IHS(\\# Hispanic Owned Businesses)',
+          omit = c('Constant'))
+
+regF2 <- regDataF %>%
+  mutate(logPop = log(population), 
+         distance = distance/1000, dist2 = distance^2,
+         hispFoodNameD = ifelse(hispFoodName > 0, 1, 0),
+         hhispFoodNameD = ifelse(hispFoodName * hispMajSum > 0, 1, 0),
+         nhispFoodNameD = ifelse(hispFoodName * (busnCount - hispMajSum) > 0, 1, 0),
+         busn = busnCount * hispSum,
+         busnD = busnCount * hispMajSum,
+         income = log(income)) %>%
+  filter(distance < 100)
+
+m1 <- glm(hhispFoodNameD ~ intersects*distance + logPop + pcHispanic + income,
+          data=regF2, family = binomial)
+m2 <- glm(hhispFoodNameD ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income,
+          data=regF2, family = binomial)
+# no cluster bc all in same state
+m3 <- glm(hhispFoodNameD ~ intersects*distance + logPop + pcHispanic + income + busnCount,
+          data=regF2, family = binomial)
+
+regF2 <- regF2 %>%
+  filter(distance < 50)
+
+m4 <- glm(hhispFoodNameD ~ intersects*distance + logPop + pcHispanic + income,
+          data=regF2, family = binomial)
+
+regF2 <- regF2 %>%
+  filter(distance < 25)
+
+m5 <- glm(hhispFoodNameD ~ intersects*distance + logPop + pcHispanic + income,
+          data=regF2, family = binomial)
+
+stargazer(m1,m2,m3,m4,m5, out = "../../../Output/Regs/firms_rasterfname_bin_robust.tex", title="Effect of TV on Binomial Hispanic Name Businesses, 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt',
+          # order = c('intersects','intersects:distance','distance'),
+          # covariate.labels = label_spec3,
+          # dep.var.labels = 'IHS(\\# Hispanic Owned Businesses)',
+          omit = c('Constant'))
+
+
+regDataFA <- data.frame(values(s)) %>%
+  mutate(x = coordinates(r)[,1],
+         y = coordinates(r)[,2])
+regDataFA <- na.omit(regDataFA)
+names(regDataFA) <- c('busnCount', 'hispName', 'hispSum', 'hispMajSum',
+                     'hispFoodName', 'hispNameD', 'population', 'pcHispanic', 'intersects', 'distance',
+                     'income','X','Y')
+
+regF2 <- regDataFA %>%
+  mutate(logPop = log(population), 
+         distance = distance/1000, dist2 = distance^2,
+         hispFoodNameD = ifelse(hispFoodName > 0, 1, 0),
+         hhispFoodNameD = ifelse(hispFoodName * hispMajSum > 0, 1, 0),
+         nhispFoodNameD = ifelse(hispFoodName * (busnCount - hispMajSum) > 0, 1, 0),
+         busn = busnCount * hispSum,
+         busnD = busnCount * hispMajSum,
+         income = log(income)) %>%
+  filter(distance < 100)
+
+m1 <- lm(ihs(busnD) ~ intersects*distance + logPop, data=regF2)
+coordinates(regF2) <- c('X','Y')
+nb4<-knearneigh(coordinates(regF2), k=4, longlat = TRUE)
+nb4 <- knn2nb(nb4)
+wt4<-nb2listw(nb4, style="W")
+
+lm.morantest(m1,listw=wt4, zero.policy = TRUE)
+m1.lag <- lagsarlm(ihs(busnD) ~ intersects*distance + logPop, data=regF2,
+                   listw=wt4, type="lag",method="MC")
+summary(m1.lag, Nagelkerke=T)
+m1.err <- errorsarlm(ihs(busnD) ~ intersects*distance + logPop, data=regF2,
+                     listw=wt4, etype="error",method="MC")
+summary(m1.err, Nagelkerke=T)
+
+stargazer(m1,m1.lag,m1.err, out = "../../../Output/Regs/firms_rastern_ihs_spatial.tex", title="Effect of TV on IHS(\\# Hispanic Owned Businesses), 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt',
+          order = c('intersects'),
+          covariate.labels = label_spec3,
+          dep.var.labels = 'IHS(\\# Hispanic Owned Businesses)',
+          omit = c('Constant', 'intersects:distance', 'logPop', 'distance'))
+# why this doesn't recognize object now? packages? can manual...
 
 
 
