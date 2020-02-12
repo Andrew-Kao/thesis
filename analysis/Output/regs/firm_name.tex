@@ -1,0 +1,35 @@
+\begin{table}[!h]
+	\centering
+	\captionsetup{skip=1.5pt}
+	\caption{Robustness of Influence of Spanish Language Television on Hispanic Business Ownership} \label{firm_busn}
+	\scalebox{.8}{
+		\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				 & \multicolumn{6}{c}{\textit{IHS(\# Hispanic Owned Businesses)}}\\
+				&  (1) & (2) & (3) & (4) & (5) & (6) \\
+                                \hline\addlinespace
+ TV Dummy & 0.839$^{***}$ & 0.638$^{***}$ & 0.637$^{***}$ & 0.769$^{***}$ & 0.849$^{***}$ & 0.775$^{***}$ \\ 
+  & (0.052) & (0.066) & (0.066) & (0.071) & (0.077) & (0.071) \\ 
+ TV Dummy $\times$ Distance to Boundary & 0.008$^{***}$ & 0.002 & 0.002 & 0.0002 & $-$0.0002 & 0.0002 \\ 
+  & (0.002) & (0.002) & (0.002) & (0.002) & (0.002) & (0.002) \\ 
+ Distance to Boundary (meters) & 0.010$^{**}$ & 0.021$^{***}$ & 0.021$^{***}$ & 0.031$^{***}$ & 0.035$^{***}$ & 0.031$^{***}$ \\ 
+  & (0.004) & (0.004) & (0.005) & (0.005) & (0.005) & (0.005) \\ 
+ Log(Population) &  & 0.957$^{***}$ & 0.979$^{***}$ & 0.702$^{***}$ & 0.761$^{***}$ & 0.701$^{***}$ \\ 
+  &  & (0.052) & (0.070) & (0.074) & (0.081) & (0.074) \\ 
+ County \% Hispanic &  &  & $-$0.151 & 1.428$^{***}$ & 1.514$^{***}$ & 1.434$^{***}$ \\ 
+  &  &  & (0.312) & (0.367) & (0.388) & (0.368) \\ 
+ Log(Income) &  &  &  & 2.350$^{***}$ & 2.534$^{***}$ & 2.356$^{***}$ \\ 
+  &  &  &  & (0.319) & (0.344) & (0.320) \\ 
+Observations & 23,853 & 23,853 & 23,853 & 23,853 & 23,853 & 23,853 \\ 
+				\hline\hline\addlinespace
+				Only Hispanic Owners & No & No & No & No & Yes & No \\
+				Only Non-Hispanic Owners & No & No & No & No & No & Yes \\
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} The table presents coefficient estimates from logit regressions at aggregated into grids of size approximately 4 KM$^2$, only keeping grid points within 100 KM of a contour boundary. The dependent variable is a dummy for whether there is a firm with a Hispanic name within the grid. The key dependent variable of interest is the TV Dummy, which tracks whether the school is within a coverage contour boundary for a Spanish language television station. This is interacted with the distance to the boundary. Controls are at the county level. Standard errors are given in parentheses. *, **, and *** denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.
+			\end{tablenotes}
+		\end{threeparttable}
+	}
+\end{table}

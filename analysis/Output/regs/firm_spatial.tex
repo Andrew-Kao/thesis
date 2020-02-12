@@ -1,0 +1,31 @@
+\begin{table}[!h]
+	\centering
+	\captionsetup{skip=1.5pt}
+	\caption{Spatial Robustness of Influence of Spanish Language Television on Hispanic Firm Ownership} \label{firm_spatial}
+	\scalebox{.8}{
+		\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				 & \multicolumn{3}{c}{\textit{IHS(\# Hispanic Owned Firms)}}\\
+				&  (1) & (2) & (3) \\
+                                \hline\addlinespace
+ TV Dummy & 0.122$^{***}$ & 0.022$^{***}$ & 0.126$^{***}$ \\ 
+  & (0.014) & (0.006) & (0.036) \\ 
+\hline\hline\addlinespace
+Observations & 23,853 & 23,853 & 23,853 \\ 
+Log Likelihood &  & $-$38,404 & $-$38,440 \\ 
+$\sigma^{2}$ &  & 1.168 & 1.170 \\ 
+Akaike Inf. Crit. &  & 76,821 & 76,894 \\ 
+Wald Test (df = 1) &  & 65,139$^{***}$ & 63,913$^{***}$ \\ 
+LR Test (df = 1) &  & 24,759$^{***}$ & 24,687$^{***}$ \\ 
+\hline \addlinespace
+                                County Controls & Yes & Yes  & Yes \\
+                                Model & OLS & SAR Lag & SAR Error \\
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} The table presents coefficient estimates from regressions at aggregated into grids of size approximately 4 KM$^2$, only keeping grid points within 100 KM of a contour boundary. The dependent variable is the inverse hyperbolic sine transformed counts of Hispanic owned firms in the grid. The key dependent variable of interest is the TV Dummy, which tracks whether the school is within a coverage contour boundary for a Spanish language television station. This is interacted with the distance to the boundary. County controls include log population. Additionally controlling for log income and percentage county Hispanic for the county which the grid is in yields similar coefficients, although standard errors cannot be estimated due to computational limitations. The SAR Lag model is a spatial autoregressive lag model and the SAR Error model is a spatial autoregressive error model, both with weight matrices based on 4 nearest neighbours. Standard errors are given in parentheses. *, **, and *** denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.
+			\end{tablenotes}
+		\end{threeparttable}
+	}
+\end{table}

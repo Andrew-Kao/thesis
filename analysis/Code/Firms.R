@@ -83,10 +83,10 @@ busn <- readRDS('BusnReadyRaster.Rdata')
 #### raster
 # florida bounds: https://openmaptiles.com/downloads/north-america/us/florida/
 r <- raster( xmn =-87, xmx=-80,ymn=29,ymx=31.1,crs= "+proj=longlat +datum=NAD83",
-             resolution = c(.02,.02))
+             resolution = c(.01,.01)) #baseline, c(.02,.02)
 r2 <- raster( xmn =-83.4, xmx=-80,ymn=24.3,ymx=29,crs= "+proj=longlat +datum=NAD83",
-             resolution = c(.02,.02))
-r <- merge(r,r2)
+             resolution = c(.01,.01))
+r <- merge(r,r2, tolerance = .1)
 rBusnCount <- rasterize(busn, r, field=busn$busnCount,fun=sum)
 values(rBusnCount) <- ifelse(is.na(values(rBusnCount)),0,values(rBusnCount))
 rHispSum <- rasterize(busn, r, field=busn$hisp_sum,fun=sum)
@@ -137,7 +137,7 @@ regDataF <- data.frame(na.omit(values(s)))
 names(regDataF) <- c('busnCount', 'hispName', 'hispSum', 'hispMajSum',
                      'hispFoodName', 'hispNameD', 'population', 'pcHispanic', 'intersects', 'distance',
                      'income')
-saveRDS(regDataF, 'FirmStackDF.Rdata')
+saveRDS(regDataF, 'FirmStackDF01.Rdata')
 
 
 ##### REGRESSIONS #####
@@ -329,6 +329,7 @@ regF2 <- regDataF %>%
          hispFoodNameD = ifelse(hispFoodName > 0, 1, 0),
          hhispFoodNameD = ifelse(hispFoodName * hispMajSum > 0, 1, 0),
          nhispFoodNameD = ifelse(hispFoodName * (busnCount - hispMajSum) > 0, 1, 0),
+         hhispNameD = ifelse(hispNameD * hispMajSum > 0, 1, 0),
          busn = busnCount * hispSum,
          busnD = busnCount * hispMajSum,
          income = log(income)) %>%
@@ -341,25 +342,46 @@ m2 <- glm(hhispFoodNameD ~ intersects*distance + intersects*dist2 + logPop + pcH
 # no cluster bc all in same state
 m3 <- glm(hhispFoodNameD ~ intersects*distance + logPop + pcHispanic + income + busnCount,
           data=regF2, family = binomial)
+m4 <- glm(hhispNameD ~ intersects*distance + logPop + pcHispanic + income + busnCount,
+          data=regF2, family = binomial)
 
 regF2 <- regF2 %>%
   filter(distance < 50)
 
-m4 <- glm(hhispFoodNameD ~ intersects*distance + logPop + pcHispanic + income,
+m5 <- glm(hhispFoodNameD ~ intersects*distance + logPop + pcHispanic + income,
           data=regF2, family = binomial)
 
 regF2 <- regF2 %>%
   filter(distance < 25)
 
-m5 <- glm(hhispFoodNameD ~ intersects*distance + logPop + pcHispanic + income,
+m6 <- glm(hhispFoodNameD ~ intersects*distance + logPop + pcHispanic + income,
           data=regF2, family = binomial)
 
-stargazer(m1,m2,m3,m4,m5, out = "../../../Output/Regs/firms_rasterfname_bin_robust.tex", title="Effect of TV on Binomial Hispanic Name Businesses, 100 KM Radius",
+regDataF <- readRDS('FirmStackDF.Rdata')
+regF2 <- regDataF %>%
+  mutate(logPop = log(population), 
+         distance = distance/1000, dist2 = distance^2,
+         hispFoodNameD = ifelse(hispFoodName > 0, 1, 0),
+         hhispFoodNameD = ifelse(hispFoodName * hispMajSum > 0, 1, 0),
+         nhispFoodNameD = ifelse(hispFoodName * (busnCount - hispMajSum) > 0, 1, 0),
+         hhispNameD = ifelse(hispNameD * hispMajSum > 0, 1, 0),
+         busn = busnCount * hispSum,
+         busnD = busnCount * hispMajSum,
+         income = log(income)) %>%
+  filter(distance < 100)
+m7 <- glm(hhispFoodNameD ~ intersects*distance + logPop + pcHispanic + income,
+          data=regF2, family = binomial)
+
+stargazer(m1,m2,m3,m4,m5,m6,m7, out = "../../../Output/Regs/firms_rasterfname_bin_robust.tex", title="Effect of TV on Binomial Hispanic Name Businesses, 100 KM Radius",
           omit.stat = c('f','ser'), column.sep.width = '-5pt',
           # order = c('intersects','intersects:distance','distance'),
           # covariate.labels = label_spec3,
           # dep.var.labels = 'IHS(\\# Hispanic Owned Businesses)',
           omit = c('Constant'))
+
+
+# Different Grid Sizes
+
 
 
 regDataFA <- data.frame(values(s)) %>%
