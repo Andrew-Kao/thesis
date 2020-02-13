@@ -19,11 +19,13 @@ spplot(baseData,region)
 state <- data(stateMapEnv)
 map('state',fill = FALSE)
 
-
 spplot(spanishCont,"ERP",col.regions=brewer.pal(n=5, "Reds"))
 ggplot() + geom_polygon(data = baseData, aes(x=long,y=lat,group=group))
 ggplot() + geom_polygon(data = contours_poly, aes(x=Lon,y=Lat))
 spplot(contours_poly,contour=TRUE)
+
+# gotta do more classification
+spplot(busn2,"hispFoodName")
 
 leaflet(spanishCont) %>%
   addPolygons(stroke = FALSE, fillOpacity = 0.5, smoothFactor = 0.5) %>%

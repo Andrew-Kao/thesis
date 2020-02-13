@@ -342,7 +342,7 @@ m2 <- glm(hhispFoodNameD ~ intersects*distance + intersects*dist2 + logPop + pcH
 # no cluster bc all in same state
 m3 <- glm(hhispFoodNameD ~ intersects*distance + logPop + pcHispanic + income + busnCount,
           data=regF2, family = binomial)
-m4 <- glm(hhispNameD ~ intersects*distance + logPop + pcHispanic + income + busnCount,
+m4 <- glm(hhispNameD ~ intersects*distance + logPop + pcHispanic + income,
           data=regF2, family = binomial)
 
 regF2 <- regF2 %>%
@@ -357,7 +357,7 @@ regF2 <- regF2 %>%
 m6 <- glm(hhispFoodNameD ~ intersects*distance + logPop + pcHispanic + income,
           data=regF2, family = binomial)
 
-regDataF <- readRDS('FirmStackDF.Rdata')
+regDataF <- readRDS('FirmStackDF03.Rdata')
 regF2 <- regDataF %>%
   mutate(logPop = log(population), 
          distance = distance/1000, dist2 = distance^2,
@@ -372,12 +372,28 @@ regF2 <- regDataF %>%
 m7 <- glm(hhispFoodNameD ~ intersects*distance + logPop + pcHispanic + income,
           data=regF2, family = binomial)
 
-stargazer(m1,m2,m3,m4,m5,m6,m7, out = "../../../Output/Regs/firms_rasterfname_bin_robust.tex", title="Effect of TV on Binomial Hispanic Name Businesses, 100 KM Radius",
+regDataF <- readRDS('FirmStackDF01.Rdata')
+regF2 <- regDataF %>%
+  mutate(logPop = log(population), 
+         distance = distance/1000, dist2 = distance^2,
+         hispFoodNameD = ifelse(hispFoodName > 0, 1, 0),
+         hhispFoodNameD = ifelse(hispFoodName * hispMajSum > 0, 1, 0),
+         nhispFoodNameD = ifelse(hispFoodName * (busnCount - hispMajSum) > 0, 1, 0),
+         hhispNameD = ifelse(hispNameD * hispMajSum > 0, 1, 0),
+         busn = busnCount * hispSum,
+         busnD = busnCount * hispMajSum,
+         income = log(income)) %>%
+  filter(distance < 100)
+m8 <- glm(hhispFoodNameD ~ intersects*distance + logPop + pcHispanic + income,
+          data=regF2, family = binomial)
+
+stargazer(m1,m2,m3,m4,m5,m6,m7,m8, out = "../../../Output/Regs/firms_rasterfname_bin_robust.tex", title="Effect of TV on Binomial Hispanic Name Businesses, 100 KM Radius",
           omit.stat = c('f','ser'), column.sep.width = '-5pt',
-          # order = c('intersects','intersects:distance','distance'),
-          # covariate.labels = label_spec3,
-          # dep.var.labels = 'IHS(\\# Hispanic Owned Businesses)',
-          omit = c('Constant'))
+          order = c('intersects','intersects:distance','distance'),
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary ',
+                               'Distance to Boundary (meters)', 'Total Businesses'),
+          dep.var.labels = 'IHS(\\# Hispanic Owned Businesses)',
+          omit = c('Constant','dist2','logPop','pcHispanic','income','intersects:dist2'))
 
 
 # Different Grid Sizes

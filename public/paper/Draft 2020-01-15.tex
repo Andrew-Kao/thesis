@@ -282,9 +282,47 @@ where $Y_i$ is an outcome for school $i$ in county $j$ and school district $k$, 
 \subsection{Migration}
 
 
+%%%%%%%%%% FIRMS %%%%%%%%
+\section{Firms}\label{secfirm}
+
+In this section, we examine Hispanic firm ownership and firms adopting Hispanic names, showing that both increase under the influence of SLTV. 
+
+\subsection{Data}
+
+From Florida's Division of Corporations, we obtain complete records of business filing data from the years 2010 to 2019.\footnote{ Businesses in Florida are generally required to refile every 3 years} Unfortunately, there is no readily available (and free) national firm database that also contains addresses and owner names, so analysis had to be restricted to the state level instead. We pick Florida as our state to analyse for several reasons: (1) Florida hosts a significant Hispanic population (23.2\% of Florida's population, 8\% of the US total), and contains 11 SLTV stations (11\% of the US total), (2) Florida makes its voting registration data public, which we use to predict ethnicity from names, and (3) Florida makes its business filing data public. 
+
+From the business filings, we keep all firms that we are able to successfully geocode, leaving us with a universe of 146,032 firms; though this unfortunately is not a sizable fraction of the total filings available, the sample restriction is unlikely to introduce any bias into the sample.\footnote{ The total number of firms for which we have filing data is on the order of 3 million. However, the amount of locations that could be geocoded was unfortunately rate-limited by the classification method used, and so we are left with the first 146,032 firms geocoded. Given that they were geocoded in chronological order corresponding to date filed (beginning with 2010 firms, and ending around mid-2010), there is no reason to believe that there would be any bias introduced by this limitation; there would need to be some omitted variable determining both the location of the firm and the firm filing its data in the first 6 months of 2010. It is unclear what that any such variable exists.} 
+
+Our two outcomes of interest are whether the firms are owned by Hispanics, and whether the firm names play into Hispanic identities. To construct these outcomes, we use two separate methods of classification:
+
+\paragraph{Principal Name Classification} To determine whether a business is owned and run by a Hispanic person or not, we run the Python machine learning classifier `ethnicolr' to predict ethnicity based on the first and last names of a business' principal.\footnote{ Corporations are required to file personal data for their Registered Agent as well up to six Principals, the latter of which must be a President, Treasurer, Chairman, Vice President, Secretary, or Director of the firm. In some small number of cases, the Principal is a corporation --- these observations are dropped. When there are multiple principals for which we have data, we use the classification for the highest ranked principal. } The classifier contains three models trained on separate data sources: (1) Data from the US census in 2000 and 2010, (2) data from the Florida voter registration database in 2017, and (3) Wikipedia data collected by Skiena et al. We use the Florida voter registration data because it closely matches the sample that we are working with. 
+
+The model uses TensorFlow (an open source software library developed by Google for training Machine Learning applications) to train a Long Short-Term Memory (LSTM) model based on the bigrams (two character chunks) present in the names. An out of sample validation exercise using the voter registration data yields an 85\% overall accuracy.\footnote{ The neural net is much less (30\% less) accurate at identifying blacks and Asians compared to Hispanics. In addition to a best guess at ethnicity, the model also provides the percentage probability that a name is associated with a specific ethnicity. Using this percentage instead of a dummy for whether a name is Hispanic or not does not change the results. } 
+%TODO: Summary stats
+
+\paragraph{Firm Name Classification} Unlike the names of firm principals, there is no readily available or standardized method to determine whether a firm's name is characteristic of a Hispanic identity or not. The method we develop a custom measure of this outcome: 
+
+%TODO: Appendix table
+
+\subsection{Results}
+
+% Moran's I test	
+
+% cluster: Esarey (2019) following Ibragimov and Muller 2010
+\subsection{Discussion}
+
+
+Hispanic owners no more likely to advertise, but non-Hispanic owners do: 
+
+% paid programming, which makes up 30.9\% of Hispanic owned SLTV networks programming time, compared to 10.8\% in the general population - advertising Hispanic firms
+
+
 
 %%%%%%%%%% PUBLIC SCHOOLS %%%%%%%%
 \section{Public Schools}\label{secschool}
+
+In this section, we examine the performance of Hispanics in public schools and find that while academic achievement generally increases and disciplinary issues generally decrease, the opposite holds true when the measures are more directly to identity. 
+
 \subsection{Data}
 
 The data on public schools comes from the US Department of Education's CRDC (Civil Rights Data Collection) dataset in 2015. In order to prevent discrimination and for transparency purposes, all public schools in the United States are required to report a substantial amount of information for the CRDC on an annualized basis.\footnote{ In practice, this data is not released to the public every year. Furthermore, not all schools report all data (or correct data) required of them, which is why the number of observations for different variables in this dataset fluctuates. Some data, such as that on AP examinations, are not mandatory, but the bulk of outcome variables are, with non-compliance on the mandatory data typically representing $<1\%$ of total data.} 
@@ -346,33 +384,15 @@ We next turn our attention to the results presented in Tables \ref{edu_top} and 
 
 Thinking next on the size of the effects observed, 
 
-% HOW MANY STUDENTS get bullied? 7169 cases, so 22 students
-
 These increases in disciplinary outcomes can have serious downstream effects beyond the disciplinary event itself: the literature suggests that not only are suspended students at immediate risk of academic harm and further disciplinary issues (@CITE Arcia), but that these students are also more likely to be incarcerated as adults  \citep{wolf_school_2017}. Non-disciplined students appear to suffer from spillover effects in their academic performance as well. (@CITE perry schools)
 
+\paragraph{Resolving the Difference Between `Identity' and Other Outcomes}
+It appears that while Hispanic discipline issues are generally improved by SLTV, this does not extend to the measure directly tied to identity: bullying and harassment based on ethnicity. Similarly, while academic achievement is generally improved by SLTV, this finding does not also generalize to LEP rates. 
+
+% HOW MANY STUDENTS get bullied? 7169 cases, so 22 students
 
 
 
-\section{Firms}\label{secfirm}
-\subsection{Data}
-
-Why Florida
-
-\paragraph{Principal Name Classification} To determine whether a business is owned and run by a Hispanic person or not,
-
-\paragraph{Firm Name Classification} Unlike the names of firm principals, there is no readily available or standardized method to determine whether a firm's name is characteristic of a Hispanic identity or not.
-
-\subsection{Results}
-
-% Moran's I test	
-
-% cluster: Esarey (2019) following Ibragimov and Muller 2010
-\subsection{Discussion}
-
-
-Hispanic owners no more likely to advertise, but non-Hispanic owners do: 
-
-% paid programming, which makes up 30.9\% of Hispanic owned SLTV networks programming time, compared to 10.8\% in the general population - advertising Hispanic firms
 
 \section{Campaign Contributions}\label{seccamp}
 \subsection{Data}
@@ -483,6 +503,7 @@ Future work: Political angle, examining mechs, complement or substitute with oth
 
 \input{../../analysis/Output/regs/firm_busn.tex}
 \input{../../analysis/Output/regs/firm_name.tex}
+\input{../../analysis/Output/regs/firm_robust.tex}
 \input{../../analysis/Output/regs/firm_spatial.tex}
 
 %\input{../../explore/Output/Regs/edu_OOSIHS2_spec2.tex}

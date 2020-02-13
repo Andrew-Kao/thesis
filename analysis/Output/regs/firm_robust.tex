@@ -1,0 +1,34 @@
+\begin{table}[!h]
+	\centering
+	\captionsetup{skip=1.5pt}
+	\caption{Robustness of Influence of Spanish Language Television on Hispanic Owned Businesses with Hispanic Names} \label{firm_robust}
+	\scalebox{.8}{
+		\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				 & \multicolumn{8}{c}{\textit{Hispanic Owned and Named Business Dummy}}\\
+				&  (1) & (2) & (3) & (4) & (5) & (6) & (7) & (8) \\
+                                \hline\addlinespace
+ TV Dummy & 0.849$^{***}$ & 1.071$^{***}$ & 0.305$^{***}$ & 1.164$^{***}$ & 0.927$^{***}$ & 0.596$^{***}$ & 0.624$^{***}$ & 1.144$^{***}$ \\ 
+  & (0.077) & (0.115) & (0.078) & (0.077) & (0.098) & (0.118) & (0.078) & (0.076) \\ 
+ TV Dummy $\times$ Distance to Boundary  & $-$0.0002 & $-$0.008 & $-$0.003 & $-$0.002 & $-$0.002 & 0.042$^{***}$ & 0.001 & $-$0.001 \\ 
+  & (0.002) & (0.007) & (0.002) & (0.002) & (0.004) & (0.010) & (0.002) & (0.002) \\ 
+ Distance to Boundary (meters) & 0.035$^{***}$ & 0.123$^{***}$ & 0.013$^{***}$ & 0.044$^{***}$ & 0.049$^{***}$ & $-$0.097$^{***}$ & 0.026$^{***}$ & 0.042$^{***}$ \\ 
+  & (0.005) & (0.021) & (0.005) & (0.006) & (0.012) & (0.035) & (0.005) & (0.006) \\ 
+ Total Businesses &  &  & 0.023$^{***}$ &  &  &  &  &  \\ 
+  &  &  & (0.001) &  &  &  &  &  \\ 
+\hline \\[-1.8ex] 
+Observations & 23,853 & 23,853 & 23,853 & 95,373 & 20,404 & 14,386 & 10,598 & 95,373 \\ 				\hline\hline\addlinespace
+County Controls & Yes & Yes & Yes & Yes & Yes & Yes & Yes & Yes \\
+Distance Cutoff & 100 & 100 & 100 & 100 & 50 &25 & 100 &100 \\
+Grid Size (KM$^2$) & 4 & 4 & 4 & 4 &4 & 4 & 9 & 1\\ 
+Distance$^2$ & No & Yes & No & No & No & No & No & No \\
+No Food Names & No & No & No & Yes & No & No & No & No \\
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} The table presents coefficient estimates from logit regressions at aggregated into grids, only keeping grid points within a certain cutoff of a contour boundary. The dependent variable is a dummy for whether there is a firm with a Hispanic name owned by a Hispanic person within the grid. Column (1) is the same specification as Table \ref{firm_name} Column (5). The key dependent variable of interest is the TV Dummy, which tracks whether the school is within a coverage contour boundary for a Spanish language television station. This is interacted with the distance to the boundary. Controls are at the county level, and include log population, log income, and percentage of county that is Hispanic. Total Businesses is the total number of businesses in the grid, while No Food Names removes references to various Hispanic foods as part of the criterion for selection of Hispanic business names. Various distance cut-offs, grid sizes, as well as the interaction with distance squared are presented. Standard errors are given in parentheses. *, **, and *** denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.
+			\end{tablenotes}
+		\end{threeparttable}
+	}
+\end{table}
