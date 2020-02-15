@@ -298,9 +298,14 @@ Our two outcomes of interest are whether the firms are owned by Hispanics, and w
 \paragraph{Principal Name Classification} To determine whether a business is owned and run by a Hispanic person or not, we run the Python machine learning classifier `ethnicolr' to predict ethnicity based on the first and last names of a business' principal.\footnote{ Corporations are required to file personal data for their Registered Agent as well up to six Principals, the latter of which must be a President, Treasurer, Chairman, Vice President, Secretary, or Director of the firm. In some small number of cases, the Principal is a corporation --- these observations are dropped. When there are multiple principals for which we have data, we use the classification for the highest ranked principal. } The classifier contains three models trained on separate data sources: (1) Data from the US census in 2000 and 2010, (2) data from the Florida voter registration database in 2017, and (3) Wikipedia data collected by Skiena et al. We use the Florida voter registration data because it closely matches the sample that we are working with. 
 
 The model uses TensorFlow (an open source software library developed by Google for training Machine Learning applications) to train a Long Short-Term Memory (LSTM) model based on the bigrams (two character chunks) present in the names. An out of sample validation exercise using the voter registration data yields an 85\% overall accuracy.\footnote{ The neural net is much less (30\% less) accurate at identifying blacks and Asians compared to Hispanics. In addition to a best guess at ethnicity, the model also provides the percentage probability that a name is associated with a specific ethnicity. Using this percentage instead of a dummy for whether a name is Hispanic or not does not change the results. } 
+
+Overall, 23.5\% of principals are classified as Hispanic (.3\% higher than the proportion of the population that Hispanics make up). As a final check, we randomly selected one hundred names to verify, and the model appears to be at least 85\% correct on inspection (no name was obviously incorrectly classified). For instance, `Manuel Lorenzo' and `Mildred Sosa' are classified as Hispanic, `Peter Yu' and `Haresh Karamchandani' are classified as Asian, `Tony Walker' and `Dwayne Demarie' are classified as Black, and `Robert Bronson' and `Nathan Smith' are classified as White. 
+
 %TODO: Summary stats
 
-\paragraph{Firm Name Classification} Unlike the names of firm principals, there is no readily available or standardized method to determine whether a firm's name is characteristic of a Hispanic identity or not. The method we develop a custom measure of this outcome: 
+\paragraph{Firm Name Classification} Unlike the names of firm principals, there is no readily available or standardized method to determine whether a firm's name is characteristic of a Hispanic identity or not. Although a machine learning approach is still theoretically possible under these circumstances, a quick visual inspection of 
+
+The method we develop a custom measure of this outcome: 
 
 %TODO: Appendix table
 

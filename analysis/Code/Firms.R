@@ -443,6 +443,8 @@ stargazer(m1,m1.lag,m1.err, out = "../../../Output/Regs/firms_rastern_ihs_spatia
 
 
 
+
+
 ihs <- function(x) {
   y <- log(x + sqrt(x ^ 2 + 1))
   return(y)

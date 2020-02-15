@@ -99,6 +99,13 @@ latinCheck <- function(names, spec = 1) {
 
 
 
+######## NEXT
 
+hispName <- names %>%
+  filter(hispanic > .5)
+head(hispName)
+asianName <- names %>%
+  filter(asian > .5)
+head(asianName)
 
 
