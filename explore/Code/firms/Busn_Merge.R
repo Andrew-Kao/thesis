@@ -1,13 +1,61 @@
 #### MERGE FL BUSN DATA ####
-library(dplyr)
-library(sf)
-library(rgdal)
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/firms/florida') 
+} else if (Sys.info()["user"] == "andrewkao") {
+  setwd('/project2/bursztyn/contour/Data/firms/florida') 
+  dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)  # create personal library
+  .libPaths(Sys.getenv("R_LIBS_USER"))
+  r = getOption("repos")
+  r["CRAN"] = "http://cran.us.r-project.org"
+  options(repos = r)
 }
 
+library(dplyr)
+if("sf" %in% rownames(installed.packages()) == FALSE) {install.packages("sf",  dependencies = TRUE)}
+if("rgdal" %in% rownames(installed.packages()) == FALSE) {install.packages("rgdal",  dependencies = TRUE)}
+if("spdep" %in% rownames(installed.packages()) == FALSE) {install.packages("spdep",  dependencies = TRUE)}
+require(sf)
+require(rgdal)
+require(spdep)
+
 options(stringsAsFactors = FALSE)
+
+### Check if name contains common Latin American words/food identifiers/countries
+# substrings: taqueria, taco, empanada, huevo, pollo, burrito, arepa, pupusa, tamale, tortilla
+# salsa, asado, lechon, mojo, ropa, vieja, chorizo, 
+# countries: latin, mexic, bolivia, chile, argentin, venezuela, beliz, costa rica, salvador
+# guatemala, hondur, nicaragua, panama, brazil, colombia, ecuador, guyana, paragua, peru
+# surinam, urugu, cuba, dominican, haiti, puerto
+# words: la, de, como, su, que, el, para, en, por, los, casa, caliente
+latinCheck <- function(names, spec = 1) {
+  
+  output <- 0
+  
+  # spec:
+  # == 1 : everythting
+  # == 2 : no food
+  
+  patterns <- c('latin', 'mexic', 'bolivia', 'chile', 'argentin', 
+                'venezuela', 'beliz', 'costa rica', 'salvador', 'guatemala', 'hondur',
+                'nicaragua', 'panama', 'brazil', 'colombia', 'ecuador', 'guyana', 'paragua',
+                'peru', 'surinam', 'urugu', 'cuba', 'dominican', 'haiti', 'puerto',
+                '^la ', ' la ', '^de ', ' de ', '^como ', 'como ', '^su ', ' su ',
+                ' que ', '^el ', ' el ', '^para ', ' para ', '^en ', ' en ',
+                '^por ', ' por ', '^los ', ' los ', '^casa ', ' casa ',
+                '^caliente ', ' caliente ')
+  if (spec == 2) {
+    patterns <- c(patterns,'taqueria', 'taco', 'empanada', 'huevo', 'pollo', 'burrito', 'arepa',
+                  'pupusa', 'tamale', 'tortilla', 'salsa', 'asado', 'lechon', 'mojo', 'ropa',
+                  'vieja', 'chorizo')
+  }
+  for (p in patterns) {
+    output <- output + grepl(p, names, ignore.case=TRUE) 
+  }
+  
+  
+  return(output) 
+}
 
 # 1. Cleaned donor data (direct)
 busn <- readRDS('tidy_merged.Rdata')
@@ -43,6 +91,8 @@ locationNames <- sbusn %>%
             hispOne_sum = sum(hispOne), hispMaj_sum = sum(hispMaj)) %>%
   mutate(hispNameD = ifelse(hispName > 0, 1, 0))
 
+locationNames <- readRDS('LocNames.Rdata')
+
 locationCounts <- sbusn %>%
   group_by(PRINC_ADD_1,PRINC_CITY,PRINC_STATE,PRINC_ZIP5) %>%
   summarise(busnCount = n())
@@ -59,53 +109,13 @@ saveRDS(busn2,file='BusnAll.Rdata')
 
 
 
-
-### Check if name contains common Latin American words/food identifiers/countries
-# substrings: taqueria, taco, empanada, huevo, pollo, burrito, arepa, pupusa, tamale, tortilla
-# salsa, asado, lechon, mojo, ropa, vieja, chorizo, 
-# countries: latin, mexic, bolivia, chile, argentin, venezuela, beliz, costa rica, salvador
-# guatemala, hondur, nicaragua, panama, brazil, colombia, ecuador, guyana, paragua, peru
-# surinam, urugu, cuba, dominican, haiti, puerto
-# words: la, de, como, su, que, el, para, en, por, los, casa, caliente
-latinCheck <- function(names, spec = 1) {
- 
-  output <- 0
-  
-  # spec:
-  # == 1 : everythting
-  # == 2 : no food
-  
-  patterns <- c('latin', 'mexic', 'bolivia', 'chile', 'argentin', 
-                'venezuela', 'beliz', 'costa rica', 'salvador', 'guatemala', 'hondur',
-                'nicaragua', 'panama', 'brazil', 'colombia', 'ecuador', 'guyana', 'paragua',
-                'peru', 'surinam', 'urugu', 'cuba', 'dominican', 'haiti', 'puerto',
-                '^la ', ' la ', '^de ', ' de ', '^como ', 'como ', '^su ', ' su ',
-                ' que ', '^el ', ' el ', '^para ', ' para ', '^en ', ' en ',
-                '^por ', ' por ', '^los ', ' los ', '^casa ', ' casa ',
-                '^caliente ', ' caliente ')
-  if (spec == 2) {
-    patterns <- c(patterns,'taqueria', 'taco', 'empanada', 'huevo', 'pollo', 'burrito', 'arepa',
-    'pupusa', 'tamale', 'tortilla', 'salsa', 'asado', 'lechon', 'mojo', 'ropa',
-    'vieja', 'chorizo')
-  }
-  for (p in patterns) {
-    output <- output + grepl(p, names, ignore.case=TRUE) 
-  }
-  
-  
-  return(output) 
-}
-
-
-
-
 ######## NEXT
 
-hispName <- names %>%
-  filter(hispanic > .5)
-head(hispName)
-asianName <- names %>%
-  filter(asian > .5)
-head(asianName)
+# hispName <- names %>%
+#   filter(hispanic > .5)
+# head(hispName)
+# asianName <- names %>%
+#   filter(asian > .5)
+# head(asianName)
 
 

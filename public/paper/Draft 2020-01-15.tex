@@ -287,9 +287,9 @@ While it is theoretically conceivable that Hispanics would move based on access 
 
 As mentioned in Section \ref{secdata}, the migration data from the ACS is provided at the county-county level. Given the relative size of a county, to define whether a county is inside a coverage contour or not, we further impose that at least 95\% of the area that the county encompasses must be inside of the coverage contour.\footnote{ Results are robust to different area cut-offs for a county to be considered inside the coverage contour.} 
 
-%% Add tables
-Table XXX presents results for 
+Tables \ref{mig_orig} and \ref{mig_dest} present the results on migration. These tables present results at the origin county - destination county level, tracking the Inverse Hyperbolic Sine (IHS) transformed values of the number of Hispanic migrants between the two counties.\footnote{ The IHS transform can be interpreted similarly to the Log transform, but has the added advantage of being able to handle cases when $0$ is the observed value.} Table \ref{mig_orig} restricts to only origin counties that are within 100 KM of a coverage contour. In panel A, this is further restricted to origin counties inside the television contour, and so the main variable of interest is the dummy for the destination county being outside the TV contour. We see a clear negative and significant relationship between the two
 
+% include 0s
 
 %%%%%%%%%% FIRMS %%%%%%%%
 \section{Firms}\label{secfirm}
@@ -515,8 +515,8 @@ Future work: Political angle, examining mechs, complement or substitute with oth
 
 \input{../../explore/output/summary/LEAInfo.tex}
 \input{../../explore/output/summary/SchoolInfo.tex}
-\input{../../explore/Output/Regs/mig_distdummyOITV.tex}
-\input{../../explore/Output/Regs/migrev_distdummyOITV.tex}
+\input{../../analysis/Output/Regs/mig_orig.tex}
+\input{../../analysis/Output/Regs/mig_dest.tex}
 \input{../../explore/Output/Regs/trump_b2.tex}
 \input{../../explore/Output/Regs/trump_d2.tex}
 \input{../../explore/Output/Regs/clinton_b2.tex}

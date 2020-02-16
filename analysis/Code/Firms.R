@@ -83,9 +83,9 @@ busn <- readRDS('BusnReadyRaster.Rdata')
 #### raster
 # florida bounds: https://openmaptiles.com/downloads/north-america/us/florida/
 r <- raster( xmn =-87, xmx=-80,ymn=29,ymx=31.1,crs= "+proj=longlat +datum=NAD83",
-             resolution = c(.01,.01)) #baseline, c(.02,.02)
+             resolution = c(.02,.02)) #baseline, c(.02,.02)
 r2 <- raster( xmn =-83.4, xmx=-80,ymn=24.3,ymx=29,crs= "+proj=longlat +datum=NAD83",
-             resolution = c(.01,.01))
+             resolution = c(.02,.02))
 r <- merge(r,r2, tolerance = .1)
 rBusnCount <- rasterize(busn, r, field=busn$busnCount,fun=sum)
 values(rBusnCount) <- ifelse(is.na(values(rBusnCount)),0,values(rBusnCount))

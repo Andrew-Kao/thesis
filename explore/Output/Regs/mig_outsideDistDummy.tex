@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Mon, Oct 07, 2019 - 00:33:10
+% Date and time: Sun, Feb 16, 2020 - 15:13:00
 \begin{table}[!htbp] \centering 
   \caption{Effect of TV on Migration, Outside Sample Distance Dummy} 
   \label{} 
@@ -9,38 +9,46 @@
 \hline \\[-1.8ex] 
  & \multicolumn{3}{c}{\textit{Dependent variable:}} \\ 
 \cline{2-4} 
-\\[-1.8ex] & \multicolumn{3}{c}{mig} \\ 
+\\[-1.8ex] & \multicolumn{3}{c}{\# Hispanic Migrants} \\ 
 \\[-1.8ex] & (1) & (2) & (3)\\ 
 \hline \\[-1.8ex] 
- destintersects & $-$103.783$^{**}$ & $-$124.575$^{**}$ & $-$126.215$^{**}$ \\ 
-  & (44.652) & (51.334) & (53.788) \\ 
+ Dummy: Destination in TV Contour & $-$0.078 & $-$0.123 & $-$0.120 \\ 
+  & (0.108) & (0.096) & (0.096) \\ 
   & & & \\ 
- origLogPop & 29.853$^{***}$ & 22.262$^{***}$ & 24.064$^{***}$ \\ 
-  & (5.483) & (4.851) & (9.056) \\ 
+ TV Dummy $\times$ Distance to Origin & $-$0.003$^{*}$ & $-$0.004$^{***}$ & $-$0.004$^{***}$ \\ 
+  & (0.002) & (0.001) & (0.001) \\ 
   & & & \\ 
- destLogPop & 50.125$^{**}$ & 43.771$^{**}$ & 42.602$^{**}$ \\ 
-  & (21.633) & (18.913) & (17.447) \\ 
+ TV Dummy $\times$ Distance to Destination & $-$0.004$^{***}$ & $-$0.002 & $-$0.002 \\ 
+  & (0.001) & (0.001) & (0.001) \\ 
   & & & \\ 
- origpcHisp &  & 298.662$^{***}$ & 282.873$^{***}$ \\ 
-  &  & (100.566) & (97.455) \\ 
+ Distance from Contor to Origin (KM) & $-$0.0003 & 0.001 & 0.001 \\ 
+  & (0.001) & (0.001) & (0.001) \\ 
   & & & \\ 
- destpcHisp &  & 416.244$^{**}$ & 429.183$^{**}$ \\ 
-  &  & (176.108) & (194.637) \\ 
+ Distance from Contour to Destination (KM) & $-$0.001$^{***}$ & $-$0.001$^{***}$ & $-$0.001$^{***}$ \\ 
+  & (0.0002) & (0.0003) & (0.0003) \\ 
   & & & \\ 
- origLogInc &  &  & $-$21.099 \\ 
-  &  &  & (67.807) \\ 
+ Origin Log(Population) & 0.164$^{***}$ & 0.131$^{***}$ & 0.094$^{***}$ \\ 
+  & (0.017) & (0.021) & (0.026) \\ 
   & & & \\ 
- destLogInc &  &  & 14.018 \\ 
-  &  &  & (26.023) \\ 
+ Destination Log(Population) & 0.150$^{***}$ & 0.128$^{***}$ & 0.125$^{***}$ \\ 
+  & (0.023) & (0.020) & (0.021) \\ 
   & & & \\ 
- Constant & $-$845.901$^{***}$ & $-$733.602$^{***}$ & $-$673.947$^{*}$ \\ 
-  & (294.460) & (243.469) & (392.960) \\ 
+ Origin \% Hispanic &  & 1.328$^{***}$ & 1.611$^{***}$ \\ 
+  &  & (0.295) & (0.329) \\ 
+  & & & \\ 
+ Destination \% Hispanic &  & 1.485$^{***}$ & 1.481$^{***}$ \\ 
+  &  & (0.293) & (0.318) \\ 
+  & & & \\ 
+ Origin Log(Income) &  &  & 0.407$^{**}$ \\ 
+  &  &  & (0.193) \\ 
+  & & & \\ 
+ Destination Log(Income) &  &  & 0.003 \\ 
+  &  &  & (0.087) \\ 
   & & & \\ 
 \hline \\[-1.8ex] 
 Observations & 4,062 & 4,062 & 4,062 \\ 
-R$^{2}$ & 0.025 & 0.038 & 0.038 \\ 
-Adjusted R$^{2}$ & 0.024 & 0.036 & 0.036 \\ 
-Residual Std. Error & 624.000 (df = 4058) & 620.087 (df = 4056) & 620.230 (df = 4054) \\ 
+R$^{2}$ & 0.103 & 0.156 & 0.158 \\ 
+Adjusted R$^{2}$ & 0.101 & 0.154 & 0.156 \\ 
 \hline 
 \hline \\[-1.8ex] 
 \textit{Note:}  & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 

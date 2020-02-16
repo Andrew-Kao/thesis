@@ -144,14 +144,38 @@ distDummy <- migrations %>%
   filter(origintersects == 0 & origdist < 100000) %>%
   mutate(orig = 1000*as.numeric(origState) + as.numeric(origCty)) %>% # unique per orig
   mutate(origLogPop = log(origpopulation), destLogPop = log(destpopulation),
-         origLogInc = log(origincome), destLogInc = log(destincome)) %>%
+         origLogInc = log(origincome), destLogInc = log(destincome),
+         origdist = origdist/1000, destdist = destdist/1000) %>%
   filter(ethnicity == 3)
   
-m1 <- felm(mig ~ destintersects + origLogPop + destLogPop|0|0|orig, data=distDummy)
-m2 <- felm(mig ~ destintersects + origLogPop + destLogPop+ origpcHisp + destpcHisp|0|0|orig, data=distDummy)
-m3 <- felm(mig ~ destintersects + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc
+m1 <- felm(ihs(mig) ~ destintersects*origdist + destintersects*destdist  + origLogPop + destLogPop|0|0|orig, data=distDummy)
+m2 <- felm(ihs(mig) ~ destintersects*origdist + destintersects*destdist + origLogPop + destLogPop+ origpcHisp + destpcHisp|0|0|orig, data=distDummy)
+m3 <- felm(ihs(mig) ~ destintersects*origdist + destintersects*destdist + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc
            |0|0|orig, data=distDummy)
-stargazer(m1,m2,m3, out = "../../Output/Regs/mig_outsideDistDummy.tex", title="Effect of TV on Migration, Outside Sample Distance Dummy")
+stargazer(m1,m2,m3, out = "../../Output/Regs/mig_outsideDistDummy.tex", title="Effect of TV on Migration, Outside Sample Distance Dummy",
+          omit.stat = c('f','ser'),
+          order = c('destintersects','destintersects:origdist','destintersects:destdist'),
+          covariate.labels = c('Dummy: Destination in TV Contour', 'TV Dummy $\\times$ Distance to Origin',
+                               'TV Dummy $\\times$ Distance to Destination', 'Distance from Contor to Origin (KM)',
+                               'Distance from Contour to Destination (KM)', 'Origin Log(Population)',
+                               'Destination Log(Population)', 'Origin \\% Hispanic', 'Destination \\% Hispanic',
+                               'Origin Log(Income)', 'Destination Log(Income)'),
+          dep.var.labels = '\\# Hispanic Migrants',
+          omit = 'Constant')
+m1 <- felm(ihs(revMig) ~ destintersects*origdist + destintersects*destdist  + origLogPop + destLogPop|0|0|orig, data=distDummy)
+m2 <- felm(ihs(revMig) ~ destintersects*origdist + destintersects*destdist + origLogPop + destLogPop+ origpcHisp + destpcHisp|0|0|orig, data=distDummy)
+m3 <- felm(ihs(revMig) ~ destintersects*origdist + destintersects*destdist + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc
+           |0|0|orig, data=distDummy)
+stargazer(m1,m2,m3, out = "../../Output/Regs/migrev_outsideDistDummy.tex", title="Effect of TV on Reverse Migration, Outside Sample Distance Dummy",
+          omit.stat = c('f','ser'),
+          order = c('destintersects','destintersects:origdist','destintersects:destdist'),
+          covariate.labels = c('Dummy: Origin in TV Contour', 'TV Dummy $\\times$ Distance to Destination',
+                               'TV Dummy $\\times$ Distance to Origin', 'Distance from Contor to Destination (KM)',
+                               'Distance from Contour to Origin (KM)', 'Destination Log(Population)',
+                               'Origin Log(Population)', 'Destination \\% Hispanic', 'Origin \\% Hispanic',
+                               'Destination Log(Income)', 'Origin Log(Income)'),
+          dep.var.labels = '\\# Hispanic Migrants',
+          omit = 'Constant')
 
 # from inside to 'outside'
 # where outside is: dummy 
@@ -159,20 +183,40 @@ distDummyIO <- migrations %>%
   filter(origintersects == 1 & origdist < 100000) %>%
   mutate(orig = 1000*as.numeric(origState) + as.numeric(origCty)) %>% # unique per orig
   mutate(origLogPop = log(origpopulation), destLogPop = log(destpopulation),
-         origLogInc = log(origincome), destLogInc = log(destincome)) %>%
+         origLogInc = log(origincome), destLogInc = log(destincome),
+         origdist = origdist/1000, destdist = destdist/1000,
+         destintersects = 1 - destintersects) %>%
   filter(ethnicity == 3)
 
-m1 <- felm(mig ~ destintersects + origLogPop + destLogPop + mi_to_county|0|0|orig, data=distDummyIO)
-m2 <- felm(mig ~ destintersects + origLogPop + destLogPop+ origpcHisp + destpcHisp + mi_to_county|0|0|orig, data=distDummyIO)
-m3 <- felm(mig ~ destintersects + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc + mi_to_county
+m1 <- felm(ihs(mig) ~ destintersects*origdist + destintersects*destdist + origLogPop + destLogPop|0|0|orig, data=distDummyIO)
+m2 <- felm(ihs(mig) ~ destintersects*origdist + destintersects*destdist + origLogPop + destLogPop+ origpcHisp + destpcHisp |0|0|orig, data=distDummyIO)
+m3 <- felm(ihs(mig) ~ destintersects*origdist + destintersects*destdist + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc
            |0|0|orig, data=distDummyIO)
-stargazer(m1,m2,m3, out = "../../Output/Regs/mig_distdummyIO.tex", title="Effect of TV on Migration, Inside Sample Distance Dummy")
+stargazer(m1,m2,m3, out = "../../Output/Regs/mig_distdummyIO.tex", title="Effect of TV on Migration, Inside Sample Distance Dummy",
+          omit.stat = c('f','ser'),
+          order = c('destintersects','destintersects:origdist','destintersects:destdist'),
+          covariate.labels = c('Dummy: Destination Outside TV Contour', 'TV Dummy $\\times$ Distance to Origin',
+                               'TV Dummy $\\times$ Distance to Destination', 'Distance from Contor to Origin (KM)',
+                               'Distance from Contour to Destination (KM)', 'Origin Log(Population)',
+                               'Destination Log(Population)', 'Origin \\% Hispanic', 'Destination \\% Hispanic',
+                               'Origin Log(Income)', 'Destination Log(Income)'),
+          dep.var.labels = '\\# Hispanic Migrants',
+          omit = 'Constant')
 #reverse
-m1 <- felm(revMig ~ destintersects + origLogPop + destLogPop + mi_to_county|0|0|orig, data=distDummyIO)
-m2 <- felm(revMig ~ destintersects + origLogPop + destLogPop+ origpcHisp + destpcHisp + mi_to_county|0|0|orig, data=distDummyIO)
-m3 <- felm(revMig ~ destintersects + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc + mi_to_county
+m1 <- felm(ihs(revMig) ~ destintersects*origdist + destintersects*destdist + origLogPop + destLogPop|0|0|orig, data=distDummyIO)
+m2 <- felm(ihs(revMig) ~ destintersects*origdist + destintersects*destdist + origLogPop + destLogPop+ origpcHisp + destpcHisp |0|0|orig, data=distDummyIO)
+m3 <- felm(ihs(revMig) ~ destintersects*origdist + destintersects*destdist + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc 
            |0|0|orig, data=distDummyIO)
-stargazer(m1,m2,m3, out = "../../Output/Regs/migrev_distdummyIO.tex", title="Effect of TV on Reverse Migration, Inside Sample Distance Dummy")
+stargazer(m1,m2,m3, out = "../../Output/Regs/migrev_distdummyIO.tex", title="Effect of TV on Reverse Migration, Inside Sample Distance Dummy",
+          omit.stat = c('f','ser'),
+          order = c('destintersects','destintersects:origdist','destintersects:destdist'),
+          covariate.labels = c('Dummy: Origin Outside TV Contour', 'TV Dummy $\\times$ Distance to Destination',
+                               'TV Dummy $\\times$ Distance to Origin', 'Distance from Contor to Destination (KM)',
+                               'Distance from Contour to Origin (KM)', 'Destination Log(Population)',
+                               'Origin Log(Population)', 'Destination \\% Hispanic', 'Origin \\% Hispanic',
+                               'Destination Log(Income)', 'Origin Log(Income)'),
+          dep.var.labels = '\\# Hispanic Migrants',
+          omit = 'Constant')
 
 
 
