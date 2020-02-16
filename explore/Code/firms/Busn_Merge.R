@@ -34,7 +34,7 @@ locationNames <- sbusn %>%
   group_by(COR_NAME,PRINC_NAME,PRINC_ADD_1,PRINC_CITY,PRINC_STATE,PRINC_ZIP5) %>%
   summarise(count = n()) %>%
   left_join(names, by = c("PRINC_NAME")) %>%
-  mutate(hispName1 = latinCheck(PRINC_NAME), hispFoodName1 = latinCheck(PRINC_NAME,2),
+  mutate(hispName1 = latinCheck(COR_NAME), hispFoodName1 = latinCheck(COR_NAME,2),
          hisp = hispanic * count,
          hispOne = hispanic, hispMaj = ifelse(hispanic > .5,1,0)) %>%
   group_by(PRINC_ADD_1,PRINC_CITY,PRINC_STATE,PRINC_ZIP5) %>%

@@ -271,15 +271,24 @@ Several concerns that potentially remain:
 
 \subsection{Main Specification}
 
-A standard regression thus looks like restricting the universe of schools to only those within a small radius of the contour boundary, where the key independent variable of interest is an indicator for the school being inside or outside the boundary, interacted with the distance to the boundary:
-\[ Y_i^{j,k} = \beta_0 + \beta \mathbb{I}[InsideContour_i] \times Distance_i + \gamma X_i + \delta Z^j + \epsilon_i \, \, \, \, \, \, \, \epsilon \stackrel{iid}{\sim}   N(0,\sigma_i^{2})\]
+A standard regression thus looks like restricting the universe of observations to only those within a small radius of the contour boundary, where the key independent variable of interest is an indicator for the observation being inside or outside the boundary, interacted with the distance to the boundary:
+\[ Y_i^{} = \beta_0 + \beta \mathbb{I}[InsideContour_i] \times Distance_i + \gamma X_i + \epsilon_i \, \, \, \, \, \, \, \epsilon \stackrel{iid}{\sim}   N(0,\sigma_i^{2})\]
 
-where $Y_i$ is an outcome for school $i$ in county $j$ and school district $k$, $X$ is a vector of school-level controls, and $Z$ is a vector of county-level controls. 
+where $Y_i$ is an outcome for observation $i$ and $X$ is a vector of controls for the observation. The main coefficient of interest is $\beta$, and due to the nature of our instrument, we place the majority of interpretive weight on the indicator for being inside the television coverage contour. 
 
+In this case, the unit of observation is deliberately left vague---this varies depending on the set of outcomes we are looking at. For firm data, we aggregate our data into a set of grid points (typically roughly 2 $\times$ 2 KM in size) so that we can compare the number of firms across areas.\footnote{ In addition to providing cleaner interpretability, grouping data into `raster' form is also less computationally intensive.} For school data, the unit of observation is a single school, as we have school-level controls. For our campaign contribution data, our unit of observation is similarly also aggregated into grid points. We typically aggregate into grids by taking the sum of observations within grids (i.e., the number of Hispanic-owned businesses within a grid point, or the number of contributors to Trump within a grid point), except where otherwise noted.
 
+We prefer to leave standard errors robust, and separately check for robustness with respect to spatial autocorrelation for each main result. Other fixed effects/clusters options are treated similarly.
 
 
 \subsection{Migration}
+
+While it is theoretically conceivable that Hispanics would move based on access to SLTV, causing results to be driven by selection and confounding the direct effect of television itself, we demonstrate that movement across these coverage contours is fairly minimal.
+
+As mentioned in Section \ref{secdata}, the migration data from the ACS is provided at the county-county level. Given the relative size of a county, to define whether a county is inside a coverage contour or not, we further impose that at least 95\% of the area that the county encompasses must be inside of the coverage contour.\footnote{ Results are robust to different area cut-offs for a county to be considered inside the coverage contour.} 
+
+%% Add tables
+Table XXX presents results for 
 
 
 %%%%%%%%%% FIRMS %%%%%%%%
@@ -289,7 +298,7 @@ In this section, we examine Hispanic firm ownership and firms adopting Hispanic 
 
 \subsection{Data}
 
-From Florida's Division of Corporations, we obtain complete records of business filing data from the years 2010 to 2019.\footnote{ Businesses in Florida are generally required to refile every 3 years} Unfortunately, there is no readily available (and free) national firm database that also contains addresses and owner names, so analysis had to be restricted to the state level instead. We pick Florida as our state to analyse for several reasons: (1) Florida hosts a significant Hispanic population (23.2\% of Florida's population, 8\% of the US total), and contains 11 SLTV stations (11\% of the US total), (2) Florida makes its voting registration data public, which we use to predict ethnicity from names, and (3) Florida makes its business filing data public. 
+From Florida's Division of Corporations, we obtain complete records of business filing data from the years 2010 to 2019.\footnote{ Businesses in Florida are generally required to refile their data every 3 years.} Unfortunately, there is no readily available (and free) national firm database that also contains addresses and owner names, so analysis had to be restricted to the state level instead. We pick Florida as our state to analyse for several reasons: (1) Florida hosts a significant Hispanic population (23.2\% of Florida's population, 8\% of the US total), and contains 11 SLTV stations (11\% of the US total), (2) Florida makes its voting registration data public, which we use to predict ethnicity from names, and (3) Florida makes its business filing data public. 
 
 From the business filings, we keep all firms that we are able to successfully geocode, leaving us with a universe of 146,032 firms; though this unfortunately is not a sizable fraction of the total filings available, the sample restriction is unlikely to introduce any bias into the sample.\footnote{ The total number of firms for which we have filing data is on the order of 3 million. However, the amount of locations that could be geocoded was unfortunately rate-limited by the classification method used, and so we are left with the first 146,032 firms geocoded. Given that they were geocoded in chronological order corresponding to date filed (beginning with 2010 firms, and ending around mid-2010), there is no reason to believe that there would be any bias introduced by this limitation; there would need to be some omitted variable determining both the location of the firm and the firm filing its data in the first 6 months of 2010. It is unclear what that any such variable exists.} 
 
@@ -326,7 +335,7 @@ Hispanic owners no more likely to advertise, but non-Hispanic owners do:
 %%%%%%%%%% PUBLIC SCHOOLS %%%%%%%%
 \section{Public Schools}\label{secschool}
 
-In this section, we examine the performance of Hispanics in public schools and find that while academic achievement generally increases and disciplinary issues generally decrease, the opposite holds true when the measures are more directly to identity. 
+In this section, we examine the performance of Hispanics in public schools and find that while academic achievement generally increases and disciplinary issues generally decrease in response to SLTV, the opposite holds true when the measures are more directly to identity. 
 
 \subsection{Data}
 
@@ -387,22 +396,29 @@ We next turn our attention to the results presented in Tables \ref{edu_top} and 
 
  The number of observations recorded for these regressions is worth addressing: compared to the 40,000 schools seen in other regressions, there are only 26,000 seen for gifted students, and fewer than 10,000 for the AP results. In the case of gifted programs, this drop is due to the fact that schools which do not have gifted student programs were omitted from the sample. We find it unlikely that the presence of a gifted program in a school is correlated with the the school being placed just inside or outside a television coverage contour, and so do not believe that this omission introduces any bias. Similarly, in the case of the AP results, only 9,765 of the schools in the sample are high schools with 12th graders enrolled in them---hence, the observed 6,089 schools opting to self-report AP course results is still sizable. Though the number of schools reporting AP exam results is substantially lower and may be concerning for this result, this can at least partially be attributed to the fact that students directly receive their AP scores, and the schools at which they are enrolled may not always have access to their AP scores. Furthermore, given that overall AP scores do not meaningfully change, it is unlikely that there is substantial selection into score reporting over the concerns of Hispanic students passing AP scores---especially because there are no real-world incentives or benefits attached to doing so.
 
-Thinking next on the size of the effects observed, 
+Noting that increases in AP enrolment are predictive of higher rates of college enrolment and degree attainment \citep{@CITE Speroni}, it is likely that SLTV can have downstream effects beyond simply greater academic attainment in the short term. 
 
-These increases in disciplinary outcomes can have serious downstream effects beyond the disciplinary event itself: the literature suggests that not only are suspended students at immediate risk of academic harm and further disciplinary issues (@CITE Arcia), but that these students are also more likely to be incarcerated as adults  \citep{wolf_school_2017}. Non-disciplined students appear to suffer from spillover effects in their academic performance as well. (@CITE perry schools)
-
-\paragraph{Resolving the Difference Between `Identity' and Other Outcomes}
-It appears that while Hispanic discipline issues are generally improved by SLTV, this does not extend to the measure directly tied to identity: bullying and harassment based on ethnicity. Similarly, while academic achievement is generally improved by SLTV, this finding does not also generalize to LEP rates. 
-
+Similarly, these increases in disciplinary outcomes can ameliorate the serious downstream effects that exist beyond the disciplinary event itself: the literature suggests that not only are suspended students at immediate risk of academic harm and further disciplinary issues (@CITE Arcia), but that these students are also more likely to be incarcerated as adults  \citep{wolf_school_2017}. Non-disciplined students appear to suffer from spillover effects in their academic performance as well. (@CITE perry schools)
 % HOW MANY STUDENTS get bullied? 7169 cases, so 22 students
+
+On the whole, this suggests that the lives of Hispanic students living may materially improve along academic and social dimensions as a result of SLTV. 
+
+\paragraph{The Difference Between `Identity' and Other Outcomes}
+It appears that while Hispanic discipline issues are generally improved by SLTV, this does not extend to the measure directly tied to identity: bullying and harassment based on ethnicity. Similarly, while academic achievement is generally improved by SLTV, this finding does not also generalize to LEP rates. This puzzle---explaining how identity driven results move in opposite directions from the others---is not easily resolved. 
+
+Though we do not have a rigorous argument that can resolve this puzzle, one potential explanation would be a substitution effect based on SLTV affecting identity. That is, SLTV might in the immediate affect the identity based mechanisms that we see (more social issues, worse academic performance on metrics tied to identity), but that student performance in other non-identity tied outcomes might in turn shift to make up for the difference. If this were the case, we would expect to see results in line with what we see.
+
 
 
 
 
 \section{Campaign Contributions}\label{seccamp}
-\subsection{Data}
+In this section, we examine how Hispanic campaign contributions respond to the presence of SLTV.  
 
-\paragraph{Donor Name Classification} Following the approach taken to firms, donor names are also classified using 
+\subsection{Data}
+The data on campaign contributions comes from the US Federal Election Commission (FEC) 
+
+\paragraph{Donor Name Classification} Following the approach taken to firms, donor names are also classified using `ethnicolr'. Since the dataset is now national in nature, instead of using the model trained on the Florida voter registry, we use the model trained on the US census data. This model also utilizes LSTM based on the bigrams present in names, and an out of sample validation exercise yields an 85\% overall accuracy as well.
 
 \subsection{Results}
 
