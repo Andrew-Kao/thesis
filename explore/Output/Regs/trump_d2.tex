@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Mon, Feb 03, 2020 - 17:59:46
+% Date and time: Sun, Feb 16, 2020 - 22:18:36
 \begin{table}[!htbp] \centering 
   \caption{Effect of TV on Hispanic Donations to Trump, 100 KM Radius} 
   \label{} 
@@ -9,35 +9,26 @@
 \hline \\[-1.8ex] 
  & \multicolumn{3}{c}{\textit{Dependent variable:}} \\ 
 \cline{2-4} 
-\\[-1.8ex] & \multicolumn{3}{c}{donations\_d} \\ 
+\\[-1.8ex] & \multicolumn{3}{c}{Dummy: Hispanic Campaign Contributors} \\ 
 \\[-1.8ex] & (1) & (2) & (3)\\ 
 \hline \\[-1.8ex] 
- intersects & 1.767$^{***}$ & 1.342$^{*}$ & 1.191$^{*}$ \\ 
+ TV Dummy & 1.767$^{***}$ & 1.342$^{*}$ & 1.191$^{*}$ \\ 
   & (0.682) & (0.690) & (0.684) \\ 
   & & & \\ 
- distance & 0.024 & 0.025 & 0.028 \\ 
-  & (0.078) & (0.077) & (0.077) \\ 
-  & & & \\ 
- dist2 & 0.00001 & 0.00005 & 0.0001 \\ 
-  & (0.001) & (0.001) & (0.001) \\ 
-  & & & \\ 
- logPop & 6.643$^{***}$ & 6.881$^{***}$ & 5.039$^{***}$ \\ 
-  & (0.371) & (0.376) & (0.430) \\ 
-  & & & \\ 
- pcHispanic &  & 9.393$^{***}$ & 22.133$^{***}$ \\ 
-  &  & (2.538) & (2.923) \\ 
-  & & & \\ 
- income &  &  & 0.002$^{***}$ \\ 
-  &  &  & (0.0002) \\ 
-  & & & \\ 
- intersects:distance & $-$0.012 & $-$0.003 & $-$0.012 \\ 
+ TV Dummy $\times$ Distance to Boundary  & $-$0.012 & $-$0.003 & $-$0.012 \\ 
   & (0.053) & (0.053) & (0.052) \\ 
   & & & \\ 
- intersects:dist2 & 0.002$^{**}$ & 0.002$^{**}$ & 0.002$^{**}$ \\ 
-  & (0.001) & (0.001) & (0.001) \\ 
+ Distance to Boundary (KM) & 0.024 & 0.025 & 0.028 \\ 
+  & (0.078) & (0.077) & (0.077) \\ 
   & & & \\ 
- Constant & $-$66.314$^{***}$ & $-$70.092$^{***}$ & $-$74.738$^{***}$ \\ 
-  & (4.128) & (4.245) & (4.237) \\ 
+ Log(Population) & 6.643$^{***}$ & 6.881$^{***}$ & 5.039$^{***}$ \\ 
+  & (0.371) & (0.376) & (0.430) \\ 
+  & & & \\ 
+ County \% Hispanic &  & 9.393$^{***}$ & 22.133$^{***}$ \\ 
+  &  & (2.538) & (2.923) \\ 
+  & & & \\ 
+ Log(Income) &  &  & 0.002$^{***}$ \\ 
+  &  &  & (0.0002) \\ 
   & & & \\ 
 \hline \\[-1.8ex] 
 Observations & 3,479 & 3,479 & 3,479 \\ 

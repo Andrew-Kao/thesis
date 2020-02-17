@@ -88,7 +88,8 @@ saveRDS(trump2, 'TrumpReadyRaster.Rdata')
 #### raster
 trump2 <- readRDS('TrumpReadyRaster.Rdata')
 r <- raster( xmn =-124.784, xmx=-66.951,ymn=24.743,ymx=49.346,crs= "+proj=longlat +datum=NAD83",
-             nrow = 100, ncol = 200)
+             #nrow = 100, ncol = 200,
+             resolution = c(.02,.02))
 rDonCount <- rasterize(trump2, r, field=trump2$donationCount,fun=sum)
 values(rDonCount) <- ifelse(is.na(values(rDonCount)),0,values(rDonCount))
 rHispSum <- rasterize(trump2, r, field=trump2$hisp_sum,fun=mean)
@@ -134,6 +135,7 @@ s <- stack(rDonCount, rHispSum, rRace, rPop, rPCHisp, rIntersect, rMinDist, rInc
 regDataT <- data.frame(na.omit(values(s)))
 names(regDataT) <- c('rawDonations', 'hispanicSum', 'hispanicDummy' , 'population', 'pcHispanic', 'intersects', 'distance',
                     'income')
+saveRDS(regDataT,"TrumpStackDFHighRes")
 saveRDS(regDataT,"TrumpStackDF")
 
 regDataT <- readRDS('TrumpStackDF')
@@ -150,13 +152,18 @@ regT2 <- regDataT %>%
 m2 <- lm(donations ~ intersects*distance + intersects*dist2 + logPop, data=regT2) 
 m3 <- lm(donations ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=regT2)
 m4 <- lm(donations ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=regT2)
-stargazer(m2,m3,m4, out = "../../../Output/Regs/trump_b2.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
-          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+stargazer(m2,m3,m4, out = "../../../Output/Regs/trump_b2_hr.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt',
+          order = c('intersects','intersects:distance'),
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary ',
+                               'Distance to Boundary (KM)','Log(Population)','County \\% Hispanic','Log(Income)'),
+          omit = c('Constant','dist2'),
+          dep.var.labels = '\\# Hispanic Campaign Contributors')
 m1 <- lm(donations ~ intersects*distance  , data=regT2)
 m2 <- lm(donations ~ intersects*distance + logPop, data=regT2) 
 m3 <- lm(donations ~ intersects*distance + logPop + pcHispanic, data=regT2)
 m4 <- lm(donations ~ intersects*distance + logPop + pcHispanic + income, data=regT2)
-stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_b.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_b_hr.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
           omit.stat = c('f','ser'), column.sep.width = '-5pt')
 
 ## 'd' is dummy for race instead of summing in 'b'
@@ -165,7 +172,12 @@ m2 <- lm(donations_d ~ intersects*distance + intersects*dist2 + logPop, data=reg
 m3 <- lm(donations_d ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=regT2)
 m4 <- lm(donations_d ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=regT2)
 stargazer(m2,m3,m4, out = "../../../Output/Regs/trump_d2.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
-          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+          omit.stat = c('f','ser'), column.sep.width = '-5pt',
+          order = c('intersects','intersects:distance'),
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary ',
+                               'Distance to Boundary (KM)','Log(Population)','County \\% Hispanic','Log(Income)'),
+          omit = c('Constant','dist2'),
+          dep.var.labels = 'Dummy: Hispanic Campaign Contributors')
 m1 <- lm(donations_d ~ intersects*distance  , data=regT2)
 m2 <- lm(donations_d ~ intersects*distance + logPop, data=regT2) 
 m3 <- lm(donations_d ~ intersects*distance + logPop + pcHispanic, data=regT2)
@@ -184,7 +196,7 @@ m1 <- glm(donations_dum ~ intersects*distance, data=regT2, family = binomial)
 m2 <- glm(donations_dum ~ intersects*distance + logPop, data=regT2, family = binomial) 
 m3 <- glm(donations_dum ~ intersects*distance + logPop + pcHispanic, data=regT2, family = binomial)
 m4 <- glm(donations_dum ~ intersects*distance + logPop + pcHispanic + income, data=regT2, family = binomial)
-stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_dum.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_dum_hr.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
           omit.stat = c('f','ser'), column.sep.width = '-5pt')
 
 ###### CLINTON ######
@@ -262,7 +274,8 @@ saveRDS(clinton2, 'ClintonReadyRaster.Rdata')
 #### determine boundaries of trump data :: source jsundram/cull.py
 clinton2 <- readRDS('ClintonReadyRaster.Rdata')
 r <- raster( xmn =-124.784, xmx=-66.951,ymn=24.743,ymx=49.346,crs= "+proj=longlat +datum=NAD83",
-             nrow = 100, ncol = 200)
+             # nrow = 100, ncol = 200
+             resolution = c(.02,.02))
 rDonCount <- rasterize(clinton2, r, field=clinton2$donationCount,fun=sum)
 values(rDonCount) <- ifelse(is.na(values(rDonCount)),0,values(rDonCount))
 rHispSum <- rasterize(clinton2, r, field=clinton2$hisp_sum,fun=mean)
@@ -308,6 +321,7 @@ s <- raster::stack(rDonCount, rHispSum, rRace, rPop, rPCHisp, rIntersect, rMinDi
 regData <- data.frame(na.omit(values(s)))
 names(regData) <- c('rawDonations', 'hispanicSum', 'hispanicDummy' , 'population', 'pcHispanic', 'intersects', 'distance',
                     'income')
+saveRDS(s, 'ClintonStackHighRes.Rdata')
 saveRDS(s, 'ClintonStack.Rdata')
 
 # no restrictions
@@ -329,7 +343,7 @@ reg2 <- regData %>%
 m2 <- lm(donations ~ intersects*distance + intersects*dist2 + logPop, data=reg2) 
 m3 <- lm(donations ~ intersects*distance + intersects*dist2 + logPop + pcHispanic, data=reg2)
 m4 <- lm(donations ~ intersects*distance + intersects*dist2 + logPop + pcHispanic + income, data=reg2)
-stargazer(m2,m3,m4, out = "../../../Output/Regs/clinton_b2.tex", title="Effect of TV on Hispanic Donations to Clinton, 100 KM Radius",
+stargazer(m2,m3,m4, out = "../../../Output/Regs/clinton_b2_hr.tex", title="Effect of TV on Hispanic Donations to Clinton, 100 KM Radius",
           omit.stat = c('f','ser'), column.sep.width = '-5pt',
           order = c('intersects','intersects:distance'),
           covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary ',
@@ -340,7 +354,7 @@ m1 <- lm(donations ~ intersects*distance  , data=reg2)
 m2 <- lm(donations ~ intersects*distance + logPop, data=reg2) 
 m3 <- lm(donations ~ intersects*distance + logPop + pcHispanic, data=reg2)
 m4 <- lm(donations ~ intersects*distance + logPop + pcHispanic + income, data=reg2)
-stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/clinton_b.tex", title="Effect of TV on Hispanic Donations to Clinton, 100 KM Radius",
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/clinton_b_hr.tex", title="Effect of TV on Hispanic Donations to Clinton, 100 KM Radius",
           omit.stat = c('f','ser'), column.sep.width = '-5pt')
 
 ## 'd' is dummy for race instead of summing in 'b'
@@ -373,7 +387,7 @@ m1 <- glm(donations_dum ~ intersects*distance, data=reg2, family = binomial)
 m2 <- glm(donations_dum ~ intersects*distance + logPop, data=reg2, family = binomial) 
 m3 <- glm(donations_dum ~ intersects*distance + logPop + pcHispanic, data=reg2, family = binomial)
 m4 <- glm(donations_dum ~ intersects*distance + logPop + pcHispanic + income, data=reg2, family = binomial)
-stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/clinton_dum.tex", title="Effect of TV on Hispanic Donations to Clinton, 100 KM Radius",
+stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/clinton_dum_hr.tex", title="Effect of TV on Hispanic Donations to Clinton, 100 KM Radius",
           omit.stat = c('f','ser'), column.sep.width = '-5pt')
 
 ## zero inflate

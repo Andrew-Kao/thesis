@@ -1,0 +1,51 @@
+\begin{table}[!h]
+	\centering
+	\captionsetup{skip=1.5pt}
+	\caption{Influence of Spanish Language Television on Campaign Contributions} \label{don_base}
+	\scalebox{.8}{
+		\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				& \multicolumn{3}{c}{\# Hispanic Campaign Contributions} \\
+				\cline{2-4} 
+				Panel A: Contributions to Trump &  (1) & (2) & (3) \\
+                                \hline\addlinespace
+ TV Dummy & 2.941$^{***}$ & 2.506$^{**}$ & 2.175$^{**}$ \\ 
+  & (1.079) & (1.093) & (1.072) \\ 
+ TV Dummy $\times$ Distance to Boundary  & $-$0.049 & $-$0.039 & $-$0.059 \\ 
+  & (0.083) & (0.083) & (0.082) \\ 
+ Distance to Boundary (KM) & 0.061 & 0.062 & 0.068 \\ 
+  & (0.123) & (0.123) & (0.120) \\ 
+ Log(Population) & 12.674$^{***}$ & 12.919$^{***}$ & 8.877$^{***}$ \\ 
+  & (0.586) & (0.595) & (0.674) \\ 
+ County \% Hispanic &  & 9.646$^{**}$ & 37.604$^{***}$ \\ 
+  &  & (4.019) & (4.584) \\ 
+ Log(Income) &  &  & 0.004$^{***}$ \\ 
+  &  &  & (0.0004) \\ 
+Observations & 3,479 & 3,479 & 3,479 \\ 
+\hline\addlinespace
+Panel B: Contributions to Clinton & & & \\ 
+\hline\addlinespace
+ TV Dummy & 0.966 & 0.610 & 0.454 \\ 
+  & (0.777) & (0.787) & (0.781) \\ 
+ TV Dummy $\times$ Distance to Boundary  & $-$0.066 & $-$0.057 & $-$0.067 \\ 
+  & (0.060) & (0.060) & (0.060) \\ 
+ Distance to Boundary (KM) & 0.090 & 0.091 & 0.093 \\ 
+  & (0.088) & (0.088) & (0.088) \\ 
+ Log(Population) & 5.182$^{***}$ & 5.382$^{***}$ & 3.480$^{***}$ \\ 
+  & (0.422) & (0.428) & (0.491) \\ 
+ County \% Hispanic &  & 7.899$^{***}$ & 21.049$^{***}$ \\ 
+  &  & (2.895) & (3.340) \\ 
+ Log(Income) &  &  & 0.002$^{***}$ \\ 
+  &  &  & (0.0003) \\ 
+Observations & 3,479 & 3,479 & 3,479 \\     
+\hline\addlinespace
+                                Destination F.E. & Yes & Yes  & Yes\\
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} The table presents coefficient estimates from regressions that divide the US up into 20,000 grid points. The dependent variables are the summed counts of Hispanic contributions to political campaigns in the 2016 presidential election. The key dependent variable of interest is the TV Dummy, which tracks whether the destination county is inside or outside the TV contour. This is interacted with the distance to the boundary. County controls include log income, log population, and percentage county Hispanic. Standard errors are given in parentheses. *, **, and *** denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.
+			\end{tablenotes}
+		\end{threeparttable}
+	}
+\end{table}
