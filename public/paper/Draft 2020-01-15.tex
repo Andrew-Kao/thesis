@@ -453,11 +453,19 @@ Though we do not have a rigorous argument that can resolve this puzzle, one pote
 In this section, we examine how Hispanic campaign contributions respond to the presence of SLTV.  
 
 \subsection{Data}
-The data on campaign contributions comes from the US Federal Election Commission (FEC) 
+The data on campaign contributions comes from the US Federal Election Commission (FEC) campaign contribution receipts for the campaigns `Donald J. Trump For President, Inc.' and `Hillary Clinton For President' from the inception of the campaigns to the date of the 2016 US presidential election. These receipts are only legally required to be filed for individual contributions exceeding \$50 or aggregating over \$200 over the course of a year, and contain both the contributor's name and address. We aggregate data into a grid with each square having size $.02$ degrees latitude by $.02$ degrees longitude, approximately $2 \times 2$ KM$^2$.
 
-\paragraph{Donor Name Classification} Following the approach taken to firms, donor names are also classified using `ethnicolr'. Since the dataset is now national in nature, instead of using the model trained on the Florida voter registry, we use the model trained on the US census data. This model also utilizes LSTM based on the bigrams present in names, and an out of sample validation exercise yields an 85\% overall accuracy as well.
+Following the approach taken to firms, donor names are also classified using `ethnicolr'. Since the dataset is now national in nature, instead of using the model trained on the Florida voter registry, we use the model trained on the US census data. This model also utilizes LSTM based on the bigrams present in names, and an out of sample validation exercise yields an 85\% overall accuracy as well.
 
-\subsection{Results}
+We geocode addresses using a combination of ArcGIS and the US Census Bureau geocoder, which yields 651,404 addresses that ever contributed to Trump, and 41,080 addresses that ever contributed to Clinton.\footnote{ This corresponds to 892,102 and 119,338 total contributions to Trump and to Clinton respectively. } 
+
+\subsection{Results and Discussion}
+Table \ref{don_base} presents the main table for this result, which follows the specification in Table \ref{firm_busn}---only grid points within 100 KM of the border are kept, and we add successive county controls for log population, percent county Hispanic, and log income in Columns (2), (3) and (4). Results across the board are highly significant, but point in opposite directions: Hispanic contributions to Trump increase under the presence of SLTV, while contributions to Clinton decrease under the presence of SLTV.
+
+Given our inability to 
+
+Considering that the mean number of contributions in any square 
+
 
 % robustness: also geocode trump with US?
 
@@ -465,13 +473,11 @@ The data on campaign contributions comes from the US Federal Election Commission
 % Reasons for Trump: (1) broadcasts in SLTV lean conservative, reflect conservative values, (2) legal immigration, (3) news might lean conservative: https://www.nytimes.com/2012/08/13/business/media/mundofox-new-spanish-language-network-to-make-debut.html
 % contrary to public opinion: https://www.npr.org/sections/itsallpolitics/2014/04/01/297827352/conservative-media-watchdog-univision-telemundo-favor-liberals
 % https://foreignpolicy.com/2018/04/16/the-trumpification-of-the-latin-american-right/
-\subsection{Discussion}
 
 
 % less than half as many SLTV programs rated for sexual content or strong language (FCC TV)
 
 
-%We implemented the first experiment respectively in the two weeks before and in the week after the 2016 presidential election. The timing of the experiment allowed us to exploit the uniqueness of the situation and study the process of information aggregation as it was unfolding. We conducted both waves with workers from the online platform MTurk. A number of recent papers in economics have used the same platform to conduct surveys or experiments (e.g., \citealp{kuziemco_et_al_2015_elastic}). The platform draws workers from very diverse backgrounds, though it is not representative of the U.S. population as a whole.
 
 
 %Appendix Table \ref{balance1} provides evidence that individual characteristics are balanced across all four pre-election experimental conditions, confirming that the randomization was successful. The first four bars of Figure \ref{mainexperiment1fig} display our main findings from the pre-election experiment. In the control condition before the election, we observe a large and statistically significant wedge between donation rates in private and in public: a drop from 54\% in private to 34\% in public (the p-value of a \emph{t} test of equality is 0.002). Among individuals in the information condition, we observe no difference in private and public donation rates, which are 47\% and 46\%, respectively (\emph{p}-value=0.839). Moreover, we find no significant difference in private donation rates between the information and control conditions (\emph{p}-value=0.280), suggesting that the information is not increasing privately-held xenophobia. The increase in public donation rates between the two conditions is statistically significant (\emph{p}-value=0.089), as is the difference in differences between donation rates in private across conditions and donation rates in public across conditions (\emph{p}-value=0.050). These results indicate that the information provided causally increased the social acceptability of the action to the point of eliminating the original social stigma associated with it.\footnote{Apart from social stigma, another possible reason %An additional explanation to social stigma 
@@ -554,7 +560,7 @@ Future work: Political angle, examining mechs, complement or substitute with oth
 \input{../../explore/output/summary/SchoolInfo.tex}
 \input{../../analysis/Output/Regs/mig_orig.tex}
 \input{../../analysis/Output/Regs/mig_dest.tex}
-\input{../../analysis/Output/Regs/don_base.tex}
+
 %\input{../../explore/Output/Regs/trump_d2.tex}
 %\input{../../explore/Output/Regs/clinton_b2.tex}
 %\input{../../explore/Output/Regs/clinton_d2.tex}
@@ -575,6 +581,8 @@ Future work: Political angle, examining mechs, complement or substitute with oth
 \input{../../analysis/Output/regs/edu_bot.tex}
 \input{../../analysis/Output/regs/edu_mech.tex}
 \input{../../analysis/Output/regs/edu_ap_robust.tex}
+
+\input{../../analysis/Output/Regs/don_base.tex}
 
 
 

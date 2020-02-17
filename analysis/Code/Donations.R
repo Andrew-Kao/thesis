@@ -164,7 +164,12 @@ m2 <- lm(donations ~ intersects*distance + logPop, data=regT2)
 m3 <- lm(donations ~ intersects*distance + logPop + pcHispanic, data=regT2)
 m4 <- lm(donations ~ intersects*distance + logPop + pcHispanic + income, data=regT2)
 stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_b_hr.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
-          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+          omit.stat = c('f','ser'), column.sep.width = '-5pt',
+          order = c('intersects','intersects:distance'),
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary ',
+                               'Distance to Boundary (KM)','Log(Population)','County \\% Hispanic','Log(Income)'),
+          omit = c('Constant','dist2'),
+          dep.var.labels = '\\# Hispanic Campaign Contributors')
 
 ## 'd' is dummy for race instead of summing in 'b'
 # m1 <- lm(donations_d ~ intersects*distance + intersects*dist2  , data=regT2)
@@ -198,6 +203,44 @@ m3 <- glm(donations_dum ~ intersects*distance + logPop + pcHispanic, data=regT2,
 m4 <- glm(donations_dum ~ intersects*distance + logPop + pcHispanic + income, data=regT2, family = binomial)
 stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/trump_dum_hr.tex", title="Effect of TV on Hispanic Donations to Trump, 100 KM Radius",
           omit.stat = c('f','ser'), column.sep.width = '-5pt')
+
+
+
+regDataFA <- data.frame(values(s)) %>%
+  mutate(x = coordinates(r)[,1],
+         y = coordinates(r)[,2])
+regDataFA <- na.omit(regDataFA)
+names(regDataFA) <- c('rawDonations', 'hispanicSum', 'hispanicDummy' , 'population', 'pcHispanic', 'intersects', 'distance',
+                      'income','X','Y')
+
+regF2 <- regDataFA %>%
+  mutate(donations = rawDonations*hispanicSum, logPop = log(population),
+         donations_d = rawDonations * (hispanicDummy), # ceiling(dummy)
+         distance = distance/1000, dist2 = distance^2,
+         donations_dum = ifelse(donations_d > 0, 1, 0)) %>%
+  filter(distance < 100)
+
+m1 <- lm(donations ~ intersects*distance + logPop, data=regF2)
+coordinates(regF2) <- c('X','Y')
+nb4<-knearneigh(coordinates(regF2), k=4, longlat = TRUE)
+nb4 <- knn2nb(nb4)
+wt4<-nb2listw(nb4, style="W")
+
+lm.morantest(m1,listw=wt4, zero.policy = TRUE)
+m1.lag <- lagsarlm(ihs(busnD) ~ intersects*distance + logPop, data=regF2,
+                   listw=wt4, type="lag",method="MC")
+summary(m1.lag, Nagelkerke=T)
+m1.err <- errorsarlm(ihs(busnD) ~ intersects*distance + logPop, data=regF2,
+                     listw=wt4, etype="error",method="MC")
+summary(m1.err, Nagelkerke=T)
+
+stargazer(m1,m1.lag,m1.err, out = "../../../Output/Regs/firms_rastern_ihs_spatial.tex", title="Effect of TV on IHS(\\# Hispanic Owned Businesses), 100 KM Radius",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt',
+          order = c('intersects'),
+          covariate.labels = label_spec3,
+          dep.var.labels = 'IHS(\\# Hispanic Owned Businesses)',
+          omit = c('Constant', 'intersects:distance', 'logPop', 'distance'))
+
 
 ###### CLINTON ######
 if (Sys.info()["user"] == "AndrewKao") {
@@ -355,7 +398,12 @@ m2 <- lm(donations ~ intersects*distance + logPop, data=reg2)
 m3 <- lm(donations ~ intersects*distance + logPop + pcHispanic, data=reg2)
 m4 <- lm(donations ~ intersects*distance + logPop + pcHispanic + income, data=reg2)
 stargazer(m1,m2,m3,m4, out = "../../../Output/Regs/clinton_b_hr.tex", title="Effect of TV on Hispanic Donations to Clinton, 100 KM Radius",
-          omit.stat = c('f','ser'), column.sep.width = '-5pt')
+          omit.stat = c('f','ser'), column.sep.width = '-5pt',
+          order = c('intersects','intersects:distance'),
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary ',
+                               'Distance to Boundary (KM)','Log(Population)','County \\% Hispanic','Log(Income)'),
+          omit = c('Constant','dist2'),
+          dep.var.labels = '\\# Hispanic Campaign Contributors')
 
 ## 'd' is dummy for race instead of summing in 'b'
 # m1 <- lm(donations_d ~ intersects*distance + intersects*dist2  , data=reg2)

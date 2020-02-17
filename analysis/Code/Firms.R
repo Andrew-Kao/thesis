@@ -10,6 +10,8 @@ library(stringr)
 library(purrr)
 library(survival)
 library(clusterSEs)
+library(spdep)
+library(spatialreg)
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/firms/florida') 
