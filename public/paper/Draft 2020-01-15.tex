@@ -260,7 +260,7 @@ In the case of Spanish language TV in particular, this should allow us to examin
 In order for the causal effect of SLTV to be identified, the actual coverage of the contours must be uncorrelated with any of the other determinants for the outcome variables with which we are interested. One reassurance is that the interference protection regulation, OET Bulletin 69, was only codified in 1977 --- in contrast, Univision, the largest owner of SLTV stations, was founded in 1955, and had built a substantial number of their television stations and antennas by 1977.\footnote{ Though Telemundo, the second largest owner of SLTV, was technically founded in 1984, the stations it initially acquired were built in 1954. It also primarily expanded through the acquisition of existing stations, rather than building out its own new ones. } Nonetheless, one may be concerned that SLTV stations target areas with more Hispanic people, or wealthier communities, or more populous areas, all of which are factors that could affect the areas of interest. Hence, we include explicit controls for these variables in the regression.
 % @CITE univisino, telemundo
 
-The instrument therefoore consists of two variables interacted: First, a dummy for whether the outcome data falls within a SLTV station's coverage contour boundaries, and second, the distance from the outcome of interest to the closest coverage boundary. To guarantee similarity between the people inside and outside the boundaries, only data points located within a distance of 100 KM of the boundary are kept.\footnote{ Using a round number in kilometers rather than miles makes the cutoff less likely to be correlated with some real-world phenomena.} 
+The instrument therefore consists of two variables interacted: First, a dummy for whether the outcome data falls within a SLTV station's coverage contour boundaries, and second, the distance from the outcome of interest to the closest coverage boundary. To guarantee similarity between the people inside and outside the boundaries, only data points located within a distance of 100 KM of the boundary are kept.\footnote{ Using a round number in kilometers rather than miles makes the cutoff less likely to be correlated with some real-world phenomena.} 
 
 Several concerns that potentially remain:
 \begin{itemize}
@@ -280,6 +280,28 @@ In this case, the unit of observation is deliberately left vague---this varies d
 
 We prefer to leave standard errors robust, and separately check for robustness with respect to spatial autocorrelation for each main result. Other fixed effects/clusters options are treated similarly.
 
+\subsection{Spatial Autocorrelation}
+
+Spatial autocorrelation, or spatial dependence, occurs when our outcomes of interest are correlated with itself in space \citep{@CITE Cliff Ord}. In general, this only means that we allow for $Cov(Y_i,Y_j) \neq 0$ when $i\neq j$ for locations $i$, $j$. For tractability, when given a dataset with $n$ locations, we place more structure on the problem, constructing a $n \times n$ spatial weights matrix $W$ with entries $w_{ij} = 1$ if locations $i,j$ are considered neighbors, and $w_{ij} = 0$ otherwise \citep{@ CITE Anseline, Bera}. For data that takes the form of grids in space, we construct weights based on the rook criterion (grid points have unit weight if they share an edge), while for points in space, we assign unit weight to the four nearest neighbors for comparability.
+
+There are two primary models of spatial autocorrelation that we conduct robustness tests for:
+
+\paragraph{The Spatial Autoregressive Model}
+
+In this model, the spatial autocorrelation enters directly into the model:
+
+\[ Y = \beta_0 + \rho W Y + \beta \mathbb{I}[InsideContour] \times Distance + \gamma X + \epsilon \]
+
+This model is identical to the prior main specification, except for the addition of the $\rho W Y$ term, where $W$ is the aforementioned spatial weights matrix, and $\rho$ the autoregressive coefficient. In this model, spatial dependence affects the outcome variable only (e.g. person $X$ donating to Trump induces their neighbor to donate to Trump as well if $\rho > 0$).
+
+\paragraph{The Spatial Error Model}
+
+In this model, the autocorrelation occurs in the error term:
+
+\[ Y = \beta_0 + \beta \mathbb{I}[InsideContour] \times Distance + \gamma X + \epsilon \]
+\[\epsilon = \lambda W \epsilon + \nu\]
+
+This model is identical to the main specification, except the error terms are now additionally correlated due to the addition of the $\lambda W \epsilon$ term. In this model, spatial dependence enters through  the presence of missing spatial covariates which may affect the outcome.
 
 \subsection{Migration}
 
@@ -287,7 +309,13 @@ While it is theoretically conceivable that Hispanics would move based on access 
 
 As mentioned in Section \ref{secdata}, the migration data from the ACS is provided at the county-county level. Given the relative size of a county, to define whether a county is inside a coverage contour or not, we further impose that at least 95\% of the area that the county encompasses must be inside of the coverage contour.\footnote{ Results are robust to different area cut-offs for a county to be considered inside the coverage contour.} 
 
-Tables \ref{mig_orig} and \ref{mig_dest} present the results on migration. These tables present results at the origin county - destination county level, tracking the Inverse Hyperbolic Sine (IHS) transformed values of the number of Hispanic migrants between the two counties.\footnote{ The IHS transform can be interpreted similarly to the Log transform, but has the added advantage of being able to handle cases when $0$ is the observed value.} Table \ref{mig_orig} restricts to only origin counties that are within 100 KM of a coverage contour. In panel A, this is further restricted to origin counties inside the television contour, and so the main variable of interest is the dummy for the destination county being outside the TV contour. We see a clear negative and significant relationship between the two
+Tables \ref{mig_orig} and \ref{mig_dest} present the results on migration. These tables present results at the origin county - destination county level, tracking the Inverse Hyperbolic Sine (IHS) transformed values of the number of Hispanic migrants between the two counties.\footnote{ The IHS transform can be interpreted similarly to the Log transform, but has the added advantage of being able to handle cases when $0$ is the observed value.} Table \ref{mig_orig} restricts to only origin counties that are within 100 KM of a coverage contour (the standard cut-off distance used for later outcomes).\footnote{ There are 636 such counties. The average origin county has 20 destination counties for which there is significant enough cross-county Hispanic migration that the ACS reports data for it.} In panel A, this is further restricted to origin counties inside the television contour, and so the main variable of interest is the dummy for the destination county being outside the TV contour. We observe a clear negative and significant relationship for migrations that cross the coverage contour. We interact the distance to the origin/destination with the TV dummy to ensure that are controlling for all distance related effects, and control for county level characteristics including Log Population, Log Income, and percent of the county that is Hispanic for both origin and destination. All specifications also include origin fixed effects.
+
+In panel B, we restrict to origin counties outside the television contour, and the main variable of interest is the dummy for the destination county being \textit{inside} the TV contour. In this case, the point estimate is negative, although results are overall insignificant---this is sufficient for us to make our argument, given that so long as there are not positive coefficients, there is no evidence of migration across borders.
+
+Table \ref{mig_dest} repeats the analysis, this time restricting to only destination counties within 100 KM of a coverage contour. Results closely echo those seen in the prior table, with negative coefficients associated with migration across coverage contours, significant when the destination is inside the contour and not when they are outside. 
+
+These results combined indicate that movement across coverage contours is not a major threat to identification. Even in cases where insignificant results are observed, the base rate of migration is not very high to begin with---in our origin county sample, an average of 84 Hispanic people are observed to move between each county-county pair (median: 25) over the five year period which the dataset spans. This also speaks to the magnitude of the coefficients observed, where the drop in 10 to 40\% of migrants observed still falls within a plausible range. Though we do not have theories as to why people may be \textit{averse} to moving across coverage contour boundaries, it is in and of itself an interesting result perhaps worth further investigation.
 
 % include 0s
 
@@ -302,7 +330,7 @@ From Florida's Division of Corporations, we obtain complete records of business 
 
 From the business filings, we keep all firms that we are able to successfully geocode, leaving us with a universe of 146,032 firms; though this unfortunately is not a sizable fraction of the total filings available, the sample restriction is unlikely to introduce any bias into the sample.\footnote{ The total number of firms for which we have filing data is on the order of 3 million. However, the amount of locations that could be geocoded was unfortunately rate-limited by the classification method used, and so we are left with the first 146,032 firms geocoded. Given that they were geocoded in chronological order corresponding to date filed (beginning with 2010 firms, and ending around mid-2010), there is no reason to believe that there would be any bias introduced by this limitation; there would need to be some omitted variable determining both the location of the firm and the firm filing its data in the first 6 months of 2010. It is unclear what that any such variable exists.} 
 
-Our two outcomes of interest are whether the firms are owned by Hispanics, and whether the firm names play into Hispanic identities. To construct these outcomes, we use two separate methods of classification:
+We aggregate data into a grid with each square having size $.02$ degrees latitude by $.02$ degrees longitude, approximately $2 \times 2$ KM$^2$. Our two outcomes of interest are whether the firms are owned by Hispanics, and whether the firm names play into Hispanic identities---for each of these outcomes, we take the sum of the number of businesses that fit this criteria within the grid as our outcome. To construct these outcomes, we use two separate methods of classification:
 
 \paragraph{Principal Name Classification} To determine whether a business is owned and run by a Hispanic person or not, we run the Python machine learning classifier `ethnicolr' to predict ethnicity based on the first and last names of a business' principal.\footnote{ Corporations are required to file personal data for their Registered Agent as well up to six Principals, the latter of which must be a President, Treasurer, Chairman, Vice President, Secretary, or Director of the firm. In some small number of cases, the Principal is a corporation --- these observations are dropped. When there are multiple principals for which we have data, we use the classification for the highest ranked principal. } The classifier contains three models trained on separate data sources: (1) Data from the US census in 2000 and 2010, (2) data from the Florida voter registration database in 2017, and (3) Wikipedia data collected by Skiena et al. We use the Florida voter registration data because it closely matches the sample that we are working with. 
 
@@ -310,17 +338,24 @@ The model uses TensorFlow (an open source software library developed by Google f
 
 Overall, 23.5\% of principals are classified as Hispanic (.3\% higher than the proportion of the population that Hispanics make up). As a final check, we randomly selected one hundred names to verify, and the model appears to be at least 85\% correct on inspection (no name was obviously incorrectly classified). For instance, `Manuel Lorenzo' and `Mildred Sosa' are classified as Hispanic, `Peter Yu' and `Haresh Karamchandani' are classified as Asian, `Tony Walker' and `Dwayne Demarie' are classified as Black, and `Robert Bronson' and `Nathan Smith' are classified as White. 
 
-%TODO: Summary stats
+\paragraph{Firm Name Classification} Unlike the names of firm principals, there is no readily available or standardized method to determine whether a firm's name is characteristic of a Hispanic identity or not. Although a machine learning approach is still theoretically possible under these circumstances, a quick visual inspection of the data revealed that a relatively low percentage of firms had names that were explicit tied to a Hispanic identity---hence, many approaches would likely identify a significant number of false positives.
 
-\paragraph{Firm Name Classification} Unlike the names of firm principals, there is no readily available or standardized method to determine whether a firm's name is characteristic of a Hispanic identity or not. Although a machine learning approach is still theoretically possible under these circumstances, a quick visual inspection of 
+In order to be conservative and ensure that firms identified as bearing Hispanic names actually are such, we construct a measure that classifies a firm name as Hispanic if it contains certain keywords that are explicitly associated with a Hispanic identity. These keywords are split into three major categories: (1) References to countries in Latin America or Latin America itself. Firms that include the base forms of country names in Latin America are considered to be explicitly referencing a Hispanic identity (examples include: `Cuban Guys 102, LLC' , `Bravo Latino Brands, LLC.') (2) Names containing common one of the top 50 most Spanish words (that are not also in English) (examples include: `La Joya Estates, Ltd.', `Conselho Nacional De Saude Mental E Medicina Psicossomatica Inc.'), and (3) Names containing common Hispanic foods. (examples include: `Charlie Cactus Tacos, LLC', `Taqueria Casas 2 Inc.') Due to the lack of a systemic means to classify this category, we conduct robustness checks dropping this category; results do not substantially change when omitting this third category. 
 
-The method we develop a custom measure of this outcome: 
+Out of our sample, 1.1\% of firms meet this criteria (1\% if omitting the food based names). A manual check of firms that are classified as Hispanic also confirms that the firm name classification process succeeds.
 
 %TODO: Appendix table
 
 \subsection{Results}
 
-% Moran's I test	
+Table \ref{firm_busn} presents results on the effect of SLTV on Hispanic business ownership. The main coefficient of interest, the IHS transformed number of Hispanic-owned firms located inside a television coverage contour, is positive and significant at the $\alpha = .01$ level in all specifications. Columns (2), (3), and (4) add in county level controls for log population, the percent of the county that is Hispanic, and log income respectively. Once controls are added at the county level, the coefficient appears to stabilize at approximately $.1$.
+
+Table \ref{firm_name} presents results on the effect of SLTV on whether firm names present as Hispanic or not. Given the low frequency of firms exhibiting such names, we construct a binary variable for whether any firm within the grid point contains a Hispanic name and run a logit (logistic) regression on the outcome. The first four columns mirror the prior table in terms of controls added, and show a positive coefficient significant at the 1\% level. Column (5) restricts the analysis to only Hispanic business owners, whilst column (6) restricts the analysis to only non-Hispanic owners. The results look similar in both these cases.
+
+
+\paragraph{Robustness} To test the robustness of these results, we present Table \ref{firm_robust}. Column (1) presents the baseline results (it is identical to column (5) of Table \ref{firm_name}), while column (2) includes the interaction of the TV dummy with the distance to the boundary squared. This is plausibly relevant to the main effect, given that television signals decay in strength in proportion to the square of the distance. Column (3) additionally controls for the total number of businesses in the grid point. Column (4) uses an alternate definition of Hispanic named businesses that does not consider food as part of the criteria for classifying a firm name as Hispanic. Columns (5) and (6) reduce the cutoff distance from the boundary to one half and one third of the original 100 KM limit. Columns (7) and (8) vary the grid size to 9 KM$^2$ and 1 KM$^2$ respectively. The robustness checks hold up across the board with all columns maintaining significance and positive sign. Robustness checks on the other outcome variables of interest hold up to a similar analysis.
+
+One remaining concern is that there may be some degree of spatial autocorrelation in the data which is driving the results. A Moran's I test using 4 nearest neighbours between the grid points (rook style) indicate that there is spatial autocorrelation in the data (p-value less than $10^{-16}$). Hence, Table \ref{firm_spatial} presents two alternate models that control for the effects of spatial autocorrelation. Column (1) presents the baseline results in column (2) of Table \ref{firm_busn}.\footnote{ Due to computational limitations, standard errors cannot be effectively computed when more controls are added. The point estimates, however, remain similar. Additionally, results for firm names are also robust to spatial autocorrelation specifications, though they are more difficult to interpret.} Column (2) uses a spatially autoregressive lag model, wherein the outcome variable may be correlated with its neighbours. Column (3) uses a spatially autoregressive error model, wherein the presence of missing spatial covariates (causing correlated errors) is adjusted for. In both cases, the alternate models yield results that closely resemble the standard specification in column (1). 
 
 % cluster: Esarey (2019) following Ibragimov and Muller 2010
 \subsection{Discussion}
@@ -329,6 +364,8 @@ The method we develop a custom measure of this outcome:
 Hispanic owners no more likely to advertise, but non-Hispanic owners do: 
 
 % paid programming, which makes up 30.9\% of Hispanic owned SLTV networks programming time, compared to 10.8\% in the general population - advertising Hispanic firms
+
+Demand is identity driven - even controlling for total businesses in the area
 
 
 

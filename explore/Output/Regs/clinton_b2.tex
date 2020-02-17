@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Mon, Feb 03, 2020 - 17:57:44
+% Date and time: Sun, Feb 16, 2020 - 22:10:48
 \begin{table}[!htbp] \centering 
   \caption{Effect of TV on Hispanic Donations to Clinton, 100 KM Radius} 
   \label{} 
@@ -9,35 +9,26 @@
 \hline \\[-1.8ex] 
  & \multicolumn{3}{c}{\textit{Dependent variable:}} \\ 
 \cline{2-4} 
-\\[-1.8ex] & \multicolumn{3}{c}{donations} \\ 
+\\[-1.8ex] & \multicolumn{3}{c}{\# Hispanic Campaign Contributors} \\ 
 \\[-1.8ex] & (1) & (2) & (3)\\ 
 \hline \\[-1.8ex] 
- intersects & 0.966 & 0.610 & 0.454 \\ 
+ TV Dummy & 0.966 & 0.610 & 0.454 \\ 
   & (0.777) & (0.787) & (0.781) \\ 
   & & & \\ 
- distance & 0.090 & 0.091 & 0.093 \\ 
-  & (0.088) & (0.088) & (0.088) \\ 
-  & & & \\ 
- dist2 & $-$0.001 & $-$0.001 & $-$0.001 \\ 
-  & (0.001) & (0.001) & (0.001) \\ 
-  & & & \\ 
- logPop & 5.182$^{***}$ & 5.382$^{***}$ & 3.480$^{***}$ \\ 
-  & (0.422) & (0.428) & (0.491) \\ 
-  & & & \\ 
- pcHispanic &  & 7.899$^{***}$ & 21.049$^{***}$ \\ 
-  &  & (2.895) & (3.340) \\ 
-  & & & \\ 
- income &  &  & 0.002$^{***}$ \\ 
-  &  &  & (0.0003) \\ 
-  & & & \\ 
- intersects:distance & $-$0.066 & $-$0.057 & $-$0.067 \\ 
+ TV Dummy $\times$ Distance to Boundary  & $-$0.066 & $-$0.057 & $-$0.067 \\ 
   & (0.060) & (0.060) & (0.060) \\ 
   & & & \\ 
- intersects:dist2 & 0.003$^{***}$ & 0.003$^{***}$ & 0.003$^{***}$ \\ 
-  & (0.001) & (0.001) & (0.001) \\ 
+ Distance to Boundary (KM) & 0.090 & 0.091 & 0.093 \\ 
+  & (0.088) & (0.088) & (0.088) \\ 
   & & & \\ 
- Constant & $-$52.593$^{***}$ & $-$55.770$^{***}$ & $-$60.566$^{***}$ \\ 
-  & (4.703) & (4.841) & (4.841) \\ 
+ Log(Population) & 5.182$^{***}$ & 5.382$^{***}$ & 3.480$^{***}$ \\ 
+  & (0.422) & (0.428) & (0.491) \\ 
+  & & & \\ 
+ County \% Hispanic &  & 7.899$^{***}$ & 21.049$^{***}$ \\ 
+  &  & (2.895) & (3.340) \\ 
+  & & & \\ 
+ Log(Income) &  &  & 0.002$^{***}$ \\ 
+  &  &  & (0.0003) \\ 
   & & & \\ 
 \hline \\[-1.8ex] 
 Observations & 3,479 & 3,479 & 3,479 \\ 

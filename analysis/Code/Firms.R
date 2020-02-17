@@ -137,19 +137,18 @@ regDataF <- data.frame(na.omit(values(s)))
 names(regDataF) <- c('busnCount', 'hispName', 'hispSum', 'hispMajSum',
                      'hispFoodName', 'hispNameD', 'population', 'pcHispanic', 'intersects', 'distance',
                      'income')
-saveRDS(regDataF, 'FirmStackDF01.Rdata')
+saveRDS(regDataF, 'FirmStackDF.Rdata')
 
 
 ##### REGRESSIONS #####
 regDataF <- readRDS('FirmStackDF.Rdata')
 busn2 <- readRDS('BusnReadyRaster.Rdata')
 
-
-
 regF2 <- regDataF %>%
   mutate(logPop = log(population), # ceiling(dummy)
          distance = distance/1000, dist2 = distance^2,
          hispFoodNameD = ifelse(hispFoodName * hispSum > 0, 1, 0),
+         hispNameD = ifelse(hispName * hispSum > 0, 1, 0),
          busn = busnCount * hispSum,
          busnD = busnCount * hispMajSum) %>%
   filter(distance < 100)

@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Mon, Feb 03, 2020 - 17:59:07
+% Date and time: Sun, Feb 16, 2020 - 22:14:11
 \begin{table}[!htbp] \centering 
   \caption{Effect of TV on Hispanic Donations to Clinton, 100 KM Radius} 
   \label{} 
@@ -9,35 +9,26 @@
 \hline \\[-1.8ex] 
  & \multicolumn{3}{c}{\textit{Dependent variable:}} \\ 
 \cline{2-4} 
-\\[-1.8ex] & \multicolumn{3}{c}{donations\_d} \\ 
+\\[-1.8ex] & \multicolumn{3}{c}{Dummy: Hispanic Campaign Contributors} \\ 
 \\[-1.8ex] & (1) & (2) & (3)\\ 
 \hline \\[-1.8ex] 
- intersects & 0.153 & 0.049 & 0.014 \\ 
+ TV Dummy & 0.153 & 0.049 & 0.014 \\ 
   & (0.181) & (0.183) & (0.182) \\ 
   & & & \\ 
- distance & 0.009 & 0.009 & 0.009 \\ 
-  & (0.021) & (0.021) & (0.020) \\ 
-  & & & \\ 
- dist2 & $-$0.00002 & $-$0.00001 & $-$0.00000 \\ 
-  & (0.0002) & (0.0002) & (0.0002) \\ 
-  & & & \\ 
- logPop & 1.274$^{***}$ & 1.333$^{***}$ & 0.900$^{***}$ \\ 
-  & (0.098) & (0.100) & (0.114) \\ 
-  & & & \\ 
- pcHispanic &  & 2.305$^{***}$ & 5.296$^{***}$ \\ 
-  &  & (0.673) & (0.777) \\ 
-  & & & \\ 
- income &  &  & 0.0005$^{***}$ \\ 
-  &  &  & (0.0001) \\ 
-  & & & \\ 
- intersects:distance & 0.003 & 0.005 & 0.003 \\ 
+ TV Dummy $\times$ Distance to Boundary  & 0.003 & 0.005 & 0.003 \\ 
   & (0.014) & (0.014) & (0.014) \\ 
   & & & \\ 
- intersects:dist2 & 0.0004$^{*}$ & 0.0004$^{*}$ & 0.0004$^{*}$ \\ 
-  & (0.0002) & (0.0002) & (0.0002) \\ 
+ Distance to Boundary (KM) & 0.009 & 0.009 & 0.009 \\ 
+  & (0.021) & (0.021) & (0.020) \\ 
   & & & \\ 
- Constant & $-$12.861$^{***}$ & $-$13.788$^{***}$ & $-$14.879$^{***}$ \\ 
-  & (1.094) & (1.125) & (1.126) \\ 
+ Log(Population) & 1.274$^{***}$ & 1.333$^{***}$ & 0.900$^{***}$ \\ 
+  & (0.098) & (0.100) & (0.114) \\ 
+  & & & \\ 
+ County \% Hispanic &  & 2.305$^{***}$ & 5.296$^{***}$ \\ 
+  &  & (0.673) & (0.777) \\ 
+  & & & \\ 
+ Log(Income) &  &  & 0.0005$^{***}$ \\ 
+  &  &  & (0.0001) \\ 
   & & & \\ 
 \hline \\[-1.8ex] 
 Observations & 3,479 & 3,479 & 3,479 \\ 
