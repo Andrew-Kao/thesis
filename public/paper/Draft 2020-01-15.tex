@@ -208,7 +208,7 @@ More directly, SLTV programming is simply more likely to contain content that is
 %% Do everything with d^2
 %% spatial errors: http://www.trfetzer.com/using-r-to-estimate-spatial-hac-errors-per-conley/
 
-
+% Waldfogel 2004: local TV markets benefit minorities more when there's a larger group of them
 
 %% FOR LATER
 % \section{Model/Background/Hypothesis}\label{sectheory}
@@ -359,13 +359,15 @@ One remaining concern is that there may be some degree of spatial autocorrelatio
 
 % cluster: Esarey (2019) following Ibragimov and Muller 2010
 \subsection{Discussion}
+The magnitude of the increase in the number of firms owned by Hispanics under the presence of SLTV is fairly remarkable---once controls are added, this amounts to 11-13\% more firms.\footnote{ Because we do not have access to data on the relative size of these firms (revenue, profits, number of employees etc.), we are unable to say whether this actually leads to more economic activity overall---it is possible that there are more firms, but that firms on the whole are smaller. Nonetheless, given the recent slump in US rates of entrepreneurship \citep{@CITE Decker, Haltiwanger}, and the fact that minority owners are disproportionately entrepreneurs \citep{@CITE Feldman}, we are optimistic towards on the implications of this finding towards overall economic growth.} The increase in number of firms that exhibit Hispanic names is also remarkable: an increase of between 1.8 to 2.2 in the log odds ratio at a baseline rate of 1\% constitutes roughly a doubling in the number of such names. Both of these findings are rather substantial effects in size, and the robustness across specification lends credibility to their external validity.
 
+The increase in Hispanic firm names would be difficult to explain without touching on identity in some manner---either these firms are operationally similar to others, in which case the names act a prominent identity-based signal to consumers \citep{@CITE McDevitt}, or there are material changes in a firm's operation. But in these cases, changes in name are still linked to the type of operational change made by the firm \citep{@CITE Horsky}, still pointing to an identity-based mechanism. 
 
-Hispanic owners no more likely to advertise, but non-Hispanic owners do: 
+The issue is less clear cut in the case of firm ownership. The additional number of firms could be tied to stronger advertising networks, noting that paid programming makes up 30.9\% of Hispanic owned SLTV networks programming time, compared to 10.8\% in the general population \citep{@CITE FEC}. Nonetheless, there is reason to believe that this effect may also be driven by identity: \cite{@CITE Piperopoulos} notes that ethnic minorities often start businesses on the basis of stronger cultural knowledge and ties to the community. 
 
-% paid programming, which makes up 30.9\% of Hispanic owned SLTV networks programming time, compared to 10.8\% in the general population - advertising Hispanic firms
+Given this, two interesting questions arise: (1) Accounting for the fact that there are now more businesses overall, does the proportion of Hispanic named firms increase? (2) Are the increases in Hispanic firm names driven by demand or supply side effects? To tackle (1), we note that in Table \ref{firm_robust} that, even controlling for the total number of firms in area, the number of Hispanic named firms still increases; hence, in addition to there being more Hispanic owned firms, the proportion of Hispanic named firms also increases.\footnote{ This holds when alternatively controlling for the total number of Hispanic owned firms.} 
 
-Demand is identity driven - even controlling for total businesses in the area
+We examine the second question by first noting that non-Hispanic people only minimally engage with SLTV. Hence, if SLTV operated exclusively through a supply-side channel (changing the information or preferences of the owner, for instance), we would expect to see Hispanic owners but not non-Hispanic owners to more frequently adopt Hispanic names for their businesses. Instead, in Table \ref{firm_name}, we see that there are positive, significant increases in Hispanic business names for businesses owned both by Hispanics and non-Hispanics. We are unable to reject the hypothesis that the coefficients are equal, and this suggests that it is instead the demand-side (Hispanic consumers who watch SLTV) that dominates---consistent with other findings in the meat and cigarette industry which show that content shown on television influences what consumers choose to purchase (\cite{@CITE Baltagi} \cite{@CITE Verbeke}) and making the novel extension to firm ownership and naming schemes. 
 
 
 
@@ -462,7 +464,11 @@ We geocode addresses using a combination of ArcGIS and the US Census Bureau geoc
 \subsection{Results and Discussion}
 Table \ref{don_base} presents the main table for this result, which follows the specification in Table \ref{firm_busn}---only grid points within 100 KM of the border are kept, and we add successive county controls for log population, percent county Hispanic, and log income in Columns (2), (3) and (4). Results across the board are highly significant, but point in opposite directions: Hispanic contributions to Trump increase under the presence of SLTV, while contributions to Clinton decrease under the presence of SLTV.
 
-Given our inability to 
+We are constrained in this analysis for a number of reasons. First, we do not observe smaller donations that do not have to be reported to the FEC---these made up a substantial part of both Clinton and Trump's campaign contributions,\footnote{ 25.94\% of total funding in the case of Trump and 18.58\% in the case of Clinton \citep{@CITE open secrets}, but noting that the total number of contributors is likely to constitute a far greater proportion, given the fact that many smaller donations need to be solicited in order for them to equal the dollar value of a larger one.} and so we are missing data on a large number of donors. Second, while results are robust (to other specifications/spatial autocorrelation as in prior sections) in that sign and significance are maintained, the coefficient moves substantially enough that interpretation is quite difficult---it appears to be that power comes from the sheer number of observations. Finally, we are unable to explicitly provide evidence towards an identity mechanism occurring in this setting. Though politics is often identity driven, and we do advance some ideas below relating to this, we cannot guarantee that these results are produced as a result of Hispanic identities being influenced or tapped on in some way. Thus, we present these results mainly for suggestive purposes and to indicate an area of research that we believe may prove fruitful for others to pursue. 
+
+Nevertheless, the magnitude of these coefficients in quite substantial: the average number of campaign contributions for Trump in a grid point is .08, meaning the presence of SLTV marks an increase of between 7 to 24\% in contributions among Hispanics. The average number of campaign contributions for Clinton in a grid point is .049, meaning the presence of SLTV marks a decrease of between 16 to 40\% in contributions among Hispanics. These are large quantities that certainly warrant further exploration.
+
+How the wealthy respond to SLTV
 
 Considering that the mean number of contributions in any square 
 
@@ -474,6 +480,7 @@ Considering that the mean number of contributions in any square
 % contrary to public opinion: https://www.npr.org/sections/itsallpolitics/2014/04/01/297827352/conservative-media-watchdog-univision-telemundo-favor-liberals
 % https://foreignpolicy.com/2018/04/16/the-trumpification-of-the-latin-american-right/
 
+% https://www.washingtonpost.com/politics/among-democrats-deep-concern-about-clintons-hispanic-strategy/2016/09/18/38d3b99a-7c54-11e6-bd86-b7bbd53d2b5d_story.html
 
 % less than half as many SLTV programs rated for sexual content or strong language (FCC TV)
 
