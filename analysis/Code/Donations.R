@@ -288,6 +288,29 @@ sum2a <- reg2 %>%
   summarize_all(funs( mean = mean(.,na.rm=TRUE), sd = sd(.,na.rm=TRUE)))
 
 
+sumall <- regDataT %>%
+  mutate(intersects_d = ifelse(intersects > 0, 1, 0),
+         logincome = log(income),
+         logPop = log(population),
+         distance = distance/1000) %>%
+  group_by(intersects_d) %>%
+  select(distance,logincome,logPop,pcHispanic, intersects_d) %>%
+  summarize_all(funs( mean = mean(.,na.rm=TRUE), sd = sd(.,na.rm=TRUE))) %>%
+  gather("stat", "val", -intersects_d) %>%
+  mutate(intersects_d = paste0("TV:", intersects_d)) %>%
+  unite(stat, stat, intersects_d, sep = ".") %>%
+  separate(stat, into = c("var", "stat"), sep = "_") %>%
+  spread(stat, val) %>%
+  select(var, "mean.TV:0", "sd.TV:0", "mean.TV:1", "sd.TV:1") %>%
+  as.data.frame()
+
+sumalla <- regDataT %>%
+  mutate(logincome = log(income),
+         logPop = log(population),
+         distance = distance/1000) %>%
+  select(distance,logincome,logPop,pcHispanic) %>%
+  summarize_all(funs( mean = mean(.,na.rm=TRUE), sd = sd(.,na.rm=TRUE)))
+
 ###### CLINTON ######
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/politics/clinton_donations') 
