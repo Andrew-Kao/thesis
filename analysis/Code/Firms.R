@@ -445,6 +445,27 @@ stargazer(m1,m1.lag,m1.err, out = "../../../Output/Regs/firms_rastern_ihs_spatia
 
 
 
+sum2 <- regF2 %>%
+  mutate(intersects_d = ifelse(intersects > 0, 1, 0),
+         logincome = log(income),
+         ihsbusncount = ihs(busnCount)) %>%
+  group_by(intersects_d) %>%
+  select(ihsbusncount,hispFoodNameD,logincome,logPop,pcHispanic, intersects_d) %>%
+  summarize_all(funs( mean = mean(.,na.rm=TRUE), sd = sd(.,na.rm=TRUE))) %>%
+  gather("stat", "val", -intersects_d) %>%
+  mutate(intersects_d = paste0("TV:", intersects_d)) %>%
+  unite(stat, stat, intersects_d, sep = ".") %>%
+  separate(stat, into = c("var", "stat"), sep = "_") %>%
+  spread(stat, val) %>%
+  select(var, "mean.TV:0", "sd.TV:0", "mean.TV:1", "sd.TV:1") %>%
+  as.data.frame()
+
+sum2a <- regF2 %>%
+  mutate(logincome = log(income),
+         ihsbusncount = ihs(busnCount)) %>%
+  select(ihsbusncount,hispFoodNameD,logincome,logPop,pcHispanic) %>%
+  summarize_all(funs( mean = mean(.,na.rm=TRUE), sd = sd(.,na.rm=TRUE)))
+
 
 ihs <- function(x) {
   y <- log(x + sqrt(x ^ 2 + 1))

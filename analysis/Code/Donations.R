@@ -8,6 +8,10 @@ library(sf)
 library(stargazer)
 library(stringr)
 library(purrr)
+library(spdep)
+library(spatialreg)
+library(texreg)
+library(tidyverse)
 
 
 ###### TRUMP ######
@@ -240,6 +244,48 @@ stargazer(m1,m1.lag,m1.err, out = "../../../Output/Regs/firms_rastern_ihs_spatia
           covariate.labels = label_spec3,
           dep.var.labels = 'IHS(\\# Hispanic Owned Businesses)',
           omit = c('Constant', 'intersects:distance', 'logPop', 'distance'))
+
+
+
+
+no_underscore <- function (x) !grepl('_',x)
+### SUMMARY
+sumT2 <- regT2 %>%
+  mutate(intersects_d = ifelse(intersects > 0, 1, 0)) %>%
+  group_by(intersects_d) %>%
+  select(donations,income,logPop,pcHispanic, intersects_d) %>%
+  summarize_all(funs( mean = mean(.,na.rm=TRUE), sd = sd(.,na.rm=TRUE))) %>%
+  gather("stat", "val", -intersects_d) %>%
+  mutate(intersects_d = paste0("TV:", intersects_d)) %>%
+  unite(stat, stat, intersects_d, sep = ".") %>%
+  separate(stat, into = c("var", "stat"), sep = "_") %>%
+  spread(stat, val) %>%
+  select(var, "mean.TV:0", "sd.TV:0", "mean.TV:1", "sd.TV:1") %>%
+  as.data.frame()
+  mutate_if(is.numeric, funs(round(., 3))) 
+
+sumT2a <- regT2 %>%
+    select(donations,income,logPop,pcHispanic) %>%
+    summarize_all(funs( mean = mean(.,na.rm=TRUE), sd = sd(.,na.rm=TRUE)))
+
+sum2 <- reg2 %>%
+  mutate(intersects_d = ifelse(intersects > 0, 1, 0),
+         logincome = log(income)) %>%
+  group_by(intersects_d) %>%
+  select(donations,logincome,logPop,pcHispanic, intersects_d) %>%
+  summarize_all(funs( mean = mean(.,na.rm=TRUE), sd = sd(.,na.rm=TRUE))) %>%
+  gather("stat", "val", -intersects_d) %>%
+  mutate(intersects_d = paste0("TV:", intersects_d)) %>%
+  unite(stat, stat, intersects_d, sep = ".") %>%
+  separate(stat, into = c("var", "stat"), sep = "_") %>%
+  spread(stat, val) %>%
+  select(var, "mean.TV:0", "sd.TV:0", "mean.TV:1", "sd.TV:1") %>%
+  as.data.frame()
+
+sum2a <- reg2 %>%
+  mutate(logincome = log(income)) %>%
+  select(donations,logincome,logPop,pcHispanic) %>%
+  summarize_all(funs( mean = mean(.,na.rm=TRUE), sd = sd(.,na.rm=TRUE)))
 
 
 ###### CLINTON ######

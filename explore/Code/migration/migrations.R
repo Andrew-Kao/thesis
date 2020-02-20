@@ -220,6 +220,33 @@ stargazer(m1,m2,m3, out = "../../Output/Regs/migrev_distdummyIO.tex", title="Eff
 
 
 
+distDummy <- migrations %>%
+  filter(origdist < 100000 & destdist < 100000) %>%
+  mutate(orig = 1000*as.numeric(origState) + as.numeric(origCty)) %>% # unique per orig
+  mutate(origLogPop = log(origpopulation), destLogPop = log(destpopulation),
+         origLogInc = log(origincome), destLogInc = log(destincome),
+         origdist = origdist/1000, destdist = destdist/1000) %>%
+  filter(ethnicity == 3)
+
+sum2 <- distDummy %>%
+  mutate(intersects_d = ifelse(origintersects > 0, 1, 0),
+         ihsmig = ihs(mig)) %>%
+  group_by(intersects_d) %>%
+  select(ihsmig,origLogPop,origLogInc,origpcHisp, origdist, intersects_d) %>%
+  summarize_all(funs( mean = mean(.,na.rm=TRUE), sd = sd(.,na.rm=TRUE))) %>%
+  gather("stat", "val", -intersects_d) %>%
+  mutate(intersects_d = paste0("TV:", intersects_d)) %>%
+  unite(stat, stat, intersects_d, sep = ".") %>%
+  separate(stat, into = c("var", "stat"), sep = "_") %>%
+  spread(stat, val) %>%
+  select(var, "mean.TV:0", "sd.TV:0", "mean.TV:1", "sd.TV:1") %>%
+  as.data.frame()
+
+sum2a <- distDummy %>%
+  mutate(ihsmig = ihs(mig)) %>%
+  select(ihsmig,origLogPop,origLogInc,origpcHisp,origdist) %>%
+  summarize_all(funs( mean = mean(.,na.rm=TRUE), sd = sd(.,na.rm=TRUE)))
+
 
 # have meaningful movements between 75,000 county pairs; 30,500 contain Hispanic movements
 # note: there are XXXs when movement is to state as a whole

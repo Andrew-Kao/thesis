@@ -148,6 +148,11 @@
 \setcounter{page}{1}
 \section{Introduction}
 
+\begin{quotation}
+\textit{[Television] has altered every phase of the American vision and identity. }
+\begin{flushright} - Marshall McLuhan, \textit{War and Peace in the Global Village}\end{flushright}
+\end{quotation}
+
 Mass media lets us know what the outside world thinks, and this shapes the way that we think.
 
 - Media plays a large role in shaping our lives
@@ -251,7 +256,7 @@ Finally, data for specific outcomes are discussed under their relevant section.
 
 \section{Empirical Strategy}\label{secrd}
 
-To isolate the causal effect of Spanish language television, I adopt the technique used in \cite{velez_tuning_2019}  and generalize it from three counties to the entirety of the US.\footnote{ The paper was retracted in 2019, but this was due to usage of unauthorized data, and unrelated to the efficacy of the underlying identification strategy.} Newman and Velez exploit a FCC (Federal Communications Commission) regulation which determines the distance from a TV station in which the station's broadcast signal is protected from interference. 
+To isolate the causal effect of Spanish language television, I adopt the technique used in \cite{velez_tuning_2019}  and generalize it from two counties to the entirety of the US.\footnote{ The paper was retracted in 2019, but this was due to usage of unauthorized data, and unrelated to the efficacy of the underlying identification strategy.} Newman and Velez exploit a FCC (Federal Communications Commission) regulation which determines the distance from a TV station in which the station's broadcast signal is protected from interference. 
 
 This creates a natural spatial regression discontinuity, where the decaying strength of a signal over distance is combined with this cutoff in broadcast protection to create a split among people just inside and outside these coverage contours that are presumably comparable save for their access to broadcast TV.  This minimizes the potential concern of omitted variable bias, as the groups we are comparing across this border should share many overarching characteristics.
 
@@ -468,11 +473,13 @@ We are constrained in this analysis for a number of reasons. First, we do not ob
 
 Nevertheless, the magnitude of these coefficients in quite substantial: the average number of campaign contributions for Trump in a grid point is .08, meaning the presence of SLTV marks an increase of between 7 to 24\% in contributions among Hispanics. The average number of campaign contributions for Clinton in a grid point is .049, meaning the presence of SLTV marks a decrease of between 16 to 40\% in contributions among Hispanics. These are large quantities that certainly warrant further exploration.
 
-How the wealthy respond to SLTV
+The direction of the results is also somewhat of a puzzle: Hispanics traditionally lean Democrat, so why would SLTV, aimed at Hispanics, induce more campaign contributions to the Republican and not Democrat presidential candidate? We posit two potential reasons for this: 
 
-Considering that the mean number of contributions in any square 
+(1) SLTV broadcasts in and of themselves do not have to lean liberal \citep{@CITE Vega}. In fact, if they broadcast content produced by or geared towards Latin American audiences, SLTV programming may reflect the social conservativeness in these nations as tends to be associated with the Evangelical Christian movement \citep{@CITE Lissardy}, or more recently, the wave of populist governments bearing resemblance to Trump's campaign and presidency \citep{@CITE Ospina-Valencia}. 
 
+(2) A sizable number of Hispanics still do support Trump and the broader Republican platform---there is a substantial number of naturalized citizens who view themselves as distinct from (and even critical towards) immigrants (\cite{@CITE Ramos}, \cite{@CITE Navarette}), and hence if SLTV makes the identity of immigrants more salient, this can trigger a `backlash' effect where more Hispanics may donate to Trump to signal their beliefs or uphold what they believe to be sounder policy.\footnote{ \cite{@CITE Fortin} is a similar example involving women and in-group backlash.}  This argument is more plausible when one considers that due to the contribution censoring, we are likely observing how the wealthy respond to SLTV---it is possible that there is substantial heterogeneity being masked.
 
+This finding also helps to explain part of the conflicting narrative in the literature: while \cite{@CITE Oberholzer-Gee} finds that local news in Spanish boosts voter turnout, \cite{@CITE Velez} comes to the opposite conclusion. Notably, however, the two districts covered under Velez and Newman's analysis, North Carolina's 1st Congressional District and Florida's 22nd both voted majority Democrat over the time-period surveyed, whereas Oberholzer-Gee and Waldfogel take voter turnout data from the 2000 Presidential Election over a large section of the United States---an election that was eventually decided in favor of Republicans. If the campaign contribution findings are a proxy for political engagement, then our results would explain the heterogeneity in the data: areas that lean Democrat are likely to see depressed turnout under SLTV, while the opposite would be true in Republican areas. 
 % robustness: also geocode trump with US?
 
 % Univision and Telemundo emphasize their lineups of telenovelas, sports and reality programming.
@@ -563,8 +570,9 @@ Future work: Political angle, examining mechs, complement or substitute with oth
 \clearpage
 \subsection{Tables}
 
-\input{../../explore/output/summary/LEAInfo.tex}
-\input{../../explore/output/summary/SchoolInfo.tex}
+%\input{../../explore/output/summary/LEAInfo.tex}
+%\input{../../explore/output/summary/SchoolInfo.tex}
+\input{../../analysis/Output/Sum/sum_out.tex}
 \input{../../analysis/Output/Regs/mig_orig.tex}
 \input{../../analysis/Output/Regs/mig_dest.tex}
 

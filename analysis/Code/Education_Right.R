@@ -349,6 +349,51 @@ spplot(spdat,"mortrate", at=quantile(spdat$mortrate), col.regions=brewer.pal(n=5
 # conleyHAC(ihs(harass$sch_hbreported_rac_hi),m1$fitted.values,harass$TV,harass[,c("X","Y")],coefficients=m1$coefficients,timeid=harass$Country,panelid=harass$Country,dist_cutoff=10000,lag_cutoff=10)
 
 
+origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+  total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 
+
+sum2 <- harass %>%
+  mutate(intersects_d = ifelse(TV > 0, 1, 0),
+         ihsschabsent = ihs(sch_absent_hi),
+         ihsschdiscwodissingoos = ihs(sch_discwodis_singoos_hi),
+         ihsschhbreportedrac = ihs(sch_hbreported_rac_hi),
+         ihsschapenr = ihs(sch_apenr_hi),
+         ihsschappassoneormore = ihs(sch_appass_oneormore_hi),
+         ihsschlepenr = ihs(sch_lepenr_hi),
+         ihsschgtenr = ihs(sch_gtenr_hi),
+         schteachers = SCH_TEACHERS_CURR_TOT,
+         hispstudents = hisp_students,
+         totalstudents = total_students) %>%
+  group_by(intersects_d) %>%
+  select(ihsschabsent, ihsschdiscwodissingoos, ihsschhbreportedrac,
+         ihsschapenr, ihsschappassoneormore, ihsschlepenr,
+         ihsschgtenr, origpcHisp, origLogInc, origLogPop, schteachers,
+         hispstudents, totalstudents, intersects_d) %>%
+  summarize_all(funs( mean = mean(.,na.rm=TRUE), sd = sd(.,na.rm=TRUE))) %>%
+  gather("stat", "val", -intersects_d) %>%
+  mutate(intersects_d = paste0("TV:", intersects_d)) %>%
+  unite(stat, stat, intersects_d, sep = ".") %>%
+  separate(stat, into = c("var", "stat"), sep = "_") %>%
+  spread(stat, val) %>%
+  select(var, "mean.TV:0", "sd.TV:0", "mean.TV:1", "sd.TV:1") %>%
+  as.data.frame()
+
+sum2a <- harass %>%
+  mutate(ihsschabsent = ihs(sch_absent_hi),
+         ihsschdiscwodissingoos = ihs(sch_discwodis_singoos_hi),
+         ihsschhbreportedrac = ihs(sch_hbreported_rac_hi),
+         ihsschapenr = ihs(sch_apenr_hi),
+         ihsschappassoneormore = ihs(sch_appass_oneormore_hi),
+         ihsschlepenr = ihs(sch_lepenr_hi),
+         ihsschgtenr = ihs(sch_gtenr_hi),
+         schteachers = SCH_TEACHERS_CURR_TOT,
+         hispstudents = hisp_students,
+         totalstudents = total_students) %>%
+  select(ihsschabsent, ihsschdiscwodissingoos, ihsschhbreportedrac,
+         ihsschapenr, ihsschappassoneormore, ihsschlepenr,
+         ihsschgtenr, origpcHisp, origLogInc, origLogPop, schteachers,
+         hispstudents, totalstudents) %>%
+  summarize_all(funs( mean = mean(.,na.rm=TRUE), sd = sd(.,na.rm=TRUE)))
 
 
 
