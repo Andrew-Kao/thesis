@@ -4,10 +4,20 @@
 
 \begin{thebibliography}{xx}
 
+\harvarditem[]{}{2017}{noauthor_2016_2017}
+{\bf 2016 {Presidential} {Race} {Fundraising} {Totals}.} 2017. ``2016
+  {Presidential} {Race} {Fundraising} {Totals}.'' OpenSecrets.org.
+
 \harvarditem[]{}{2020{\em a}}{noauthor_american_2020}
 {\bf American {Community} {Survey} {Sample} {Size} and {Data} {Quality}.}
   2020{\em a}. ``American {Community} {Survey} {Sample} {Size} and {Data}
   {Quality}.'' United States Census Bureau.
+
+\harvarditem[Anselin \harvardand\ Bera]{Luc Anselin \harvardand\ Anil
+  Bera}{1998}{anselin_spatial_1998}
+{\bf Anselin, Luc, and Anil Bera.} 1998. ``Spatial {Dependence} in {Linear}
+  {Regression} {Models} with an {Introduction} to {Spatial} {Econometrics}.''
+  In {\em Handbook of applied economic statistics}. 237.
 
 \harvarditem[]{}{2015{\em b}}{noauthor_ap_2015}
 {\bf {AP} {Data} – {Archived} {Data} 2015.} 2015{\em b}. ``{AP} {Data} –
@@ -16,6 +26,33 @@
 \harvarditem[]{}{2020{\em b}}{noauthor_ap_2020}
 {\bf {AP} {Score} {Distributions}.} 2020{\em b}. ``{AP} {Score}
   {Distributions}.'' College Board.
+
+\harvarditem[Arcia]{Emily Arcia}{2006}{arcia_achievement_2006}
+{\bf Arcia, Emily.} 2006. ``Achievement and {Enrollment} {Status} of
+  {Suspended} {Students}: {Outcomes} in a {Large}, {Multicultural} {School}
+  {District}.'' {\em Education and Urban Society}, 38(3):~359--369.
+
+\harvarditem[Baltagi \harvardand\ Levin]{Badi~H. Baltagi \harvardand\ Dan
+  Levin}{1986}{baltagi_estimating_1986}
+{\bf Baltagi, Badi~H., and Dan Levin.} 1986. ``Estimating {Dynamic} {Demand}
+  for {Cigarettes} {Using} {Panel} {Data}: {The} {Effects} of {Bootlegging},
+  {Taxation} and {Advertising} {Reconsidered}.'' {\em The Review of Economics
+  and Statistics}, 68(1):~148.
+
+\harvarditem[Cliff \harvardand\ Ord]{Andrew Cliff \harvardand\ J~Keith
+  Ord}{1973}{cliff_spatial_1973}
+{\bf Cliff, Andrew, and J~Keith Ord.} 1973. ``Spatial {Autocorrelation}.''
+
+\harvarditem[Coghill \harvardand\ McGinnis]{Heather Coghill \harvardand\ Chris
+  McGinnis}{2018}{coghill_tuning_2018}
+{\bf Coghill, Heather, and Chris McGinnis.} 2018. ``Tuning {In} to {Hispanic}
+  {Audiences}.'' effectv.
+
+\harvarditem[Decker et~al.]{Ryan Decker, John Haltiwanger, Ron Jarmin
+  \harvardand\ Javier Miranda}{2014}{decker_role_2014}
+{\bf Decker, Ryan, John Haltiwanger, Ron Jarmin, and Javier Miranda.} 2014.
+  ``The {Role} of {Entrepreneurship} in {US} {Job} {Creation} and {Economic}
+  {Dynamism}.'' {\em Journal of Economic Perspectives}, 28(3):~3--24.
 
 \harvarditem[]{}{2004}{noauthor_elementary_2004}
 {\bf Elementary and {Secondary} {Education} {Act} {Title} {IX} - {General}
@@ -29,14 +66,90 @@
   {Educational} {Programs}.'' U.S. Department of Justice, Civil Rights Division
   and U.S. Department of Education, Office for Civil Rights.
 
+\harvarditem[Feldman, Koberg \harvardand\ Dean]{Howard Feldman, Christine
+  Koberg \harvardand\ Thomas Dean}{1991}{feldman_minority_1991}
+{\bf Feldman, Howard, Christine Koberg, and Thomas Dean.} 1991. ``Minority
+  {Small} {Business} {Owners} and {Their} {Paths} to {Ownership}.'' {\em
+  Journal of Small Business Management}, 29(4).
+
 \harvarditem[Fletcher, Heald \harvardand\ Hildreth]{Fletcher, Heald
   \harvardand\ Hildreth}{2018}{fletcher_fcc_2018}
 {\bf Fletcher, Heald, and Hildreth.} 2018. ``{FCC} {Updates} {DTV} {Reception}
   {Map}.''
 
+\harvarditem[Fortin]{Nicole Fortin}{2015}{fortin_gender_2015}
+{\bf Fortin, Nicole.} 2015. ``Gender {Role} {Attitudes} and {Women}'s {Labor}
+  {Market} {Participation}: {Opting}-{Out}, {AIDS}, and the {Persistent}
+  {Appeal} of {Housewifery}.'' {\em Annals of Economics and Statistics}, ,
+  (117/118):~379.
+
 \harvarditem[]{}{2015{\em a}}{noauthor_high_2015}
 {\bf High {School} {Benchmarks} – 2015.} 2015{\em a}. ``High {School}
   {Benchmarks} – 2015.'' National Student Clearinghouse Research Center.
+
+\harvarditem[Horsky \harvardand\ Swyngedouw]{Dan Horsky \harvardand\ Patrick
+  Swyngedouw}{1987}{horsky_does_1987}
+{\bf Horsky, Dan, and Patrick Swyngedouw.} 1987. ``Does it {Pay} to {Change}
+  {Your} {Company}'s {Name}? {A} {Stock} {Market} {Perspective}.'' {\em
+  Marketing Science}, 6(4):~320--335.
+
+\harvarditem[Kuntsche et~al.]{Emmanuel Kuntsche, William Pickett, Mary
+  Overpeck, Wendy Craig, William Boyce \harvardand\ Margarida~Gaspar
+  de~Matos}{2006}{kuntsche_television_2006}
+{\bf Kuntsche, Emmanuel, William Pickett, Mary Overpeck, Wendy Craig, William
+  Boyce, and Margarida~Gaspar de~Matos.} 2006. ``Television {Viewing} and
+  {Forms} of {Bullying} among {Adolescents} from {Eight} {Countries}.'' {\em
+  Journal of Adolescent Health}, 39(6):~908--915.
+
+\harvarditem[Lissardy]{Gerardo Lissardy}{2018}{lissardy_fuerza_2018}
+{\bf Lissardy, Gerardo.} 2018. ``"{La} fuerza política más nueva": cómo los
+  evangélicos emergen en el mapa de poder en {América} {Latina}.'' {\em BBC}.
+
+\harvarditem[McDevitt]{Ryan~C. McDevitt}{2014}{mcdevitt__2014}
+{\bf McDevitt, Ryan~C.} 2014. ``“{A}” {Business} by {Any} {Other} {Name}:
+  {Firm} {Name} {Choice} as a {Signal} of {Firm} {Quality}.'' {\em Journal of
+  Political Economy}, 122(4):~909--944.
+
+\harvarditem[Navarette]{Ruben Navarette}{2019}{navarette_millions_2019}
+{\bf Navarette, Ruben.} 2019. ``Millions of {Latinos} are {Trump} supporters.
+  {Here}'s what they're thinking.'' {\em USA Today}.
+
+\harvarditem[Oberholzer-Gee \harvardand\ Waldfogel]{Felix Oberholzer-Gee
+  \harvardand\ Joel Waldfogel}{2009}{oberholzer-gee_media_2009}
+{\bf Oberholzer-Gee, Felix, and Joel Waldfogel.} 2009. ``Media {Markets} and
+  {Localism}: {Does} {Local} {News} en {Espanol} {Boost} {Hispanic} {Voter}
+  {Turnout}?'' {\em American Economic Review}, 99(5):~2120--2128.
+
+\harvarditem[Perry \harvardand\ Morris]{Brea~L. Perry \harvardand\ Edward~W.
+  Morris}{2014}{perry_suspending_2014}
+{\bf Perry, Brea~L., and Edward~W. Morris.} 2014. ``Suspending {Progress}:
+  {Collateral} {Consequences} of {Exclusionary} {Punishment} in {Public}
+  {Schools}.'' {\em American Sociological Review}, 79(6):~1067--1087.
+
+\harvarditem[Piperopoulos]{Panagiotis
+  Piperopoulos}{2012}{piperopoulos_ethnic_2012}
+{\bf Piperopoulos, Panagiotis.} 2012. ``Ethnic female business owners: more
+  female or more ethnic entrepreneurs.'' {\em Journal of Small Business and
+  Enterprise Development}, 19(2):~192--208.
+
+\harvarditem[Ramos]{Kristian Ramos}{2020}{ramos_latino_2020}
+{\bf Ramos, Kristian.} 2020. ``Latino {Support} for {Trump} {Is} {Real}.'' {\em
+  The Atlantic}.
+
+\harvarditem[Scherr \harvardand\ Larson]{Tracey Scherr \harvardand\ Jim
+  Larson}{2009}{scherr_bullying_2009}
+{\bf Scherr, Tracey, and Jim Larson.} 2009. ``Bullying dynamics associated with
+  race, ethnicity, and immigration status.'' In {\em Handbook of bullying in
+  schools: {An} international perspective}. 223--234.
+
+\harvarditem[Speroni]{Cecilia Speroni}{2011}{speroni_determinants_2011}
+{\bf Speroni, Cecilia.} 2011. ``Determinants of {Students}' {Success}: {The}
+  {Role} of {Advanced} {Placement} and {Dual} {Enrollment} {Programs}.''
+  National Center for Postsecondary Research.
+
+\harvarditem[Vega]{Tanzina Vega}{2012}{vega_mundofox_2012}
+{\bf Vega, Tanzina.} 2012. ``{MundoFox} to {Enter} the {Latino} {TV}
+  {Market}.'' {\em The New York Times}.
 
 \harvarditem[Velez \harvardand\ Newman]{Yamil~Ricardo Velez \harvardand\
   Benjamin~J. Newman}{2019}{velez_tuning_2019}
@@ -44,6 +157,12 @@
   {Turning} {Out}: {Evaluating} the {Impact} of {Ethnic} {Television} on
   {Political} {Participation}.'' {\em American Journal of Political Science},
   63(4):~808--823.
+
+\harvarditem[Verbeke, Ward \harvardand\ Viaene]{Wim Verbeke, Ronald Ward
+  \harvardand\ Jacques Viaene}{2000}{verbeke_probit_2000}
+{\bf Verbeke, Wim, Ronald Ward, and Jacques Viaene.} 2000. ``Probit analysis of
+  fresh meat consumption in {Belgium}: {Exploring} {BSE} and television
+  communication impact.'' {\em Agribusiness}, 16(2):~215--234.
 
 \harvarditem[Wolf \harvardand\ Kupchik]{Kerrin~C. Wolf \harvardand\ Aaron
   Kupchik}{2017}{wolf_school_2017}
