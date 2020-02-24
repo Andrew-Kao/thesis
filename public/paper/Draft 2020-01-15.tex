@@ -187,14 +187,20 @@ Three domains
 
 - Firms
 \cite{@CITE Bjorvatin} negative ; \cite{@CITE Berg and Zia} better control -- but both explicit target shows with programming 
-Difficult to get entrepreneurrship/mixed:  \cite{@CITE Karlan Valdiva} \cite{@CITE Gine Mansuri} (vs. us!)
+Difficult to get entrepreneurship/mixed:  \cite{@CITE Karlan Valdiva} \cite{@CITE Gine Mansuri} (vs. us!)
 
 
 - Education
 \cite{@CITE Winn 2002} \cite{@CITE Gentile et al} \cite{@CITE Zavodny} vs. \cite{@CITE Kearney, Levine}  Gentzkow and Shapiro 2008 Preschool
 
+\cite{@CITE Cascio} - school segregation
+
 - Politics
 Gentzkow and Shapiro 2008 (Competition and Truth in News Market), Gentzkow 2006 on turnout ; Stromberg 2004 on policy outcomes ; \cite{@CITE DellaVigna, Kaplan}
+
+- Identity
+old school priming - \cite{@CITE Benjamin}, \cite{@CITE Benjamin}  , more organic \cite{@CITE bursztyn moral}
+Long term factors that strengthen idetnity  - \cite{@CITE Bisin}, \cite{@CITE Atkin}, \cite{@CITE Bazzi} - based on intergroup 
 
 
 The high level research question is to look at the effect of reinforcing identity within Hispanic populations on their schooling outcomes. Specifically, I'll be using the influence of Spanish language television as the channel by which identity is reinforced, and look at how it affects everything from graduation rates to disciplinary action taken to math abilities and English proficiency for Hispanic students in public schools. In short, if I have access to more programming from my home country, does this make me less engaged in school (perhaps because there are more distractions or because it socially ostracizes me etc.), or does this make me perform better (perhaps because l have more role models or because I have something to talk with peers about in school, and hence motivation to attend/perform)?
@@ -317,7 +323,7 @@ In this model, the autocorrelation occurs in the error term:
 \[ Y = \beta_0 + \beta \mathbb{I}[InsideContour] \times Distance + \gamma X + \epsilon \]
 \[\epsilon = \lambda W \epsilon + \nu\]
 
-This model is identical to the main specification, except the error terms are now additionally correlated due to the addition of the $\lambda W \epsilon$ term. In this model, spatial dependence enters through  the presence of missing spatial covariates which may affect the outcome.
+This model is identical to the main specification, except the error terms are now additionally correlated due to the addition of the $\lambda W \epsilon$ term. In this model, spatial dependence enters through  the presence of missing spatial covariates which may affect the outcome.\footnote{ In particular, this allows us to further adjust for unique features of Hispanic communities, such as the geographic clustering of immigrants as \cite{@CITE Cutler} and \cite{@CITE CASCIO} find.}
 
 \subsection{Migration}
 
@@ -538,13 +544,6 @@ Future work: Political angle, examining mechs, complement or substitute with oth
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Figure 1: Coverage Contours
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[!hbtp]
-\centering
-\caption{IHS(\# Hispanic Students Suspended) by Distance to Contour Boundary }\label{suspensionsfig}
-\includegraphics[width=12cm]{../../analysis/Output/graphs/hispanicsuspensions.pdf}
-
-\textit{Notes:} The figure presents data at a school level, where a smoothed average of the inverse hyperbolic sine transformed counts of Hispanic students suspended is plotted against the distance of the school to the closest Spanish Language Television station contour boundary. Positive distances denote schools that are located within the boundary, while negative distances denote schools outside of them.
-\end{figure} 
 
 \begin{figure}[!hbtp]
 \centering
@@ -552,6 +551,14 @@ Future work: Political angle, examining mechs, complement or substitute with oth
 \includegraphics[width=12cm]{../../analysis/Output/graphs/hispanicbusnname.pdf}
 
 \textit{Notes:} The figure presents data at the firm level, where a smoothed average of a residualized dummy for Hispanic businesses with Hispanic-indicating names is plotted against the distance of the school to the closest Spanish Language Television station contour boundary. Positive distances denote schools that are located within the boundary, while negative distances denote schools outside of them. Controls at the county level include log population, income, and percentage population Hispanic.
+\end{figure} 
+
+\begin{figure}[!hbtp]
+\centering
+\caption{IHS(\# Hispanic Students Suspended) by Distance to Contour Boundary }\label{suspensionsfig}
+\includegraphics[width=12cm]{../../analysis/Output/graphs/hispanicsuspensions.pdf}
+
+\textit{Notes:} The figure presents data at a school level, where a smoothed average of the inverse hyperbolic sine transformed counts of Hispanic students suspended is plotted against the distance of the school to the closest Spanish Language Television station contour boundary. Positive distances denote schools that are located within the boundary, while negative distances denote schools outside of them.
 \end{figure} 
 
 \begin{figure}[!hbtp]
