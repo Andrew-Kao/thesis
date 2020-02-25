@@ -60,12 +60,12 @@
 
 \begin{itemize}
 \item Large literature on how TV affects behavior {\footnotesize(Yanigazawa-Drott 2014; DellaVigna \& al. 2007;  Ferrara \&\ al., 2012)}
-\item 50\% of Hispanics watch satellite or broadcast Spanish Language TV
+\item 50\% of Hispanics watch satellite or broadcast Spanish Language TV (SLTV)
 \item Complicated time for largest ethnic minority in the US
 \item Prior efforts to study Hispanic interaction with media focused on politics {\footnotesize(Waldfogel \& al. 2009; Trujillo \& al. 2012)}
 \end{itemize}
 
-This paper:\\
+This paper examines the effect of SLTV in two ways:\\
 \textbf{\,\,\,\, (1) How does Hispanic behavior change in firms and schools?}\\
 \textbf{\,\,\,\,  (2) How is identity affected?}
 
@@ -99,18 +99,6 @@ This paper:\\
 \end{frame}
 
 
-
-%\begin{enumerate}
-%\item<1-> 
-%White Americans living alongside Arab immigrants
-%and Arab-Americans become more positively inclined towards Arabs as the result of this exposure. 
-%\item<2-> Long-term exposure to descendants from a given foreign origin country prompts white Americans to donate more generously to that country in times of need (disasters, droughts, epidemics...).
-%\item<3-> This positive effect of exposure 
-%\item[-]<3->is statistically significant along the entire political spectrum -- operates even in very conservative counties. 
-%\item[-]<3-> is specific to ethnicities that white Americans are exposed to and is statistically significant even after controlling for overall racism or general attitudes to foreigners.
-%\item[-]<3-> is stronger for genetically more distant origin countries.
-%\end{enumerate}
-%
 \begin{frame}
 \frametitle{Contribution}
 \begin{itemize}
@@ -120,9 +108,9 @@ This paper:\\
 
 \item[$\rightarrow $] \textcolor{darkblue}{Provide a first look at how media affects business and schooling outcomes for Hispanics}
 
-\item New research on how identity is constructed and strengthened {\footnotesize (Atkin \& al. 2019; Bazzi \& al. 2019)}
+\item Existing research that shows identity is a powerful mechanism {\footnotesize (Benjamin \& al. 2007; Bursztyn \& al. 2015)}New research on how identity is constructed and strengthened {\footnotesize (Atkin \& al. 2019; Bazzi \& al. 2019)}
 
-\item[$\rightarrow $] \textcolor{darkblue}{Supply a revealed preference link to how identity can be bolstered by TV}
+\item[$\rightarrow $] \textcolor{darkblue}{Supply a revealed preference demonstration of how identity can be bolstered by TV}
 
 \end{itemize}
 
@@ -160,7 +148,7 @@ This paper:\\
 \frametitle{Specifications}
 
 \textbf{Main Model:}
-\[ Y_i^{} = \beta_0 + \beta \mathbb{I}[InsideContour_i] \times Distance_i + \gamma X_i + \epsilon_i \, \, \, \, \, \, \, \epsilon \stackrel{iid}{\sim}   N(0,\sigma_i^{2})\]
+\[ Y_i^{} = \beta_0 + \beta \mathbb{I}[InsideContour_i] \times Distance_i + \gamma X_i + \epsilon_i \]
 
 \textbf{Spatial Autogressive:}
 \[ Y = \beta_0 + \rho W Y + \beta \mathbb{I}[InsideContour] \times Distance + \gamma X + \epsilon \]
@@ -264,550 +252,680 @@ Observations & 4,062 & 4,062 & 4,062 \\
 \item 1\% (1.1\% with food) of firms match this criteria
 \end{itemize}
 \end{itemize}
-% SUMMARY STATS BUTTON
 \end{frame}
 
 
-%
-%
-%\begin{frame}
-%\frametitle{Charitable Donations to Foreign Countries}
-%
-%\begin{itemize}
-%\item Data from 2 large charitable organizations (no clearance to divulge their names yet):
-%\begin{itemize}
-%\item \texttt{Charity 1}.
-%\item \texttt{Charity 2}.
-%\end{itemize}
-%\item Donations to foreign causes only (countries in distress).
-%\item Data on:
-%\begin{itemize}
-%\item Location of donor (county).
-%\item Name of donor (more later).
-%\item Date of donation.
-%\item Country targeted.
-%\item Amount donated (\texttt{Charity 2} only).
-%\end{itemize}
-%\item \texttt{Charity 1}: 60,000 donations from 3,141 counties to 31 countries, 2005 - 2018.
-%\item \texttt{Charity 2}: 690,000 donations from 3,141 counties to125 countries, 2011 - 2018.
-%\end{itemize}
-%
-%\end{frame}
-%
-%
-%\begin{frame}
-%\frametitle{Charitable Donations: Disasters}
-%
-%\begin{itemize}
-%\item Definition of a ``disaster'':
-%\begin{itemize}
-%\item At least 2 consecutive months,
-%\item with at least 5 donations,
-%\item going to the same country.
-%\end{itemize}
-%\item Top 5 disasters (number of donations, \texttt{Charity 1}):
-%\begin{itemize}
-%\item Nepal Earthquake 2015 (10,126)
-%\item Haiti Earthquake 2010 (9,855)
-%\item Indonesia Tsunami 2004 (8,331)
-%\item Japan Earthquake/Tsunami 2011 (8,232)
-%\item Sudan Darfur 2003 (3,779)
-%\end{itemize}
-%\item Top 5 disasters, Arab countries (number of donations, \texttt{Charity 1}):
-%\begin{itemize}
-%\item Sudan Darfur 2003 (3,779)
-%\item Yemen Civil War 2015 (2,022)
-%\item Somalia Famine 2012 (2,007)
-%\item Syria Civil War 2011 (812)
-%\item Libya Civil War 2011 (234)
-%\end{itemize}
-%\end{itemize}
-%
-%\end{frame}
-%
-%
-%\begin{frame}
-%\frametitle{Donors' Name Matching (1/2)}
-%
-%\begin{itemize}
-%\item Partnership with consulting firm \texttt{NAMSOR}.
-%\item Match first \& last names with most likely national origin:
-%\begin{itemize}
-%\item Likeliest origin for ``Donald TRUMP'': Great Britain.
-%\item Likeliest origin for ``Barack OBAMA'': Kenya.
-%\end{itemize}
-%\item Systematically remove donors of non-European ancestry:
-%\begin{itemize}
-%\item E.g. Haitian American donating to Haiti Earthquake Relief.
-%\end{itemize}
-%\item Protocol to ensure donors' privacy:
-%\begin{itemize}
-%\item We never see any name.
-%\item \texttt{NAMSOR} sees only names.
-%\item \texttt{NAMSOR} deletes all data after disambiguation.
-%\item Charitable organization does matching in-house.
-%\item All data aggregated into counties $\times$ countries.
-%\end{itemize}
-%\end{itemize}
-%
-%\end{frame}
-%
-%
-%
-%
-%\begin{frame}
-%\frametitle{County-level Measure of Exposure}
-%
-%
-%
-%\begin{itemize}
-%\item[$\bullet$] \texttt{IPUMS} datasets from the \texttt{US Census of population}.
-%\item[$\bullet$] Censuses: 1880-2010
-%\item[$\bullet$] Variables:
-%
-%\begin{itemize}
-%\item[-] Current location (US county) [all];
-%\item[-] Ancestry [2010];
-%\item[-] Birthplace [all];
-%\item[-] Year of immigration [1900-];
-%\item[-] Birthplace of mother and father [1880].
-%\end{itemize}
-%\end{itemize}
-%\medskip
-%
-%\textbf{Measure of long-term exposure}
-%\begin{description}
-%
-%\item[$A^{2010}_{o,d} =$] \# of individuals in $d$ with ancestry in $o$.
-%\end{description}
-%
-%\medskip
-%
-%\textbf{For instrumentation also construct}
-%\begin{description}
-%\item[$I_{o,d}^t = $] \# individuals in US county $d$ born in foreign country $o$ who immigrated between $t$ and $t-1$.
-%
-%\end{description}
-%
-%\end{frame}
-%
-%%%%%%%%%%%%%%%%%%%%%%%%
-%% 3 slides on identification (intuition)
-%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%\section{Estimating the causal effect of exposure}
-%
-%\begin{frame}
-%\frametitle{Empirical Strategy}
-%\begin{itemize}
-%\item Estimate effect of exposure ($A^{2000}_{o,d}$) on attitudes and actions ($y^{t}_{o,d}$) of White residents of county \(d\) towards minorities or foreigners from country \(o\).
-%$$y^{t}_{o,d}=\delta_t+\delta_o+
-%\delta_d+\beta A^{2000}_{o,d}+X_{o,d}'\gamma+\varepsilon_{o,d} $$
-%\item[1.] Use a destination FE or parametric controls for general attitudes towards minorities and political leanings in \(d\).
-%\item[2.] Isolate quasi-random variation in \(A^{2000}_{o,d}\) from historical migrations {\footnotesize(Burchardi, Chaney, and Hassan, 2018)}.   
-%\end{itemize}
-%\end{frame}
-%
-%
-%\begin{frame}
-%\frametitle{Instrument for Ancestry}
-%
-%\begin{equation*}A^{2010}_{o,d}=\delta_{o}+\delta_{d}+X_{o,d}'\xi+\sum_{s=1880}^{t}\beta^s_{r(d)} \tilde{I}_{o,-r(d)}^s\frac{I_{-c(o),d}^s}{I_{-c(o)}^s}+u_{o,d}^t\label{eq:A}\end{equation*}
-%
-%\begin{itemize}[<+->]
-%\item Predict today's ancestry using interaction of:
-%\begin{itemize}
-%\item[PUSH.]<.-> Staggered arrival of migrants from different origins.
-%\item[PULL.]<.-> Variation over time in the attractiveness of different US destinations for the average migrant arriving at that time.
-%\end{itemize}
-%\item<+-> To avoid confounding factors, leave-out big chunks of migrants (regions and continents: $-r(d)$ and $-c(o)$ terms).
-%\item<+-> \textcolor{darkblue}{Example:} Large community with Mexican ancestry in Detroit explained by:
-%\begin{itemize}
-%\item[PUSH.]<.-> Large migrations from Mexico to the US in 1910-20 (Mexican Revolution).
-%\item[PULL.]<.-> Detroit attracts migrants from all origins in 1910-20 (automobile boom).
-%\end{itemize}
-%\end{itemize}
-%\end{frame}
-%
-%
-%
-%
-%
-%
-%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%\begin{frame}
-%%\frametitle{Empirical Strategy}
-%%\begin{itemize}
-%%\item Estimate effect of exposure on attitudes and actions of White residents of county \(d\) towards minorities or foreigners from country \(o\).
-%%$$y^{t}_{o,d}=\delta_t+\delta_o+
-%%\delta_d+\beta A^{2000}_{o,d}+X_{o,d}'\gamma+\varepsilon_{o,d} $$
-%%\item[1.] Use a destination FE or parametric controls for general attitudes towards minorities and political leanings in \(d\).
-%%\item[2.] Isolate quasi-random variation in \(A^{2000}_{o,d}\) that is orthogonal to all \(o-d\)  specific factors; arises solely from interaction of
-%%
-%%\smallskip
-%%
-%%(1) the staggered arrival of migrants from different origins 
-%%\smallskip
-%%
-%%\centering{ -and-} 
-%%\flushleft
-%%(2) variation over time in the attractiveness of different US destinations for the average migrant arriving at the time {\footnotesize (Burchardi, Chaney, and Hassan, 2018)}.   
-%%\end{itemize}
-%%\end{frame}
-%
-%
-%
-%\section{The Effect of Exposure on Attitudes Towards Arabs}
-%
-%\begin{frame}
-%\frametitle{Effect of Arab Ancestry Attitudes Toward Arab-Muslims}
-%\label{iat regs}
-%%FIXMEAT: Report Table 2 as follows:
-%%Column 1 of Panel B
-%%followed by columns 1,3,4,5  of Panel A
-%
-%\begin{center}
-%        \scalebox{.7}{
-%                \begin{threeparttable}
-%                        \begin{tabular}{lcccccccccc}
-%                                \hline\hline\addlinespace
-%                                Panel A: & \multicolumn{5}{c}{\textit{Avg Score on Arab-Muslim IAT}} \\
-%                                \cmidrule{2-6} & (1) & (2) & (3) & (4) & (5) \\
-%                                & OLS & IV & IV & IV &IV \\
-%                                \hline\addlinespace
-%%                                \input{../Input/IAT_present_5_IV.tex} \addlinespace\hline
-%                                Forced Response & No & No & Yes & Yes  & Yes  \\
-%                                Demographic Controls & No & No & No & Yes & Yes  \\
-%                                \addlinespace\hline\hline
-%                        \end{tabular}
-%                        \begin{tablenotes}[flushleft]
-%                                \item \textit{Notes:} Higher score means a more positive attitude towards Arab-Muslims. Demographic controls include 2010 population density, share of 1970 prime-age population with high school education, and share of 1970 prime-age population with college education. Standard errors are robust.
-%                        \end{tablenotes}
-%                \end{threeparttable}
-%        }
-%\end{center}
-% \hyperlink{appendix: individual}{\beamergotobutton{Individual Level Regressions}}
-%\end{frame}
-%
-%
-%\begin{frame}
-%
-%
-%
-%\begin{frame}
-%\frametitle{Remaining challenges}
-%\begin{itemize}
-%\item[A.] 
-% A common unobserved
-%characteristic of destinations in two different census
-%regions, correlated with attitudes today, may still have
-%disproportionately caused large groups of migrants from
-%two origins on two different continents to simultaneously and repeatedly
-%migrate to the same destinations across census regions.
-%\item[-] Very hard to come up with examples.
-%\item[-] Show same results with differently constructed instruments to exclude this possibility.
-%\item[B.] Heterogeneous and directed white flight: different types of white people prefer Somalis to Haitians, and vice versa, and therefore endogenously migrate to counties with their preferred minorities.  
-%\item[-] Show results with and without most ``hated'' minorities.
-%\end{itemize}
-%
-%
-%\end{frame}
-%
-%
-%\begin{frame}
-%\frametitle{Alternative Instruments}
-%%FIXMEAK Paste results with different instruments here. Vertical table as in Table 5 of EMIT. Line 1 has standard specification for comparison.
-%
-%\begin{center}
-%        \scalebox{.6}{
-%               \begin{threeparttable}
-%                        \begin{tabular}{l@{\extracolsep{4pt}}cccc}
-%\hline\hline   & Charity 1 & & Charity 2 & \\
-%                                                                         \hline\addlinespace Panel A: Variations of leave-out categories   & \multicolumn{1}{c}{IHS(\#\ Donations)} & $F$-Stat & IHS(\#\ Donations) & $F$-Stat \\
-%                                \hline
-%  \\
-%                                Standard Specification  &     0.076** & 54.0 & 0.031** & 212.4 \\
-%                                    &     (0.032) & & (0.016)  \\
-%                                Europe Only Pull Factor &     0.081** & 46.4 & 0.037** & 61.0 \\
-%                                &     (0.031) & & (0.017) \\   
-%                                Excluding Origins with Correlated Migration Flows &     0.086* & 36.8 & 0.080** & 122.8\\
-%                                &     (0.043) & & (0.036) \\
-%%                                \addlinespace\hline\addlinespace                
-%%                              Panel B: Using subsets of instruments for Identification   & \multicolumn{1}{c}{IHS(\#\ Donations)} & $F$-Stat \\
-%%                                \hline
-%%  \\
-%%                                Only Migrations 1880-1980 &     0.076*** & 66.281 \\
-%%                                    &     (0.022)  \\
-%                         \addlinespace\hline\hline
-%                        \end{tabular}
-%                        \begin{tablenotes}[flushleft]
-%                        \item \textit{Notes:} All specifications control for origin, destination, distance and time fixed effects.
-%                        \end{tablenotes}
-%                \end{threeparttable}
-%                  }
-%\end{center}
-%
-%
-%\end{frame}
-%
-%
-%\begin{frame}
-%\frametitle{Excluding Countries}
-%%FIXMEAK Paste results IMC (1) without muslim majority countries and (2) without Latinos? 
-%
-%\begin{center}
-%        \scalebox{.6}{
-% \begin{threeparttable}
-%                        \begin{tabular}{l@{\extracolsep{4pt}}ccccc}
-%\hline\hline   & Charity 1 &  & Charity 2 & \\
-%                                                                         \hline\addlinespace Panel A:    &IHS(\#\ Donations) & \# Countries & IHS(\#\ Donations) & \# Countries \\
-%                                \hline
-%  \\
-%                                All Countries IHS(Ancestry 2010)  &     0.076** & 31 & 0.031** & 125 \\
-%                                    &     (0.032) & & (0.016) \\
-%                                Excluding Muslim Majority Countries &     0.051 & 16 & 0.038*** & 100 \\
-%                                &     (0.031) & & (0.002) \\   
-%                                Excluding Latino Countries &     0.082*** & 29 & 0.030*** & 105 \\
-%                                &     (0.032) & & (0.003) \\
-%                                Excluding Muslim \& Latino Countries &     0.058* & 14 &  0.031*** & 80 \\
-%                                &     (0.028) & & (0.004) \\
-%                               Excluding African Countries & && 0.051*** & 83 \\
-%                                & && (.002)\\
-%                         \addlinespace\hline
-%                                                                                                  \hline
-%                        \end{tabular}
-%                        \begin{tablenotes}[flushleft]
-%                        \item \textit{Notes:} All specifications control for origin, destination, distance and time fixed effects.
-%                        \end{tablenotes}
-%                \end{threeparttable}
-%        }
-%\end{center}
-%
-%\end{frame}
-%
-%
-%
-%\begin{frame}
-%
-%%FIXMEAT Table 7 here
-%
-%\frametitle{Heterogeneous Effects: Conservative Counties}
-%\begin{center}
-%        \scalebox{.7}{
-%                \begin{threeparttable}
-%                        \begin{tabular}{l@{\extracolsep{4pt}}cccc}
-%                                \hline\addlinespace Panel A: Charity 1 IHS(Donations) & \multicolumn{4}{c}{} \\
-%                                \hline \addlinespace
-%                                & (1) & (2) & (3) & (4) \\
-%                                \input{../Input/IMC_present_2} \addlinespace\hline \addlinespace
-%                                  \hline\addlinespace Panel B: Charity 2 IHS(Donations) & \multicolumn{4}{c}{} \\
-%                                \hline \addlinespace
-%                                \input{../Input/IMC_present_2} \addlinespace\hline \addlinespace
-%                                Principal Components & Yes & Yes & Yes & Yes \rule{0pt}{15pt}\\
-%                                Destination FE & Yes & Yes & Yes & Yes  \\
-%                                Conservative Dummy & & Median & Quartile & Decile\\ 
-%                                \addlinespace \hline\hline
-%                        \end{tabular}
-%                        \begin{tablenotes}[flushleft]
-%                        \item
-%                                                \end{tablenotes}
-%                \end{threeparttable}
-%        }
-%\end{center}
-%
-%\end{frame}
-%
-%
-%\begin{frame}
-%
-%%FIXMEAT Table 8 Panel B here
-%\frametitle{Heterogeneous Effects: Genetic, Cultural Distance}
-%\begin{center}
-%        \scalebox{.6}{
-%                \begin{threeparttable}
-%                        \begin{tabular}{lcccccc}
-%                                \hline\hline\addlinespace
-%                                Panel A & \multicolumn{5}{c}{\textit{IHS(Donations)}} \\
-%                                \cmidrule{2-6} & (1) & (2) & (3) & (4) & (5) \\
-%                                \addlinespace\hline\addlinespace
-%                                \input{../Input/IMC_Distance_asinh_BDC.tex} \addlinespace\hline\addlinespace
-%                                Destination FE & Yes & Yes & Yes & Yes & Yes \rule{0pt}{15pt}\\
-%                                Origin FE & Yes & Yes & Yes & Yes & Yes \\
-%                                Time FE & Yes & Yes & Yes & Yes & Yes \\
-%                                Principal Components & Yes & Yes & Yes & Yes & Yes \\
-%                                \addlinespace\hline\hline
-%                        \end{tabular}
-%                        \begin{tablenotes}[flushleft]
-%                        \item
-%                                                \end{tablenotes}
-%                \end{threeparttable}
-%        }
-%\end{center}
-%
-%
-%\end{frame}
-%
-%\begin{frame}
-%\frametitle{Next Steps}
-%\begin{itemize}
-%%\item Robustness: alternative instruments.
-%\item Test for regional spillovers (D.C. to Baltimore).
-%\item Test for ancestry spillovers (Syrians to Iraqis).
-%\item More heterogeneity of treatment by average time in the US.
-%\item Condition on direct evidence of interactions.
-%\end{itemize}
-%\end{frame}
-%
-%
-%
-%\begin{frame}
-%\frametitle{Conclusion}
-%
-%\begin{enumerate}
-%\item<1-> 
-%White Americans living alongside Arab immigrants
-%and Arab-Americans become more positively inclined towards Arabs as the result of this exposure. 
-%\item<2-> Long-term exposure to descendants from a given foreign origin country prompts white Americans to donate more generously to that country in times of need (disasters, droughts, epidemics...).
-%\item<3-> This positive effect of exposure 
-%\item[-]<3->is statistically significant along the entire political spectrum -- operates even in very conservative counties. 
-%\item[-]<3-> is specific to ethnicities that white Americans are exposed to and is statistically significant even after controlling for overall racism or general attitudes to foreigners.
-%\item[-]<3-> is stronger for genetically more distant origin countries.
-%\end{enumerate}
-%
-%
-%\end{frame}
-%
-%
-%\begin{frame}
-%\frametitle{Summary Statistics} 
-%\begin{center}
-%\scalebox{.37}{
-%                \begin{threeparttable}
-%                        \begin{tabular}{l@{\extracolsep{4pt}}cccc}
-%%                               \hline\hline\addlinespace
-%%                               & \textit{All} \\
-%%                               \cline{2-2} \addlinespace
-%%                               & (1) \\
-%                                \hline\addlinespace Panel A: Counties & \multicolumn{1}{c}{} \\
-%                                \hline\addlinespace
-%%                                \input{../Input/Summary_Pres_1.tex} \hline\addlinespace
-%                                Panel B: \texttt{Charity 1} County-Countries & \multicolumn{1}{c}{} \\
-%                                \hline\addlinespace
-%%                                \input{../Input/Summary_Pres_2.tex} \hline\addlinespace
-%                        \end{tabular}
-%                        \begin{tablenotes}[flushleft]
-%                                \item \textit{Notes:} In Panel A, the IAT scores are the implicit attitude test scores, where higher scores indicate less bias. In Panel C, donations data is only shown for country-counties that are in the 'disaster' sample used in regressions.
-%                        \end{tablenotes}
-%                \end{threeparttable}
-%}
-%\end{center}
-%\end{frame}
-%
-%
-%\begin{frame}
-%\label{appendix: individual}
-%\frametitle{Individual-level Regressions}
-%
-%\begin{center}
-%\scalebox{.65}{
-%                \begin{threeparttable}
-%                        \begin{tabular}{lcccccccccc}
-%                                \hline\hline\addlinespace
-%                                Panel A: IV & \multicolumn{2}{c}{\textit{Avg Score on Arab-Muslim IAT}} \\
-%                                \cmidrule{2-3} & (1) & (2) \\
-%                                \hline\addlinespace
-%%                                \input{../Input/IAT_present_4_IV.tex} \addlinespace\hline
-%                                Principal Components & Yes  & Yes \rule{0pt}{15pt} \\
-%                                Inverse Sqrt Pop Weight &  Yes  & Yes \\
-%                                Forced Respondents Only &  No  & Yes \\
-%                                \addlinespace\hline\hline
-%                        \end{tabular}
-%                        \begin{tablenotes}[flushleft]
-%                                \item \textit{Notes:}  Higher score means a more positive attitude towards Arab-Muslims. An observation is an individual. Demographic controls are age, age$^2$, and dummy for female. Standard errors are clustered by county.
-%                        \end{tablenotes}
-%                \end{threeparttable}
-%        }
-%\end{center}
-%% \hyperlink{iat regs}{\beamergotobutton{Back}}
-%
-%\end{frame}
-%
-%\begin{frame}
-%\frametitle{Effect of Arab Ancestry Attitudes on Race IAT}
-%
-%\begin{center}
-%        \scalebox{.7}{
-%                \begin{threeparttable}
-%                        \begin{tabular}{lcccccccccc}
-%                                \hline\hline\addlinespace
-%                                Panel A: & \multicolumn{4}{c}{\textit{Avg Score on Race IAT}} \\
-%                                \cmidrule{2-5} & (1) & (2) & (3) & (4)  \\
-%                                & OLS & IV & IV & IV \\
-%                                \hline\addlinespace
-%                                \input{../Input/IAT_present_7_IV.tex} \addlinespace\hline
-%                                
-%                                Demographic Controls & No & No & No  & Yes  \\
-%                                \addlinespace\hline\hline
-%                        \end{tabular}
-%                        \begin{tablenotes}[flushleft]
-%                                \item \textit{Notes:} Higher score means a more positive attitude towards Blacks. Demographic controls include 2010 population density, share of 1970 prime-age population with high school education, and share of 1970 prime-age population with college education. Standard errors are robust.
-%                        \end{tablenotes}
-%                \end{threeparttable}
-%        }
-%\end{center}
-%\end{frame}
-%
-%\begin{frame}
-%\frametitle{\texttt{Charity 1} Country Summary Statistics}
-%
-%\begin{center}
-% \scalebox{.35}{
-%                \begin{threeparttable}
-%                        \begin{tabular}{lcccccccccc}
-%                                \hline\hline\addlinespace
-%                Country&Share of declared ancestry (\%)&Total donor counties&Total donations&Disaster quarters \\ 
-%                                                \hline\hline\addlinespace
-%Nepal&0.02\%&903&9,092&2015q2-2015q4 2016q3 \\
-%Haiti&0.45\%&984&9,043&2010q1-2011q2 2012q4 2016q4 \\
-%Indonesia&0.05\%&781&7,392&2004q4-2006q2 \\
-%Japan&0.59\%&918&7,346&2011q1-2012q2 2016q2 \\
-%Sudan&0.03\%&582&3,357&2004q3-2008q3 2009q3 2011q2-2012q1 2012q3-2013q1 2017q1-2017q2 \\
-%Philippines&1.41\%&505&2,453&2013q4 2014q1 \\
-%Kenya&0.02\%&492&1,889&2006q1 2006q2 2008q1 2008q4 2009q2 2011q3-2012q3 \\
-%Yemen&0.01\%&496&1,828&2006q3 2008q2 2011q3-2012q1 2012q3 \\
-%Somalia&0.05\%&495&1,816&2011q3-2012q3 2017q1-2017q2 \\
-%Ethiopia&0.07\%&493&1,795&2011q3 2011q4 2012q1 2012q3 2017q1 2017q2 \\
-%Rwanda&0.00\%&492&1,785&2011q3 2011q4 2012q1 2012q3 \\
-%Uganda&0.00\%&491&1,777&2011q3-2012q1 2012q3 \\
-%Pakistan&0.19\%&365&1,437&2005q4-2006q4 2009q2 2010q3 2010q4 2015q4 \\
-%Guinea&0.00\%&381&1,348&2014q3 2014q4 2015q1 \\
-%Liberia&0.02\%&375&1,298&2014q3-2015q1 \\
-%Chad&0.00\%&185&886&2004q4-2007q2 2007q4 2008q1 2009q3 2009q4 \\
-%Syrian Arab Republic&0.08\%&240&744&2006q3 2008q2 2015q3-2016q1 2016q4-2017q2 \\
-%Myanmar&0.03\%&186&438&2008q2 2008q3 \\
-%Iran (Islamic Republic of)&0.22\%&93&353&2008q3 2008q4 2009q2 2009q3 \\
-%Ecuador&0.31\%&154&336&2016q2 2016q4 2017q1 \\
-%Libya&0.00\%&128&211&2011q1-2011q2 \\
-%Chile&0.11\%&99&152&2010q1 2010q2 \\
-%Afghanistan&0.04\%&57&123&2004q4 2005q1 2006q2 2006q3 2015q4 \\
-%State of Palestine&0.04\%&42&116&2006q3 2008q2 2009q1 2014q3 \\
-%India&1.26\%&83&115&2013q4 \\
-%Lebanon&0.19\%&49&110&2006q3-2006q4 2008q2 \\
-%Iraq&0.06\%&68&105&2006q3 2008q2 2016q4 \\
-%Jordan&0.03\%&23&36&2006q3 2008q2 \\
-%Egypt&0.13\%&23&36&2006q3 2008q2 \\
-%Turkey&0.09\%&23&36&2006q3 2008q2 \\
-%Bangladesh&0.08\%&14&19&2007q4 \\
-%\hline\hline
-%                        \end{tabular}
-%                        \begin{tablenotes}[flushleft]
-%                        \item 
-% \end{tablenotes}
-%                \end{threeparttable}
-%       }
-%\end{center}
-%\end{frame}
+
+\begin{frame}
+\frametitle{Firms - Summary Statistics}
+\begin{center}
+\scalebox{.75}{
+               \begin{threeparttable}
+			\begin{tabular}{l@{\extracolsep{4pt}}cccc}
+				\hline\hline\addlinespace
+				& \textit{All} &  \textit{No TV} & \textit{TV} \\
+				\cline{2-4} \addlinespace
+				& (1) & (2) & (3) \\
+				\hline\addlinespace Panel A: Firms & \multicolumn{3}{c}{} \\
+				\hline\addlinespace
+				IHS(Hispanic Owned Firms) & 0.992 & 0.671 & 1.225 \\
+				& (1.694) & (1.308) & (1.892) \\
+				Hispanic Named Firms & 0.027  & 0.006 & 0.042 \\
+				& (0.161) & (0.080) & (0.200) \\
+				Log Income & 9.498 & 9.463 & 9.523 \\
+				& (0.241) & (0.284) & (0.201) \\
+				Log Population & 11.954 & 11.206 & 12.497 \\
+				& (1.398) & (1.253) & (1.239) \\
+				Fraction County Hispanic & 0.086 & 0.063 & 0.103 \\
+				& (0.105) & (0.061) & (0.125) \\
+				Observations & 23,823 & 10,023 & 13,830\\
+				\hline\addlinespace
+				 \hline\addlinespace
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} The table presents means (and standard deviations). No control is significantly different across the coverage contour at the $\alpha = .1$ level.
+			\end{tablenotes}
+		\end{threeparttable}
+        }
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Effect of SLTV on Hispanic Firm Ownership}
+\begin{center}
+\scalebox{.75}{
+		\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				 & \multicolumn{4}{c}{\textit{IHS(\# Hispanic Owned Businesses)}}\\
+				&  (1) & (2) & (3) & (4) \\
+                                \hline\addlinespace
+ TV Dummy & 0.261$^{***}$ & 0.122$^{***}$ & 0.112$^{***}$ & 0.132$^{***}$ \\ 
+  & (0.014) & (0.014) & (0.014) & (0.015) \\ 
+ TV Dummy $\times$ Distance to Boundary & 0.010$^{***}$ & 0.007$^{***}$ & 0.007$^{***}$ & 0.007$^{***}$ \\ 
+  & (0.001) & (0.001) & (0.001) & (0.001) \\ 
+ Distance to Boundary (meters) & 0.006$^{***}$ & 0.009$^{***}$ & 0.010$^{***}$ & 0.011$^{***}$ \\ 
+  & (0.001) & (0.001) & (0.001) & (0.001) \\ 
+ Log(Population) &  & 0.412$^{***}$ & 0.388$^{***}$ & 0.342$^{***}$ \\ 
+  &  & (0.011) & (0.012) & (0.014) \\ 
+ County \% Hispanic &  &  & 1.261$^{***}$ & 1.414$^{***}$ \\ 
+  &  &  & (0.133) & (0.136) \\ 
+ Log(Income) &  &  &  & 0.391$^{***}$ \\ 
+  &  &  &  & (0.070) \\ 
+Observations & 23,853 & 23,853 & 23,853 & 23,853 \\ 
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} 
+			\end{tablenotes}
+		\end{threeparttable}
+        }
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Effect of SLTV on Hispanic Firm Ownership - Spatial Robustness}
+\begin{center}
+\scalebox{.8}{
+\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				 & \multicolumn{3}{c}{\textit{IHS(\# Hispanic Owned Firms)}}\\
+				&  (1) & (2) & (3) \\
+                                \hline\addlinespace
+ TV Dummy & 0.122$^{***}$ & 0.022$^{***}$ & 0.126$^{***}$ \\ 
+  & (0.014) & (0.006) & (0.036) \\ 
+\hline\hline\addlinespace
+Observations & 23,853 & 23,853 & 23,853 \\ 
+Log Likelihood &  & $-$38,404 & $-$38,440 \\ 
+$\sigma^{2}$ &  & 1.168 & 1.170 \\ 
+Akaike Inf. Crit. &  & 76,821 & 76,894 \\ 
+Wald Test (df = 1) &  & 65,139$^{***}$ & 63,913$^{***}$ \\ 
+LR Test (df = 1) &  & 24,759$^{***}$ & 24,687$^{***}$ \\ 
+\hline \addlinespace
+                                County Controls & Yes & Yes  & Yes \\
+                                Model & OLS & SAR Lag & SAR Error \\
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} 
+			\end{tablenotes}
+		\end{threeparttable}
+        }
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Effect of SLTV on Hispanic Firm Names}
+\begin{center}
+\scalebox{.85}{
+\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				 & \multicolumn{3}{c}{\textit{IHS(\# Hispanic Owned Firms)}}\\
+				&  (1) & (2) & (3) \\
+                                \hline\addlinespace
+ TV Dummy & 0.122$^{***}$ & 0.022$^{***}$ & 0.126$^{***}$ \\ 
+  & (0.014) & (0.006) & (0.036) \\ 
+\hline\hline\addlinespace
+Observations & 23,853 & 23,853 & 23,853 \\ 
+Log Likelihood &  & $-$38,404 & $-$38,440 \\ 
+$\sigma^{2}$ &  & 1.168 & 1.170 \\ 
+Akaike Inf. Crit. &  & 76,821 & 76,894 \\ 
+Wald Test (df = 1) &  & 65,139$^{***}$ & 63,913$^{***}$ \\ 
+LR Test (df = 1) &  & 24,759$^{***}$ & 24,687$^{***}$ \\ 
+\hline \addlinespace
+                                County Controls & Yes & Yes  & Yes \\
+                                Model & OLS & SAR Lag & SAR Error \\
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} 
+			\end{tablenotes}
+		\end{threeparttable}
+        }
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Effect of SLTV on Hispanic Firm Names}
+\begin{center}
+\scalebox{.65}{
+\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				 & \multicolumn{6}{c}{\textit{Hispanic Named Business Dummy}}\\
+				&  (1) & (2) & (3) & (4) & (5) & (6) \\
+                                \hline\addlinespace
+ TV Dummy & 0.839$^{***}$ & 0.638$^{***}$ & 0.637$^{***}$ & 0.769$^{***}$ & 0.849$^{***}$ & 0.775$^{***}$ \\ 
+  & (0.052) & (0.066) & (0.066) & (0.071) & (0.077) & (0.071) \\ 
+ TV Dummy $\times$ Distance to Boundary & 0.008$^{***}$ & 0.002 & 0.002 & 0.0002 & $-$0.0002 & 0.0002 \\ 
+  & (0.002) & (0.002) & (0.002) & (0.002) & (0.002) & (0.002) \\ 
+ Distance to Boundary (meters) & 0.010$^{**}$ & 0.021$^{***}$ & 0.021$^{***}$ & 0.031$^{***}$ & 0.035$^{***}$ & 0.031$^{***}$ \\ 
+  & (0.004) & (0.004) & (0.005) & (0.005) & (0.005) & (0.005) \\ 
+ Log(Population) &  & 0.957$^{***}$ & 0.979$^{***}$ & 0.702$^{***}$ & 0.761$^{***}$ & 0.701$^{***}$ \\ 
+  &  & (0.052) & (0.070) & (0.074) & (0.081) & (0.074) \\ 
+ County \% Hispanic &  &  & $-$0.151 & 1.428$^{***}$ & 1.514$^{***}$ & 1.434$^{***}$ \\ 
+  &  &  & (0.312) & (0.367) & (0.388) & (0.368) \\ 
+ Log(Income) &  &  &  & 2.350$^{***}$ & 2.534$^{***}$ & 2.356$^{***}$ \\ 
+  &  &  &  & (0.319) & (0.344) & (0.320) \\ 
+Observations & 23,853 & 23,853 & 23,853 & 23,853 & 23,853 & 23,853 \\ 
+				\hline\hline\addlinespace
+				Only Hispanic Owners & No & No & No & No & Yes & No \\
+				Only Non-Hispanic Owners & No & No & No & No & No & Yes \\
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} Logit regression
+			\end{tablenotes}
+		\end{threeparttable}
+
+        }
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Effect of SLTV on Hispanic Firm Names - Robustness}
+\label{firm_robust}
+\begin{center}
+\scalebox{.75}{
+		\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				 & \multicolumn{4}{c}{\textit{Hispanic Owned \& Named Business Dummy}}\\
+				&  (1) & (2) & (3) & (4) \\
+                                \hline\addlinespace
+ TV Dummy & 0.849$^{***}$ & 1.071$^{***}$ & 0.305$^{***}$ & .8677$^{***}$ \\ 
+  & (0.077) & (0.115) & (0.078) & (0.079)  \\ 
+ TV Dummy $\times$ Distance to Boundary  & $-$0.0002 & $-$0.008 & $-$0.003 & $-$0.001 \\ 
+  & (0.002) & (0.007) & (0.002) & (0.002)  \\ 
+ Distance to Boundary (meters) & 0.035$^{***}$ & 0.123$^{***}$ & 0.013$^{***}$ & 0.036$^{***}$ \\ 
+  & (0.005) & (0.021) & (0.005) & (0.005)  \\ 
+ Total Businesses &  &  & 0.023$^{***}$ &  \\ 
+  &  &  & (0.001) &   \\ 
+\hline \\[-1.8ex] 
+Observations & 23,853 & 23,853 & 23,853 & 23,853  \\
+ 				\hline\hline\addlinespace
+County Controls & Yes & Yes & Yes & Yes  \\
+Distance$^2$ & No & Yes & No & No  \\
+No Food Names & No & No & No & Yes \\
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} Logit regressions
+			\end{tablenotes}
+		\end{threeparttable}
+
+        }
+\end{center}
+ \hyperlink{firm_dist}{\beamergotobutton{Robustness: Vary Boundary Cut-Off and Grid Size}}
+\end{frame}
+
+\begin{frame}
+\frametitle{Firms: Closing Thoughts}
+\begin{itemize}
+\item Existing literature finds entrepreneurship difficult to foster {\footnotesize (Karlan \& Valdiva (2011); Gine \& Mansuri 2014)}. We find signs of this, but no data on firm size. \\
+\item Business naming demonstrates an appeal to identity (disproportionate increase) \\
+\item Definite demand effect, supply side less clear
+\end{itemize}
+\end{frame}
+
+
+%%%%%% SCHOOLS %%%%%%
+\begin{frame}
+\frametitle{Schools}
+\begin{itemize}
+\item Data from Department of Education's Civil Rights Data Collection in 2015:
+\begin{itemize}
+\item 48,000 public schools in sample (unit of observation)
+\item (Almost) all variables split by ethnicity
+\end{itemize}
+\item Educational Attainment
+\begin{itemize}
+\item Gifted Program Enrolment
+\item AP Program Enrolment and Exam Passes
+\item Limited English Proficiency (LEP)
+\end{itemize}
+\item Discipline
+\begin{itemize}
+\item Out of School Suspensions
+\item Chronic Absentees
+\item Ethnicity-Based Bullying/Harassment
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Schools - Summary Statistics - Outcomes}
+\begin{center}
+\scalebox{.75}{
+               \begin{threeparttable}
+			\begin{tabular}{l@{\extracolsep{4pt}}cccc}
+				\hline\hline\addlinespace
+				& \textit{All} &  \textit{No TV} & \textit{TV} \\
+				\cline{2-4} \addlinespace
+				& (1) & (2) & (3) \\
+				Panel A: Schools & \multicolumn{3}{c}{} \\
+				\hline\addlinespace
+				IHS(Hispanic Gifted Students) & 1.988 & 1.262 & 2.380 \\
+				& (1.552) & (1.238) & (1.563) \\
+				IHS(Hispanic AP Enrolment) & 3.192 & 2.091 & 3.778 \\
+				& (1.937) & (0.646) & (0.918) \\
+				IHS(Hispanic AP Passes) & 4.087 & 3.497 & 4.181 \\
+				 & (0.917) & (0.646) & (0.918) \\
+				 IHS(Hispanic Suspensions) & 0.957 & 0.676 & 1.102 \\
+				 & (1.273) & (1.044) & (1.353) \\
+				 IHS(Hispanic Absentees) & 2.655 & 1.881 & 3.054 \\
+				 & (1.765) & (1.536) & (1.742) \\
+				 IHS(Hispanic Limited English Proficiency) & 2.915 & 2.113 & 3.331 \\
+				 & (2.040) & (1.820) & (2.024) \\
+				 IHS(Hispanic Harassment) & 0.045 & 0.027 & 0.055 \\
+				 & (0.273) & (0.211) & (0.299) \\
+				 Observations & 41,502 & 11,252 & 30,250 \\
+				\hline\addlinespace
+				 \hline\addlinespace
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} The table presents means (and standard deviations). 
+			\end{tablenotes}
+		\end{threeparttable}
+        }
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Schools - Summary Statistics - Controls}
+\begin{center}
+\scalebox{.75}{
+               \begin{threeparttable}
+			\begin{tabular}{l@{\extracolsep{4pt}}cccc}
+				\hline\hline\addlinespace
+				& \textit{All} &  \textit{No TV} & \textit{TV} \\
+				\cline{2-4} \addlinespace
+				& (1) & (2) & (3) \\
+				Panel A: Schools & \multicolumn{3}{c}{} \\
+				\hline\addlinespace
+				 Log Income & 9.547 & 9.430 & 9.608 \\
+				 & (0.303) & (0.200) & (0.328) \\
+				 Log Population & 12.484 & 11.559 & 12.964 \\
+				 & (1.576) & (1.471) & (1.405) \\
+				 Fraction County Hispanic & 0.107 & 0.037 & 0.143 \\
+				 & (0.160) & (0.079) & (0.179) \\
+				 \# School Teachers & 39.591 & 32.684 & 43.169 \\
+				 & (30.764) & (24.090) & (33.146)\\
+				 \# Hispanic Students & 164.343 & 68.500  & 214.011 \\
+				 & (259.096) & (117.433) & (295.883) \\
+				 \# Total Students & 581.524 & 478.166 & 635.086 \\
+				 & (482.595) & (383.924) & (518.467) \\
+				 Observations & 41,502 & 11,252 & 30,250 \\
+				\hline\addlinespace
+				 \hline\addlinespace
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} The table presents means (and standard deviations). No control is significantly different across the coverage contour at the $\alpha = .1$ level.
+			\end{tablenotes}
+		\end{threeparttable}
+        }
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Effect of SLTV on Hispanic Educational Attainment}
+\begin{center}
+\scalebox{.8}{
+	\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				Panel A: IHS(\# Hispanic Gifted Students) &  (1) & (2) & (3) \\
+                                \hline\addlinespace
+ TV Dummy & 0.016$^{***}$ & 0.015$^{**}$ & 0.013$^{**}$ \\ 
+  & (0.006) & (0.006) & (0.006) \\ 
+Observations & 26,065 & 26,065 & 26,065 \\           
+\hline\hline\addlinespace
+Panel B: IHS(\# Hispanic Students Taking AP) & & & \\ 
+\hline\addlinespace
+ TV Dummy & 0.072$^{***}$ & 0.051$^{***}$ & 0.047$^{***}$ \\ 
+  & (0.016) & (0.015) & (0.015) \\ 
+Observations & 6,089 & 6,089 & 6,089 \\     
+\hline\hline\addlinespace
+Panel C: IHS(\# Hispanic Students Passing AP) &&& \\ 
+\hline\addlinespace
+ TV Dummy & 0.034$^{**}$ & 0.042$^{***}$ & 0.039$^{***}$ \\ 
+  & (0.014) & (0.013) & (0.013) \\ 
+Observations & 2,205 & 2,205 & 2,205 \\                 
+\hline\hline\addlinespace
+                                County Controls & Yes & Yes  & Yes\\
+                                School Size Controls & No & Yes & Yes\\
+                                School Type Controls & No & No & Yes \\
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} 
+			\end{tablenotes}
+		\end{threeparttable}
+        }
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Effect of SLTV on Hispanic School Discipline}
+\begin{center}
+\scalebox{.8}{
+		\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				Panel A: IHS(Out of School Suspensions) &  (1) & (2) & (3) \\
+                                \hline\addlinespace
+ TV Dummy & $-$0.011$^{**}$ & $-$0.018$^{***}$ & $-$0.016$^{***}$ \\ 
+  & (0.005) & (0.005) & (0.005) \\ 
+Observations & 40,864 & 40,864 & 40,864 \\        
+\hline\hline\addlinespace
+Panel B: IHS(Students Chronically Absent) & & & \\ 
+\hline\addlinespace
+ TV Dummy & $-$0.067$^{***}$ & $-$0.073$^{***}$ & $-$0.074$^{***}$ \\ 
+  & (0.006) & (0.006) & (0.006) \\ 
+  Observations & 40,869 & 40,869 & 40,869 \\ 
+\hline\hline\addlinespace
+                                County Controls & Yes & Yes  & Yes\\
+                                School Size Controls & No & Yes & Yes\\
+                                School Type Controls & No & No & Yes \\
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} 
+			\end{tablenotes}
+		\end{threeparttable}
+        }
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Effect of SLTV on Hispanic School Identity}
+\begin{center}
+\scalebox{.8}{
+\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				Panel A: IHS(Limited English Proficiency) &  (1) & (2) & (3) \\
+                                \hline\addlinespace
+ TV Dummy & 0.040$^{***}$ & 0.039$^{***}$ & 0.031$^{***}$ \\ 
+  & (0.007) & (0.007) & (0.007) \\ 
+Observations & 40,864 & 40,864 & 40,864 \\        
+\hline\hline\addlinespace
+Panel B: IHS(Victims of Harassment) & & & \\ 
+\hline\addlinespace
+TV Dummy & 0.003$^{**}$ & 0.002$^{*}$ & 0.002$^{*}$ \\ 
+  & (0.001) & (0.001) & (0.001) \\ 
+  Observations & 40,811 & 40,811 & 40,811 \\ 
+\hline\hline\addlinespace
+                                County Controls & Yes & Yes  & Yes\\
+                                School Size Controls & No & Yes & Yes\\
+                                School Type Controls & No & No & Yes \\
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} 
+			\end{tablenotes}
+		\end{threeparttable}
+        }
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Schools: Closing Thoughts}
+\label{schl_close}
+\begin{itemize}
+\item  Robustness \hyperlink{schl_robust}{\beamergotobutton{Robustness}}  \hyperlink{schl_spatial}{\beamergotobutton{Spatial}}
+\item Broadly prosocial main effects support {\footnotesize(Gentzkow \& Shapiro 2008)} against mainstream findings {\footnotesize (Gentile 2004; Zavodny 2006)}
+\item Contrasting effect within identity --- consistent story of identity being strengthened
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Campaign Contributions}
+\begin{itemize}
+\item Data from the Federal Election Commission on 2016 Presidential Election:
+\begin{itemize}
+\item 651,404 addresses donated to Trump, 41,080 addresses donated to Clinton
+\item Aggregate data into $2 \times 2$ KM$^2$ squares
+\end{itemize}
+\item Donor Names also classified with `ethnicolr'
+\item Data censored for contributions beneath $\$200$
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Campaign Contributions - Summary Statistics}
+\begin{center}
+\scalebox{.75}{
+               \begin{threeparttable}
+			\begin{tabular}{l@{\extracolsep{4pt}}cccc}
+				\hline\hline\addlinespace
+				& \textit{All} &  \textit{No TV} & \textit{TV} \\
+				\cline{2-4} \addlinespace
+				& (1) & (2) & (3) \\
+				Panel A: Campaign Contributions & \multicolumn{3}{c}{} \\
+				\hline\addlinespace
+				Hispanic Trump Donations & 0.080 & 0.032 & 0.175 \\
+				& (1.165) & (0.047) & (1.900) \\
+				Hispanic Clinton Donations & 0.049 & 1.407 & 1.187 \\
+				& (3.014) & (1.476) & (4.773)\\
+				Log Income & 9.279 & 9.253 & 9.329 \\
+				& (0.270) & (0.232) & (0.327) \\
+				Log Population & 10.830 & 10.084 & 10.969 \\
+				& (1.514) & (1.372) & (1.607) \\
+				Fraction County Hispanic & 0.148 & 0.134 & 0.176 \\
+				& (0.214) & (0.200) & (0.236) \\
+				Observations & 619,011 & 411,673 & 207,338 \\
+				\hline\addlinespace
+				 \hline\addlinespace
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} The table presents means (and standard deviations). No control is significantly different across the coverage contour at the $\alpha = .1$ level.
+			\end{tablenotes}
+		\end{threeparttable}
+        }
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Effect of SLTV on Campaign Contributions}
+\begin{center}
+\scalebox{.7}{
+		\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				& \multicolumn{4}{c}{\# Hispanic Campaign Contributions} \\
+				\cline{2-5} 
+				Panel A: Contributions to Trump &  (1) & (2) & (3) & (4) \\
+                                \hline\addlinespace
+ TV Dummy & 0.019$^{***}$ & 0.010$^{***}$ & 0.007$^{***}$ & 0.005$^{***}$ \\ 
+  & (0.001) & (0.001) & (0.001) & (0.001) \\ 
+ TV Dummy $\times$ Distance to Boundary  & 0.002$^{***}$ & 0.001$^{***}$ & 0.001$^{***}$ & 0.001$^{***}$ \\ 
+  & (0.0001) & (0.0001) & (0.0001) & (0.0001) \\ 
+ Distance to Boundary (KM) & 0.0001 & 0.0003$^{***}$ & 0.0003$^{***}$ & 0.0004$^{***}$ \\ 
+  & (0.0001) & (0.0001) & (0.0001) & (0.0001) \\ 
+Observations & 619,011 & 619,011 & 619,011 & 619,011 \\ 
+\hline\addlinespace
+Panel B: Contributions to Clinton & & & \\ 
+\hline\addlinespace
+ TV Dummy & $-$0.008$^{**}$ & $-$0.014$^{***}$ & $-$0.019$^{***}$ & $-$0.020$^{***}$ \\ 
+  & (0.004) & (0.004) & (0.004) & (0.004) \\ 
+ TV Dummy $\times$ Distance to Boundary  & 0.003$^{***}$ & 0.002$^{***}$ & 0.002$^{***}$ & 0.002$^{***}$ \\ 
+  & (0.0001) & (0.0001) & (0.0001) & (0.0001) \\ 
+ Distance to Boundary (KM) & 0.0002 & 0.0004$^{**}$ & 0.0004$^{***}$ & 0.0004$^{***}$ \\ 
+  & (0.0001) & (0.0001) & (0.0001) & (0.0001) \\ 
+Observations & 619,011 & 619,011 & 619,011 & 619,011 \\ 
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} 
+			\end{tablenotes}
+		\end{threeparttable}
+		        }
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Campaign Contributions: Closing Thoughts}
+\begin{itemize}
+\item Mostly suggestive, but potentially reconciles differing results found in literature {\footnotesize(Waldfogel \& al. 2009; Velez \& Newman (2019))}
+\item Why would SLTV increase contributions to Trump?
+\begin{itemize}
+\item Content from Latin America --- recent populist governments or social conservativeness
+\item Still a Hispanic base that supports Trump (immigration etc.)
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusion}
+\begin{itemize}
+\item SLTV creates a variety of effects: more firms, fewer disciplinary issues, political campaign contributions
+\item Underlying theme of strengthened identity
+\item Lots of space for future work
+\end{itemize}
+\end{frame}
+
+		
+\begin{frame}
+\Large \centering \textcolor{darkblue}{Thank You!}
+\end{frame}
+
+%%%%%%% APPENDIX %%%%%%%%%%
+
+\begin{frame}
+\frametitle{Effect of SLTV on Hispanic Firm Names - Different Boundary/Grid Sizes}
+\label{firm_dist}
+\begin{center}
+\scalebox{.6}{
+		\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				 & \multicolumn{5}{c}{\textit{Hispanic Owned \& Named Business Dummy}}\\
+				&  (1) & (2) & (3) & (4) & (5) \\
+                                \hline\addlinespace
+ TV Dummy & 0.849$^{***}$  & 0.927$^{***}$ & 0.596$^{***}$ & 0.624$^{***}$ & 1.144$^{***}$ \\ 
+  & (0.077)  & (0.098) & (0.118) & (0.078) & (0.076) \\ 
+ TV Dummy $\times$ Distance to Boundary  & $-$0.0002 & $-$0.002 & 0.042$^{***}$ & 0.001 & $-$0.001 \\ 
+  & (0.002) & (0.004) & (0.010) & (0.002) & (0.002)   \\ 
+ Distance to Boundary (meters) & 0.035$^{***}$ & 0.049$^{***}$ & $-$0.097$^{***}$ & 0.026$^{***}$ & 0.042$^{***}$ \\ 
+  & (0.005) & (0.012) & (0.035) & (0.005) & (0.006) \\ 
+\hline \\[-1.8ex] 
+Observations & 23,853& 20,404 & 14,386 & 10,598 & 95,373 \\ 				
+ 				\hline\hline\addlinespace
+County Controls & Yes & Yes & Yes & Yes  & Yes \\
+Distance Cutoff (KM) & 100 & 50 &25 & 100 &100 \\
+Grid Size (KM$^2$) & 4 & 4 & 4 & 9 & 1\\ 
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} Logit regressions
+			\end{tablenotes}
+		\end{threeparttable}
+        }
+\end{center}
+ \hyperlink{firm_robust}{\beamergotobutton{Back}}
+\end{frame}
+
+\begin{frame}
+\frametitle{Effect of SLTV on Hispanic Educational Attainment - Robustness}
+\label{schl_robust}
+\begin{center}
+\scalebox{.6}{
+		\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				 & \multicolumn{6}{c}{\textit{IHS(\# Hispanic Students Passing AP)}}\\
+				&  (1) & (2) & (3) & (4) & (5) & (6) \\
+                                \hline\addlinespace
+ TV Dummy & 0.039$^{***}$ & 0.049$^{***}$ & 0.044$^{***}$ & 0.044$^{***}$ & 0.036$^{***}$ & 0.032$^{*}$ \\ 
+  & (0.013) & (0.017) & (0.016) & (0.017) & (0.013) & (0.018) \\ 
+ TV Dummy $\times$ Distance to Boundary & 0.0003 & 0.0001 & 0.001 & 0.001$^{*}$ & 0.0001 & 0.001 \\ 
+  & (0.0002) & (0.001) & (0.001) & (0.0004) & (0.0004) & (0.001) \\ 
+ Distance to Boundary (meters) & 0.001 & 0.012$^{***}$ & 0.006$^{***}$ & 0.006$^{***}$ & 0.003$^{**}$ & 0.001 \\ 
+  & (0.001) & (0.003) & (0.002) & (0.002) & (0.002) & (0.004) \\ 
+ Total APs Passed &  &  &  &  & 0.003$^{***}$ &  \\ 
+  &  &  &  &  & (0.0001) &  \\ 
+Observations & 2,205 & 2,205 & 1,525 & 1,525 & 1,525 & 1,095 \\ 
+\hline\hline\addlinespace
+                                County/School Controls & Yes & Yes  & Yes & Yes & Yes & Yes\\
+                                Distance Cutoff (KM) & 100 & 100 & 50 & 50 & 50 & 33 $\frac{1}{3}$ \\
+                                Distance$^{2}$ Interaction & No & Yes & No & No & No & No \\
+                                County F.E. & No & No & No & Yes & No & No  \\
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} 
+			\end{tablenotes}
+		\end{threeparttable}
+        }
+\end{center}
+ \hyperlink{schl_close}{\beamergotobutton{Back}}
+\end{frame}
+
+\begin{frame}
+\frametitle{Effect of SLTV on Hispanic Identity - Spatial Robustness}
+\label{schl_spatial}
+\begin{center}
+\scalebox{.8}{
+		\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				 & \multicolumn{3}{c}{\textit{IHS(\# Hispanic Victims of Harassment)}}\\
+				&  (1) & (2) & (3) \\
+                                \hline\addlinespace
+ TV Dummy & 0.003$^{**}$ & 0.002$^{***}$ & 0.003$^{*}$ \\ 
+  & (0.001) & (0.001) & (0.002) \\ 
+ TV Dummy $\times$ Distance to Boundary & $-$0.0001$^{**}$ & $-$0.0001$^{***}$ & $-$0.0001$^{**}$ \\ 
+  & (0.00002) & (0.00001) & (0.00003) \\ 
+\hline\hline\addlinespace
+Observations & 40,811 & 40,811 & 40,811 \\ 
+Log Likelihood &  & $-$4,304.916 & $-$4,299.820 \\ 
+$\sigma^{2}$ &  & 0.072 & 0.072 \\ 
+Akaike Inf. Crit. &  & 8,629.833 & 8,619.640 \\ 
+Wald Test (df = 1) &  & 686.149$^{***}$ & 686.981$^{***}$ \\ 
+LR Test (df = 1) &  & 657.312$^{***}$ & 667.505$^{***}$ \\ 
+\hline \addlinespace
+                                County/School Controls & Yes & Yes  & Yes \\
+                                Model & OLS & SAR Lag & SAR Error \\
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} 
+			\end{tablenotes}
+		\end{threeparttable}
+        }
+\end{center}
+ \hyperlink{schl_close}{\beamergotobutton{Back}}
+\end{frame}
+
 
 
 \end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
