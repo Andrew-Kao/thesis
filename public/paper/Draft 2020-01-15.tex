@@ -202,6 +202,8 @@ This sits within a larger literature examining the impact of media on politics, 
 
 There is a growing literature that looks at how identity can be a mechanism leading to various outcomes of interest; this has been studied in both lab environments\footnote{ See \cite{benjamin_social_2007} or \cite{benjamin_religious_2010}.} and more organic settings too \citep{bursztyn_moral_2015}. However, the underlying factors that strengthen identity in the first place (rather than simply triggering them via priming or other short-term interventions) is less well understood.  \cite{bisin_bend_2010}, \cite{atkin_how_2019}, and \cite{bazzi_unity_2019} form the universe of studies on this topic (to the best of our knowledge), and all come to the conclusion that intergroup tensions or differences lead to a strengthening of identity. With our work on Hispanic firm names and harassment based on Hispanic identity, we provide an alternate, media-based look at how identity may be strengthened. 
 
+%%% ALESINA PLOW
+
 Thus, to summarize the key contributions of the paper: we open the door to studying the effect of media on Hispanic communities in ways other than the political. In tackling these questions, we use a national natural experiment that is larger in scope than most of the extant literature, while simultaneously making use of geocoded microdata to provide a more precise look at the underlying effects. We also provide an additional bridge into the existing literature on identity, showing how media might bolster and form it.
 %that identity/outcomes mutually reinforce -- find some sociology thing
 
@@ -354,6 +356,7 @@ Out of our sample, 1.1\% of firms meet this criteria (1\% if omitting the food b
 Table \ref{firm_busn} presents results on the effect of SLTV on Hispanic business ownership. The main coefficient of interest, the IHS transformed number of Hispanic-owned firms located inside a television coverage contour, is positive and significant at the $\alpha = .01$ level in all specifications. Columns (2), (3), and (4) add in county level controls for log population, the percent of the county that is Hispanic, and log income respectively. Once controls are added at the county level, the coefficient appears to stabilize at approximately $.1$.
 
 Table \ref{firm_name} presents results on the effect of SLTV on whether firm names present as Hispanic or not. Given the low frequency of firms exhibiting such names, we construct a binary variable for whether any firm within the grid point contains a Hispanic name and run a logit (logistic) regression on the outcome. The first four columns mirror the prior table in terms of controls added, and show a positive coefficient significant at the 1\% level. Column (5) restricts the analysis to only Hispanic business owners, whilst column (6) restricts the analysis to only non-Hispanic owners. The results look similar in both these cases.
+%%%%%%% LOGIT because many 0s and log-odds preserve percentage interpretation
 
 
 \paragraph{Robustness} To test the robustness of these results, we present Table \ref{firm_robust}. Column (1) presents the baseline results (it is identical to column (5) of Table \ref{firm_name}), while column (2) includes the interaction of the TV dummy with the distance to the boundary squared. This is plausibly relevant to the main effect, given that television signals decay in strength in proportion to the square of the distance. Column (3) additionally controls for the total number of businesses in the grid point. Column (4) uses an alternate definition of Hispanic named businesses that does not consider food as part of the criteria for classifying a firm name as Hispanic. Columns (5) and (6) reduce the cutoff distance from the boundary to one half and one third of the original 100 KM limit. Columns (7) and (8) vary the grid size to 9 KM$^2$ and 1 KM$^2$ respectively. The robustness checks hold up across the board with all columns maintaining significance and positive sign. Robustness checks on the other outcome variables of interest hold up to a similar analysis.
@@ -606,6 +609,31 @@ More broadly speaking, we think that looking at the spillover effects of identit
 
 \input{../../analysis/Output/Regs/don_base.tex}
 
+
+\begin{table}[!h]
+	\centering
+	\captionsetup{skip=1.5pt}
+	\caption{Classification of Hispanic Firm Names} \label{firm_class}
+	\scalebox{.8}{
+		\begin{threeparttable}
+			\begin{tabular}{llcccccccc}
+				\hline\hline\addlinespace
+    \textit{Section A: Latin American Countries} & mexic, bolivia, chile, argentin, venezuela, beliz, costa rica, salvador, guatemala \\
+&  hondur, nicaragua, panama, brazil, colombia, ecuador, guyana, paragua, peru \\
+& surinam, urugu, cuba, dominican, haiti, puerto, latin \\
+				\addlinespace\hline
+\textit{Section B: Common Spanish Words} & la, de, como, su, que, el, para, en, por, los, casa, caliente \\ %%% MOST COMMON 
+\hline
+\textit{Section C: Common Hispanic Foods} & taqueria, taco, empanada, huevo, pollo, burrito, arepa, pupusa, tamale, tortilla \\
+& salsa, asado, lechon, mojo, ropa, vieja, chorizo \\		 		
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} Firms are classified as having a Hispanic name if any keyword in the table above is matched within the word, subject to the following requirements: (1) Case does not matter, (2) For Sections A and C, an exact match of the string at any location in the firm name, (3) For Section B, the string must be a distinct word, (4) The inclusion of Section C is optional.
+			\end{tablenotes}
+		\end{threeparttable}
+	}
+\end{table}
 
 
 %\begin{figure}[!h]
