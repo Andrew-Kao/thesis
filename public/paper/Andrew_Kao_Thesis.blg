@@ -1,0 +1,61 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: Andrew_Kao_Thesis.aux
+The style file: aea.bst
+Database file #1: tv.bib
+Warning--I didn't find a database entry for "gee_media_2009"
+Warning--empty author in noauthor_2016_2017
+Warning--empty author in noauthor_american_2020
+Warning--empty publisher in anselin_spatial_1998
+Warning--empty author in noauthor_ap_2015
+Warning--empty author in noauthor_ap_2020
+Warning--empty author in noauthor_elementary_2004
+Warning--empty author in noauthor_ensuring_2015
+Warning--there's a number but no volume in fortin_gender_2015
+Warning--empty author in noauthor_high_2015
+Warning--empty author in noauthor_hispanic_2016
+Warning--empty author in noauthor_master_2016
+Warning--empty author in noauthor_oet_2004
+Warning--empty publisher in scherr_bullying_2009
+You've used 67 entries,
+            2695 wiz_defined-function locations,
+            985 strings with 18705 characters,
+and the built_in function-call counts, 326753 in all, are:
+= -- 54437
+> -- 3555
+< -- 1
++ -- 25971
+- -- 1109
+* -- 29165
+:= -- 64070
+add.period$ -- 449
+call.type$ -- 67
+change.case$ -- 821
+chr.to.int$ -- 61
+cite$ -- 80
+duplicate$ -- 924
+empty$ -- 2674
+format.name$ -- 1127
+if$ -- 58985
+int.to.chr$ -- 11
+int.to.str$ -- 0
+missing$ -- 0
+newline$ -- 208
+num.names$ -- 627
+pop$ -- 59
+preamble$ -- 1
+purify$ -- 955
+quote$ -- 0
+skip$ -- 845
+stack$ -- 0
+substring$ -- 77245
+swap$ -- 393
+text.length$ -- 839
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 262
+warning$ -- 13
+while$ -- 1460
+width$ -- 0
+write$ -- 339
+(There were 14 warnings)
