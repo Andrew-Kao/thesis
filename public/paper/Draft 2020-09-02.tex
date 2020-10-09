@@ -1,0 +1,724 @@
+
+
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath,amsthm,amssymb, pdfpages,mathtools}
+\usepackage{color}
+\usepackage{array}
+\usepackage{gastex}
+\usepackage{subfigure}
+\usepackage[normalem]{ulem}
+\usepackage{xcolor,psfrag,graphicx}
+\usepackage{setspace}
+\usepackage{natbib}
+\usepackage{lscape}
+\usepackage{enumerate}
+\usepackage{appendix}
+\usepackage[hidelinks, hypertexnames=false]{hyperref}
+\usepackage{lscape}
+\usepackage{tabularx}
+\usepackage{threeparttable}
+\usepackage{caption}
+\usepackage{booktabs}
+
+\setcounter{MaxMatrixCols}{10}
+
+\setlength{\evensidemargin}{0.0in}
+ \setlength{\oddsidemargin}{0.0in}
+ \setlength{\textwidth}{6.5in}
+ \topmargin -0.25in
+ \textheight 8.5in
+ \hfuzz=50pt
+ \pagestyle{plain}
+\newcommand{\eqthreshn}{{t^*_N}}
+\newcommand{\pnd}{1-p+pF(\eqthreshn)}
+\newcommand{\ppnd}{\big(1-p+pF(\eqthreshn)\big)}
+\newcommand{\eqmfreq}{{\omega^*}}
+\newcommand{\eqmfreqn}{{\omega^*_N}}
+\newcommand{\eqmfreqnp}{{\omega^*_{N+1}}}
+\newcommand{\eqthresh}{{t^*}}
+\newcommand{\eqthreshX}{{t^{**}}}
+\newcommand{\nbar}{{\overline{N}}}
+\newcommand{\wlim}{\omega_\infty}
+\newcommand{\wdye}{\hat{\omega}}
+\newcommand{\tdye}{\hat{t}}
+\newcommand{\limn}{\lim_{N\to\infty}}
+\newcommand{\fsn}{\omega_N^*}
+\newcommand{\eqprize}{\phi^*}
+\newcommand{\moprize}{\phi^M}
+\newcommand{\dif}{\;\mathrm{d}}
+\newcommand{\diffp}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\diff}[2]{\frac{\dif #1}{\dif #2}}
+\renewcommand{\Re}{\mathbb{R}}                             
+\def\endproof{{\quad}$\blacksquare$}
+\newcommand{\indicator}[1]{\mathbbm{1}_{\left[ {#1} \right]}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{prop}{Proposition}
+\newtheorem{example}{Example}
+\newtheorem{assumption}{Assumption}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{remark}{Remark}
+\newtheorem{condition}[theorem]{Condition}
+ \setlength{\evensidemargin}{0.0in}
+ \setlength{\oddsidemargin}{0.0in}
+ \setlength{\textwidth}{6.5in}
+ \topmargin -0.25in
+ \textheight 8.5in
+ \hfuzz=50pt
+ \pagestyle{plain}
+\newcommand{\Change}[1]{{\color{red}#1}}
+\renewcommand{\theenumi}{\roman{enumi}}            
+\renewcommand{\labelenumi}{(\theenumi)}
+
+%%%%%%%%%%%%%%%
+% Page Format %
+%%%%%%%%%%%%%%%
+ \setlength{\evensidemargin}{0.0in}
+ \setlength{\oddsidemargin}{0.0in}
+ \setlength{\textwidth}{6.5in}
+ \topmargin -0.25in
+ \textheight 8.5in
+ \hfuzz=50pt
+ \pagestyle{plain}
+
+
+
+
+
+\begin{document}
+\title{\textbf{Seeing is Believing: The Effect of Television on the Identity and Lives of Hispanic People}%Unravel}
+\thanks{Thanks to Victor Lima and Kotaro Yoshida for overseeing the honors thesis workshop, to Leonardo Bursztyn for advice and guidance, and to Trip from SatelliteGuys for technical advice.}\\
+}
+
+
+
+\author{Andrew Kao\thanks{University of Chicago, andrewkao@uchicago.edu.} }
+
+%\begin{center}
+\date{February 2020}
+{\vspace{-5ex}}
+%\end{center}
+
+
+\maketitle
+
+\begin{abstract}
+\noindent This paper investigates the diverse impacts of Spanish Language Television (SLTV) on Hispanic communities. By exploiting a FCC regulation concerning broadcast signal protection, we estimate the impact of SLTV on businesses, schools, and political campaigns via a spatial regression discontinuity. The results show that SLTV creates more Hispanic owned firms and Hispanic named firms, induces higher educational performance and fewer disciplinary incidents among Hispanic students, and led to more campaign contributions for the 2016 Trump presidential campaign whilst decreasing those for Clinton. I provide evidence that suggests a strengthening of identity drives these results. 
+
+%\noindent When deciding whether to publicly express their views and attitudes, individuals may take into account their perception of the social acceptability of these views, which in turn depends on (and affects) their perception of the popularity of the view. Even if a substantial fraction of society \emph{privately} holds a specific view, that view might end up stigmatized and publicly withheld in equilibrium if individuals have initial beliefs that the view is stigmatized. 
+
+%%%% FOR SUBMISSION FORM:
+%\noindent Social norms, usually persistent, can unravel quickly when new public information arrives, such as surprising election outcomes. In our model of strategic communication, senders state their opinion but they can lie to pander to the popular view; receivers thus make less inference about such senders. We test the model's predictions with two experiments. On the sender's side, we show that Trump's rise in popularity and eventual victory increased individuals' willingness to publicly express xenophobic views. On the receiver's side, we show that individuals are judged less if they expressed a xenophobic view in an environment where the view is popular.
+
+
+%\textbf{JEL Codes:} D1, I31, Z13.\\
+%\textbf{Keywords:} 
+\end{abstract}
+
+
+
+
+\newsavebox{\tablebox} \newlength{\tableboxwidth}
+
+\setlength{\baselineskip}{22pt}
+
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+
+\thispagestyle{empty}
+
+\newpage 
+\renewcommand{\thefootnote}{\arabic{footnote}}
+
+\pagebreak 
+\setcounter{page}{0}
+
+
+\onehalfspacing
+
+%\tableofcontents
+
+\newpage
+
+\setcounter{page}{1}
+\section{Introduction}
+
+\begin{quotation}
+\textit{[Television] has altered every phase of the American vision and identity. }
+\begin{flushright} - Marshall McLuhan, \textit{War and Peace in the Global Village}\end{flushright}
+\end{quotation}
+
+We spend our waking hours inundated by mass media. The internet, newspapers, radio, and television stations broadcast to us a constant stream of facts, beliefs, entertainment, and ideas---ideas that percolate in our heads, and ideas that, I argue, shape our own identities and the way we live our lives. In this paper, I examine the impact of Spanish Language Television (SLTV) on Hispanic communities, focusing on analysis in three domains---the professional, the educational, and the political. In each case, I find that SLTV induces changes in behavior can be attributed, at least in part, to a stronger sense of identity; causality is established via a spatial regression discontinuity introduced by a regulation on television signal protection.
+
+ Three major results are highlighted in Figures \ref{busnnnamefig}, \ref{suspensionsfig}, and \ref{donationsfig}, corresponding to the three domains of analysis. Figure \ref{busnnnamefig} shows that the number of Hispanic owned firms with Hispanic names sharply increases under the presence of television (distances above $0$), while Figure \ref{suspensionsfig} shows that suspensions decline and Figure \ref{donationsfig} shows that donations to the Trump campaign rise.
+
+Independent of our results, there's good reason to believe that mass media has a large effect on the lives people lead. \cite{olken_television_2009} finds that that radio and television decrease `social capital' in Indonesia, in line with \cite{putnam_bowling_2001}'s argument that mass media is socially isolating. \cite{yanagizawa-drott_propaganda_2014} shows that radio broadcasts in Rwanda contributed to the violence and genocide that took place in the 90s. \cite{dellavigna_fox_2007} find that the introduction of Fox News induced gains in Republican voteshares, while other work establishes the link between media and gender norms, media and anti-Americanism, and media and fertility.\footnote{ Papers that investigate the means by which media affects identity and action include \cite{jensen_power_2009}, \cite{gentzkow_media_2004}, \cite{ferrara_soap_2012}, and \cite{kearney_media_2015}. For an overview, see \cite{dellavigna_economic_2015}.}
+
+We focus on Hispanic viewership of television for several reasons. First, Hispanics consume substantial amounts of television---out of the 115 million households with television in the United States, there are 14 million Hispanic ones, proportional to the overall fraction of households. Half of these Hispanic television households get their television content via satellite or broadcast television, substantially larger than the 30\% national average (FCC\cite{noauthor_hispanic_2016}, \cite{de_la_merced_att_2014})---important because our instrument only affects access of satellite and broadcast TV.
+
+Spanish Language Television, in particular, allows us to take a closer look at Hispanic communities and examine its ties to identity. 78\% of Spanish-dominant households watch SLTV, while 50\% of multi-language Spanish-speaking homes do, but importantly, 85\% of SLTV viewership occurs over broadcast television; in 2010, the top 10 broadcast shows in the Hispanic demographic category were all Spanish language programs \citep{pardo_three_2011}. Broadcast television, and Spanish Language television in particular, remains an important institution in Hispanic households. 
+ 
+ Compared to other viewers of television, Hispanics are uniquely likely to watch television in a social context rather than watching alone---this is partially driven by the fact that non-Hispanic households have 40\% more TV sets per person than Hispanic ones \citep{coghill_tuning_2018}. This social aspect, wherein SLTV is watched with family/friends (or people that speak Spanish), may be one way in which identity is reinforced through television. 
+% https://www.effectv.com/blog/tuning-hispanic-audiences
+% even the largest markets do not locally source more than 20\% of their Spanish language programming - from foreign countries or domestic
+
+SLTV programming is also more likely to contain content that is directly salient to a Hispanic person's identity. This occurs not only because of the language of the broadcast, but also its content: roughly 20\% of programming on SLTVs are telenovelas produced in foreign (Latin American) countries, with a similar proportion of programming dedicated to non-locally produced news and paid programming, which may come from abroad as well.\footnote{ The statistics come from FCC \cite{noauthor_hispanic_2016}, but unfortunately, the dataset they use do not allow them to precisely determine from whence the programming originated. }
+
+When explicitly looking at the effect of television on Hispanic communities, \cite{oberholzer-gee_media_2009} demonstrate that the presence of Spanish language local news increases Hispanic voter turnout, whereas  \cite{velez_tuning_2019}, who first developed the instrument used in this paper, show that SLTV leads to lower voter turnout rates. \cite{trujillo_devil_2012} run an experiment testing trust in the government and the census based on a soap opera scene. We extend on this literature by expanding the scope to a national-level analysis while accessing more granularity with spatial microdata, and also by exploring outcomes beyond the political realm.
+
+% Market sizing: CITE FCC Hispanic TV 
+% The Hispanic community is made up of 13.96 million television households nationally, which account for approximately 12.2 percent of the 114.65 million television households in the United States (as of 2012)
+% Nationwide, approximately 9.6 percent of U.S. television households are ?broadcast-only;? thus the overwhelming majority subscribe to a pay television service.14 The comparable figure nationwide for Hispanic households is 15.7 percent.15 
+% roughly half do not use cable (page 29) - Alternative Distribution Service (ADS)/satellite and broadcast). We find that the majority of Hispanic television households appear to be either cable or Alternative Delivery System (ADS) households. ADS designations refer to households with one or more televisionsetsthatreceiveprogrammingfromoneoffourtypesofsystems: DBS;satellitedish (C-Band); satellite antenna television (SMATV); and multi-channel, multi-point distribution systems (MMDS). Broadcast television households,
+% programming split fairly evenly between locally produced segments, news, telenovelas, and paid programming, the latter three of which may come from abroad
+
+% viewed by half of all Spanish-dominant Latinos (http://www.horowitzresearch.com/press/spanish-language-tv-content-remains-integral-to-u-s-hispanics-tv-diet-new-horowitz-survey-shows/)
+% better: Nielsen, 78% Spanish-dominant watch Spanish TV, 50% in multi-language homes, over 85% broadcast -- in 2010, top 10 broadcast shows in Hispanic demographic were all Spanish language
+% market size: millions in LA, New York etc. https://www.statista.com/statistics/189824/largest-hispanic-television-markets-in-the-united-states-2011/
+
+% broadcast/satellite TV vs cable: https://www.quora.com/What-is-the-difference-between-cable-and-broadcast
+
+% in recent years, highest viewed: Pequeños Gigantes (talent show, kids), El Señor de los Cielos (telenovella, cartel leader),   https://www.statista.com/statistics/497739/spanish-tv-programs-usa/
+
+The central instrument utilized in this paper is the spatial regression discontinuity in television coverage contours introduced via a FCC regulation guaranteeing TV station signal protection only within a certain distance of a station's main antenna. Households just inside the coverage contour are able to receive broadcast and/or satellite TV coverage, whereas those just outside oftentimes cannot, and so the regression discontinuity keeps those just inside and outside the coverage boundary (usually defined as those within 100 KM of the boundary) for comparability between observations. This, combined with the fact that television signals grow weaker with greater distance from a station, lends credibility to the discontinuity actually demarcating a difference between those with and without access to SLTV.
+
+We argue that this allows us to identify the causal effect of SLTV, given several factors: (1) contours are mechanically decided by a formula involving geographical features and antenna strength, (2) contours are large and tend to cut across suburban and `small town' areas, rather than dense urban areas which corporations might try to include for profitability reasons (urban centers fall squarely within contours), (3) SLTV stations were often built before the regulation was imposed, (4) demographic and other controls across the regression discontinuity look similar, making it plausible that there are not external factors driving the differences observed, and (5) Hispanics do not appear to migrate across contours in either direction, minimizing the probability of effects being driven by selection.
+
+The first major outcome we examine looks at Hispanic firm ownership and Hispanic named firms. A small literature has investigated the impact of television on financial outcomes. \cite{bjorvatn_teaching_2019} find that television imparts better financial knowledge, while \cite{berg_harnessing_2017} find that television does not foster more or better entrepreneurship, but does lead to more students dropping out of schools. While these studies rely on the randomization of individual television episodes or programs to study their effects, we extend the analysis to the overall effect and presence of television, and find that SLTV actually leads to higher rates of Hispanic firm ownership and firms named in ways that draw on a Hispanic identity.
+
+Another segment of the entrepreneurship literature looks at the overall ways in which entrepreneurship might be better fostered. The results tend to be bleak: \cite{karlan_teaching_2011} find that explicit training in entrepreneurship has minimal impact on the overall success of entrepreneurs, while \cite{gine_money_2014} show that entrepreneurs tend not to be cash constrained, but rather idea constrained. We thus provide some initial evidence on how television might be tied to business formation. 
+
+%% stuff on demand side and firm names?
+
+The next area we examine looks at educational outcomes for Hispanic students. There is substantial controversy surrounding the impact of television on education, with the mainstream line of reasoning contending that television serves as a distraction which `rots' the mind \citep{zavodny_does_2006}.\footnote{ \cite{winn_plug-drug_2002} and \cite{gentile_well-child_2004} make similar arguments.} On the other hand, there has been some pushback making the case that individual shows can lead to \citep{kearney_media_2015}, or that specific audiences can benefit from \citep{gentzkow_preschool_2008}, better educational outcomes. We find results that broadly align with the latter, showing that Hispanic enrolment in gifted programs and AP classes increases in response to the presence of SLTV, while instances of out of school suspension and chronic absenteeism decrease. However, some of our findings do cut against this narrative: the number of Hispanic students placed into Limited English Proficiency programs and the number of Hispanic students bullied or harassed on the basis of their ethnicity both increase---we are inclined to tie attribute this to a stronger sense of ethnic identity.
+
+There has not been much work done by economists looking at the performance of Hispanic students in schools in particular, though \cite{cascio_cracks_2012} provides a look at these outcomes in relation to schooling and social segregation in California. Through a comprehensive look at the outcome of Hispanic students in the US public school system, we provide additional color to this area of study at a national level.
+
+Finally, we take a cursory look at how Hispanic campaign contributions are affected by SLTV. We provide evidence on this front largely because the bulk of work on how Hispanic communities are affected by television has examined the issue from a purely political angle,\footnote{ See \cite{oberholzer-gee_media_2009}, \cite{velez_tuning_2019}, or \cite{trujillo_devil_2012}.} but has not managed to achieve consensus on whether it increases or decreases political engagement. We fill in a gap relating to campaign contributions that has not yet been studied, and suggest that the question of engagement may be driven by partisan leanings, where Republicans (as represented by the 2016 Trump presidential campaign) receive more benefit in campaign contributions from television coverage than Democrats (as represented by Clinton's), who suffer from it. 
+
+This sits within a larger literature examining the impact of media on politics, which has provided evidence on outcomes relating to voting \citep{dellavigna_fox_2007}, voter turnout \citep{gentzkow_television_2006}, media accountability \citep{gentzkow_competition_2008}, and political outcomes \citep{stromberg_mass_2004}.
+
+There is a growing literature that looks at how identity can be a mechanism leading to various outcomes of interest; this has been studied in both lab environments\footnote{ See \cite{benjamin_social_2007} or \cite{benjamin_religious_2010}.} and more organic settings too \citep{bursztyn_moral_2015}. However, the underlying factors that strengthen identity in the first place (rather than simply triggering them via priming or other short-term interventions) is less well understood.  \cite{bisin_bend_2010}, \cite{atkin_how_2019}, and \cite{bazzi_unity_2019} encompass some reason studies on this topic, and all come to the conclusion that intergroup tensions or differences lead to a strengthening of identity. Earlier work includes \cite{@CITE ALESINA}, who take the very long view and show how gender norms can be traced back to early agricultural practices. With our work on Hispanic firm names and harassment based on Hispanic identity, we provide an alternate, media-based look at how identity may be strengthened. 
+
+
+Thus, to summarize the key contributions of the paper: we open the door to studying the effect of media on Hispanic communities in ways other than the political, and in tackling these questions, we use a national natural experiment that is larger in scope than most of the extant literature, while simultaneously making use of geocoded microdata to provide a more precise look at the underlying effects. We also provide an additional bridge into the existing literature on identity, showing how media might bolster and form it.
+%that identity/outcomes mutually reinforce -- find some sociology thing
+
+%% Do everything with d^2
+%% spatial errors: http://www.trfetzer.com/using-r-to-estimate-spatial-hac-errors-per-conley/
+
+% Waldfogel 2004: local TV markets benefit minorities more when there's a larger group of them
+
+%% FOR LATER
+% \section{Model/Background/Hypothesis}\label{sectheory}
+
+
+
+The rest of the paper is structured as follows: Section \ref{secdata} presents the data used across later sections, Section \ref{secrd} addresses the empirical strategy. The following three sections, Section \ref{secfirm}, Section \ref{secschool}, and Section \ref{seccamp}, present data, results, and discussion on the results for our analysis on firms, schools, and campaign contributions respectively. Finally, Section \ref{secconcl} concludes.
+
+
+\section{Data}\label{secdata}
+
+
+\subsection{Broadcast TV and Geography}
+
+The central instrument in this paper is the discontinuity in coverage contours of SLTV stations introduced via FCC regulation.
+
+\paragraph{Coverage Contours} 
+
+To build the coverage contours of SLTV stations (and thus find the boundaries across which people just receive/do not receive SLTV) in the US, we collected a list of the callsigns for all SLTV stations via the TMS API (TMS is a large provider of data on TV, movies, and other media).\footnote{ A TV station is defined to be SLTV if at least one of the primary broadcasts languages are Spanish.} There are 100 of these stations located across the United States. These callsigns were then matched against data from the FCC's OET Bulletin 69 and the FCC's CDBS Database to directly obtain the relevant coverage contour boundaries as prescribed and regulated by the FCC.\footnote{ 2015 coverage contour data is used due to the 'FCC Spectrum Repack' that began in 2018, which relocates a number of signals, affecting the reception and coverage for a substantial number of stations \citep{fletcher_fcc_2018}.} 
+A map of all these contours can be seen in Figure \ref{contourfig}.
+
+\paragraph{Geocoding}
+
+Location data for all outcomes was collected in the form of addresses written in text. To transform this into proper spatial data (coordinates with latitude \& longitude), two geocoding tools were used: (1) ArcGIS, which has its own proprietary database of locations. Over 99\% of addresses were successfully matched to one location and geocoded. This was used to geocode the schooling data, as well as portions of the campaign contribution data. (2) The US Census Geocoder, which contains the census database of locations. Over 80\% of addresses were successfully matched to one location and geocoded.\footnote{The US Census geocoder, unlike the ArcGIS geocoder, is free. However, due to the higher precision of the ArcGIS geocoder, data constructed from it is used wherever possible. } This was used to geocode the business data, as well as portions of the campaign contribution data. It is unlikely for non-geocoded addresses to be correlated with the instrument, given the relatively narrow band around the contour retained for the spatial regression discontinuity.
+
+For data that take the form of spatial points (such as the location of a school), determining its distance to the boundary and whether the datapoint falls within the coverage boundary is a straightforward process.  For data aggregated into grid points (typically a grid composed of $2 \times 2$ KM$^2$ chunks), we treat each any degree of intersection as the grid point falling within coverage, given its relatively small size. In locations covered by multiple SLTV stations, the distance to the boundary is taken as the distance to the closest boundary. %% FIX THIS: not true for migration. True for Trump, but smaller grid
+% For data that cover a wider area (such as a county), in the standard specification, the area is said to fall within the coverage boundary if at least 50\% of its area does, and the distance from the area to the boundary is taken as the minimum distance from the boundary to the area.
+% TODO: robustness; experiment with this for county controls data! calculate area... maybe also for campaigns
+
+\subsection{Controls and Other Non-Outcome Data}
+Controls at the county level are sourced from IPUMS and consist of basic relevant demographic information: population, income, percent of county that is Hispanic etc. County level data is mapped to its relevant location using census data as well. 
+
+Data on migration comes from the 2011-2015 American Community Survey (ACS), which reports the number of people moving from each origin county to destination county (aggregated over the four years).\footnote{ Historically, approximately 15\% of the ACS migration data has been allocated, or imputed based on salient characteristics (United States Census Bureau \cite{noauthor_american_2020}). } This sample also contains migration flows by Hispanic origin, allowing us to determine whether they move based on geographic boundaries.
+% TODO: propagate errors based on the margin of error
+
+Finally, data attached to specific outcomes are discussed under their relevant section.
+% TODO: summary stats table - split by inside/outside boundary?
+
+
+\section{Empirical Strategy}\label{secrd}
+
+To isolate the causal effect of Spanish language television, I adopt the technique used in \cite{velez_tuning_2019}  and generalize it from two counties to the entirety of the US.\footnote{ The paper was retracted in 2019, but this was due to usage of unauthorized data, and unrelated to the efficacy of the underlying identification strategy.} Velez and Newman exploit a FCC (Federal Communications Commission) regulation which determines the distance from a TV station in which the station's broadcast signal is protected from interference.
+
+Digital and satellite TV stations operate by broadcasting signals from a central antenna, and the field strength at a given point resulting from this antenna is a mechanical product of several factors: The antenna's ERP (Effective Radiated Power, which is the amount of input power given to the antenna adjusted for idiosyncrasies in the antenna that may boost or attenuate the effective power), the antenna's HAAT (High Above Average Terrain), and the distance from the point to the antenna.
+
+%@CITE https://www.fcc.gov/media/radio/fm-and-tv-propagation-curves
+%@CITE White Paper TAC
+
+This signal declines in strength as one grows more distant from the station, making it subject to interference. The FCC regulation OET Bulletin No. 69 (FCC,\cite{noauthor_oet_2004}) protects signals for commercial TV stations from interference in a contour area for which service holds at 50\% of locations 90\% of the time.\footnote{ These contour lines are termed $(50,90)$ lines. There is a small adjustment made for different channel numbers, which have varying noise-limited coverage. } An example of this coverage contour can be seen in Figure \ref{contourexamplefig}; note that they tend to be sizable enough to fully cover major metropolitan areas, with contours boundaries ending substantially beyond them.
+
+This creates a natural spatial regression discontinuity, where the decaying strength of a signal due to distance from a station is combined with this cutoff in broadcast protection to create a split among people just inside and outside these coverage contours that are presumably comparable save for their access to broadcast TV.  This minimizes the potential concern of omitted variable bias, as the groups we are comparing across this border should share many overarching characteristics.
+
+In the case of Spanish Language TV in particular, this should allow us to examine its causal effect on Hispanic communities for spatially located outcomes. As mentioned, these contours are purely determined by an algorithm and only dependent on physical variables like local elevation and antennae strength. Thus, the precise regulatory boundaries are located in more or less random locations, and coverage is large enough that these contours tend to cut across towns and suburbs, rather than large cities --- television networks are not constructing their antennas to be just large enough to only cover the most dense and populous areas. This implies that network executives, if they are aiming to maximize profit, ratings, or audiences, would not have these boundaries at the forefront of their calculus.
+
+In order for the causal effect of SLTV to be identified, the actual coverage of the contours must be uncorrelated with any of the other determinants for the outcome variables with which we are interested. One reassurance is that the interference protection regulation, OET Bulletin 69, was only codified in 1977 --- in contrast, Univision, the largest owner of SLTV stations, was founded in 1955, and had built a substantial number of their television stations and antennas by 1977.\footnote{ Though Telemundo, the second largest owner of SLTV, was technically founded in 1984, the stations it initially acquired were built in 1954. It also primarily expanded through the acquisition of existing stations, rather than building out its own new ones. } Furthermore, the most recent Longley-Rice methodology used to determine TV service coverage was only adopted in 1997, making it even less likely that stations were built or adapted in response to the policy.\footnote{ See FCC\cite{noauthor_oet_2004} for details.} Nonetheless, one may be concerned that SLTV stations target areas with more Hispanic people, or wealthier communities, or more populous areas, all of which are factors that could affect the areas of interest. Hence, we include explicit controls for these variables in the regression.
+% @CITE univisino, telemundo
+
+The instrument therefore consists of two variables interacted: First, a dummy for whether the outcome data falls within a SLTV station's coverage contour boundaries, and second, the distance from the outcome of interest to the closest coverage boundary. To guarantee similarity between the people inside and outside the boundaries, only data points located within a distance of 100 KM of the boundary are kept.\footnote{ Using a round number in kilometers rather than miles makes the cutoff less likely to be correlated with some real-world phenomena.} 
+
+Several concerns that potentially remain:
+\begin{itemize}
+\item \textit{Can we guarantee that it is Hispanic people who watch SLTV?} If it were the case that non-Hispanic people were frequent viewers of SLTV, the interpretation of the main effects would potentially be different: we would be looking at the effect of SLTV on all people. Thus, though outcomes restrict the analysis to how the lives of Hispanic people change, this could be driven by, for instance, white people treating Hispanic people differently due to having viewed SLTV. This does not empirically bear out---only 4\% of total SLTV station programming watched can be attributed to non-Hispanic people, a number that is only as high as it is because some SLTV stations also broadcast in English  (FCC\cite{noauthor_hispanic_2016}). Similarly, $<1\%$ of all programming watched by non-Hispanics is in the Spanish language.
+
+\item \textit{How do we account for the possibility of selection?} It is theoretically possible that Hispanic people move in response to these television coverage contour boundaries, and that the effects seen are therefore a result of Hispanic people self-sorting. If this were true, it would be a fairly remarkable result---people moving in significant quantities for access to better television in a way that influences life outcomes ranging from education to business to politics. However, as the subsection on Migration beneath demonstrates, the selection story does not appear to be borne out by the data.
+\end{itemize}
+
+\subsection{Main Specification}
+
+A standard regression thus looks like restricting the universe of observations to only those within a small radius of the contour boundary, where the key independent variable of interest is an indicator for the observation being inside or outside the boundary, interacted with the distance to the boundary:
+\[ Y_i^{} = \beta_0 + \beta \mathbb{I}[InsideContour_i] \times Distance_i + \gamma X_i + \epsilon_i \]
+
+where $Y_i$ is an outcome for observation $i$ and $X$ is a vector of controls for the observation. The main coefficient of interest is $\beta$, and due to the nature of our instrument, we place the majority of interpretive weight on the indicator for being inside the television coverage contour. 
+
+In this case, the unit of observation is deliberately left vague---this varies depending on the set of outcomes we are looking at. For firm data, we aggregate our data into a set of grid points (typically roughly 2 $\times$ 2 KM in size) so that we can compare the number of firms across areas.\footnote{ In addition to providing cleaner interpretability, grouping data into `raster' form is also less computationally intensive for the analysis.} For school data, the unit of observation is a single school, as we have school-level controls. For our campaign contribution data, our unit of observation is similarly also aggregated into grid points. We typically aggregate into grids by taking the sum of observations within grids (i.e., the number of Hispanic-owned businesses within a grid point, or the number of contributors to Trump within a grid point), except where otherwise noted.
+
+We prefer to leave standard errors robust, and separately check for robustness with respect to spatial autocorrelation for each main result. Other fixed effects/clustering options are treated similarly.
+
+\subsection{Spatial Autocorrelation}
+
+Spatial autocorrelation, or spatial dependence, occurs when our outcomes of interest are correlated with itself in space \citep{cliff_spatial_1973}. In general, this only means that we allow for $Cov(Y_i,Y_j) \neq 0$ when $i\neq j$ for locations $i$, $j$. For tractability, when given a dataset with $n$ locations, we place more structure on the problem, constructing a $n \times n$ spatial weights matrix $W$ with entries $w_{ij} = 1$ if locations $i,j$ are considered neighbors, and $w_{ij} = 0$ otherwise \citep{anselin_spatial_1998}. For data that takes the form of grids in space, we construct weights based on the rook criterion (grid points have unit weight if they share an edge), while for points in space, we assign unit weight to the four nearest neighbors as a comparable measure.
+
+There are two primary models of spatial autocorrelation that we conduct robustness tests for:
+
+\paragraph{The Spatial Autoregressive Model}
+
+In this model, the spatial autocorrelation is directly accounted for in the specification:
+\[ Y = \beta_0 + \rho W Y + \beta \mathbb{I}[InsideContour] \times Distance + \gamma X + \epsilon \]
+
+This model is identical to the prior main specification, except for the addition of the $\rho W Y$ term, where $W$ is the aforementioned spatial weights matrix, and $\rho$ the autoregressive coefficient. In this model, spatial dependence affects the outcome variable only (e.g. a Hispanic business opening up may induce neighbors to not open businesses, due to an increased amount of competition in the area).
+
+\paragraph{The Spatial Error Model}
+
+In this model, the autocorrelation occurs in the error term:
+\[ Y = \beta_0 + \beta \mathbb{I}[InsideContour] \times Distance + \gamma X + \epsilon \]
+\[\epsilon = \lambda W \epsilon + \nu\]
+
+This model is identical to the main specification, except the error terms are now additionally correlated due to the addition of the $\lambda W \epsilon$ term. In this model, spatial dependence enters through  the presence of missing spatial covariates which may affect the outcome.\footnote{ In particular, this allows us to further adjust for unique features of Hispanic communities, such as the geographic clustering of immigrants as \cite{cutler_when_2008} and \cite{cascio_cracks_2012} find.}
+
+\subsection{Migration}
+
+While it is theoretically conceivable that Hispanics would move based on access to SLTV, causing results to be driven by selection and confounding the direct effect of television itself, we demonstrate that movement across these coverage contours is minimal.
+
+As mentioned in Section \ref{secdata}, the migration data from the ACS is provided at the origin county-destination county level. Given the relative size of a county, to define whether a county is inside a coverage contour or not, we further impose that at least 95\% of the area that the county encompasses must be inside of the coverage contour.\footnote{ Results are robust to different area cut-offs for a county to be considered inside the coverage contour.} We present summary statistics for this sample in Table \ref{sum_init}.
+
+Tables \ref{mig_orig} and \ref{mig_dest} present the results on migration. These tables present results at the origin county - destination county level, tracking the Inverse Hyperbolic Sine (IHS) transformed values of the number of Hispanic migrants between the two counties.\footnote{ The IHS transform can be interpreted similarly to the Log transform (\% changes), but has the added advantage of being able to handle cases when $0$ is the observed value.} Table \ref{mig_orig} restricts to only origin counties that are within 100 KM of a coverage contour (the standard cut-off distance used for later outcomes).\footnote{ There are 636 such counties. The average origin county has 20 destination counties for which there is significant enough cross-county Hispanic migration that the ACS reports data for it.} In panel A, this is further restricted to origin counties inside the television contour, and so the main variable of interest is the dummy for the destination county being outside the TV contour. We observe a clear negative and significant relationship for migrations that cross the coverage contour. We interact the distance to the origin/destination with the TV dummy to ensure that we are controlling for all distance related effects, and control for county level characteristics including Log Population, Log Income, and percent of the county that is Hispanic for both origin and destination. All specifications also include origin fixed effects.
+
+In panel B, we restrict to origin counties outside the television contour, and the main variable of interest is the dummy for the destination county being \textit{inside} the TV contour. In this case, the point estimate is negative, although results are overall insignificant---this is sufficient for us to make our argument, given that so long as there are not positive coefficients, there is no evidence of migration across contour borders.
+
+Table \ref{mig_dest} repeats the analysis, this time restricting to only destination counties within 100 KM of a coverage contour. Results closely echo those seen in the prior table, with negative coefficients associated with migration across coverage contours, significant when the destination is inside the contour and not when they are outside. 
+
+These results combined indicate that movement across coverage contours is not a major threat to identification. Even in cases where insignificant results are observed, the base rate of migration is not very high to begin with---in our origin county sample, an average of 84 Hispanic people are observed to move between each county-county pair (median: 25) over the five year period which the dataset spans. This also speaks to the magnitude of the coefficients observed, where the drop in 10 to 40\% of migrants observed still falls within a plausible range. Though we do not have theories as to why people may be \textit{averse} to moving across coverage contour boundaries, it is in and of itself an interesting result perhaps worth further investigation.
+
+% include 0s
+
+%%%%%%%%%% FIRMS %%%%%%%%
+\section{Firms}\label{secfirm}
+
+In this section, we examine Hispanic firm ownership and firms adopting Hispanic names, showing that both increase under the influence of SLTV. 
+
+\subsection{Data}
+
+From Florida's Division of Corporations, we obtain complete records of business filing data from the years 2010 to 2019.\footnote{ Businesses in Florida are generally required to refile their data every 3 years.} Unfortunately, there is no readily available (and free) national firm database that also contains addresses and owner names, so analysis had to be restricted to the state level instead. We pick Florida as our state to analyse for several reasons: (1) Florida hosts a significant Hispanic population (23.2\% of Florida's population, 8\% of the US total), and contains 11 SLTV stations (11\% of the US total), (2) Florida makes its voting registration data public, which we use to predict ethnicity from names, and (3) Florida makes its business filing data public. 
+
+From the business filings, we keep all firms that we are able to successfully geocode, leaving us with a universe of 146,032 firms; though this unfortunately is not a sizable fraction of the total filings available, the sample restriction is unlikely to introduce any bias into the sample.\footnote{ The total number of firms for which we have filing data is on the order of 3 million. However, the amount of locations that could be geocoded was unfortunately rate-limited by the classification method used, and so we are left with the first 146,032 firms geocoded. Given that they were geocoded in chronological order corresponding to date filed (beginning with 2010 firms, and ending around mid-2010), there is no reason to believe that there would be any bias introduced by this limitation; there would need to be some omitted variable determining both the location of the firm and the firm filing its data in the first 6 months of 2010. It is unclear what that any such variable exists.} 
+
+We aggregate data into a grid with each square having size $.02$ degrees latitude by $.02$ degrees longitude, approximately $2 \times 2$ KM$^2$. Our two outcomes of interest are whether the firms are owned by Hispanics, and whether the firm names play into the Hispanic identity---for firm ownership, we take the sum of the number of businesses that fit this criteria within the grid as our outcome, whereas we construct a dummy for whether there is any such Hispanic-named firm for the latter due to its infrequency. Summary statistics for the outcomes and controls are presented in Panel A of Table \ref{sum_out}. To construct these outcomes, we use two separate methods of classification:
+
+\paragraph{Principal Name Classification} To determine whether a business is owned and run by a Hispanic person or not, we run the Python machine learning classifier `ethnicolr' to predict ethnicity based on the first and last names of a business' principal.\footnote{ Corporations are required to file personal data for their Registered Agent as well up to six Principals, the latter of which must be a President, Treasurer, Chairman, Vice President, Secretary, or Director of the firm. In some small number of cases, the Principal is a corporation --- these observations are dropped. When there are multiple principals for which we have data, we use the classification for the highest ranked principal. A firm's principal can be interpreted as a firm's owner.} The classifier contains three models trained on separate data sources: (1) Data from the US census in 2000 and 2010, (2) data from the Florida voter registration database in 2017, and (3) Wikipedia data collected by Skiena et al. We use the Florida voter registration data because it most closely matches the sample that we are working with. 
+
+The model uses TensorFlow (an open source software library developed by Google for training Machine Learning applications) to train a Long Short-Term Memory (LSTM) model based on the bigrams (two character chunks) present in the names. An out of sample validation exercise using the voter registration data yields an 85\% overall accuracy.\footnote{ The neural net is much less (only 50\%) accurate at identifying blacks and Asians, which drags down the overall accuracy. In addition to a best guess at ethnicity, the model also provides the percentage probability that a name is associated with a specific ethnicity. Using this percentage instead of a dummy for whether a name is Hispanic or not does not change the results. } 
+
+Overall, 23.5\% of principals are classified as Hispanic (.3\% higher than the proportion of the population that Hispanics make up). As a final check, we randomly selected one hundred names to verify, and the model appears to be at least 85\% correct on inspection (no name was obviously incorrectly classified). For instance, `Manuel Lorenzo' and `Mildred Sosa' are classified as Hispanic, `Peter Yu' and `Haresh Karamchandani' are classified as Asian, `Tony Walker' and `Dwayne Demarie' are classified as Black, and `Robert Bronson' and `Nathan Smith' are classified as White. 
+
+\paragraph{Firm Name Classification} Unlike the names of firm principals, there is no readily available or standardized method to determine whether a firm's name is a `Hispanic name' or not. Although a machine learning approach is still theoretically possible under these circumstances, a quick visual inspection of the data revealed that a relatively low percentage of firms had names that were explicit tied to a Hispanic identity---hence, many approaches would likely identify a significant number of false positives.
+
+In order to be conservative and ensure that firms identified as bearing Hispanic names actually are such, we construct a measure that classifies a firm name as Hispanic if it contains certain keywords that are explicitly associated with a Hispanic identity. These keywords are split into three major categories: (1) References to countries in Latin America or Latin America itself. Firms that include the base forms of country names in Latin America are considered to be explicitly referencing a Hispanic identity (examples include: `Cuban Guys 102, LLC' , `Bravo Latino Brands, LLC.') (2) Names containing common one of the top 50 most Spanish words (that are not also in English) (examples include: `La Joya Estates, Ltd.', `Conselho Nacional De Saude Mental E Medicina Psicossomatica Inc.'), and (3) Names containing common Hispanic foods. (examples include: `Charlie Cactus Tacos, LLC', `Taqueria Casas 2 Inc.') Due to the lack of a systemic means to construct this last category, we conduct robustness checks dropping this category; results do not substantially change when omitting this third category. Table \ref{firm_class} contains a list of these keywords as well as some additional detail on the classification process.
+
+Out of our sample, 1.1\% of firms meet this criteria (1\% if omitting the food based names). A manual check of firms that are classified as Hispanic also confirms that the firm name classification process succeeds.
+
+\subsection{Results}
+
+Table \ref{firm_busn} presents results on the effect of SLTV on Hispanic business ownership. The main coefficient of interest, the IHS transformed number of Hispanic-owned firms located inside a television coverage contour, is positive and significant at the $\alpha = .01$ level in all specifications. Columns (2), (3), and (4) add in county level controls for log population, the percent of the county that is Hispanic, and log income respectively. Once controls are added at the county level, the coefficient appears to stabilize at approximately $0.1$.
+
+Table \ref{firm_name} presents results on the effect of SLTV on whether firm names are Hispanic or not. Given the low frequency of firms exhibiting such names, we construct a binary variable for whether any firm within the grid point contains a Hispanic name and run a logit (logistic) regression on the outcome. The first four columns mirror the prior table in terms of controls added, and show a positive coefficient significant at the 1\% level. Column (5) restricts the analysis to only Hispanic business owners, whilst column (6) restricts the analysis to only non-Hispanic owners. The results look similar in both these cases. We switch to a logit specification because there are many 0s---the number of firms with Hispanic names is not high---and so we are essentially checking if there is a Hispanic-named firm in a grid point or not. Given the infrequent appearance of these firms, we can interpret these coefficients as roughly the same as that of a percentage change, given the change in log-odds roughly corresponds to the change in actual probabilities.
+
+
+\paragraph{Robustness} To test the robustness of these results, we present Table \ref{firm_robust}. Column (1) presents the baseline results (it is identical to Column (5) of Table \ref{firm_name}), while column (2) includes the interaction of the TV dummy with the distance to the boundary squared. This is plausibly relevant to the main effect, given that television signals decay in strength in proportion to the square of the distance. Column (3) additionally controls for the total number of businesses in the grid point. Column (4) uses an alternate definition of Hispanic named businesses that does not consider food as part of the criteria for classifying a firm name as Hispanic. Columns (5) and (6) reduce the cutoff distance from the boundary to one half and one third of the original 100 KM limit. Columns (7) and (8) vary the grid size to 9 KM$^2$ and 1 KM$^2$ respectively. The robustness checks hold up across the board with all columns maintaining significance and positive sign. Robustness checks on the other outcome variable of interest hold up to a similar analysis.
+
+One remaining concern is that there may be some degree of spatial autocorrelation in the data which is driving the results. A Moran's I test using 4 nearest neighbours between the grid points (rook style) indicate that there is spatial autocorrelation in the data (p-value less than $10^{-16}$). Hence, Table \ref{firm_spatial} presents two alternate models that control for the effects of spatial autocorrelation. Column (1) presents the baseline results in column (2) of Table \ref{firm_busn}.\footnote{ Due to computational limitations, standard errors cannot be effectively computed when more controls are added. The point estimates, however, remain similar. Additionally, results for firm names are also robust to spatial autocorrelation specifications, though they are more difficult to interpret.} Column (2) uses a spatially autoregressive lag model, wherein the outcome variable may be correlated with its neighbours. Column (3) uses a spatially autoregressive error model, wherein the presence of missing spatial covariates (causing correlated errors) is adjusted for. In both cases, the alternate models yield results that resemble the standard specification in column (1); we highlight this spatial regression in particular because of the change in magnitude present in Column (2)---we attribute this to competitive effects of opening a business, and note that the magnitude of coefficients do not vary as much for other outcomes. 
+
+% cluster: Esarey (2019) following Ibragimov and Muller 2010
+\subsection{Discussion}
+The magnitude of the increase in the number of firms owned by Hispanics under the presence of SLTV is fairly remarkable---once controls are added, this amounts to 11-13\% more Hispanic-owned firms in an area.\footnote{ Because we do not have access to data on the relative size of these firms (revenue, profits, number of employees etc.), we are unable to say whether this actually leads to more economic activity overall---it is possible that there are more firms, but that firms on the whole are smaller. \cite{bursztyn_tear_2016} find this substitution effect to be the case with regards to consumption in response to television advertising in former East Germany. Nonetheless, given the recent slump in US rates of entrepreneurship \citep{decker_role_2014}, and the fact that minority owners are disproportionately entrepreneurs \citep{feldman_minority_1991}, we are optimistic towards on the implications of this finding towards overall economic growth.} The increase in number of firms that exhibit Hispanic names is also remarkable: an increase of between 1.8 to 2.2 in the log odds ratio at a baseline rate of 1\% constitutes roughly a doubling in the number of such names. Both of these findings are rather substantial effects in size, and the robustness across specification lends credibility to their external validity.
+
+% Literature hard to expand; this bolsters the idea advanced in \cite{@CITE Gine Mansuri} that businesses are more idea constrained than capital constrained
+
+The increase in Hispanic firm names would be difficult to explain without touching on identity in some manner---either these firms are operationally similar to others, in which case the names act a prominent identity-based signal to consumers \citep{mcdevitt__2014}, or there are material changes in a firm's operation. But in these cases, changes in name are still linked to the type of operational change made by the firm \citep{horsky_does_1987}, thus pointing to an identity-based mechanism. 
+
+The issue is less clear cut in the case of firm ownership. The additional number of firms could be tied to stronger advertising networks, noting that paid programming makes up 30.9\% of Hispanic owned SLTV networks programming time, compared to 10.8\% in the general population (FCC\cite{noauthor_hispanic_2016}). Nonetheless, there is reason to believe that this effect may also be driven by identity: \cite{piperopoulos_ethnic_2012} notes that ethnic minorities often start businesses on the basis of stronger cultural knowledge and ties to the community. 
+
+Given this, two interesting questions arise: (1) Accounting for the fact that there are now more businesses overall, does the proportion of Hispanic named firms increase? and (2) Are the increases in Hispanic firm names driven by demand or supply side effects? To tackle (1), we note that in Table \ref{firm_robust} that, even controlling for the total number of firms in area, the number of Hispanic named firms still increases; hence, in addition to there being more Hispanic owned firms, the proportion of Hispanic named firms also increases.\footnote{ This holds when alternatively controlling for the total number of Hispanic owned firms.} 
+
+We examine the second question by first noting that non-Hispanic people only minimally engage with SLTV. Hence, if SLTV operated exclusively through a supply-side channel (changing the information available to or the preferences of the owner, for instance), we would expect to see Hispanic owners but not non-Hispanic owners to more frequently adopt Hispanic names for their businesses. Instead, in Table \ref{firm_name}, we see that there are positive, significant increases in Hispanic business names for businesses owned both by Hispanics and non-Hispanics. We are unable to reject the hypothesis that the coefficients are equal, and this suggests that it is instead the demand-side (Hispanic consumers who watch SLTV) that dominates---consistent with other findings in the meat and cigarette industry which show that content shown on television influences what consumers choose to purchase (\cite{baltagi_estimating_1986} \cite{verbeke_probit_2000}) and making the novel extension to firm ownership and naming schemes. 
+
+
+
+%%%%%%%%%% PUBLIC SCHOOLS %%%%%%%%
+\section{Public Schools}\label{secschool}
+
+In this section, we examine the performance of Hispanics in public schools and find that while academic achievement generally increases and disciplinary issues generally decrease in response to SLTV, the opposite holds true when the measures are more directly to identity. 
+
+\subsection{Data}
+
+The data on public schools comes from the US Department of Education's CRDC (Civil Rights Data Collection) dataset in 2015. In order to prevent discrimination and for transparency purposes, all public schools in the United States are required to report a substantial amount of information to the CRDC on an annualized basis.\footnote{ In practice, this data is not released to the public every year. Furthermore, not all schools report all data (or correct data) required of them, which is why the number of observations for different variables in this dataset fluctuates. Some data, such as that on AP examinations, are not mandatory, but the bulk of outcome variables are, with non-compliance on the mandatory data typically representing $<1\%$ of total data.} 
+
+The dataset contains information on a total of 96,350 schools across 17,280 school districts. Figure \ref{schooldistrictfig} contains a map of these schools, while summary statistics for the outcomes and controls are presented in Panel B of Table \ref{sum_out}.
+
+The outcome data from the CRDC can be split into two categories:
+\begin{itemize}
+\item \textbf{Academic Achievements:} We focus on two outcomes that track the effect of television on the top end of the academic distribution of students: the number of Advanced Placement (AP) classes students enrol in and pass, as well as the number of students placed into gifted programs, and one outcome on the bottom: the number of students with Limited English Proficiency (LEP).
+
+The AP program is administered by the College Board, and defines a standardized college-level curriculum that is taught to high school students in AP Classes. In conjunction with AP Classes, AP Exams are national examinations which are designed to test mastery of material taught in AP classes. These exams are scored on a scale ranging from 1 to 5, with scores below a 3 marked as a failed exam. Even among the selective students who opt into these classes (22\% in 2015\footnote{ Data computed from number of high school graduates in 2015 (National Student Clearinghouse Research Center,\cite{noauthor_high_2015}), and number of seniors who sat an AP exam in 2015. This is how the College Board currently tracks national AP participation (no comparable summary statistic was released in 2015) (College Board,\cite{noauthor_ap_2015})}), a substantial number of students who take these exams fail them - approximately 35\% (College Board\cite{noauthor_ap_2020}). 
+
+Gifted and talented programs are ``programs during regular school hours that provide special educational opportunities including accelerated promotion through grades and classes and an enriched curriculum for students who are endowed with a high degree of mental ability or who demonstrate unusual physical coordination, creativity, interest, or talent." (CRDC\cite{noauthor_master_2016}) These programs, while not mandatory, are common across school districts, and vary in their implementation. % HOW MANY STUDENTS?
+
+LEP students (also called English Learner students) are students that, as a result of their limited command over the English language, have difficulty participating in regular school activities.\footnote{The specific definition of a LEP student depends on individual state regulation, but must also satisfy the criteria outlined under Title IX of the Elementary and Secondary Education Act (US Department of Education,\cite{noauthor_elementary_2004}). The most salient features of Title IX are that students must either not speak English as a native language or come from an environment where non-English languages are dominant, and also face substantial difficulty in engaging with others on the basis of their English ability.} 9\% of all public school students are considered LEP, and while students are placed into the program is at the discretion of individual school districts, all districts must provide language assistance services and have staff qualified to implement the LEP programs.\footnote{ Department of Justice and Department of Education,\cite{noauthor_ensuring_2015} contains a full enumeration of the responsibilities school districts have. It further includes requirements such as ensuring equal access to various school programs etc. } 
+
+\item \textbf{Disciplinary Issues:} Three forms of academic discipline are considered as outcome variables: the number of out of school suspensions, the number of absences, and the amount of harassment and bullying on the basis of race/ethnicity experienced by students.
+
+Out of school suspensions are instances ``in which a child is temporarily removed from his/her regular school for at least half a day (but less than the remainder of the school year) for disciplinary purposes to another setting (e.g., home, behavior center)." (CRDC,\cite{noauthor_master_2016}) We consider only students without disabilities, and note that depending on school policy, educational services may still be provided during this time.\footnote{Students with disabilities served under IDEA face substantially different suspension policy.}
+
+A chronically absent student is one ``who is absent 15 or more school days during the school year. A student is absent if he or she is not physically on school grounds and is not participating in instruction or instruction-related activities at an approved off-grounds location for at least half the school day." (CRDC,\cite{noauthor_master_2016}) Each day for which a student is absent for 50 percent or more of the school day is counted. Absences are counted regardless of whether they are excused or not, and so include absences due to illness, needing to care for a family member, or simple truancy.
+
+Harassment or bullying on the basis of race, color, or national origin ``refers to intimidation or abusive behavior toward a student based on actual or perceived race, color, or national origin. Harassing conduct may take many forms, including verbal acts and name-calling, as well as non-verbal behavior, such as graphic and written statements, or conduct that is physically threatening, harmful or humiliating. The conduct can be carried out by school employees, other students, and non-employee third parties. Bullying on the basis of race, color, or national origin constitutes racial harassment." (CRDC,\cite{noauthor_master_2016}) Though there are other categories of bullying and harassment reported (and other types of infractions and disciplinary measures taken), these are less directly relevant to the question at hand.
+
+
+\end{itemize}
+
+Notably, all the outcome information described above is also provided for Hispanic subpopulations --- hence, the outcome of interest is generally the number of Hispanic students passing AP tests, or being bullied on the basis of their ethnicity, etc. These variables are all reported at the school level. 
+
+School level controls include the number of teachers, the number of total students, the number of Hispanic students, as well as dummies for whether the school contains a primary school, middle school, and high school. Demographic control variables are sourced at the county level (income, percent Hispanic, population) from IPUMs as described in the Data section. These schools are geolocated using ArcGIS.
+ % school district
+
+\subsection{Results}
+
+Table \ref{edu_top} presents the standard specification for the education dataset, looking at the effect of television on schools within 100 KM of a coverage contour. For each of these measures of academic achievement, column (1) includes only county level controls, column (2) adds controls for school size (number of students and teachers), and column (3) adds controls for whether the school contains primary/middle/high school divisions. Panel A examines the effect of television on the IHS of the number Hispanic students considered gifted, while panels B and C look at the effect on the number of Hispanic students enrolled in an AP course or passing at least one AP course respectively. The coefficient of interest, the dummy for whether the school is located within a coverage contour or not, is significant at the 5\% level for all columns and panels. The effect sizes are modest, but non-trivial: an approximately 1.5\% increase in the number of gifted students, and increases on the order of roughly 5\% for the number of students involved in Advanced Placement curricula. 
+
+Table \ref{edu_bot} examines the effect of SLTV on disciplinary incidents: Panel A presents the effect on the number of Hispanic students ever given an out of school suspension over the prior school year, while Panel B presents this on the number of Hispanic students considered chronically absent. These results are all significant at the 1\% level for all columns and panels. The effect sizes are comparable to that regarding academic achievement, displaying a 1.5\% decrease in the number of students suspended, and a 7\% decrease in the number of students who are chronically absent.
+
+Table \ref{edu_mech} examines the effect of SLTV on outcomes more directly tied to identity: Panel A presents the effect on the number of students categorized as having Limited English Proficiency. These effects are significant at the 1\% level, and represent a 3-4\% increase in the number of students designated under this category. Panel B, on the other hand, presents the effect on the number of Hispanic students who are ever victims of harassment on the basis of their ethnicity. These results are significant at the 10\% and 5\% levels, and account for a small .2\% bump in the number of such cases. 
+
+\paragraph{Robustness} To test the robustness of these results, we present Table \ref{edu_ap_robust}, which uses as its outcome variable the number of Hispanic students passing the AP. We choose to present robustness on this outcome in particular due to its lower sample size --- it is a priori the most likely to be underpowered. Column (1) presents the baseline results (it is identical to column (3) of Table \ref{edu_top}), while column (2) includes the interaction of the TV dummy with the distance to the boundary squared. This is plausibly relevant to the main effect, given that television signals decay in strength in proportion to the square of the distance. Columns (3) and (6) reduce the cutoff distance from the boundary to one half and one third of the original 100 KM limit. Column (4) includes county level fixed effects. Column (5) additionally controls for the total number of APs passed by all students. The robustness checks hold up across the board with all columns maintaining significance, although the 33 KM boundary limit is close to underpowered. Robustness checks on the other outcome variables of interest hold up to a similar analysis.
+
+Finally, we may be concerned about the potential effects of spatial autocorrelation in the data. A Moran's I test using 4 nearest neighbours between the schools indicate that there is spatial autocorrelation at any reasonable level for $\alpha$. Hence, Table \ref{edu_spatial} presents two alternate models that control for the effects of spatial autocorrelation. Column (2) uses a spatially autoregressive lag model, wherein the outcome variable may be correlated with its neighbours. Column (3) uses a spatially autoregressive error model, wherein the presence of missing spatial covariates (causing correlated errors) is adjusted for. In both cases, the alternate models yield results that closely resemble the standard specification in column (1). 
+
+
+\subsection{Discussion}
+
+\paragraph{Evidence of Identity as a Mechanism}
+The results in Table \ref{edu_mech} provide some concrete evidence that identity changes as a result of the effect of television. We believe that access to SLTV reinforces Hispanic identities, making them more salient to the Hispanic individuals consuming the broadcast programs. The most direct evidence for this stems from the results on harassment and bullying based on ethnicity. Given that very few non-Hispanic people view SLTV programming, the fact that more Hispanic students are bullied on the basis of their ethnicity suggests that some change must be occurring within the students along this dimension.\footnote{ This increase in bullying does not appear to be the result of `retaliation' to Hispanic students bullying others: the coefficient only attenuates slightly when further controlling for the total number of students bullied, and running the main specification with the number of Hispanic students as perpetrators of race/ethnicity based bullying yields an insignificant negative coefficient. } 
+
+A substantial literature has shown that increased visibility of (non-majority) ethnicities is associated with greater amounts of bullying,\footnote{ See \cite{scherr_bullying_2009} for a review of this literature.} consistent with the results that we see. Though it is impossible to rule out all other stories (perhaps children who watch more TV overall are more likely to be victims of bullying---but this is not supported by the literature. If anything, there is support for television causing children to become bullies \citep{kuntsche_television_2006}, but this is not borne out in our data), the most parsimonious explanation is one in which television increases identity salience and hence ethnicity-based bullying.
+
+We make a similar argument in the interpretation of the greater number of Hispanic students classified as having Limited English Proficiency. This increase demonstrates that these students possess a lower degree of command over the English language, suggesting two possibilities: either (1) that academic/linguistic abilities are lowered across the board, or that (2) there is some substitution in ability towards the Spanish language instead. Given that academic abilities appear to be \textit{enhanced} by the presence of SLTV, the substitution story appears more plausible to us.\footnote{ Granted, the measures of academic ability measure only the performance of students at the top end. But given the existence of these results, a countervailing narrative in which SLTV decreases the academic performance for other Hispanic students would need require a mechanism that could produce such differential effects.} Unfortunately, we do not have direct evidence on the Spanish-speaking abilities of students, and so recognize that this is not a settled matter. Thus, while the evidence presented is fairly suggestive, more research could be done on this matter.
+
+\paragraph{Effects on Academic Achievement and Discipline} 
+We next turn our attention to the results presented in Tables \ref{edu_top} and \ref{edu_bot}. The results on academic achievement unambiguously show that, for the top end of Hispanic students, performance is bolstered by the presence of SLTV. This effect appears to hold across students of all ages --- while gifted programs are typically aimed at students in primary and middle schools, AP courses and exams are almost exclusive taken by high schoolers. 
+
+ The number of observations recorded for these regressions is worth addressing: compared to the 40,000 schools seen in other regressions, there are only 26,000 seen for gifted students, and fewer than 10,000 for the AP results. In the case of gifted programs, this drop is due to the fact that schools which do not have gifted student programs were omitted from the sample. We find it unlikely that the presence of a gifted program in a school is correlated with the the school being placed just inside or outside a television coverage contour, and so do not believe that this omission introduces any bias. Similarly, in the case of the AP results, only 9,765 of the schools in the sample are high schools with 12th graders enrolled in them---hence, the observed 6,089 schools opting to self-report AP course results is still sizable. Though the number of schools reporting AP exam results is substantially lower and may be concerning for this result, this can at least partially be attributed to the fact that students directly receive their AP scores, and the schools at which they are enrolled may not always have access to their AP scores. Furthermore, given that overall AP scores do not meaningfully change, it is unlikely that there is substantial selection into score reporting over the concerns of Hispanic students passing AP scores---especially because there are no real-world incentives or benefits attached to doing so.
+
+Noting that increases in AP enrolment are predictive of higher rates of college enrolment and degree attainment \citep{speroni_determinants_2011}, it is likely that SLTV can have downstream effects beyond simply greater academic attainment in the short term. Running counter to the mainstream narrative, these increases in academic performance match the results found by \cite{gentzkow_preschool_2008}, who find that television increases test scores for preschoolers (and in particular, preschoolers from households where English is not the dominant language).
+
+Similarly, these increases in disciplinary outcomes can ameliorate the serious downstream effects that exist beyond the disciplinary event itself: the literature suggests that not only are suspended students at immediate risk of academic harm and further disciplinary issues \citep{arcia_achievement_2006}, but that these students are also more likely to be incarcerated as adults  \citep{wolf_school_2017}. Non-disciplined students appear to suffer from spillover effects in their academic performance as well \citep{perry_suspending_2014}.
+% HOW MANY STUDENTS get bullied? 7169 cases, so 22 students
+
+On the whole, this suggests that the lives of Hispanic students living may materially improve along academic and social dimensions as a result of SLTV. 
+
+\paragraph{The Difference Between `Identity' and Other Outcomes}
+It appears that while Hispanic discipline issues are generally improved by SLTV, this does not extend to the measure directly tied to identity: bullying and harassment based on ethnicity. Similarly, while academic achievement is generally improved by SLTV, this finding does not also generalize to LEP rates. This puzzle---explaining how identity driven results move in opposite directions from the others---is not easily resolved without relying on identity in some form. 
+
+Though we do not have a rigorous argument that can fully resolve this puzzle, we suggest that a substitution effect based on SLTV affecting identity can explain much of the results seen. That is, SLTV might in the immediate affect the identity based mechanisms that we see (more social issues, worse academic performance on metrics tied to identity), but that student performance in other non-identity tied outcomes might in turn shift to make up for the difference. If this were the case, we would expect to see results in line with what we see. An alternative explanation not relying on identity would still need to be able to explain why most academic and disciplinary measures point in one direction, whereas the ones more tightly linked to identity reverse.
+
+
+
+
+
+\section{Campaign Contributions}\label{seccamp}
+In this section, we examine how Hispanic campaign contributions respond to the presence of SLTV.  
+
+\subsection{Data}
+The data on campaign contributions comes from the US Federal Election Commission (FEC) campaign contribution receipts for the campaigns `Donald J. Trump For President, Inc.' and `Hillary Clinton For President' from the inception of the campaigns to the date of the 2016 US presidential election. These receipts are only legally required to be filed for individual contributions exceeding \$50 or aggregating over \$200 over the course of a year, and contain both the contributor's name and address. We aggregate data into a grid with each square having size $.02$ degrees latitude by $.02$ degrees longitude, approximately $2 \times 2$ KM$^2$. Summary statistics for the outcomes and controls are presented in Panel C of Table \ref{sum_out}.
+
+Following the approach taken to firms, donor names are also classified using `ethnicolr'. Since the dataset is now national in nature, instead of using the model trained on the Florida voter registry, we use the model trained on the US census data. This model also utilizes LSTM based on the bigrams present in names, and an out of sample validation exercise yields an 85\% overall accuracy as well.
+
+We geocode addresses using a combination of ArcGIS and the US Census Bureau geocoder, which yields 651,404 addresses that ever contributed to Trump, and 41,080 addresses that ever contributed to Clinton.\footnote{ This corresponds to 892,102 and 119,338 total contributions to Trump and to Clinton respectively. } 
+
+\subsection{Results and Discussion}
+Table \ref{don_base} presents the main table for this result, which follows the specification in Table \ref{firm_busn}---only grid points within 100 KM of the border are kept, and we add successive county controls for log population, percent county Hispanic, and log income in Columns (2), (3) and (4). Results across the board are highly significant, but point in opposite directions: Hispanic contributions to Trump increase under the presence of SLTV, while contributions to Clinton decrease under the presence of SLTV.
+
+We are constrained in this analysis for a number of reasons. First, we do not observe smaller donations that do not have to be reported to the FEC---these made up a substantial part of both Clinton and Trump's campaign contributions,\footnote{ 25.94\% of total funding in the case of Trump and 18.58\% in the case of Clinton (OpenSecrets,\cite{noauthor_2016_2017}), but noting that the total number of contributors is likely to constitute a far greater proportion, given the fact that many smaller donations need to be solicited in order for them to equal the dollar value of a larger one.} and so we are missing data on a large number of donors. Second, while results are robust (to other specifications/spatial autocorrelation as in prior sections) in that sign and significance are maintained, the coefficient moves substantially enough that interpretation is quite difficult---it appears to be that power comes from the sheer number of observations. Finally, we are unable to explicitly provide evidence towards an identity mechanism occurring in this setting. Though politics is often identity driven, and we do advance some ideas below relating to this, we cannot guarantee that these results are produced as a result of Hispanic identities being influenced or tapped on in some way. Thus, we present these results mainly for suggestive purposes and to indicate an area of research that we believe may prove fruitful for others to pursue. 
+
+Nevertheless, the magnitude of these coefficients in quite substantial: the average number of campaign contributions for Trump in a grid point is .08, meaning the presence of SLTV marks an increase of between 7 to 24\% in contributions among Hispanics. The average number of campaign contributions for Clinton in a grid point is .049, meaning the presence of SLTV marks a decrease of between 16 to 40\% in contributions among Hispanics. These are large quantities that certainly warrant further exploration.
+
+The direction of the results is also somewhat of a puzzle: Hispanics traditionally lean Democrat, so why would SLTV, aimed at Hispanics, induce more campaign contributions to the Republican and not Democrat presidential candidate? We posit two potential reasons for this: 
+
+(1) SLTV broadcasts in and of themselves do not have to lean liberal \citep{vega_mundofox_2012}. In fact, if they broadcast content produced by or geared towards Latin American audiences, SLTV programming may reflect the social conservativeness in these nations as tends to be associated with the Evangelical Christian movement \citep{lissardy_fuerza_2018}, or more recently, the wave of populist governments bearing (often explicit and intentional) resemblance to Trump's campaign and presidency \citep{ospina-valencia_is_2018}. 
+
+(2) A sizable number of Hispanics still do support Trump and the broader Republican platform---there is a substantial number of naturalized citizens who view themselves as distinct from (and even critical towards) immigrants (\cite{ramos_latino_2020}, \cite{navarette_millions_2019}), and hence if SLTV makes the identity of immigrants more salient, this can trigger a `backlash' effect where more Hispanics may donate to Trump to signal their beliefs or uphold what they believe to be sounder policy.\footnote{ \cite{fortin_gender_2015} is a similar example involving women and in-group backlash.}  This argument is more plausible when one considers that due to the contribution censoring, we are likely observing how the wealthy respond to SLTV---it is possible that there is substantial heterogeneity being masked.
+
+This finding also helps to explain part of the conflicting narrative in the literature: while \cite{oberholzer-gee_media_2009} find that local news in Spanish boosts voter turnout, \cite{velez_tuning_2019} come to the opposite conclusion. Notably, however, the two districts covered under Velez and Newman's analysis, North Carolina's 1st Congressional District and Florida's 22nd, both voted majority Democrat over the time-period surveyed, whereas Oberholzer-Gee and Waldfogel take voter turnout data from the 2000 Presidential Election over a large section of the United States---an election that was eventually decided in favor of Republicans. If the campaign contribution findings are a proxy for political engagement, then our results would explain the heterogeneity in the data: areas that lean Democrat are likely to see depressed turnout under SLTV, while the opposite would be true in Republican areas. 
+% robustness: also geocode trump with US?
+
+% Univision and Telemundo emphasize their lineups of telenovelas, sports and reality programming.
+% Reasons for Trump: (1) broadcasts in SLTV lean conservative, reflect conservative values, (2) legal immigration, (3) news might lean conservative: https://www.nytimes.com/2012/08/13/business/media/mundofox-new-spanish-language-network-to-make-debut.html
+% contrary to public opinion: https://www.npr.org/sections/itsallpolitics/2014/04/01/297827352/conservative-media-watchdog-univision-telemundo-favor-liberals
+% https://foreignpolicy.com/2018/04/16/the-trumpification-of-the-latin-american-right/
+
+% https://www.washingtonpost.com/politics/among-democrats-deep-concern-about-clintons-hispanic-strategy/2016/09/18/38d3b99a-7c54-11e6-bd86-b7bbd53d2b5d_story.html
+
+% less than half as many SLTV programs rated for sexual content or strong language (FCC TV)
+
+
+
+
+%Appendix Table \ref{balance1} provides evidence that individual characteristics are balanced across all four pre-election experimental conditions, confirming that the randomization was successful. The first four bars of Figure \ref{mainexperiment1fig} display our main findings from the pre-election experiment. In the control condition before the election, we observe a large and statistically significant wedge between donation rates in private and in public: a drop from 54\% in private to 34\% in public (the p-value of a \emph{t} test of equality is 0.002). Among individuals in the information condition, we observe no difference in private and public donation rates, which are 47\% and 46\%, respectively (\emph{p}-value=0.839). Moreover, we find no significant difference in private donation rates between the information and control conditions (\emph{p}-value=0.280), suggesting that the information is not increasing privately-held xenophobia. The increase in public donation rates between the two conditions is statistically significant (\emph{p}-value=0.089), as is the difference in differences between donation rates in private across conditions and donation rates in public across conditions (\emph{p}-value=0.050). These results indicate that the information provided causally increased the social acceptability of the action to the point of eliminating the original social stigma associated with it.\footnote{Apart from social stigma, another possible reason %An additional explanation to social stigma 
+%for the lower donation rates in the public condition with respect to the private condition is that participants might want to avoid talking with the surveyor because of the extra effort and time this requires (independently of the topic of the conversation), and they might expect the likelihood of having to talk to be higher in case they decide to make the donation. However, this mechanism should operate identically both in the control and in the treatment conditions, thus not affecting our identification of the reduction in social stigma.} The first two columns of Table \ref{mainexperiment1tab} display the difference in differences results in regression format and show that our results are unchanged when individual covariates are included. The table also displays \emph{p}-values from permutation tests, showing that our findings are robust to that inference method.
+
+
+
+
+\section{Conclusion} \label{secconcl}
+
+In this paper, we provide a number of high-level results: we show that SLTV has a substantial impact on the lives of Hispanic people across multiple sectors. From a business standpoint, SLTV increases Hispanic firm ownership, while also increasing the total number of firms bearing Hispanic names, pointing to an expansion in demand for goods and services linked to the Hispanic identity. From an educational standpoint, SLTV further improves the academic performance of top achievers while decreasing the occurrence of disciplinary issues among Hispanic students; instances in which this is violated are instances that one would expect to arise from a stronger sense of identity being reinforced. From a political standpoint, SLTV increased campaign contributions to Trump's presidential campaign while detracting them from Clinton's.
+
+Undergirding these findings is the consistent notion that identity is strengthened from the presence of television, and though we cannot ever perfectly confirm that this is the case, we believe the cumulative weight of the results is suggestive. However, this would be a prime area for future work to be done: we think that a more precise and direct effect on identity from the media (for both Hispanics and other minorities), would be of value---especially if one could show its relative influence and power over time.
+
+Similarly, each of the outcome areas above could be examined in greater depth. On the side of businesses, cleanly identifying the supply-side effect (or even the demand side effect with an analysis of firm size and profitability) would give us a better sense of the true economic impact of these firms; similarly, an examination of how these firms bearing Hispanic names perform would be of great interest. Within schools, we would be interested in seeing the extent to which outcomes seen are driven by television, broadly speaking, and identity; this is a central question which could be examined in many other contexts. On the campaign contributions, explaining the increase in contributions to Trump would be a resolution to an interesting puzzle that is likely to tie in to other fruitful areas of research.
+
+More broadly speaking, we think that looking at the spillover effects of identity for both those within the in-group and those in the out-group would be of interest (how are Hispanic people who don't watch SLTV be affected by peers who do? How do white people, or other minorities react?). Finally, it may also be interesting to examine the role that media as a whole plays on identity, and whether Spanish Language Television serves as a complement or substitute with other forms of media.
+
+\clearpage
+\pagebreak
+
+\begin{singlespace}
+\bibliographystyle{aea}
+%\bibliographystyle{plainnat}
+\bibliography{tv}{}
+\end{singlespace}
+
+\pagebreak
+\clearpage
+
+\section*{Figures and Tables}
+
+\subsection{Figures}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Figure 1: Coverage Contours
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[!hbtp]
+\centering
+\caption{Dummy for Hispanic Owned Business with Hispanic Name by Distance to Contour Boundary }\label{busnnnamefig}
+\includegraphics[width=12cm]{../../analysis/Output/graphs/hispanicbusnname.pdf}
+
+\textit{Notes:} The figure presents data at the firm level, where a smoothed average of a residualized dummy for Hispanic businesses with Hispanic-indicating names is plotted against the distance of the school to the closest Spanish Language Television station contour boundary. Positive distances denote schools that are located within the boundary, while negative distances denote schools outside of them. Controls at the county level include log population, income, and percentage population Hispanic.
+\end{figure} 
+
+\begin{figure}[!hbtp]
+\centering
+\caption{IHS(\# Hispanic Students Suspended) by Distance to Contour Boundary }\label{suspensionsfig}
+\includegraphics[width=12cm]{../../analysis/Output/graphs/hispanicsuspensions.pdf}
+
+\textit{Notes:} The figure presents data at a school level, where a smoothed average of the inverse hyperbolic sine transformed counts of Hispanic students suspended is plotted against the distance of the school to the closest Spanish Language Television station contour boundary. Positive distances denote schools that are located within the boundary, while negative distances denote schools outside of them.
+\end{figure} 
+
+\begin{figure}[!hbtp]
+\centering
+\caption{IHS(\# Hispanic Donations to Trump) by Distance to Contour Boundary }\label{donationsfig}
+\includegraphics[width=12cm]{../../analysis/Output/graphs/hispanictrump.pdf}
+
+\textit{Notes:} The figure presents data aggregated into squares of size approximately 4 KM$^2$, where a smoothed average of the inverse hyperbolic sine transformed counts of Hispanic campaign contributions to Trump for the 2016 election is plotted against the distance of the school to the closest Spanish Language Television station contour boundary. Positive distances denote schools that are located within the boundary, while negative distances denote schools outside of them.
+\end{figure} 
+
+\begin{figure}[!hbtp]
+\centering
+\caption{Coverage Map for TV Station WUVC-DT}\label{contourexamplefig}
+\includegraphics[width=15cm]{../../analysis/Output/img/ContourExample.png}
+\end{figure} 
+
+\begin{figure}[!hbtp]
+\centering
+\caption{The Coverage Contours of Spanish Language TV stations}\label{contourfig}
+\includegraphics[width=8cm]{../../analysis/Output/img/SpanishContours.png}
+\end{figure} 
+
+\begin{figure}[!hbtp]
+\centering
+\caption{Map of School Districts in the US}\label{schooldistrictfig}
+\includegraphics[width=12cm]{../../analysis/Output/img/LEAMap.png}
+\end{figure} 
+
+\clearpage
+\subsection{Tables}
+
+%\input{../../explore/output/summary/LEAInfo.tex}
+%\input{../../explore/output/summary/SchoolInfo.tex}
+\input{../../analysis/Output/Sum/sum_init.tex}
+\input{../../analysis/Output/Sum/sum_out.tex}
+\input{../../analysis/Output/Regs/mig_orig.tex}
+\input{../../analysis/Output/Regs/mig_dest.tex}
+
+%\input{../../explore/Output/Regs/trump_d2.tex}
+%\input{../../explore/Output/Regs/clinton_b2.tex}
+%\input{../../explore/Output/Regs/clinton_d2.tex}
+
+\input{../../analysis/Output/regs/firm_busn.tex}
+\input{../../analysis/Output/regs/firm_name.tex}
+\input{../../analysis/Output/regs/firm_robust.tex}
+\input{../../analysis/Output/regs/firm_spatial.tex}
+
+%\input{../../explore/Output/Regs/edu_OOSIHS2_spec2.tex}
+%\input{../../explore/Output/Regs/edu_harhOLSIHS2_spec2.tex}
+%\input{../../explore/Output/Regs/edu_aptIHS2_spec2.tex}
+%\input{../../explore/Output/Regs/edu_appIHS2_spec2.tex}
+%\input{../../explore/Output/Regs/edu_lepOLSIHS_spec2.tex} % motivate with this, then add square
+%\input{../../explore/Output/Regs/edu_giftedOLSIHS2_spec2.tex}
+%\input{../../explore/Output/Regs/edu_giftedOLSIHS_spec2.tex}
+\input{../../analysis/Output/regs/edu_top.tex}
+\input{../../analysis/Output/regs/edu_bot.tex}
+\input{../../analysis/Output/regs/edu_mech.tex}
+\input{../../analysis/Output/regs/edu_ap_robust.tex}
+\input{../../analysis/Output/regs/edu_spatial.tex}
+
+\input{../../analysis/Output/Regs/don_base.tex}
+
+
+\begin{table}[!h]
+	\centering
+	\captionsetup{skip=1.5pt}
+	\caption{Classification of Hispanic Firm Names} \label{firm_class}
+	\scalebox{.8}{
+		\begin{threeparttable}
+			\begin{tabular}{llcccccccc}
+				\hline\hline\addlinespace
+    \textit{Section A: Latin American Countries} & mexic, bolivia, chile, argentin, venezuela, beliz, costa rica, salvador, guatemala \\
+&  hondur, nicaragua, panama, brazil, colombia, ecuador, guyana, paragua, peru \\
+& surinam, urugu, cuba, dominican, haiti, puerto, latin \\
+				\addlinespace\hline
+\textit{Section B: Common Spanish Words} & la, de, como, su, que, el, para, en, por, los, casa, caliente \\ %%% MOST COMMON 
+\hline
+\textit{Section C: Common Hispanic Foods} & taqueria, taco, empanada, huevo, pollo, burrito, arepa, pupusa, tamale, tortilla \\
+& salsa, asado, lechon, mojo, ropa, vieja, chorizo \\		 		
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} Firms are classified as having a Hispanic name if any keyword in the table above is matched within the word, subject to the following requirements: (1) Case does not matter, (2) For Sections A and C, an exact match of the string at any location in the firm name, (3) For Section B, the string must be a distinct word, (4) The inclusion of Section C is optional.
+			\end{tablenotes}
+		\end{threeparttable}
+	}
+\end{table}
+
+
+%\begin{figure}[!h]
+%\begin{center}
+%\caption{{\bf Proposition 3: Receiver's Priors and Posteriors}} \label{theoryfig1}
+%
+%\
+%
+%\includegraphics[scale=.35]{Figure1Updated.pdf}
+%
+%\end{center}
+%\end{figure}
+
+%\begin{figure}[!h]
+%\begin{center}
+%\caption{{\bf Experiment 1A: Donation Rates Before and After the Election}} \label{mainexperiment1fig}
+%
+%\
+%
+%\includegraphics[scale=1]{fig_1_2017.eps}
+%
+%\settowidth{\tableboxwidth}{\usebox{\tablebox}} \parbox{.92\textwidth}
+%{\emph{Notes}: the two bars on the left display donation rates to the anti-immigration organization for individuals in the private and public conditions in the control group before the election (full sample, respectively N=112 and N=111), the two central bars display those in the information group before the election (full sample, respectively N=102 and N=103), and the last two bars display those in the control group after the election (for individuals already surveyed before the election, respectively N=82 and N=84). Error bars reflect 95\% confidence intervals. Top horizontal bars show \emph{p}-values for \emph{t} tests of equality of means between different experimental conditions.}
+%\end{center}
+%\end{figure}
+
+\pagebreak
+
+
+
+%\begin{table}[!h]
+%  \centering
+%\caption{{\bf Experiment 1A: Difference in Differences Regressions}\label{mainexperiment1tab}} 
+%      \begin{lrbox}{\tablebox}
+%\begin{tabular}{l*{4}{c}}
+%\\
+%\hline
+%            Dependent&\multicolumn{4}{l}{Dummy: individual authorizes donation to}\\
+%                        Variable&\multicolumn{4}{l}{anti-immigrant  organization}\\
+%\hline
+%            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+%\hline
+%Public & -0.202*** & -0.200*** & -0.202*** & -0.199***\\
+%& [0.065] & [0.066] & [0.065] & [0.065]\\
+%& (0.004) & (0.005) & (0.004) & (0.007)\\
+%Information & -0.074 & -0.077 & -0.074 & -0.076\\
+%& [0.069] & [0.068] & [0.069] & [0.068]\\
+%& (0.277) & (0.266) & (0.277) & (0.281)\\
+%Public*Information & 0.188* & 0.178* & 0.188* & 0.178*\\
+%& [0.096] & [0.096] & [0.096] & [0.096]\\
+%& (0.045) & (0.062) & (0.045) & (0.062)\\
+%After Election & & & -0.057 & -0.062\\
+%& & & [0.073] & [0.072]\\
+%& & & (0.380) & (0.304)\\
+%Public*After Election & & & 0.191* & 0.186*\\
+%& & & [0.102] & [0.101]\\
+%& & & (0.071) & (0.080)\\
+%Mean Donation Rate\\
+%Control Private & \multicolumn{4}{c}{0.545}\\
+%Before Election\\
+%\hline
+%Controls & No & Yes & No & Yes\\
+%N & 428 & 428 & 594 & 594\\
+%$R^{2}$ & 0.022 & 0.033 & 0.017 & 0.034\\
+%\hline
+%\end{tabular}
+%   \end{lrbox}
+%
+%   \usebox{\tablebox}\\
+%\settowidth{\tableboxwidth}{\usebox{\tablebox}} \parbox{.995\tableboxwidth}{\emph{Notes}: Columns (1) and (2) includes the full pre-election sample. Columns (3) and (4) add the post-election sample of individuals already surveyed before the election. Columns (1) presents OLS regression of a dummy variable for whether a individual donates to the anti-immigration organization on a dummy for the Public condition, a dummy for the Information condition, and a dummy for the Public Information condition. The control private condition before the election is the omitted group, for which we report the mean donation rate. Columns (3) replicates and adds a dummy for the after election condition, and a dummy for the Public after election condition. Columns (2) and (4) replicate and add individual covariates (gender, age, marital status, years of education, household income, and race). Robust standard errors in brackets. \emph{P}-values from permutation tests with 1,000 repetitions in parentheses. * significant at 10\%; ** significant at 5\%; *** significant at 1\% based on robust standard errors.}
+%%\end{tiny}
+%\end{table}
+%
+
+\end{document}
+
+
+%Resources:
+%https://rpubs.com/chrisbrunsdon/114718
+%https://rpubs.com/corey_sparks/109650
+%http://www.econ.uiuc.edu/~lab/workshop/Spatial_in_R.html
+%https://rspatial.org/raster/analysis/7-spregression.html
+%Conley Errors
+
+
+
+
+
+ 
