@@ -1,7 +1,7 @@
 This is BibTeX, Version 0.99d (TeX Live 2016)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: Draft 2020-09-02.aux
-White space in argument---line 60 of file Draft 2020-09-02.aux
+White space in argument---line 62 of file Draft 2020-09-02.aux
  : \citation{@CITE
  :                 ALESINA}
 I'm skipping whatever remains of this command
@@ -20,45 +20,46 @@ Warning--empty author in noauthor_hispanic_2016
 Warning--empty author in noauthor_master_2016
 Warning--empty author in noauthor_oet_2004
 Warning--empty publisher in scherr_bullying_2009
-You've used 67 entries,
+Warning--empty institution in tienda_hispanicity_2009
+You've used 69 entries,
             2695 wiz_defined-function locations,
-            984 strings with 18689 characters,
-and the built_in function-call counts, 326753 in all, are:
-= -- 54437
-> -- 3555
+            991 strings with 18960 characters,
+and the built_in function-call counts, 336374 in all, are:
+= -- 56013
+> -- 3683
 < -- 1
-+ -- 25971
-- -- 1109
-* -- 29165
-:= -- 64070
-add.period$ -- 449
-call.type$ -- 67
-change.case$ -- 821
-chr.to.int$ -- 61
-cite$ -- 80
-duplicate$ -- 924
-empty$ -- 2674
-format.name$ -- 1127
-if$ -- 58985
++ -- 26737
+- -- 1149
+* -- 30012
+:= -- 66002
+add.period$ -- 462
+call.type$ -- 69
+change.case$ -- 847
+chr.to.int$ -- 63
+cite$ -- 83
+duplicate$ -- 950
+empty$ -- 2750
+format.name$ -- 1167
+if$ -- 60705
 int.to.chr$ -- 11
 int.to.str$ -- 0
 missing$ -- 0
-newline$ -- 208
-num.names$ -- 627
-pop$ -- 59
+newline$ -- 214
+num.names$ -- 649
+pop$ -- 62
 preamble$ -- 1
-purify$ -- 955
+purify$ -- 985
 quote$ -- 0
-skip$ -- 845
+skip$ -- 868
 stack$ -- 0
-substring$ -- 77245
-swap$ -- 393
-text.length$ -- 839
+substring$ -- 79481
+swap$ -- 403
+text.length$ -- 867
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 262
-warning$ -- 13
-while$ -- 1460
+type$ -- 270
+warning$ -- 14
+while$ -- 1508
 width$ -- 0
-write$ -- 339
+write$ -- 348
 (There was 1 error message)

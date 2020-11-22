@@ -66,7 +66,7 @@ stargazer(m1,m2,m3,m4, out = "../../Output/Regs/atus_2015_ext2.tex", title="Effe
           omit = c('Constant','dist2'),
           dep.var.labels = '\\# Hispanic Campaign Contributors')
 
-# restrict to just hispanics!
+# restrict to just hispanics! and use person weights!
 
 
 
