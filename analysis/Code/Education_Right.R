@@ -396,6 +396,42 @@ sum2a <- harass %>%
   summarize_all(funs( mean = mean(.,na.rm=TRUE), sd = sd(.,na.rm=TRUE)))
 
 
+###### DIFFERENCE BETWEEN WHITES AND HISPANICS ######
+hisp_to_summarize <- cleanSchoolAll %>%
+  mutate(gifted_pc_hisp = sch_gtenr_hi/hisp_students,
+         ap_pc_hisp = sch_apenr_hi/hisp_students,
+         ap_one_pc_hisp = sch_appass_oneormore_hi/hisp_students,
+         suspend = sch_discwodis_singoos_hi/hisp_students,
+         absent = sch_absent_hi/hisp_students)
+summary(hisp_to_summarize$gifted_pc_hisp)
+summary(hisp_to_summarize$ap_pc_hisp)
+summary(hisp_to_summarize$ap_one_pc_hisp)
+summary(hisp_to_summarize$suspend)
+summary(hisp_to_summarize$absent)
+
+# schoolMaster from Clean_Education.R
+white_to_summarize <- schoolMaster %>%
+  filter(SCH_GTENR_WH_F > 0 & SCH_GTENR_WH_M > 0 & SCH_ENR_WH_M > 0 & SCH_ENR_WH_F > 0) %>%
+  mutate(gifted_pc_white = (SCH_GTENR_WH_F + SCH_GTENR_WH_M)/(SCH_ENR_WH_M + SCH_ENR_WH_F))
+summary(white_to_summarize$gifted_pc_white)
+white_to_summarize <- schoolMaster %>%
+  filter(SCH_APENR_WH_F > 0 & SCH_APENR_WH_M > 0 & SCH_ENR_WH_M > 0 & SCH_ENR_WH_F > 0) %>%
+  mutate(ap_pc_white = (SCH_APENR_WH_F + SCH_APENR_WH_M)/(SCH_ENR_WH_M + SCH_ENR_WH_F))
+summary(white_to_summarize$ap_pc_white)
+white_to_summarize <- schoolMaster %>%
+  filter(SCH_APPASS_ONEORMORE_WH_M > 0 & SCH_APPASS_ONEORMORE_WH_F > 0 & SCH_ENR_WH_M > 0 & SCH_ENR_WH_F > 0) %>%
+  mutate(ap_pc_white = (SCH_APPASS_ONEORMORE_WH_M + SCH_APPASS_ONEORMORE_WH_F)/(SCH_ENR_WH_M + SCH_ENR_WH_F))
+summary(white_to_summarize$ap_pc_white)
+white_to_summarize <- schoolMaster %>%
+  filter(SCH_PSDISC_SINGOOS_WH_M > 0 & SCH_PSDISC_SINGOOS_WH_F > 0 & SCH_ENR_WH_M > 0 & SCH_ENR_WH_F > 0) %>%
+  mutate(suspend = (SCH_PSDISC_SINGOOS_WH_M + SCH_PSDISC_SINGOOS_WH_F)/(SCH_ENR_WH_M + SCH_ENR_WH_F))
+summary(white_to_summarize$suspend)
+white_to_summarize <- schoolMaster %>%
+  filter(SCH_ABSENT_WH_M >= 0 & SCH_ABSENT_WH_F >= 0 & SCH_ENR_WH_M > 0 & SCH_ENR_WH_F > 0) %>%
+  mutate(absent = (SCH_ABSENT_WH_M + SCH_ABSENT_WH_F)/(SCH_ENR_WH_M + SCH_ENR_WH_F)) %>%
+  filter(absent <= 1)
+summary(white_to_summarize$absent)
+
 
 
 #####VECTORISED FUNCTION

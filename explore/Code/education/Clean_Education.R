@@ -54,7 +54,7 @@ saveRDS(enroll, 'SchEnroll.Rdata')
 
 gifted <- schoolMaster %>%
   select('SCHID','SCH_GT_IND', 'LEAID', # has gifted?
-          'SCH_GTENR_HI_M', 'SCH_GTENR_HI_F', 'TOT_GTENR_M', 'TOT_GTENR_F') 
+          'SCH_GTENR_HI_M', 'SCH_GTENR_HI_F', 'TOT_GTENR_M', 'TOT_GTENR_F','SCH_GTENR_WH_M','SCH_GTENR_WH_F') 
 saveRDS(gifted, 'SchGifted.Rdata')
 
 algebra1 <- schoolMaster %>%
