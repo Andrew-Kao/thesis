@@ -118,7 +118,7 @@ Examine the effect of SLTV in two domains:
 \frametitle{Contribution}
 \begin{itemize}
 
-\item Existing work on Hispanic communities often geographically constrained \& media studies only concerned with effect on politics  {\footnotesize (Velez \& Newman (2019); Trujillo \& al. 2012)}. 
+\item Existing work on Hispanic communities often geographically constrained \& media studies only concerned with effect on politics  {\footnotesize (Velez \& Newman 2019; Trujillo \& al. 2012)}. 
 \item[$\rightarrow $] \textcolor{darkblue}{Identify causal effect on larger scale and with more granularity (geocoded microdata)}
 
 \item[$\rightarrow $] \textcolor{darkblue}{Provide a first look at how media affects business and schooling outcomes for Hispanics}
@@ -154,28 +154,43 @@ Examine the effect of SLTV in two domains:
 \item Both RD and instrument with distance
 \begin{itemize}
 \item Keep observations within 100 KM of boundary for comparability
-\item Focus on the RD, dummy for whether observation falls inside contour
+\item Fuzzy RD: only protection from interference + distance effect
 \end{itemize}
 
 \end{itemize}
 
 \end{frame}
 
+
+%%% COUNTRY MAP %%%
+\begin{frame}
+\frametitle{SLTV Coverage Maps for the USA}
+\centering
+        \includegraphics[width=1\textwidth]{../../analysis/Output/img/SpanishContours_pretty.pdf}\\
+\end{frame}
+
+
 %%% SPECIFICATIONS %%%
 \begin{frame}
-\frametitle{Specifications}
+\frametitle{Empirical Specification}
 
 \textbf{Main Model:}
 \[ Y_i^{} = \beta_0 + \beta \mathbb{I}[InsideContour_i] \times Distance_i + \gamma X_i + \epsilon_i \]
 
-\textbf{Spatial Autogressive:}
-\[ Y = \beta_0 + \rho W Y + \beta \mathbb{I}[InsideContour] \times Distance + \gamma X + \epsilon \]
+%\textbf{Spatial Autogressive:}
+%\[ Y = \beta_0 + \rho W Y + \beta \mathbb{I}[InsideContour] \times Distance + \gamma X + \epsilon \]
+%
+%\textbf{Spatial Error:}
+%\[ Y = \beta_0 + \beta \mathbb{I}[InsideContour] \times Distance + \gamma X + \epsilon \]
+%\[\epsilon = \lambda W \epsilon + \nu\]
+%
+%where $W$ is a 4 nearest neighbor/rook spatial weights matrix
 
-\textbf{Spatial Error:}
-\[ Y = \beta_0 + \beta \mathbb{I}[InsideContour] \times Distance + \gamma X + \epsilon \]
-\[\epsilon = \lambda W \epsilon + \nu\]
+where $i$ is a unit of observation (i.e. a school) or one tile on a grid map (with firms)
 
-where $W$ is a 4 nearest neighbor/rook spatial weights matrix
+\vspace{15pt}
+
+Place focus on the RD, dummy for whether observation falls inside contour
 
 \end{frame}
 
@@ -299,7 +314,7 @@ Observations & 91,315 & 91,315 & 91,315 & 91,315 \\
 \hline\hline\addlinespace
 County \% Hispanic & No & Yes & Yes & Yes \\
 Log(Income) & No & No & Yes & Yes \\
-Migrant & No & No & No & Yes \\
+Person is Migrant & No & No & No & Yes \\
 				\addlinespace\hline\hline
 			\end{tabular}
 			\begin{tablenotes}[flushleft]
@@ -424,6 +439,7 @@ Migrant & No & No & No & Yes \\
 \frametitle{Main Findings - Schools}
 \centering
         \includegraphics[width=0.65\textwidth]{../../analysis/Output/graphs/hispanicsuspensions.pdf}\\
+\footnotesize Predicted coefficients and 95\% CI from regression
 \end{frame}
 
 %\begin{frame}
@@ -564,7 +580,7 @@ TV Dummy & 0.003$^{**}$ & 0.002$^{*}$ & 0.002$^{*}$ \\
 \label{schl_close}
 \begin{itemize}
 \item  Robustness \hyperlink{schl_robust}{\beamergotobutton{Robustness}}  \hyperlink{schl_spatial}{\beamergotobutton{Spatial}}
-\item Broadly prosocial main effects support {\footnotesize(Gentzkow \& Shapiro 2008)} against mainstream findings {\footnotesize (Gentile 2004; Zavodny 2006)}
+\item Broadly positive main effects of TV support {\footnotesize(Gentzkow \& Shapiro 2008)} against mainstream findings {\footnotesize (Gentile 2004; Zavodny 2006)}
 \item Contrasting effect of English proficiency and harassment --- consistent story of identity being strengthened
 \end{itemize}
 \end{frame}
@@ -644,6 +660,8 @@ TV Dummy & 0.003$^{**}$ & 0.002$^{*}$ & 0.002$^{*}$ \\
 
 \centering
         \includegraphics[width=0.65\textwidth]{../../analysis/Output/graphs/hispanicbusnname.pdf}\\
+        
+\footnotesize Predicted coefficients and 95\% CI from logit regression
 \end{frame}
 
 
@@ -670,38 +688,6 @@ TV Dummy & 0.003$^{**}$ & 0.002$^{*}$ & 0.002$^{*}$ \\
  Log(Income) &  &  &  & 0.391$^{***}$ \\ 
   &  &  &  & (0.070) \\ 
 Observations & 23,853 & 23,853 & 23,853 & 23,853 \\ 
-				\addlinespace\hline\hline
-			\end{tabular}
-			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} 
-			\end{tablenotes}
-		\end{threeparttable}
-        }
-\end{center}
-\end{frame}
-
-\begin{frame}
-\frametitle{Effect of SLTV on Hispanic Firm Ownership - Spatial Robustness}
-\begin{center}
-\scalebox{.8}{
-\begin{threeparttable}
-			\begin{tabular}{lcccccccccc}
-				\hline\hline\addlinespace
-				 & \multicolumn{3}{c}{\textit{IHS(\# Hispanic Owned Firms)}}\\
-				&  (1) & (2) & (3) \\
-                                \hline\addlinespace
- TV Dummy & 0.122$^{***}$ & 0.022$^{***}$ & 0.126$^{***}$ \\ 
-  & (0.014) & (0.006) & (0.036) \\ 
-\hline\hline\addlinespace
-Observations & 23,853 & 23,853 & 23,853 \\ 
-Log Likelihood &  & $-$38,404 & $-$38,440 \\ 
-$\sigma^{2}$ &  & 1.168 & 1.170 \\ 
-Akaike Inf. Crit. &  & 76,821 & 76,894 \\ 
-Wald Test (df = 1) &  & 65,139$^{***}$ & 63,913$^{***}$ \\ 
-LR Test (df = 1) &  & 24,759$^{***}$ & 24,687$^{***}$ \\ 
-\hline \addlinespace
-                                County Controls & Yes & Yes  & Yes \\
-                                Model & OLS & SAR Lag & SAR Error \\
 				\addlinespace\hline\hline
 			\end{tabular}
 			\begin{tablenotes}[flushleft]
@@ -751,47 +737,12 @@ Observations & 23,853 & 23,853 & 23,853 & 23,853 & 23,853 & 23,853 \\
 \end{frame}
 
 \begin{frame}
-\frametitle{Effect of SLTV on Hispanic Firm Names - Robustness}
-\label{firm_robust}
-\begin{center}
-\scalebox{.75}{
-		\begin{threeparttable}
-			\begin{tabular}{lcccccccccc}
-				\hline\hline\addlinespace
-				 & \multicolumn{4}{c}{\textit{Hispanic Owned \& Named Business Dummy}}\\
-				&  (1) & (2) & (3) & (4) \\
-                                \hline\addlinespace
- TV Dummy & 0.849$^{***}$ & 1.071$^{***}$ & 0.305$^{***}$ & .8677$^{***}$ \\ 
-  & (0.077) & (0.115) & (0.078) & (0.079)  \\ 
- TV Dummy $\times$ Distance to Boundary  & $-$0.0002 & $-$0.008 & $-$0.003 & $-$0.001 \\ 
-  & (0.002) & (0.007) & (0.002) & (0.002)  \\ 
- Distance to Boundary (meters) & 0.035$^{***}$ & 0.123$^{***}$ & 0.013$^{***}$ & 0.036$^{***}$ \\ 
-  & (0.005) & (0.021) & (0.005) & (0.005)  \\ 
- Total Businesses &  &  & 0.023$^{***}$ &  \\ 
-  &  &  & (0.001) &   \\ 
-\hline \\[-1.8ex] 
-Observations & 23,853 & 23,853 & 23,853 & 23,853  \\
- 				\hline\hline\addlinespace
-County Controls & Yes & Yes & Yes & Yes  \\
-Distance$^2$ & No & Yes & No & No  \\
-No Food Names & No & No & No & Yes \\
-				\addlinespace\hline\hline
-			\end{tabular}
-			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} Logit regressions
-			\end{tablenotes}
-		\end{threeparttable}
-
-        }
-\end{center}
- \hyperlink{firm_dist}{\beamergotobutton{Robustness: Vary Boundary Cut-Off and Grid Size}}
-\end{frame}
-
-\begin{frame}
 \frametitle{Firms: Closing Thoughts}
+\label{firm_close}
 \begin{itemize}
-\item Very substantial effect size compared to white-Hispanic firm ownership gap (68\%, log-odds ratio of \textbf{0.52}) 
-\item Existing literature finds entrepreneurship difficult to foster {\footnotesize (Karlan \& Valdiva 2011; Gine \& Mansuri 2014)}. We find signs of this, but no data on firm size. \\
+\item Robustness \hyperlink{firm_spatial}{\beamergotobutton{Spatial autocorrelation}}  \hyperlink{firm_dist}{\beamergotobutton{Vary boundary cut-off and grid size}}   \hyperlink{firm_controls}{\beamergotobutton{Vary controls}} 
+\item Substantial effect size compared to white-Hispanic firm ownership gap (68\%, log-odds ratio of \textbf{0.52}) 
+\item Existing literature finds entrepreneurship difficult to foster {\footnotesize (Karlan \& Valdiva 2011; Gin \& Mansuri 2014)}. We find signs of this, but no data on firm size. \\
 \item Business naming demonstrates an appeal to identity (disproportionate increase) \\
 \item Definite demand effect, supply side less clear
 \end{itemize}
@@ -847,7 +798,7 @@ Grid Size (KM$^2$) & 4 & 4 & 4 & 9 & 1\\
 		\end{threeparttable}
         }
 \end{center}
- \hyperlink{firm_robust}{\beamergotobutton{Back}}
+ \hyperlink{firm_close}{\beamergotobutton{Back}}
 \end{frame}
 
 \begin{frame}
@@ -922,6 +873,76 @@ LR Test (df = 1) &  & 657.312$^{***}$ & 667.505$^{***}$ \\
  \hyperlink{schl_close}{\beamergotobutton{Back}}
 \end{frame}
 
+\begin{frame}
+\frametitle{Effect of SLTV on Hispanic Firm Ownership - Spatial Robustness}
+\label{firm_spatial}
+\begin{center}
+\scalebox{.8}{
+\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				 & \multicolumn{3}{c}{\textit{IHS(\# Hispanic Owned Firms)}}\\
+				&  (1) & (2) & (3) \\
+                                \hline\addlinespace
+ TV Dummy & 0.122$^{***}$ & 0.022$^{***}$ & 0.126$^{***}$ \\ 
+  & (0.014) & (0.006) & (0.036) \\ 
+\hline\hline\addlinespace
+Observations & 23,853 & 23,853 & 23,853 \\ 
+Log Likelihood &  & $-$38,404 & $-$38,440 \\ 
+$\sigma^{2}$ &  & 1.168 & 1.170 \\ 
+Akaike Inf. Crit. &  & 76,821 & 76,894 \\ 
+Wald Test (df = 1) &  & 65,139$^{***}$ & 63,913$^{***}$ \\ 
+LR Test (df = 1) &  & 24,759$^{***}$ & 24,687$^{***}$ \\ 
+\hline \addlinespace
+                                County Controls & Yes & Yes  & Yes \\
+                                Model & OLS & SAR Lag & SAR Error \\
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} 
+			\end{tablenotes}
+		\end{threeparttable}
+        }
+\end{center}
+ \hyperlink{firm_close}{\beamergotobutton{Back}}
+\end{frame}
+
+\begin{frame}
+\frametitle{Effect of SLTV on Hispanic Firm Names - Robustness}
+\label{firm_controls}
+\begin{center}
+\scalebox{.75}{
+		\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				 & \multicolumn{4}{c}{\textit{Hispanic Owned \& Named Business Dummy}}\\
+				&  (1) & (2) & (3) & (4) \\
+                                \hline\addlinespace
+ TV Dummy & 0.849$^{***}$ & 1.071$^{***}$ & 0.305$^{***}$ & .8677$^{***}$ \\ 
+  & (0.077) & (0.115) & (0.078) & (0.079)  \\ 
+ TV Dummy $\times$ Distance to Boundary  & $-$0.0002 & $-$0.008 & $-$0.003 & $-$0.001 \\ 
+  & (0.002) & (0.007) & (0.002) & (0.002)  \\ 
+ Distance to Boundary (meters) & 0.035$^{***}$ & 0.123$^{***}$ & 0.013$^{***}$ & 0.036$^{***}$ \\ 
+  & (0.005) & (0.021) & (0.005) & (0.005)  \\ 
+ Total Businesses &  &  & 0.023$^{***}$ &  \\ 
+  &  &  & (0.001) &   \\ 
+\hline \\[-1.8ex] 
+Observations & 23,853 & 23,853 & 23,853 & 23,853  \\
+ 				\hline\hline\addlinespace
+County Controls & Yes & Yes & Yes & Yes  \\
+Distance$^2$ & No & Yes & No & No  \\
+No Food Names & No & No & No & Yes \\
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} Logit regressions
+			\end{tablenotes}
+		\end{threeparttable}
+
+        }
+\end{center}
+ \hyperlink{firm_close}{\beamergotobutton{Back}}
+\end{frame}
 
 
 \end{document}
