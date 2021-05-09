@@ -5,10 +5,34 @@
 # SETUP -------------------------------------------------------------------
 
 library(dplyr)
+library(httr)
+library(jsonlite)
+
+if (Sys.info()["user"] == "AndrewKao") {
+  setwd('~/Documents/College/All/thesis/explore/Data/transcripts') 
+}
 
 
+# approach 1:
 # scrape individual station names, search for keywords and record hits within the relevant timeframe
 # see https://archive.readme.io/docs
+
+
+
+# cannot use language; unreliable -- instead by station
+# although looks like just random scanning, unclear how this works. 
+# Telemundo also probably doesn't simultaneously broadcast the same thing to all channels? but maybe we can try
+
+# search: https://openlibrary.org/dev/docs/api/search
+# http://openlibrary.org/search.json?q=the+lord+of+the+rings&page=2
+
+
+# approach 2:
+# if possible, get text as well and maybe apply NLP etc. to uncover themes
+# or download text corpus
+# https://archive.org/advancedsearch.php
+
+
 
 
 
