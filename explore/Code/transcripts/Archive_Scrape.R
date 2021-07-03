@@ -16,7 +16,33 @@ if (Sys.info()["user"] == "AndrewKao") {
 # approach 1:
 # scrape individual station names, search for keywords and record hits within the relevant timeframe
 # see https://archive.readme.io/docs
+# just # of hits
 
+
+
+
+### get list of stations
+
+
+
+# API get - want json
+url <- "https://archive.org/"
+
+query_default <- "services/search/v1/scrape?debug=false&xvar=production&total_only=false&output=json&count=10000&fields=identifier&q="
+query <- "si"
+raw_output <- GET(url = url, path = paste0(query_default,query))
+# processing API output
+text_output <- rawToChar(raw_output$content)
+api_output <- fromJSON(text_output)
+# data entry
+panel[rowCall, 4+callNum] <- api_output$QueryResult$RecordsFound
+
+
+search_list <- TERMS TO SEARCH
+
+# restructure data to station, # of hits
+
+# then merge to station dataset
 
 
 # cannot use language; unreliable -- instead by station
