@@ -21,24 +21,40 @@ if (Sys.info()["user"] == "AndrewKao") {
 
 
 
-### get list of stations
+### get list of Spanish stations
+stations <- readRDS('../instrument/TMS/spanishStations.Rdata')
+write.csv(stations,'archive_station_word.csv')
 
+# do English placebo at some point? English stations or English language
 
 
 # API get - want json
 url <- "https://archive.org/"
 
+query_tv <- 'details/tv?q=si&&and[]=creator%3A"wtsp"'
 query_default <- "services/search/v1/scrape?debug=false&xvar=production&total_only=false&output=json&count=10000&fields=identifier&q="
-query <- "si"
-raw_output <- GET(url = url, path = paste0(query_default,query))
+query <- '(si) AND creator:(WTSP)'
+raw_output <- GET(url = url, path = paste0(query_default,query)) # query
 # processing API output
 text_output <- rawToChar(raw_output$content)
 api_output <- fromJSON(text_output)
+
+total_hits <- api_output$total
+
+
 # data entry
 panel[rowCall, 4+callNum] <- api_output$QueryResult$RecordsFound
 
+##### search list
 
+# role models (characters?)
 search_list <- TERMS TO SEARCH
+
+# direct education terms
+
+# popular telenovellas
+
+
 
 # restructure data to station, # of hits
 
@@ -57,6 +73,7 @@ search_list <- TERMS TO SEARCH
 # if possible, get text as well and maybe apply NLP etc. to uncover themes
 # or download text corpus
 # https://archive.org/advancedsearch.php
+# http://blog.archive.org/2012/04/26/downloading-in-bulk-using-wget/
 
 
 
