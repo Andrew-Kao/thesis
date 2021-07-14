@@ -26,8 +26,36 @@ import numpy as np
 df = pd.read_csv("../../Data/transcripts/archive_station_word.csv")
 
 
-# list of words to scrape
-keywords = ['test','test2','callSign']
+## list of words to scrape
+
+# relating to schools
+edu_words_eng = ['education','school','study','student','teacher', 'class','grade','learn','math']
+edu_words = ['educación ','enseñanza','colegio','escuela','universidad','estudio','estudiar','estudiante','alumna','alumno','profesora','profesor','maestro','maestra', 'clase','rango','grado','aprender','mates','matematicas']
+
+# relating to Hispanic ID
+# countries, direct ID. unclear if cultural components/salient
+hispanic_words_eng = ['latin', 'mexico', 'bolivia', 'chile', 'argentina', 
+                'venezuela', 'belize', 'costa rica', 'salvador', 'guatemala', 'hondura',
+                'nicaragua', 'panama', 'brazil', 'colombia', 'ecuador', 'guyana', 'paraguay',
+                'peru', 'suriname', 'uruguay', 'cuba', 'dominican republic', 'haiti', 'puerto', 'hispanic']
+hispanic_words = ['latin', 'mexico', 'bolivia', 'chile', 'argentina', 
+                'venezuela', 'belize', 'costa rica', 'salvador', 'guatemala', 'hondura',
+                'nicaragua', 'panama', 'brazil', 'colombia', 'ecuador', 'guyana', 'paraguay',
+                'peru', 'suriname', 'uruguay', 'cuba', 'dominican republic', 'haiti', 'puerto', 'hispanic']
+
+
+# relating to 'good values'
+values_words_eng = ['']
+values_words = ['']
+
+# strong role models, TV shows
+role_model_words_eng = ['']
+role_model_words = ['']
+
+# append together
+keywords = np.append(['callSign'],edu_words,hispanic_words,values_words,role_model_words)
+
+
 
 # create browser
 try:
@@ -52,7 +80,7 @@ for word in keywords:
 		for i in range(len(df)):
 
 			# url
-			logsite = base_url + word + ') AND ceator:(' + df['callSign'][i] + ')'
+			logsite = base_url + word + ') AND creator:(' + df['callSign'][i] + ')'
 			browser.get(logsite)
 			WebDriverWait(browser,1).until(element_present)
 
