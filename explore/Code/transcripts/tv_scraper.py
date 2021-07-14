@@ -53,7 +53,7 @@ role_model_words_eng = ['']
 role_model_words = ['']
 
 # append together
-keywords = np.append(['callSign'],edu_words,hispanic_words,values_words,role_model_words)
+keywords = ['callSign'] + edu_words + hispanic_words + values_words + role_model_words
 
 
 
@@ -82,14 +82,19 @@ for word in keywords:
 			# url
 			logsite = base_url + word + ') AND creator:(' + df['callSign'][i] + ')'
 			browser.get(logsite)
-			WebDriverWait(browser,1).until(element_present)
 
-			# get # of search results = number of programs
-			result_text = browser.find_element_by_xpath("//div[@class='results_count']").text
-			df[word][i] = re.search("([0-9]+)", result_text).group()[0:]
-
-
-		pd.write_csv(df,"../../Data/transcripts/archive_station_word.csv")
+			try: 
+				# get # of search results = number of programs
+				result_text = browser.find_element_by_xpath("//div[@class='results_count']").text
+				result_text = result_text.replace(',','')
+				# WebDriverWait(browser,1).until(result_text) // assume no need to wait
+				df.loc[i,word] = re.search("([0-9]+)", result_text).group()[0:]
+			except:
+				# handle search failure -- means no hits
+				result_text = browser.find_element_by_xpath("//div[@id='search-fail']").text
+				df.loc[i,word] = 0
+	
+		df.to_csv("../../Data/transcripts/archive_station_word.csv")
 
 
 pdb.set_trace()

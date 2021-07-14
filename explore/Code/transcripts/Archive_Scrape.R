@@ -18,7 +18,14 @@ if (Sys.info()["user"] == "AndrewKao") {
 # see https://archive.readme.io/docs
 # just # of hits
 
+##### read data from python
 
+
+##### interpolate from univision, or telemundo, etc.
+##### find proportion of total programming (DoF?)
+
+
+##### more extreme measure: recollect Spanish language from Wikipedia (https://en.wikipedia.org/wiki/WMAR-TV Broadcast Maryland/DC category shows SLTV etc.)
 
 
 ### get list of Spanish stations
