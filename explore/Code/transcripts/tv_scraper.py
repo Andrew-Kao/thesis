@@ -44,16 +44,23 @@ hispanic_words = ['latin', 'mexico', 'bolivia', 'chile', 'argentina',
                 'peru', 'suriname', 'uruguay', 'cuba', 'dominican republic', 'haiti', 'puerto', 'hispanic']
 
 
+# strong role models, TV shows
+# ref online forums
+role_model_words_eng = ['']
+role_model_words = ['Vivan los niños', 'Alegrijes y rebujos', 'Aventuras en El tiempo', 'amigos por siempre',
+					'Misión S.O.S.', 'Carrusel y El abuelo y Yo', 'El Juego de la Vida', 'De pocas pulgas',
+					'luz Clarita', 'Serafín', '31 minutos', 'Bizbirije', 'Odisea Burbujas', 'El Tesoro del Saber',
+					'Topo Gigio', 'Once Niñas y Niños']
+
 # relating to 'good values'
+# --> find literature on clusters of values?
 values_words_eng = ['']
 values_words = ['']
 
-# strong role models, TV shows
-role_model_words_eng = ['']
-role_model_words = ['']
+all_words = ['a']
 
 # append together
-keywords = ['callSign'] + edu_words + hispanic_words + values_words + role_model_words
+keywords = ['callSign'] + edu_words + hispanic_words + values_words + role_model_words + all_words
 
 
 

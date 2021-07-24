@@ -36,7 +36,8 @@ write.csv(stations,'archive_station_word.csv')
 # KSTS is telemundo
 # WFDC, WUVP is univision
 
-word_data <- read.csv('archive_station_word.csv') %>%  filter(callSign == "KSTS" | callSign == "WFDC" | callSign == "WUVP") %>%
+word_data <- read.csv('archive_station_word.csv') %>%  
+  filter(callSign == "KSTS" | callSign == "WFDC" | callSign == "WUVP") %>%
   mutate(parent = ifelse(callSign == "KSTS","telemundo","univision"),
          education = educación + enseñanza + colegio + escuela + universidad + 
            estudio + estudiar + estudiante + alumna + alumno + profesora + profesor + 
@@ -44,9 +45,15 @@ word_data <- read.csv('archive_station_word.csv') %>%  filter(callSign == "KSTS"
          latin =  latin +  mexico +  bolivia +  chile +  argentina + 
            venezuela +  belize +  costa.rica +  salvador +  guatemala +  hondura +
            nicaragua +  panama +  brazil +  colombia +  ecuador +  guyana +  paraguay +
-           peru +  suriname +  uruguay +  cuba +  dominican.republic +  haiti +  puerto +  hispanic ) %>%
+           peru +  suriname +  uruguay +  cuba +  dominican.republic +  haiti +  puerto +  hispanic,
+         rolemodel =  Vivan.los.niños +  Alegrijes.y.rebujos +  Aventuras.en.El.tiempo +  amigos.por.siempre +
+           Misión.S.O.S. +  Carrusel.y.El.abuelo.y.Yo +  El.Juego.de.la.Vida +  De.pocas.pulgas +
+           luz.Clarita +  Serafín +  X31.minutos +  Bizbirije +  Odisea.Burbujas +  El.Tesoro.del.Saber +
+           Topo.Gigio +  Once.Niñas.y.Niños,
+         all = a) %>%
   group_by(parent) %>%
-  summarise(word_education = mean(education), word_latin = mean(latin))
+  summarise(word_education = mean(education), word_latin = mean(latin), word_rolemodel = mean(rolemodel),
+            word_all = mean(all))
 
 ## note others: Estrella, UniMas, PBS, MundoFox, TBN, Mega TV/SBS, 
 ## idea: use affiliation switches as test cases? but endogeneous... so maybe just drop
