@@ -28,9 +28,54 @@ if (Sys.info()["user"] == "AndrewKao") {
 ##### more extreme measure: recollect Spanish language from Wikipedia (https://en.wikipedia.org/wiki/WMAR-TV Broadcast Maryland/DC category shows SLTV etc.)
 
 
-### get list of Spanish stations
+### get list of Spanish stations -- RUN ONCE ONLY
 stations <- readRDS('../instrument/TMS/spanishStations.Rdata')
 write.csv(stations,'archive_station_word.csv')
+
+
+# KSTS is telemundo
+# WFDC, WUVP is univision
+
+word_data <- read.csv('archive_station_word.csv') %>%  filter(callSign == "KSTS" | callSign == "WFDC" | callSign == "WUVP") %>%
+  mutate(parent = ifelse(callSign == "KSTS","telemundo","univision"),
+         education = educación + enseñanza + colegio + escuela + universidad + 
+           estudio + estudiar + estudiante + alumna + alumno + profesora + profesor + 
+           maestro + maestra +  clase + rango + grado + aprender + mates + matematicas,
+         latin =  latin +  mexico +  bolivia +  chile +  argentina + 
+           venezuela +  belize +  costa.rica +  salvador +  guatemala +  hondura +
+           nicaragua +  panama +  brazil +  colombia +  ecuador +  guyana +  paraguay +
+           peru +  suriname +  uruguay +  cuba +  dominican.republic +  haiti +  puerto +  hispanic ) %>%
+  group_by(parent) %>%
+  summarise(word_education = mean(education), word_latin = mean(latin))
+
+## note others: Estrella, UniMas, PBS, MundoFox, TBN, Mega TV/SBS, 
+## idea: use affiliation switches as test cases? but endogeneous... so maybe just drop
+## difference between stations based in Mexico vs US?
+
+station_word_data <- read.csv('archive_station_word.csv') %>%
+  filter(callSign != "KBDI" & callSign != "KDIN" & callSign != "KETD" & callSign != "KFTH" &
+           callSign != "KFWD" & callSign != "KMBH" & callSign != "KMPX" & callSign != "KPNZ" & 
+           callSign != "KQCK" & callSign != "KSCE" & callSign != "KSTR" & callSign != "KTBU" &
+           callSign != "KTFD" & callSign != "KTFN" & callSign != "KTFQ" & callSign != "KVAW" &
+           callSign != "KYAZ" & callSign != "KZJL" & callSign != "WAPA" & callSign != "WFTT" &
+           callSign != "WFUT" & callSign != "WGEN" & callSign != "WLNY" & callSign != "WOTF" &
+           callSign != "WSBS" & callSign != "WUCF" & callSign != "WXFT" & callSign != "XEFE" &
+           callSign != "XEJ" & callSign != "XEPM" & callSign != "XERV" & callSign != "XETV" &
+           callSign != "XHAB" & callSign != "XHAMC" & callSign != "XHBR" & callSign != "XHCAW" &
+           callSign != "XHCHW" & callSign != "XHCJE" & callSign != "XHCJH" & callSign != "XHHE" & 
+           callSign != "XHHR" & callSign != "XHJCI" & callSign != "XHLAR" & callSign != "XHLAT" &
+           callSign != "XHLNA" & callSign != "XHMTA" & callSign != "XHNAT" & callSign != "XHOCH" &
+           callSign != "XHOR" & callSign != "XHPN" & callSign != "XHPNG" & callSign != "XHPNH" &
+           callSign != "XHPNT" & callSign != "XHPNW" & callSign != "XHREY" & callSign != "XHRIO" & 
+           callSign != "XHTAM" & callSign != "XHVTV" & callSign != "XHWDT") %>% # non Telemundo/Univsion no data
+  mutate(parent = ifelse(callSign == "KSTS" | callSign == "KASA" | callSign == "KDEN" | callSign == "KKJB" | 
+                           callSign == "KTDO" | callSign == "KTEL" | callSign == "KTLM" | callSign == "KTMD" |
+                           callSign == "KTMW" | callSign == "KTUZ" | callSign == "KXTX" | callSign == "WNJU" |
+                           callSign == "WSCV" | callSign == "WSNS" | callSign == "WWSI","telemundo","univision"))
+
+
+
+
 
 # do English placebo at some point? English stations or English language
 
@@ -91,7 +136,10 @@ search_list <- TERMS TO SEARCH
 # see Gale Directory
 
 # other data sources
+
 # factiva transcripts (limited Spanish selection)
 # https://global-factiva-com.ezp-prod1.hul.harvard.edu/sb/default.aspx?NAPC=S
+# no data before 2021 for Telemundo, but transcripts look good otherwise
+
 # lexis transcripts (very limited Spanish selection)
 # https://advance-lexis-com.ezp-prod1.hul.harvard.edu/search/?pdmfid=1516831&crid=dcb07835-0c4e-4723-973a-6209824b9a52&pdsearchterms=si&pdstartin=hlct%3A1%3A1&pdtypeofsearch=searchboxclick&pdsearchtype=SearchBox&pdqttype=and&pdsf=&pdquerytemplateid=urn%3Aquerytemplate%3Aaf250bf4ef678aa67f4773a7d472c893~%5EAll%2520News%2520Transcripts&ecomp=bz-2k&earg=pdsf&prid=9592eaf6-a2bf-4c67-ba1e-5d23fbd473fe
