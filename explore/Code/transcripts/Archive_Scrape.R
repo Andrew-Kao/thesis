@@ -78,10 +78,11 @@ station_word_data <- read.csv('archive_station_word.csv') %>%
   mutate(parent = ifelse(callSign == "KSTS" | callSign == "KASA" | callSign == "KDEN" | callSign == "KKJB" | 
                            callSign == "KTDO" | callSign == "KTEL" | callSign == "KTLM" | callSign == "KTMD" |
                            callSign == "KTMW" | callSign == "KTUZ" | callSign == "KXTX" | callSign == "WNJU" |
-                           callSign == "WSCV" | callSign == "WSNS" | callSign == "WWSI","telemundo","univision"))
+                           callSign == "WSCV" | callSign == "WSNS" | callSign == "WWSI","telemundo","univision")) %>%
+  select(callSign, parent) %>%
+  left_join(word_data, by = "parent")
 
-
-
+saveRDS(station_word_data, "station_word_clean.Rdata")
 
 
 # do English placebo at some point? English stations or English language
@@ -107,7 +108,6 @@ panel[rowCall, 4+callNum] <- api_output$QueryResult$RecordsFound
 ##### search list
 
 # role models (characters?)
-search_list <- TERMS TO SEARCH
 
 # direct education terms
 
