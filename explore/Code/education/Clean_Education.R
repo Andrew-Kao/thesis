@@ -270,7 +270,7 @@ leas_project <- spTransform(leas, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=
 # intersection
 telemundo_poly <-SpatialPolygons(
   lapply(1:length(telemundo_project), 
-         function(i) Polygons(lapply(coordinates(contours_project)[[i]], function(y) Polygon(y)), as.character(i))))
+         function(i) Polygons(lapply(coordinates(telemundo_project)[[i]], function(y) Polygon(y)), as.character(i))))
 crs(telemundo_poly) <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
 telemundoLEAIntersect <- gIntersects(telemundo_poly,leas_project, byid = TRUE)
 telemundoLEAIntersect[telemundoLEAIntersect == "FALSE"] <- 0
@@ -278,8 +278,21 @@ telemundoLEAIntersect[telemundoLEAIntersect == "TRUE"] <- 1
 telemundoLEAInterAll <- apply(telemundoLEAIntersect,1,FUN=sum)  
 saveRDS(telemundoLEAInterAll,'telemundoLEAInterAll.Rdata')
 
+univision_poly <-SpatialPolygons(
+  lapply(1:length(univision_project), 
+         function(i) Polygons(lapply(coordinates(univision_project)[[i]], function(y) Polygon(y)), as.character(i))))
+crs(univision_poly) <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
+univisionLEAIntersect <- gIntersects(univision_poly,leas_project, byid = TRUE)
+univisionLEAIntersect[univisionLEAIntersect == "FALSE"] <- 0
+univisionLEAIntersect[univisionLEAIntersect == "TRUE"] <- 1
+univisionLEAInterAll <- apply(univisionLEAIntersect,1,FUN=sum)  
+saveRDS(univisionLEAInterAll,'univisionLEAInterAll.Rdata')
 
+affiliatesLEA <- fread('2015-16-crdc-data/Data Files and Layouts/CRDC 2015-16 LEA Data.csv') %>%
+  dplyr::select(LEAID) %>%
+  mutate(telemundo = telemundoLEAInterAll, univision = univisionLEAInterAll)
 
+saveRDS(affiliatesLEA,'affiliatesLEA.Rdata')
 
 # let's see if we can get something more fine than school districts - school name and state might get us close enough
 # state and school is 90,962/96,360 and 96,326 for LEA

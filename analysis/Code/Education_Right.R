@@ -432,9 +432,39 @@ white_to_summarize <- schoolMaster %>%
   filter(absent <= 1)
 summary(white_to_summarize$absent)
 
+###### Mechanisms ########
+
+affiliatesLEA <- readRDS('affiliatesLEA.Rdata')
+
+station_word_data <- readRDS("../transcripts/station_word_clean.Rdata")
+telemundo <- station_word_data %>%
+  filter(parent == "telemundo") %>%
+  dplyr::select(-callSign) %>%
+  head(1)
+univision <- station_word_data %>%
+  filter(parent == "univision") %>%
+  dplyr::select(-callSign) %>%
+  head(1)
+
+# only keep obs in at least one of the affiliate networks
+harass <- cleanSchoolAll %>%
+  mutate(TV = inside) %>%
+  filter(minDist < 100000 ) %>%
+  mutate(origdist = minDist/1000, dist2 = origdist^2,
+         origLogPop = log(origpopulation), origLogInc = log(origincome)) %>%
+  right_join(affiliatesLEA, by = 'LEAID') %>%
+  filter(univision == 1 | telemundo == 1)
+
+## methods
+# 1. take sum (assumes watch both)
+# 2. take max (but why? - more TV, but not that much more)
+# 3. take mean (because watch one)
 
 
-#####VECTORISED FUNCTION
+
+
+
+##### VECTORISED FUNCTION #######
 # credit: https://gist.github.com/devmag/f18ec223df7aef78402b
 library(data.table)
 library(geosphere)
