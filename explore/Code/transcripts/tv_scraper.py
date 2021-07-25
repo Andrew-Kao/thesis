@@ -23,7 +23,9 @@ import numpy as np
 
 
 ## read data file
-df = pd.read_csv("../../Data/transcripts/archive_station_word.csv")
+df = pd.read_csv("../../Data/transcripts/archive_station_word2.csv")
+
+# historical file: archive_station_word.csv  -- deprecated because incomplete coverage, this is more efficient
 
 
 ## list of words to scrape
@@ -101,7 +103,7 @@ for word in keywords:
 				result_text = browser.find_element_by_xpath("//div[@id='search-fail']").text
 				df.loc[i,word] = 0
 	
-		df.to_csv("../../Data/transcripts/archive_station_word.csv")
+		df.to_csv("../../Data/transcripts/archive_station_word2.csv")
 
 
 pdb.set_trace()

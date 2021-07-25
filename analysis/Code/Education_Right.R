@@ -440,11 +440,16 @@ station_word_data <- readRDS("../transcripts/station_word_clean.Rdata")
 telemundo <- station_word_data %>%
   filter(parent == "telemundo") %>%
   dplyr::select(-callSign) %>%
-  head(1)
+  head(1) %>%
+  mutate(telemundo_word_edu = word_education/(word_all*20), telemundo_word_latin = word_latin/(word_all*26),
+         telemundo_word_rolemodel = word_rolemodel/(word_all*16), telemundo = 1) 
 univision <- station_word_data %>%
   filter(parent == "univision") %>%
   dplyr::select(-callSign) %>%
-  head(1)
+  head(1) %>%
+  mutate(univision_word_edu = word_education/(word_all*20), univision_word_latin = word_latin/(word_all*26),
+         univision_word_rolemodel = word_rolemodel/(word_all*16), univision = 1)
+# word frequency = number of hits/(total hits * number words)
 
 # only keep obs in at least one of the affiliate networks
 harass <- cleanSchoolAll %>%
@@ -453,14 +458,72 @@ harass <- cleanSchoolAll %>%
   mutate(origdist = minDist/1000, dist2 = origdist^2,
          origLogPop = log(origpopulation), origLogInc = log(origincome)) %>%
   right_join(affiliatesLEA, by = 'LEAID') %>%
-  filter(univision == 1 | telemundo == 1)
+  filter(univision >= 1 | telemundo >= 1) %>%
+  mutate(univision = ifelse(univision >= 1, 1, 0),
+         telemundo = ifelse(telemundo >= 1, 1, 0)) %>%
+  left_join(telemundo, by = "telemundo") %>%
+  left_join(univision, by = 'univision') %>%
+  mutate(word_edu_mean = ifelse(telemundo == 1 & univision == 0,telemundo_word_edu,ifelse(univision == 1 & telemundo == 0, univision_word_edu, (univision_word_edu + telemundo_word_edu)/2)),
+         word_latin_mean = ifelse(telemundo == 1 & univision == 0,telemundo_word_latin,ifelse(univision == 1 & telemundo == 0, univision_word_latin, (univision_word_latin + telemundo_word_latin)/2)),
+         word_rolemodel_mean = ifelse(telemundo == 1 & univision == 0,telemundo_word_rolemodel,ifelse(univision == 1 & telemundo == 0, univision_word_rolemodel, (univision_word_rolemodel + telemundo_word_rolemodel)/2)),
+         word_edu_max = ifelse(telemundo == 0 | univision == 0, word_edu_mean, ifelse(telemundo_word_edu > univision_word_edu, telemundo_word_edu, univision_word_edu)),
+         word_latin_max = ifelse(telemundo == 0 | univision == 0, word_latin_mean, ifelse(telemundo_word_latin > univision_word_latin, telemundo_word_latin, univision_word_latin)),
+         word_rolemodel_max = ifelse(telemundo == 0 | univision == 0, word_rolemodel_mean, ifelse(telemundo_word_rolemodel > univision_word_rolemodel, telemundo_word_rolemodel, univision_word_rolemodel)))
 
-## methods
-# 1. take sum (assumes watch both)
-# 2. take max (but why? - more TV, but not that much more)
-# 3. take mean (because watch one)
 
 
+label_spec3 <- c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+                 '\\# Hispanic Students')
+
+
+om1 <- lm(ihs(sch_absent_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om2 <- lm(ihs(sch_absent_hi) ~ TV*origdist + word_edu_mean +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om3 <- lm(ihs(sch_absent_hi) ~ TV*origdist + word_latin_mean +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om4 <- lm(ihs(sch_absent_hi) ~ TV*origdist + word_rolemodel_mean +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om5 <- lm(ihs(sch_absent_hi) ~ TV*origdist + word_edu_mean + word_latin_mean + word_rolemodel_mean +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3,om4, om5, out = "../../Output/Regs/edu_absentIHS_mech1.tex", title="Effect of TV on IHS(\\# Hispanic Chronically Absent)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes', 'hisp_students'),
+          order = c('TV','TV:origdist','origdist','hisp_students' ), 
+          # covariate.labels = c(label_spec3),
+          dep.var.labels = 'IHS(\\# Hispanic Chronically Absent)')
+
+om1 <- lm(ihs(sch_absent_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om2 <- lm(ihs(sch_absent_hi) ~ TV*origdist + word_edu_max +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om3 <- lm(ihs(sch_absent_hi) ~ TV*origdist + word_latin_max +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om4 <- lm(ihs(sch_absent_hi) ~ TV*origdist + word_rolemodel_max +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om5 <- lm(ihs(sch_absent_hi) ~ TV*origdist + word_edu_max + word_latin_max + word_rolemodel_max +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3,om4, om5, out = "../../Output/Regs/edu_absentIHS_mech2.tex", title="Effect of TV on IHS(\\# Hispanic Chronically Absent)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes', 'hisp_students'),
+          order = c('TV','TV:origdist','origdist','hisp_students' ), 
+          # covariate.labels = c(label_spec3),
+          dep.var.labels = 'IHS(\\# Hispanic Chronically Absent)')
+
+# include as control
+# split 3-way
 
 
 

@@ -32,9 +32,27 @@ if (Sys.info()["user"] == "AndrewKao") {
 stations <- readRDS('../instrument/TMS/spanishStations.Rdata')
 write.csv(stations,'archive_station_word.csv')
 
+s2 <- stations %>%
+  dplyr::filter(callSign == "KSTS" | callSign == "WFDC" | callSign == "WUVP")
+s2[nrow(s2) + 1,] = c("KFSF","es")
+s2[nrow(s2) + 1,] = c("KDTV","es")
+s2[nrow(s2) + 1,] = c("WZDC","es")
+s2[nrow(s2) + 1,] = c("WHUT","es")
+s2[nrow(s2) + 1,] = c("WQAW","es")
+write.csv(s2,'archive_station_word2.csv')
 
+# in-sample
 # KSTS is telemundo
 # WFDC, WUVP is univision
+
+# out of sample
+# KFSF is UniMas
+# KDTV is univision
+# WZDC is telemundo
+# WHUT is PBS
+# WQAW is Azteca America
+
+
 
 word_data <- read.csv('archive_station_word.csv') %>%  
   filter(callSign == "KSTS" | callSign == "WFDC" | callSign == "WUVP") %>%
