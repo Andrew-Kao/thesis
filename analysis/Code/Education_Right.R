@@ -442,13 +442,36 @@ telemundo <- station_word_data %>%
   dplyr::select(-callSign) %>%
   head(1) %>%
   mutate(telemundo_word_edu = word_education/(word_all*20), telemundo_word_latin = word_latin/(word_all*26),
-         telemundo_word_rolemodel = word_rolemodel/(word_all*16), telemundo = 1) 
+         telemundo_word_rolemodel = word_rolemodel/(word_all*16), telemundo = 1) %>%
+  dplyr::select(telemundo_word_edu, telemundo_word_latin, telemundo_word_rolemodel, telemundo)
 univision <- station_word_data %>%
   filter(parent == "univision") %>%
   dplyr::select(-callSign) %>%
   head(1) %>%
   mutate(univision_word_edu = word_education/(word_all*20), univision_word_latin = word_latin/(word_all*26),
-         univision_word_rolemodel = word_rolemodel/(word_all*16), univision = 1)
+         univision_word_rolemodel = word_rolemodel/(word_all*16), univision = 1) %>%
+  dplyr::select(univision_word_edu, univision_word_latin, univision_word_rolemodel, univision)
+pbs <- station_word_data %>%
+  filter(parent == "pbs") %>%
+  dplyr::select(-callSign) %>%
+  head(1) %>%
+  mutate(pbs_word_edu = word_education/(word_all*20), pbs_word_latin = word_latin/(word_all*26),
+         pbs_word_rolemodel = word_rolemodel/(word_all*16), pbs = 1) %>%
+  dplyr::select(pbs_word_edu, pbs_word_latin, pbs_word_rolemodel, pbs)
+unimas <- station_word_data %>%
+  filter(parent == "unimas") %>%
+  dplyr::select(-callSign) %>%
+  head(1) %>%
+  mutate(unimas_word_edu = word_education/(word_all*20), unimas_word_latin = word_latin/(word_all*26),
+         unimas_word_rolemodel = word_rolemodel/(word_all*16), unimas = 1) %>%
+  dplyr::select(unimas_word_edu, unimas_word_latin, unimas_word_rolemodel, unimas)
+azteca <- station_word_data %>%
+  filter(parent == "azteca") %>%
+  dplyr::select(-callSign) %>%
+  head(1) %>%
+  mutate(azteca_word_edu = word_education/(word_all*20), azteca_word_latin = word_latin/(word_all*26),
+         azteca_word_rolemodel = word_rolemodel/(word_all*16), azteca = 1) %>%
+  dplyr::select(azteca_word_edu, azteca_word_latin, azteca_word_rolemodel, azteca)
 # word frequency = number of hits/(total hits * number words)
 
 # only keep obs in at least one of the affiliate networks
@@ -458,18 +481,24 @@ harass <- cleanSchoolAll %>%
   mutate(origdist = minDist/1000, dist2 = origdist^2,
          origLogPop = log(origpopulation), origLogInc = log(origincome)) %>%
   right_join(affiliatesLEA, by = 'LEAID') %>%
-  filter(univision >= 1 | telemundo >= 1) %>%
   mutate(univision = ifelse(univision >= 1, 1, 0),
-         telemundo = ifelse(telemundo >= 1, 1, 0)) %>%
+         telemundo = ifelse(telemundo >= 1, 1, 0),
+         pbs = ifelse(pbs >= 1, 1, 0),
+         unimas = ifelse(unimas >= 1, 1 ,0),
+         azteca = ifelse(azteca >= 1, 1, 0)) %>%
+  filter(univision == 1 | telemundo == 1 | pbs == 1 | unimas == 1 | azteca == 1) %>%
   left_join(telemundo, by = "telemundo") %>%
   left_join(univision, by = 'univision') %>%
-  mutate(word_edu_mean = ifelse(telemundo == 1 & univision == 0,telemundo_word_edu,ifelse(univision == 1 & telemundo == 0, univision_word_edu, (univision_word_edu + telemundo_word_edu)/2)),
-         word_latin_mean = ifelse(telemundo == 1 & univision == 0,telemundo_word_latin,ifelse(univision == 1 & telemundo == 0, univision_word_latin, (univision_word_latin + telemundo_word_latin)/2)),
-         word_rolemodel_mean = ifelse(telemundo == 1 & univision == 0,telemundo_word_rolemodel,ifelse(univision == 1 & telemundo == 0, univision_word_rolemodel, (univision_word_rolemodel + telemundo_word_rolemodel)/2)),
-         word_edu_max = ifelse(telemundo == 0 | univision == 0, word_edu_mean, ifelse(telemundo_word_edu > univision_word_edu, telemundo_word_edu, univision_word_edu)),
-         word_latin_max = ifelse(telemundo == 0 | univision == 0, word_latin_mean, ifelse(telemundo_word_latin > univision_word_latin, telemundo_word_latin, univision_word_latin)),
-         word_rolemodel_max = ifelse(telemundo == 0 | univision == 0, word_rolemodel_mean, ifelse(telemundo_word_rolemodel > univision_word_rolemodel, telemundo_word_rolemodel, univision_word_rolemodel)))
-
+  left_join(pbs, by = 'pbs') %>%
+  left_join(unimas, by = 'unimas') %>%
+  left_join(azteca, by = 'azteca') %>%
+  rowwise() %>%
+  mutate(word_edu_mean = mean(c(telemundo_word_edu,univision_word_edu,pbs_word_edu,unimas_word_edu, azteca_word_edu),na.rm = TRUE),
+         word_latin_mean = mean(c(telemundo_word_latin,univision_word_latin,pbs_word_latin,unimas_word_latin, azteca_word_latin),na.rm = TRUE),
+         word_rolemodel_mean = mean(c(telemundo_word_rolemodel,univision_word_rolemodel,pbs_word_rolemodel,unimas_word_rolemodel, azteca_word_rolemodel),na.rm = TRUE),
+         word_edu_max = max(c(telemundo_word_edu,univision_word_edu,pbs_word_edu,unimas_word_edu, azteca_word_edu),na.rm = TRUE),
+         word_latin_max = max(c(telemundo_word_latin,univision_word_latin,pbs_word_latin,unimas_word_latin, azteca_word_latin),na.rm = TRUE),
+         word_rolemodel_max = max(c(telemundo_word_rolemodel,univision_word_rolemodel,pbs_word_rolemodel,unimas_word_rolemodel, azteca_word_rolemodel),na.rm = TRUE))
 
 
 label_spec3 <- c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',

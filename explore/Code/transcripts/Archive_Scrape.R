@@ -54,9 +54,12 @@ write.csv(s2,'archive_station_word2.csv')
 
 
 
-word_data <- read.csv('archive_station_word.csv') %>%  
-  filter(callSign == "KSTS" | callSign == "WFDC" | callSign == "WUVP") %>%
-  mutate(parent = ifelse(callSign == "KSTS","telemundo","univision"),
+word_data <- read.csv('archive_station_word2.csv') %>%  
+  mutate(parent = ifelse(callSign == "KSTS" | callSign == "WZDC","telemundo",""),
+         parent = ifelse(callSign == "WFDC" | callSign == "WUVP" | callSign == "KDTV", "univision", parent),
+         parent = ifelse(callSign == "KFSF", "unimas",parent),
+         parent = ifelse(callSign == "WHUT", "pbs", parent),
+         parent = ifelse(callSign == "WQAW", "azteca", parent),
          education = educación + enseñanza + colegio + escuela + universidad + 
            estudio + estudiar + estudiante + alumna + alumno + profesora + profesor + 
            maestro + maestra +  clase + rango + grado + aprender + mates + matematicas,
@@ -78,13 +81,11 @@ word_data <- read.csv('archive_station_word.csv') %>%
 ## difference between stations based in Mexico vs US?
 
 station_word_data <- read.csv('archive_station_word.csv') %>%
-  filter(callSign != "KBDI" & callSign != "KDIN" & callSign != "KETD" & callSign != "KFTH" &
-           callSign != "KFWD" & callSign != "KMBH" & callSign != "KMPX" & callSign != "KPNZ" & 
-           callSign != "KQCK" & callSign != "KSCE" & callSign != "KSTR" & callSign != "KTBU" &
-           callSign != "KTFD" & callSign != "KTFN" & callSign != "KTFQ" & callSign != "KVAW" &
-           callSign != "KYAZ" & callSign != "KZJL" & callSign != "WAPA" & callSign != "WFTT" &
-           callSign != "WFUT" & callSign != "WGEN" & callSign != "WLNY" & callSign != "WOTF" &
-           callSign != "WSBS" & callSign != "WUCF" & callSign != "WXFT" & callSign != "XEFE" &
+  filter(callSign != "KETD" & callSign != "KFWD" & callSign != "KLUJ" & callSign != "KMBH" & callSign != "KMPX" & 
+           callSign != "KQCK" & callSign != "KSCE" & callSign != "KTBU" &
+           callSign != "KVAW" & callSign != "KZJL" & callSign != "WAPA" & 
+           callSign != "WGEN" & callSign != "WLNY" & 
+           callSign != "WSBS" & callSign != "XEFE" &
            callSign != "XEJ" & callSign != "XEPM" & callSign != "XERV" & callSign != "XETV" &
            callSign != "XHAB" & callSign != "XHAMC" & callSign != "XHBR" & callSign != "XHCAW" &
            callSign != "XHCHW" & callSign != "XHCJE" & callSign != "XHCJH" & callSign != "XHHE" & 
@@ -95,9 +96,20 @@ station_word_data <- read.csv('archive_station_word.csv') %>%
            callSign != "XHTAM" & callSign != "XHVTV" & callSign != "XHWDT") %>% # non Telemundo/Univsion no data
   mutate(parent = ifelse(callSign == "KSTS" | callSign == "KASA" | callSign == "KDEN" | callSign == "KKJB" | 
                            callSign == "KTDO" | callSign == "KTEL" | callSign == "KTLM" | callSign == "KTMD" |
-                           callSign == "KTMW" | callSign == "KTUZ" | callSign == "KXTX" | callSign == "WNJU" |
-                           callSign == "WSCV" | callSign == "WSNS" | callSign == "WWSI","telemundo","univision")) %>%
-  select(callSign, parent) %>%
+                           callSign == "KTMW" | callSign == "KTUZ" | callSign == "KVDA" | callSign == "KXTX" | callSign == "WNJU" |
+                           callSign == "WSCV" | callSign == "WSNS" | callSign == "WWSI","telemundo",""),
+         parent = ifelse(callSign == "KAKW" | callSign == "KCEC" | callSign == "KDCU" | callSign == "KINT" | 
+                           callSign == "KLDO" | callSign == "KLUZ" | callSign == "KNVO" | callSign == "KORO" |
+                           callSign == "KUPB" | callSign == "KUTH" | callSign == "KUVN" | callSign == "KWEX" |
+                           callSign == "KXLN" | callSign == "WFDC" | callSign == "WGBO" | callSign == "WLTV" |
+                           callSign == "WQHS" | callSign == "WUVC" | callSign == "WUVG" | callSign == "WUVP" |
+                           callSign == "WVEA" | callSign == "WVEN" | callSign == "WXTV", "univision",parent),
+         parent = ifelse(callSign == "KBDI" | callSign == "KDIN" | callSign == "WUCF", "pbs", parent),
+         parent = ifelse(callSign == "KFTH" | callSign == "KSTR" | callSign == "KTFD" | callSign == "KTFN" |
+                           callSign == "KTFQ" | callSign == "WAMI" | callSign == "WFTT" | callSign == "WFUT" |
+                           callSign == "WOTF" | callSign == "WXFT", "unimas", parent),
+         parent = ifelse(callSign == "KPNZ" | callSign == "KYAZ", "azteca", parent)) %>%
+  dplyr::select(callSign, parent) %>%
   left_join(word_data, by = "parent")
 
 saveRDS(station_word_data, "station_word_clean.Rdata")

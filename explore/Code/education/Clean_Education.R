@@ -256,11 +256,12 @@ telemundo <- station_word_data %>%
   filter(parent == "telemundo")
 univision <- station_word_data %>%
   filter(parent == "univision")
-
-telemundo_contours <- merge(contours,telemundo,by.x = 'simpleCall', by.y = 'callSign', all.x = FALSE)
-univision_contours <- merge(contours,univision,by.x = 'simpleCall', by.y = 'callSign', all.x = FALSE)
-telemundo_project <- spTransform(telemundo_contours, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
-univision_project <- spTransform(univision_contours, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
+pbs <- station_word_data %>%
+  filter(parent == "pbs")
+unimas <- station_word_data %>%
+  filter(parent == "unimas")
+azteca <- station_word_data %>%
+  filter(parent == "azteca")
 
 # lea data
 schoolLoc <- rgdal::readOGR("2015-16-crdc-data/Output/Export_Output.shp")
@@ -268,6 +269,8 @@ leas <- spTransform(schoolLoc, CRS("+proj=longlat +datum=NAD83"))
 leas_project <- spTransform(leas, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
 
 # intersection
+telemundo_contours <- merge(contours,telemundo,by.x = 'simpleCall', by.y = 'callSign', all.x = FALSE)
+telemundo_project <- spTransform(telemundo_contours, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
 telemundo_poly <-SpatialPolygons(
   lapply(1:length(telemundo_project), 
          function(i) Polygons(lapply(coordinates(telemundo_project)[[i]], function(y) Polygon(y)), as.character(i))))
@@ -276,8 +279,9 @@ telemundoLEAIntersect <- gIntersects(telemundo_poly,leas_project, byid = TRUE)
 telemundoLEAIntersect[telemundoLEAIntersect == "FALSE"] <- 0
 telemundoLEAIntersect[telemundoLEAIntersect == "TRUE"] <- 1
 telemundoLEAInterAll <- apply(telemundoLEAIntersect,1,FUN=sum)  
-saveRDS(telemundoLEAInterAll,'telemundoLEAInterAll.Rdata')
 
+univision_contours <- merge(contours,univision,by.x = 'simpleCall', by.y = 'callSign', all.x = FALSE)
+univision_project <- spTransform(univision_contours, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
 univision_poly <-SpatialPolygons(
   lapply(1:length(univision_project), 
          function(i) Polygons(lapply(coordinates(univision_project)[[i]], function(y) Polygon(y)), as.character(i))))
@@ -286,11 +290,44 @@ univisionLEAIntersect <- gIntersects(univision_poly,leas_project, byid = TRUE)
 univisionLEAIntersect[univisionLEAIntersect == "FALSE"] <- 0
 univisionLEAIntersect[univisionLEAIntersect == "TRUE"] <- 1
 univisionLEAInterAll <- apply(univisionLEAIntersect,1,FUN=sum)  
-saveRDS(univisionLEAInterAll,'univisionLEAInterAll.Rdata')
+
+pbs_contours <- merge(contours,pbs,by.x = 'simpleCall', by.y = 'callSign', all.x = FALSE)
+pbs_project <- spTransform(pbs_contours, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
+pbs_poly <-SpatialPolygons(
+  lapply(1:length(pbs_project), 
+         function(i) Polygons(lapply(coordinates(pbs_project)[[i]], function(y) Polygon(y)), as.character(i))))
+crs(pbs_poly) <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
+pbsLEAIntersect <- gIntersects(pbs_poly,leas_project, byid = TRUE)
+pbsLEAIntersect[pbsLEAIntersect == "FALSE"] <- 0
+pbsLEAIntersect[pbsLEAIntersect == "TRUE"] <- 1
+pbsLEAInterAll <- apply(pbsLEAIntersect,1,FUN=sum)  
+
+unimas_contours <- merge(contours,unimas,by.x = 'simpleCall', by.y = 'callSign', all.x = FALSE)
+unimas_project <- spTransform(unimas_contours, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
+unimas_poly <-SpatialPolygons(
+  lapply(1:length(unimas_project), 
+         function(i) Polygons(lapply(coordinates(unimas_project)[[i]], function(y) Polygon(y)), as.character(i))))
+crs(unimas_poly) <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
+unimasLEAIntersect <- gIntersects(unimas_poly,leas_project, byid = TRUE)
+unimasLEAIntersect[unimasLEAIntersect == "FALSE"] <- 0
+unimasLEAIntersect[unimasLEAIntersect == "TRUE"] <- 1
+unimasLEAInterAll <- apply(unimasLEAIntersect,1,FUN=sum)  
+
+azteca_contours <- merge(contours,azteca,by.x = 'simpleCall', by.y = 'callSign', all.x = FALSE)
+azteca_project <- spTransform(azteca_contours, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
+azteca_poly <-SpatialPolygons(
+  lapply(1:length(azteca_project), 
+         function(i) Polygons(lapply(coordinates(azteca_project)[[i]], function(y) Polygon(y)), as.character(i))))
+crs(azteca_poly) <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
+aztecaLEAIntersect <- gIntersects(azteca_poly,leas_project, byid = TRUE)
+aztecaLEAIntersect[aztecaLEAIntersect == "FALSE"] <- 0
+aztecaLEAIntersect[aztecaLEAIntersect == "TRUE"] <- 1
+aztecaLEAInterAll <- apply(aztecaLEAIntersect,1,FUN=sum)  
 
 affiliatesLEA <- fread('2015-16-crdc-data/Data Files and Layouts/CRDC 2015-16 LEA Data.csv') %>%
   dplyr::select(LEAID) %>%
-  mutate(telemundo = telemundoLEAInterAll, univision = univisionLEAInterAll)
+  mutate(telemundo = telemundoLEAInterAll, univision = univisionLEAInterAll, pbs = pbsLEAInterAll,
+         unimas = unimasLEAInterAll, azteca = aztecaLEAInterAll)
 
 saveRDS(affiliatesLEA,'affiliatesLEA.Rdata')
 
