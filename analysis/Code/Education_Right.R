@@ -498,11 +498,13 @@ harass <- cleanSchoolAll %>%
          word_rolemodel_mean = mean(c(telemundo_word_rolemodel,univision_word_rolemodel,pbs_word_rolemodel,unimas_word_rolemodel, azteca_word_rolemodel),na.rm = TRUE),
          word_edu_max = max(c(telemundo_word_edu,univision_word_edu,pbs_word_edu,unimas_word_edu, azteca_word_edu),na.rm = TRUE),
          word_latin_max = max(c(telemundo_word_latin,univision_word_latin,pbs_word_latin,unimas_word_latin, azteca_word_latin),na.rm = TRUE),
-         word_rolemodel_max = max(c(telemundo_word_rolemodel,univision_word_rolemodel,pbs_word_rolemodel,unimas_word_rolemodel, azteca_word_rolemodel),na.rm = TRUE))
+         word_rolemodel_max = max(c(telemundo_word_rolemodel,univision_word_rolemodel,pbs_word_rolemodel,unimas_word_rolemodel, azteca_word_rolemodel),na.rm = TRUE)) %>%
+  ungroup()
+  
 
 
 label_spec3 <- c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
-                 '\\# Hispanic Students')
+                 '\\% Programs on Education', '\\% Programs on Hispanic Identity', '\\% Programs with Good Role Models')
 
 
 om1 <- lm(ihs(sch_absent_hi) ~ TV*origdist +
@@ -520,12 +522,12 @@ om4 <- lm(ihs(sch_absent_hi) ~ TV*origdist + word_rolemodel_mean +
 om5 <- lm(ihs(sch_absent_hi) ~ TV*origdist + word_edu_mean + word_latin_mean + word_rolemodel_mean +
             origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
             total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
-stargazer(om1, om2, om3,om4, om5, out = "../../Output/Regs/edu_absentIHS_mech1.tex", title="Effect of TV on IHS(\\# Hispanic Chronically Absent)",
+stargazer(om1, om2, om3,om4, om5, out = "../../Output/Regs/edu_absentIHS_mech1.tex", title="Mechanisms: Effect of TV on IHS(\\# Hispanic Chronically Absent)",
           omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
           omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
                    'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes', 'hisp_students'),
           order = c('TV','TV:origdist','origdist','hisp_students' ), 
-          # covariate.labels = c(label_spec3),
+          covariate.labels = c(label_spec3),
           dep.var.labels = 'IHS(\\# Hispanic Chronically Absent)')
 
 om1 <- lm(ihs(sch_absent_hi) ~ TV*origdist +
@@ -543,16 +545,111 @@ om4 <- lm(ihs(sch_absent_hi) ~ TV*origdist + word_rolemodel_max +
 om5 <- lm(ihs(sch_absent_hi) ~ TV*origdist + word_edu_max + word_latin_max + word_rolemodel_max +
             origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
             total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
-stargazer(om1, om2, om3,om4, om5, out = "../../Output/Regs/edu_absentIHS_mech2.tex", title="Effect of TV on IHS(\\# Hispanic Chronically Absent)",
+stargazer(om1, om2, om3,om4, om5, out = "../../Output/Regs/edu_absentIHS_mech2.tex", title="Mechanisms: Effect of TV on IHS(\\# Hispanic Chronically Absent)",
           omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
           omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
                    'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes', 'hisp_students'),
           order = c('TV','TV:origdist','origdist','hisp_students' ), 
-          # covariate.labels = c(label_spec3),
+          covariate.labels = c(label_spec3),
           dep.var.labels = 'IHS(\\# Hispanic Chronically Absent)')
 
+om1 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om2 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + word_edu_mean +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om3 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + word_latin_mean +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om4 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + word_rolemodel_mean +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om5 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + word_edu_mean + word_latin_mean + word_rolemodel_mean +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3,om4, om5, out = "../../Output/Regs/edu_OOSIHS_mech1.tex", title="Mechanisms: Effect of TV on IHS(\\# Hispanic Out of School Suspension)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes', 'hisp_students'),
+          order = c('TV','TV:origdist','origdist','hisp_students' ), 
+          covariate.labels = c(label_spec3),
+          dep.var.labels = 'IHS(\\# Hispanic Out of School Suspension)')
+
+om1 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om2 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + word_edu_max +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om3 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + word_latin_max +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om4 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + word_rolemodel_max +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om5 <- lm(ihs(sch_discwodis_singoos_hi) ~ TV*origdist + word_edu_max + word_latin_max + word_rolemodel_max +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3,om4, om5, out = "../../Output/Regs/edu_OOSIHS_mech2.tex", title="Mechanisms: Effect of TV on IHS(\\# Hispanic Out of School Suspension)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes', 'hisp_students'),
+          order = c('TV','TV:origdist','origdist','hisp_students' ), 
+          covariate.labels = c(label_spec3),
+          dep.var.labels = 'IHS(\\# Hispanic Out of School Suspension)')
+
+om1 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om2 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist + word_edu_mean +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om3 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist + word_latin_mean +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om4 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist + word_rolemodel_mean +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om5 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist + word_edu_mean + word_latin_mean + word_rolemodel_mean +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3,om4, om5, out = "../../Output/Regs/edu_LEPIHS_mech1.tex", title="Mechanisms: Effect of TV on IHS(LEP)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes', 'hisp_students'),
+          order = c('TV','TV:origdist','origdist','hisp_students' ), 
+          covariate.labels = c(label_spec3),
+          dep.var.labels = 'IHS(\\# Hispanic Limited English Proficiency)')
+
+om1 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om2 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist + word_edu_max +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om3 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist + word_latin_max +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om4 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist + word_rolemodel_max +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om5 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist + word_edu_max + word_latin_max + word_rolemodel_max +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3,om4, om5, out = "../../Output/Regs/edu_LEPIHS_mech2.tex", title="Mechanisms: Effect of TV on IHS(LEP)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes', 'hisp_students'),
+          order = c('TV','TV:origdist','origdist','hisp_students' ), 
+          covariate.labels = c(label_spec3),
+          dep.var.labels = 'IHS(\\# Hispanic Limited English Proficiency)')
+
+### looks like mean works better
+
+
 # include as control
-# split 3-way
+# split by median
 
 
 
