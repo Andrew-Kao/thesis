@@ -239,6 +239,48 @@ leas@data <- leas@data %>%
 leas2 <- merge(leas, instrument, by = 'stateCounty', all.x = TRUE)
 saveRDS(leas2, 'LEAReadyRaster.Rdata')
 
+
+
+######## mechanism analysis ########
+# need to merge only Univision/Telemundo
+# only detect by LEA, and then can merge into main dataset
+
+contours1 <- readRDS('../instrument/spanishCountourSLDF.Rdata')
+contours <- spTransform(contours1, CRS("+proj=longlat +datum=NAD83"))
+contours_project <- spTransform(contours1, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
+
+# station data
+station_word_data <- readRDS("../transcripts/station_word_clean.Rdata")
+
+telemundo <- station_word_data %>%
+  filter(parent == "telemundo")
+univision <- station_word_data %>%
+  filter(parent == "univision")
+
+telemundo_contours <- merge(contours,telemundo,by.x = 'simpleCall', by.y = 'callSign', all.x = FALSE)
+univision_contours <- merge(contours,univision,by.x = 'simpleCall', by.y = 'callSign', all.x = FALSE)
+telemundo_project <- spTransform(telemundo_contours, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
+univision_project <- spTransform(univision_contours, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
+
+# lea data
+schoolLoc <- rgdal::readOGR("2015-16-crdc-data/Output/Export_Output.shp")
+leas <- spTransform(schoolLoc, CRS("+proj=longlat +datum=NAD83"))
+leas_project <- spTransform(leas, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
+
+# intersection
+telemundo_poly <-SpatialPolygons(
+  lapply(1:length(telemundo_project), 
+         function(i) Polygons(lapply(coordinates(contours_project)[[i]], function(y) Polygon(y)), as.character(i))))
+crs(telemundo_poly) <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
+telemundoLEAIntersect <- gIntersects(telemundo_poly,leas_project, byid = TRUE)
+telemundoLEAIntersect[telemundoLEAIntersect == "FALSE"] <- 0
+telemundoLEAIntersect[telemundoLEAIntersect == "TRUE"] <- 1
+telemundoLEAInterAll <- apply(telemundoLEAIntersect,1,FUN=sum)  
+saveRDS(telemundoLEAInterAll,'telemundoLEAInterAll.Rdata')
+
+
+
+
 # let's see if we can get something more fine than school districts - school name and state might get us close enough
 # state and school is 90,962/96,360 and 96,326 for LEA
 
