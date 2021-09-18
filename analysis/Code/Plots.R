@@ -89,6 +89,39 @@ ggplot() + geom_smooth(data = plotdf, aes(dist,ihs(sch_absent_hi)),n=7) +
   labs(x = "Distance to Contour Boundary (KM)", y = "IHS(# Hispanic Students Chronically Absent)") # do w/ 27
 ggsave("hispanic.pdf")
 
+## take harass from mech of education_right
+mechdf <- harass %>%
+  mutate(inout = ifelse(inside == 1, 1, -1),
+         distance = minDist/1000,
+         dist = inout * distance,
+         word_edu_med = median(harass$word_edu_mean),
+         word_latin_med = median(harass$word_latin_mean),
+         word_rolemodel_med = median(harass$word_rolemodel_mean),
+         above_edu_med = ifelse(word_edu_mean > word_edu_med, 1, 0),
+         above_latin_med = ifelse(word_latin_mean > word_latin_med, 1, 0),
+         above_rolemodel_med = ifelse(word_rolemodel_mean > word_rolemodel_med, 1, 0))
+
+smallmechdf <- mechdf %>%
+  filter(distance < 50)
+
+colours <- c("above"="#00BFC4","below"="#F8766D")
+atext <- "Above"
+btext <- "Below"
+  
+ggplot() + geom_smooth(data = subset(smallmechdf,above_edu_med == 1), aes(dist,ihs(sch_absent_hi), colour = "above"), n = 8) +
+  geom_smooth(data = subset(smallmechdf,above_edu_med == 0), aes(dist,ihs(sch_absent_hi), colour = "below"), n = 8) +
+  scale_colour_manual(name="Median education programming",values=colours,labels=c(atext,btext)) +
+  labs(x = "Distance to Contour Boundary (KM)", y = "IHS(Hispanic Students Suspended)") # do w/ 50
+ggplot() + geom_smooth(data = subset(smallmechdf,above_latin_med == 1), aes(dist,ihs(sch_absent_hi), colour = "above"), n = 8) +
+  geom_smooth(data = subset(smallmechdf,above_latin_med == 0), aes(dist,ihs(sch_absent_hi), colour = "below"), n = 8) +
+  scale_colour_manual(name="Median Hispanic programming",values=colours,labels=c(atext,btext)) +
+  labs(x = "Distance to Contour Boundary (KM)", y = "IHS(Hispanic Students Suspended)") # do w/ 50
+ggplot() + geom_smooth(data = subset(smallmechdf,above_rolemodel_med == 1), aes(dist,ihs(sch_absent_hi), colour = "above"), n = 8) +
+  geom_smooth(data = subset(smallmechdf,above_rolemodel_med == 0), aes(dist,ihs(sch_absent_hi), colour = "below"), n = 8) +
+  scale_colour_manual(name="Median good role model programming",values=colours,labels=c(atext,btext)) +
+  labs(x = "Distance to Contour Boundary (KM)", y = "IHS(Hispanic Students Suspended)") # do w/ 50
+
+
 binomial_smooth <- function(...) {
   geom_smooth(method = "glm", method.args = list(family = "binomial"), ...)
 }

@@ -22,10 +22,22 @@ if (Sys.info()["user"] == "AndrewKao") {
 schoolAll <- readRDS('SchAll.Rdata')
 
 varList <- c('SCH_HBREPORTED_RAC_HI_','TOT_HBREPORTED_RAC_', 'SCH_HBDISCIPLINED_RAC_HI_', 'TOT_HBDISCIPLINED_RAC_',
-             'SCH_DISCWODIS_EXPWE_HI_M', 'SCH_DISCWODIS_SINGOOS_HI_', 'TOT_DISCWODIS_MULTOOS_',
+             'SCH_DISCWODIS_EXPWE_HI_', 'SCH_DISCWODIS_SINGOOS_HI_', 'TOT_DISCWODIS_MULTOOS_',
              'SCH_ABSENT_HI_', 'TOT_ABSENT_',
              'SCH_APENR_HI_','TOT_APENR_','SCH_APPASS_ONEORMORE_HI_','TOT_APPASS_ONEORMORE_',
-             'SCH_LEPENR_HI_','TOT_LEPENR_', 'SCH_GTENR_HI_','TOT_GTENR_')
+             'SCH_LEPENR_HI_','TOT_LEPENR_', 'SCH_GTENR_HI_','TOT_GTENR_',
+             'SCH_HBREPORTED_RAC_AS_', 'SCH_HBDISCIPLINED_RAC_AS_', 
+             'SCH_DISCWODIS_SINGOOS_AS_', 
+             'SCH_ABSENT_AS_', 'SCH_APENR_AS_','SCH_APPASS_ONEORMORE_AS_',
+             'SCH_LEPENR_AS_', 'SCH_GTENR_AS_',
+             'SCH_HBREPORTED_RAC_WH_', 'SCH_HBDISCIPLINED_RAC_WH_', 
+             'SCH_DISCWODIS_SINGOOS_WH_', 
+             'SCH_ABSENT_WH_', 'SCH_APENR_WH_','SCH_APPASS_ONEORMORE_WH_',
+             'SCH_LEPENR_WH_', 'SCH_GTENR_WH_',
+             'SCH_HBREPORTED_RAC_BL_', 'SCH_HBDISCIPLINED_RAC_BL_', 
+             'SCH_DISCWODIS_SINGOOS_BL_', 
+             'SCH_ABSENT_BL_', 'SCH_APENR_BL_','SCH_APPASS_ONEORMORE_BL_',
+             'SCH_LEPENR_BL_', 'SCH_GTENR_BL_')
 
 # cred: https://stackoverflow.com/questions/59294898/creating-a-function-in-dplyr-that-operates-on-columns-through-variable-string-ma
 adder <- function(data, name) {
