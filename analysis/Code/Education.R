@@ -49,6 +49,8 @@ adder <- function(data, name) {
 
 cleanSchoolAll <- reduce(varList, .f = function(data,varname) adder(data,varname), .init = schoolAll) %>%
   mutate(hisp_students = SCH_ENR_HI_M + SCH_ENR_HI_F, total_students = TOT_ENR_M + TOT_ENR_F,
+         asian_students = SCH_ENR_AS_M + SCH_ENR_AS_F, white_students = SCH_ENR_WH_M + SCH_ENR_WH_F,
+         black_students = SCH_ENR_BL_M + SCH_ENR_BL_F, 
          hisp_harassVicRaceDum = if_else(sch_hbreported_rac_hi > 0,1,0),  # dummies 
          total_harassVicRaceDum = if_else(tot_hbreported_rac > 0,1,0),
          hisp_offendVicRaceDum = if_else(sch_hbdisciplined_rac_hi > 0,1,0),

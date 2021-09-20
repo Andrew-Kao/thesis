@@ -13,6 +13,7 @@ library(hdm)
 library(pscl)
 library(spdep)
 library(spatialreg)
+library(missForest)
 
 
 if (Sys.info()["user"] == "AndrewKao") {
@@ -796,62 +797,313 @@ harass <- cleanSchoolAll %>%
   mutate(TV = inside) %>%
   filter(minDist < 100000 ) %>%
   mutate(origdist = minDist/1000, dist2 = origdist^2,
-         origLogPop = log(origpopulation), origLogInc = log(origincome))
+         origLogPop = log(origpopulation), origLogInc = log(origincome)) 
 
-label_spec3 <- c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
-                 '\\# Hispanic Students')
+# %>% mutate(sch_apenr_as = ifelse(is.na(sch_apenr_as), 0, sch_apenr_as))
+
+label_spec3_asian <- c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+                 '\\# Asian Students')
+label_spec3_white <- c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
+                 '\\# White Students')
+
+## imputing only reduces SEs
+harass_imp <- harass %>%
+  select(sch_apenr_as,TV,origdist,origpcHisp,origLogInc,origLogPop,SCH_TEACHERS_CURR_TOT,asian_students,
+           total_students) %>%
+  missForest()
+
+## maybe cut AP pass if doing DD + RD? but interpretation makess little sense
 
 
 ## absence
 # Asian
 om1 <- lm(ihs(sch_absent_as) ~ TV*origdist + 
-            origpcHisp + origLogInc + origLogPop + hisp_students, data=harass)
+            origpcHisp + origLogInc + origLogPop + asian_students, data=harass)
 om2 <- lm(ihs(sch_absent_as) ~ TV*origdist +
-            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
             total_students, data=harass)
 om3 <- lm(ihs(sch_absent_as) ~ TV*origdist +
-            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
             total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
 stargazer(om1, om2, om3, out = "../../Output/Regs/edu_as_absentIHS_spec3.tex", title="Effect of TV on IHS(\\# Asian Chronically Absent)",
           omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
           omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
                    'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
-          order = c('TV','TV:origdist','origdist','hisp_students' ), 
-          covariate.labels = c(label_spec3),
+          order = c('TV','TV:origdist','origdist','asian_students' ), 
+          covariate.labels = c(label_spec3_asian),
           dep.var.labels = 'IHS(\\# Asian Chronically Absent)')
-# White
-om1 <- lm(ihs(sch_absent_wh) ~ TV*origdist + 
-            origpcHisp + origLogInc + origLogPop + hisp_students, data=harass)
-om2 <- lm(ihs(sch_absent_wh) ~ TV*origdist +
-            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
-            total_students, data=harass)
-om3 <- lm(ihs(sch_absent_wh) ~ TV*origdist +
-            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
-            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
-stargazer(om1, om2, om3, out = "../../Output/Regs/edu_wh_absentIHS_spec3.tex", title="Effect of TV on IHS(\\# White Chronically Absent)",
-          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
-          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
-                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
-          order = c('TV','TV:origdist','origdist','hisp_students' ), 
-          covariate.labels = c(label_spec3),
-          dep.var.labels = 'IHS(\\# White Chronically Absent)')
+
 # Black
 om1 <- lm(ihs(sch_absent_bl) ~ TV*origdist + 
-            origpcHisp + origLogInc + origLogPop + hisp_students, data=harass)
+            origpcHisp + origLogInc + origLogPop + asian_students, data=harass)
 om2 <- lm(ihs(sch_absent_bl) ~ TV*origdist +
-            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
             total_students, data=harass)
 om3 <- lm(ihs(sch_absent_bl) ~ TV*origdist +
-            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
             total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
 stargazer(om1, om2, om3, out = "../../Output/Regs/edu_bl_absentIHS_spec3.tex", title="Effect of TV on IHS(\\# Black Chronically Absent)",
           omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
           omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
                    'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
-          order = c('TV','TV:origdist','origdist','hisp_students' ), 
-          covariate.labels = c(label_spec3),
+          order = c('TV','TV:origdist','origdist','asian_students' ), 
+          covariate.labels = c(label_spec3_asian),
           dep.var.labels = 'IHS(\\# Black Chronically Absent)')
 
+## Suspension
+# Asian
+om1 <- lm(ihs(sch_discwodis_singoos_as) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + asian_students, data=harass)
+om2 <- lm(ihs(sch_discwodis_singoos_as) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_discwodis_singoos_as) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_as_OOSOLSIHS_spec3.tex", title="Effect of TV on IHS(\\# Asian Suspended)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','asian_students' ), 
+          covariate.labels = c(label_spec3_asian),
+          dep.var.labels = 'IHS(\\# Asian Suspended)')
+
+
+## Report for race
+# Asian
+om1 <- lm(ihs(sch_hbreported_rac_as) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + asian_students, data=harass)
+om2 <- lm(ihs(sch_hbreported_rac_as) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_hbreported_rac_as) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_as_harhOLSIHS_spec3.tex", title="Effect of TV on IHS(\\# Asian reported bullying)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','asian_students' ), 
+          covariate.labels = c(label_spec3_asian),
+          dep.var.labels = 'IHS(\\# Asian reported bullying)')
+
+
+## Victim of race
+# Asian
+om1 <- lm(ihs(sch_hbdisciplined_rac_as) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + asian_students, data=harass)
+om2 <- lm(ihs(sch_hbdisciplined_rac_as) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_hbdisciplined_rac_as) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_as_harpOLSIHS_spec3.tex", title="Effect of TV on IHS(\\# Asian victim bullying)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','asian_students' ), 
+          covariate.labels = c(label_spec3_asian),
+          dep.var.labels = 'IHS(\\# Asian victim bullying)')
+
+
+## AP enrolled
+# Asian
+om1 <- lm(ihs(sch_apenr_as) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + asian_students + ihs(asian_students) + hisp_students, data=harass)
+om2 <- lm(ihs(sch_apenr_as) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
+            total_students + ihs(asian_students) + hisp_students, data=harass)
+om3 <- lm(ihs(sch_apenr_as) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 + ihs(asian_students) + hisp_students, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_as_aptOLSIHS_spec3.tex", title="Effect of TV on IHS(\\# Asian APs Taken)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','asian_students' ), 
+          covariate.labels = c(label_spec3_asian),
+          dep.var.labels = 'IHS(\\# Asian APs Taken)')
+
+
+
+
+## AP pass
+# Asian
+om1 <- lm(ihs(sch_appass_oneormore_as) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + asian_students + ihs(asian_students), data=harass)
+om2 <- lm(ihs(sch_appass_oneormore_as) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_appass_oneormore_as) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_as_appOLSIHS_spec3.tex", title="Effect of TV on IHS(\\# Asian APs Passed)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','asian_students' ), 
+          covariate.labels = c(label_spec3_asian),
+          dep.var.labels = 'IHS(\\# Asian APs Passed)')
+
+
+
+## LEP
+# Asian
+om1 <- lm(ihs(sch_lepenr_as) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + asian_students, data=harass)
+om2 <- lm(ihs(sch_lepenr_as) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_lepenr_as) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_as_lepOLSIHS_spec3.tex", title="Effect of TV on IHS(\\# Asian Limited English Proficiency)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','asian_students' ), 
+          covariate.labels = c(label_spec3_asian),
+          dep.var.labels = 'IHS(\\# Asian Limited English Proficiency)')
+
+## Gifted
+# Asian
+om1 <- lm(ihs(sch_gtenr_as) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop  + asian_students, data=harass)
+om2 <- lm(ihs(sch_gtenr_as) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_gtenr_as) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_as_giftedOLSIHS_spec3.tex", title="Effect of TV on IHS(\\# Asian Gifted)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','asian_students' ), 
+          covariate.labels = c(label_spec3_asian),
+          dep.var.labels = 'IHS(\\# Asian Gifted)')
+
+# White
+om1 <- lm(ihs(sch_absent_wh) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + white_students, data=harass)
+om2 <- lm(ihs(sch_absent_wh) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  white_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_absent_wh) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  white_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_wh_absentIHS_spec3.tex", title="Effect of TV on IHS(\\# White Chronically Absent)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','white_students' ), 
+          covariate.labels = c(label_spec3_white),
+          dep.var.labels = 'IHS(\\# White Chronically Absent)')
+
+# White
+om1 <- lm(ihs(sch_discwodis_singoos_wh) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + white_students, data=harass)
+om2 <- lm(ihs(sch_discwodis_singoos_wh) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  white_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_discwodis_singoos_wh) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  white_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_wh_OOSOLSIHS_spec3.tex", title="Effect of TV on IHS(\\# White Suspended)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','white_students' ), 
+          covariate.labels = c(label_spec3_white),
+          dep.var.labels = 'IHS(\\# White Suspended)')
+
+# White
+om1 <- lm(ihs(sch_hbreported_rac_wh) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + white_students, data=harass)
+om2 <- lm(ihs(sch_hbreported_rac_wh) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  white_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_hbreported_rac_wh) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  white_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_wh_harhOLSIHS_spec3.tex", title="Effect of TV on IHS(\\# White reported bullying)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','white_students' ), 
+          covariate.labels = c(label_spec3_white),
+          dep.var.labels = 'IHS(\\# White reported bullying)')
+
+# White
+om1 <- lm(ihs(sch_hbdisciplined_rac_wh) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + white_students, data=harass)
+om2 <- lm(ihs(sch_hbdisciplined_rac_wh) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  white_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_hbdisciplined_rac_wh) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  white_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_wh_harpOLSIHS_spec3.tex", title="Effect of TV on IHS(\\# White victim bullying)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','white_students' ), 
+          covariate.labels = c(label_spec3_white),
+          dep.var.labels = 'IHS(\\# White victim bullying)')
+
+# White
+om1 <- lm(ihs(sch_apenr_wh) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + white_students, data=harass)
+om2 <- lm(ihs(sch_apenr_wh) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  white_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_apenr_wh) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  white_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_wh_aptOLSIHS_spec3.tex", title="Effect of TV on IHS(\\# White APs Taken)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','white_students' ), 
+          covariate.labels = c(label_spec3_white),
+          dep.var.labels = 'IHS(\\# White APs Taken)')
+
+# White
+om1 <- lm(ihs(sch_appass_oneormore_wh) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + white_students, data=harass)
+om2 <- lm(ihs(sch_appass_oneormore_wh) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  white_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_appass_oneormore_wh) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  white_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_wh_appOLSIHS_spec3.tex", title="Effect of TV on IHS(\\# White APs Passed)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','white_students' ), 
+          covariate.labels = c(label_spec3_white),
+          dep.var.labels = 'IHS(\\# White APs Passed)')
+
+# White
+om1 <- lm(ihs(sch_gtenr_wh) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + white_students, data=harass)
+om2 <- lm(ihs(sch_gtenr_wh) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  white_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_gtenr_wh) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  white_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_wh_giftedOLSIHS_spec3.tex", title="Effect of TV on IHS(\\# White Gifted)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','white_students' ), 
+          covariate.labels = c(label_spec3_white),
+          dep.var.labels = 'IHS(\\# White Gifted)')
+
+## TODO: reduce Asian AP effect. control IHS Asian students helps. replace 0 is overkill
 
 # texreg
 # modelsummary

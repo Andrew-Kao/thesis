@@ -49,6 +49,8 @@ saveRDS(specialSchool, 'SchSpecial.Rdata')
 enroll <- schoolMaster %>%
   select('SCHID', 'LEAID',
          'SCH_ENR_HI_M', 'SCH_ENR_HI_F', 'TOT_ENR_M', 'TOT_ENR_F', # overall enrollment
+         'SCH_ENR_AS_M', 'SCH_ENR_AS_F', 'SCH_ENR_WH_M', 'SCH_ENR_WH_F',
+         'SCH_ENR_BL_M', 'SCH_ENR_BL_F',
          'SCH_LEPENR_HI_M', 'SCH_LEPENR_HI_F', 'TOT_LEPENR_F', 'TOT_LEPENR_M', # limited english proficiency
          'SCH_LEPENR_AS_M', 'SCH_LEPENR_AS_F', 'SCH_LEPENR_WH_M', 'SCH_LEPENR_WH_F',
          'SCH_LEPENR_BL_M', 'SCH_LEPENR_BL_F')  
