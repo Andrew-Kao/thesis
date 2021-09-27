@@ -42,6 +42,8 @@ dataList <- c('SchEnroll.Rdata', 'SchGifted.Rdata', 'SchAlg1.Rdata', 'SchCalc.Rd
               'SchExpulsion.Rdata', 'SchTransfer.Rdata', 'SchLaw.Rdata', 'SchHarass.Rdata',
               'SchRestraint.Rdata', 'SchControls.Rdata', 'SchRetention.Rdata')
 
+leaged <- readRDS('LEAGED.Rdata') 
+
 mergeByName <- function(n1,n2) {
   readRDS(n2) %>%
     mutate(schlea = paste0(SCHID,LEAID)) %>%
@@ -50,7 +52,9 @@ mergeByName <- function(n1,n2) {
     right_join(n1, by = 'schlea', copy = TRUE)
 }
 
-schoolAll <- reduce(dataList,.f = mergeByName, .init = special)
+schoolAll <- reduce(dataList,.f = mergeByName, .init = special) %>%
+  left_join(leaged, by = 'LEAID')
+
 saveRDS(schoolAll, file='SchAll.Rdata')
 
 ## clean the variables

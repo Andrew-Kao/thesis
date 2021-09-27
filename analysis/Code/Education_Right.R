@@ -1,6 +1,6 @@
 ###### Education: Main Regs #####
 
-# TODO: add credit recovery, enrolled in advanced math, calculus, bio, chemistry, physics, ap math/science, sat/act taking, ged cred/part
+# TODO: add enrolled in sat/act taking, ged cred/part
 
 library(stargazer)
 library(dplyr)
@@ -17,6 +17,7 @@ library(pscl)
 library(spdep)
 library(spatialreg)
 library(missForest)
+library(fixest)
 
 
 if (Sys.info()["user"] == "AndrewKao") {
@@ -235,6 +236,168 @@ stargazer(om1, om2, om3, out = "../../Output/Regs/edu_giftedIHS_spec3.tex", titl
           order = c('TV','TV:origdist','origdist','hisp_students' ), 
           covariate.labels = c(label_spec3),
           dep.var.labels = 'IHS(Hispanic \\# Gifted Students)')
+
+om1 <- lm(ihs(sch_apmathenr_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + hisp_students, data=harass)
+om2 <- lm(ihs(sch_apmathenr_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_apmathenr_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_apmathIHS_spec3.tex", title="Effect of TV on AP Math Enrollment",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','hisp_students' ), 
+          covariate.labels = c(label_spec3),
+          dep.var.labels = 'IHS(Hispanic Students Enrolled AP Math)')
+
+om1 <- lm(ihs(sch_apscienr_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + hisp_students, data=harass)
+om2 <- lm(ihs(sch_apscienr_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_apscienr_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_apsciIHS_spec3.tex", title="Effect of TV on AP Science Enrollment",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','hisp_students' ), 
+          covariate.labels = c(label_spec3),
+          dep.var.labels = 'IHS(Hispanic Students Enrolled AP Science)')
+
+om1 <- lm(ihs(sch_mathenr_advm_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + hisp_students, data=harass)
+om2 <- lm(ihs(sch_mathenr_advm_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_mathenr_advm_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_advmIHS_spec3.tex", title="Effect of TV on Adv. Math Enrollment",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','hisp_students' ), 
+          covariate.labels = c(label_spec3),
+          dep.var.labels = 'IHS(Hispanic Students Enrolled Adv. Math)')
+
+om1 <- lm(ihs(sch_mathenr_calc_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + hisp_students, data=harass)
+om2 <- lm(ihs(sch_mathenr_calc_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_mathenr_calc_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_calcIHS_spec3.tex", title="Effect of TV on Calculus Enrollment",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','hisp_students' ), 
+          covariate.labels = c(label_spec3),
+          dep.var.labels = 'IHS(Hispanic Students Enrolled Calculus)')
+
+om1 <- lm(ihs(sch_scienr_biol_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + hisp_students, data=harass)
+om2 <- lm(ihs(sch_scienr_biol_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_scienr_biol_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_biolIHS_spec3.tex", title="Effect of TV on Biology Enrollment",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','hisp_students' ), 
+          covariate.labels = c(label_spec3),
+          dep.var.labels = 'IHS(Hispanic Students Enrolled Biology)')
+
+om1 <- lm(ihs(sch_scienr_chem_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + hisp_students, data=harass)
+om2 <- lm(ihs(sch_scienr_chem_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_scienr_chem_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_chemIHS_spec3.tex", title="Effect of TV on Chemisty Enrollment",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','hisp_students' ), 
+          covariate.labels = c(label_spec3),
+          dep.var.labels = 'IHS(Hispanic Students Enrolled Chemistry)')
+
+om1 <- lm(ihs(sch_scienr_phys_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + hisp_students, data=harass)
+om2 <- lm(ihs(sch_scienr_phys_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_scienr_phys_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_physIHS_spec3.tex", title="Effect of TV on Physics Enrollment",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','hisp_students' ), 
+          covariate.labels = c(label_spec3),
+          dep.var.labels = 'IHS(Hispanic Students Enrolled Physics)')
+
+om1 <- lm(ihs(sch_satact_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + hisp_students, data=harass)
+om2 <- lm(ihs(sch_satact_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_satact_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_satactIHS_spec3.tex", title="Effect of TV on SAT/ACT Enrollment",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','hisp_students' ), 
+          covariate.labels = c(label_spec3),
+          dep.var.labels = 'IHS(Hispanic Students Enrolled SAT/ACT)')
+
+om1 <- lm(ihs(lea_gedcred_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + hisp_students, data=harass)
+om2 <- lm(ihs(lea_gedcred_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(lea_gedcred_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_gedcIHS_spec3.tex", title="Effect of TV on GED Credit",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','hisp_students' ), 
+          covariate.labels = c(label_spec3),
+          dep.var.labels = 'IHS(Hispanic Students GED Credit)')
+
+om1 <- lm(ihs(lea_gedpart_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + hisp_students, data=harass)
+om2 <- lm(ihs(lea_gedpart_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(lea_gedpart_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_gedpIHS_spec3.tex", title="Effect of TV on GED Participation",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','hisp_students' ), 
+          covariate.labels = c(label_spec3),
+          dep.var.labels = 'IHS(Hispanic Students GED Participation)')
+
+
 
 
 harass <- cleanSchoolAll %>%
@@ -1195,6 +1358,9 @@ stargazer(om1, om2, om3, out = "../../Output/Regs/edu_wh_giftedOLSIHS_spec3.tex"
           dep.var.labels = 'IHS(\\# White Gifted)')
 
 ## TODO: reduce Asian AP effect. control IHS Asian students helps. replace 0 is overkill
+
+## TODO: cluster errors, build texreg/modelsummary pipeline, or fixest
+
 
 # texreg
 # modelsummary
