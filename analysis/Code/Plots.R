@@ -70,7 +70,7 @@ plotdf <- cleanSchoolAll %>%
   mutate(inout = ifelse(inside == 1, 1, -1),
          distance = minDist/1000,
          dist = inout * distance,
-         origLogPop = log(origpopulation), origLogInc = log(origincome))  %>%
+         origLogPop = log(origpopulation), origLogInc = log(origincome)) %>%
   filter(distance < 50)
 ggplot() + geom_smooth(data = plotdf, aes(dist,ihs(sch_lepenr_hi)), n = 9)
 ggplot() + geom_smooth(data = plotdf, aes(dist,ihs(sch_apenr_hi)))

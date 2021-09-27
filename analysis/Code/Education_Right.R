@@ -1,10 +1,13 @@
 ###### Education: Main Regs #####
 
+# TODO: add credit recovery, enrolled in advanced math, calculus, bio, chemistry, physics, ap math/science, sat/act taking, ged cred/part
+
 library(stargazer)
 library(dplyr)
 library(purrr)
 library(stringr)
 library(sandwich)
+library(lmtest)
 library(lfe)
 library(ggplot2)
 library(DescTools)
@@ -144,6 +147,54 @@ stargazer(om1, om2, om3, out = "../../Output/Regs/edu_appIHS_spec3.tex", title="
           order = c('TV','TV:origdist','origdist','hisp_students' ), 
           covariate.labels = c(label_spec3),
           dep.var.labels = 'IHS(Hispanic Students Passing AP)')
+
+om1 <- lm(ihs(sch_algpass_g08_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + hisp_students, data=harass)
+om2 <- lm(ihs(sch_algpass_g08_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_algpass_g08_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_alg8IHS_spec3.tex", title="Effect of TV on Algebra Gr 8 Passed",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','hisp_students' ), 
+          covariate.labels = c(label_spec3),
+          dep.var.labels = 'IHS(Hispanic Students Passing Gr 8 Algebra)')
+
+om1 <- lm(ihs(sch_algpass_gs0910_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + hisp_students, data=harass)
+om2 <- lm(ihs(sch_algpass_gs0910_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_algpass_gs0910_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_alg910IHS_spec3.tex", title="Effect of TV on Algebra Gr 9-10 Passed",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','hisp_students' ), 
+          covariate.labels = c(label_spec3),
+          dep.var.labels = 'IHS(Hispanic Students Passing Gr 9-10 Algebra)')
+
+om1 <- lm(ihs(sch_algpass_gs1112_hi) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + hisp_students, data=harass)
+om2 <- lm(ihs(sch_algpass_gs1112_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_algpass_gs1112_hi) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_alg1112IHS_spec3.tex", title="Effect of TV on Algebra Gr 11-12 Passed",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','hisp_students' ), 
+          covariate.labels = c(label_spec3),
+          dep.var.labels = 'IHS(Hispanic Students Passing Gr 11-12 Algebra)')
 
 
 om1 <- lm(ihs(sch_lepenr_hi) ~ TV*origdist + 
@@ -797,9 +848,11 @@ harass <- cleanSchoolAll %>%
   mutate(TV = inside) %>%
   filter(minDist < 100000 ) %>%
   mutate(origdist = minDist/1000, dist2 = origdist^2,
-         origLogPop = log(origpopulation), origLogInc = log(origincome)) 
+         origLogPop = log(origpopulation), origLogInc = log(origincome))
+
 
 # %>% mutate(sch_apenr_as = ifelse(is.na(sch_apenr_as), 0, sch_apenr_as))
+# sch_appass_oneormore_as = ifelse(is.na(sch_appass_oneormore_as) & !is.na(sch_appass_oneormore_hi), mean(harass$sch_appass_oneormore_as, na.rm = TRUE), sch_appass_oneormore_as)) 
 
 label_spec3_asian <- c('TV Dummy', 'TV Dummy $\\times$ Distance to Boundary', 'Distance to Boundary (meters)',
                  '\\# Asian Students')
@@ -939,6 +992,44 @@ om3 <- lm(ihs(sch_appass_oneormore_as) ~ TV*origdist +
             origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
             total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
 stargazer(om1, om2, om3, out = "../../Output/Regs/edu_as_appOLSIHS_spec3.tex", title="Effect of TV on IHS(\\# Asian APs Passed)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','asian_students' ), 
+          covariate.labels = c(label_spec3_asian),
+          dep.var.labels = 'IHS(\\# Asian APs Passed)')
+
+om1 <- lm(ihs(sch_appass_oneormore_as) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + asian_students + ihs(asian_students), data=harass, subset = minDist < 
+            50000 )
+om2 <- lm(ihs(sch_appass_oneormore_as) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
+            total_students, data=harass, subset = minDist < 
+            50000)
+om3 <- lm(ihs(sch_appass_oneormore_as) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass, subset = minDist < 
+            50000)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_as_appOLSIHS_spec3_50.tex", title="50 KM Effect of TV on IHS(\\# Asian APs Passed)",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','asian_students' ), 
+          covariate.labels = c(label_spec3_asian),
+          dep.var.labels = 'IHS(\\# Asian APs Passed)')
+
+om1 <- lm(ihs(sch_appass_oneormore_as) ~ TV*origdist + 
+            origpcHisp + origLogInc + origLogPop + asian_students + ihs(asian_students), data=harass, subset = minDist < 
+            25000 )
+om2 <- lm(ihs(sch_appass_oneormore_as) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
+            total_students, data=harass, subset = minDist < 
+            25000)
+om3 <- lm(ihs(sch_appass_oneormore_as) ~ TV*origdist +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  asian_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass, subset = minDist < 
+            25000)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_as_appOLSIHS_spec3_25.tex", title="25 KM Effect of TV on IHS(\\# Asian APs Passed)",
           omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
           omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
                    'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
