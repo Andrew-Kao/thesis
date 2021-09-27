@@ -1,7 +1,5 @@
 ###### Education: Main Regs #####
 
-# TODO: add enrolled in sat/act taking, ged cred/part
-
 library(stargazer)
 library(dplyr)
 library(purrr)
@@ -1360,7 +1358,74 @@ stargazer(om1, om2, om3, out = "../../Output/Regs/edu_wh_giftedOLSIHS_spec3.tex"
 ## TODO: reduce Asian AP effect. control IHS Asian students helps. replace 0 is overkill
 
 ## TODO: cluster errors, build texreg/modelsummary pipeline, or fixest
+## TODO: diff in diff with Asians
 
+harass_as <- cleanSchoolAll %>%
+  mutate(TV = inside) %>%
+  filter(minDist < 100000 ) %>%
+  mutate(origdist = minDist/1000, dist2 = origdist^2,
+         origLogPop = log(origpopulation), origLogInc = log(origincome)) %>%
+  select(TV, origdist, origpcHisp , origLogInc , origLogPop , SCH_TEACHERS_CURR_TOT , hisp_students,  
+         asian_students, white_students, 
+         total_students , SCH_GRADE_G01 , SCH_GRADE_G06 , SCH_GRADE_G09,
+          sch_gtenr_as, sch_appass_oneormore_as, lea_gedcred_as) %>%
+  rename(sch_gtenr = sch_gtenr_as, sch_appass_oneormore = sch_appass_oneormore_as, lea_gedcred = lea_gedcred_as) %>%
+  mutate(eth = 0)
+
+
+harass_hi <- cleanSchoolAll %>%
+  mutate(TV = inside) %>%
+  filter(minDist < 100000 ) %>%
+  mutate(origdist = minDist/1000, dist2 = origdist^2,
+         origLogPop = log(origpopulation), origLogInc = log(origincome)) %>%
+  select(TV, origdist, origpcHisp , origLogInc , origLogPop , SCH_TEACHERS_CURR_TOT , hisp_students,  
+         asian_students, white_students, 
+         total_students , SCH_GRADE_G01 , SCH_GRADE_G06 , SCH_GRADE_G09,
+         sch_gtenr_hi, sch_appass_oneormore_hi, lea_gedcred_hi) %>%
+  rename(sch_gtenr = sch_gtenr_hi, sch_appass_oneormore = sch_appass_oneormore_hi, lea_gedcred = lea_gedcred_hi) %>%
+  mutate(eth = 1)
+
+harass <- harass_hi %>%
+  rbind(harass_as)
+
+label_spec3_dda <- c('TV $\\times$ Hispanic', 'TV Dummy', 'TV Dummy $\\times$ Distance $\\times$ Hispanic', 
+                     'TV Dummy $\\times$ Distance', 'Distance to Boundary $\\times$ Hispanic',
+                       'Hispanic')
+
+om1 <- lm(ihs(sch_gtenr) ~ TV*origdist*eth + 
+            origpcHisp + origLogInc + origLogPop + hisp_students + asian_students, data=harass)
+om2 <- lm(ihs(sch_gtenr) ~ TV*origdist*eth +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_gtenr) ~ TV*origdist*eth +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_dda_giftedOLSIHS_spec3.tex", title="Differential Effect of TV on IHS(\\# Hispanic Gifted) vs. Asian",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV:eth', 'TV','TV:origdist:eth','TV:origdist','origdist:eth','eth'), 
+          covariate.labels = c(label_spec3_dda),
+          dep.var.labels = 'IHS(\\# Gifted)')
+
+om1 <- lm(ihs(sch_appass_oneormore) ~ TV*origdist*eth + 
+            origpcHisp + origLogInc + origLogPop + hisp_students + asian_students, data=harass)
+om2 <- lm(ihs(sch_appass_oneormore) ~ TV*origdist*eth +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_appass_oneormore) ~ TV*origdist*eth +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_dda_appOLSIHS_spec3.tex", title="Differential Effect of TV on IHS(\\# Hispanic APs Passed) vs. Asian",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV:eth', 'TV','TV:origdist:eth','TV:origdist','origdist:eth','eth'), 
+          covariate.labels = c(label_spec3_dda),
+          dep.var.labels = 'IHS(\\# AP Passed)')
+
+
+###### Diff in diff spec
 
 # texreg
 # modelsummary
