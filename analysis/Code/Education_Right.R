@@ -1358,7 +1358,9 @@ stargazer(om1, om2, om3, out = "../../Output/Regs/edu_wh_giftedOLSIHS_spec3.tex"
 ## TODO: reduce Asian AP effect. control IHS Asian students helps. replace 0 is overkill
 
 ## TODO: cluster errors, build texreg/modelsummary pipeline, or fixest
-## TODO: diff in diff with Asians
+## TODO: diff in diff with Asians, then white || migrate to new file?
+## TODO: magnitude tablle with Asians
+## TODO: see ACS data for mechs/outcomes (college attendance etc.)
 
 harass_as <- cleanSchoolAll %>%
   mutate(TV = inside) %>%
@@ -1423,6 +1425,25 @@ stargazer(om1, om2, om3, out = "../../Output/Regs/edu_dda_appOLSIHS_spec3.tex", 
           order = c('TV:eth', 'TV','TV:origdist:eth','TV:origdist','origdist:eth','eth'), 
           covariate.labels = c(label_spec3_dda),
           dep.var.labels = 'IHS(\\# AP Passed)')
+
+om1 <- lm(ihs(lea_gedcred) ~ TV*origdist*eth + 
+            origpcHisp + origLogInc + origLogPop + hisp_students + asian_students, data=harass)
+om1r <- sqrt(diag(vcovHC(om1, type="HC1")))
+om2 <- lm(ihs(lea_gedcred) ~ TV*origdist*eth +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+            total_students, data=harass)
+om2r <- sqrt(diag(vcovHC(om2, type="HC1")))
+om3 <- lm(ihs(lea_gedcred) ~ TV*origdist*eth +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+om3r <- sqrt(diag(vcovHC(om3, type="HC1")))
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_dda_gedcOLSIHS_spec3.tex", title="Differential Effect of TV on IHS(\\# Hispanic GEDs) vs. Asian",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV:eth', 'TV','TV:origdist:eth','TV:origdist','origdist:eth','eth'), 
+          covariate.labels = c(label_spec3_dda), se= list(om1r,om2r,om3r) , #coeftest(om1),
+          dep.var.labels = 'IHS(\\# GEDs)')
 
 
 ###### Diff in diff spec
