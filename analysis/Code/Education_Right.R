@@ -1357,10 +1357,6 @@ stargazer(om1, om2, om3, out = "../../Output/Regs/edu_wh_giftedOLSIHS_spec3.tex"
 
 
 
-
-
-## TODO: cluster errors, build texreg/modelsummary pipeline, or fixest
-## TODO: diff in diff with Asians, then white || migrate to new file?
 ## TODO: magnitude tablle with Asians
 ## TODO: see ACS data for mechs/outcomes (college attendance etc.)
 ## TODO: robust: controls with distance, dist2
@@ -1381,7 +1377,7 @@ harass_as <- cleanSchoolAll %>%
          sch_hbreported_rac_as, sch_hbdisciplined_rac_as, sch_apenr_as, sch_lepenr_as, sch_algpass_g08_as,
          sch_apmathenr_as, sch_apscienr_as, sch_mathenr_advm_as,
          sch_mathenr_calc_as, sch_scienr_biol_as, sch_scienr_chem_as, sch_scienr_phys_as, sch_satact_as,
-         lea_gedpart_as) %>%
+         lea_gedpart_as, LEAID) %>%
   rename(sch_gtenr = sch_gtenr_as, sch_appass_oneormore = sch_appass_oneormore_as, lea_gedcred = lea_gedcred_as,
          sch_absent = sch_absent_as, sch_discwodis_singoos = sch_discwodis_singoos_as, 
          sch_hbreported_rac = sch_hbreported_rac_as, sch_hbdisciplined_rac = sch_hbdisciplined_rac_as,
@@ -1406,7 +1402,7 @@ harass_hi <- cleanSchoolAll %>%
          sch_hbreported_rac_hi, sch_hbdisciplined_rac_hi, sch_apenr_hi, sch_lepenr_hi, sch_algpass_g08_hi,
          sch_apmathenr_hi, sch_apscienr_hi, sch_mathenr_advm_hi,
          sch_mathenr_calc_hi, sch_scienr_biol_hi, sch_scienr_chem_hi, sch_scienr_phys_hi, sch_satact_hi,
-         lea_gedpart_hi) %>%
+         lea_gedpart_hi, LEAID) %>%
   rename(sch_gtenr = sch_gtenr_hi, sch_appass_oneormore = sch_appass_oneormore_hi, lea_gedcred = lea_gedcred_hi,
          sch_absent = sch_absent_hi, sch_discwodis_singoos = sch_discwodis_singoos_hi, 
          sch_hbreported_rac = sch_hbreported_rac_hi, sch_hbdisciplined_rac = sch_hbdisciplined_rac_hi,
@@ -1418,7 +1414,27 @@ harass_hi <- cleanSchoolAll %>%
   mutate(eth = 1)
 
 harass <- harass_hi %>%
-  rbind(harass_as)
+  rbind(harass_as) %>%
+  right_join(affiliatesLEA, by = 'LEAID') %>%
+  mutate(univision = ifelse(univision >= 1, 1, 0),
+         telemundo = ifelse(telemundo >= 1, 1, 0),
+         pbs = ifelse(pbs >= 1, 1, 0),
+         unimas = ifelse(unimas >= 1, 1 ,0),
+         azteca = ifelse(azteca >= 1, 1, 0)) %>%
+  filter(univision == 1 | telemundo == 1 | pbs == 1 | unimas == 1 | azteca == 1) %>%
+  left_join(telemundo, by = "telemundo") %>%
+  left_join(univision, by = 'univision') %>%
+  left_join(pbs, by = 'pbs') %>%
+  left_join(unimas, by = 'unimas') %>%
+  left_join(azteca, by = 'azteca') %>%
+  rowwise() %>%
+  mutate(word_edu_mean = mean(c(telemundo_word_edu,univision_word_edu,pbs_word_edu,unimas_word_edu, azteca_word_edu),na.rm = TRUE),
+         word_latin_mean = mean(c(telemundo_word_latin,univision_word_latin,pbs_word_latin,unimas_word_latin, azteca_word_latin),na.rm = TRUE),
+         word_rolemodel_mean = mean(c(telemundo_word_rolemodel,univision_word_rolemodel,pbs_word_rolemodel,unimas_word_rolemodel, azteca_word_rolemodel),na.rm = TRUE),
+         word_edu_max = max(c(telemundo_word_edu,univision_word_edu,pbs_word_edu,unimas_word_edu, azteca_word_edu),na.rm = TRUE),
+         word_latin_max = max(c(telemundo_word_latin,univision_word_latin,pbs_word_latin,unimas_word_latin, azteca_word_latin),na.rm = TRUE),
+         word_rolemodel_max = max(c(telemundo_word_rolemodel,univision_word_rolemodel,pbs_word_rolemodel,unimas_word_rolemodel, azteca_word_rolemodel),na.rm = TRUE)) %>%
+  ungroup()
 
 label_spec3_dda <- c('TV $\\times$ Hispanic', 'TV Dummy',
                        'Hispanic') #  'TV Dummy $\\times$ Distance $\\times$ Hispanic', 'TV Dummy $\\times$ Distance', 'Distance to Boundary $\\times$ Hispanic',
@@ -1744,7 +1760,31 @@ stargazer(om1, om2, om3, out = "../../Output/Regs/edu_dda_gedpOLSIHS_spec3.tex",
           dep.var.labels = 'IHS(\\# GED Participate)')
 
 
-###### Diff in diff spec
+##### Diff in diff mech #######
+
+label_spec3_ddaR <- c('TV $\\times$ Hispanic $\\times$ \\% programs on education',
+                      'TV $\\times$ Hispanic $\\times$ \\% programs on identity',
+                      'TV $\\times$ Hispanic $\\times$ \\% programs with role models',
+                      'TV $\\times$ Hispanic', 'TV Dummy',
+                     'Hispanic')
+
+
+om1 <- lm(ihs(sch_satact) ~ TV*eth*word_edu_mean + 
+            origpcHisp + origLogInc + origLogPop + hisp_students + asian_students , data=harass)
+om2 <- lm(ihs(sch_satact) ~ TV*eth*word_latin_mean +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+            total_students, data=harass)
+om3 <- lm(ihs(sch_satact) ~ TV*eth*word_rolemodel_mean +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_ddaR_satactOLSIHS_spec3.tex", title="Differential Effect of TV on IHS(\\# Hispanic SAT/ACT) vs. Asian",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV:eth:word_edu_mean', 'TV:eth:word_latin_mean', 'TV:eth:word_rolemodel_mean','TV:eth','TV','eth'),
+          #order = c('TV:eth', 'TV','TV:origdist:eth','TV:origdist','origdist:eth','eth'), 
+          covariate.labels = c(label_spec3_ddaR), se= makeRobust3(om1,om2,om3) , #coeftest(om1),  list(om1r,om2r,om3r) 
+          dep.var.labels = 'IHS(\\# SAT/ACT)')
 
 # texreg
 # modelsummary
