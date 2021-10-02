@@ -59,10 +59,20 @@ role_model_words = ['Vivan los niños', 'Alegrijes y rebujos', 'Aventuras en El 
 values_words_eng = ['']
 values_words = ['']
 
+
+# relating to 'bad stuff'
+# drugs, gangs, etc.
+# see for instance: https://www.quora.com/What-are-some-Spanish-slang-words-for-heroin-and-other-street-drugs-C%C3%B3mo-se-dice-heroin-meth-etc-en-espa%C3%B1ol
+bad_words_eng = ['drugs','weed']
+bad_words = ['mierda','grifa','goma','jaco','caballo','potro','chutarse','camello','mula','farlopa','perico',
+	'maría','chocolate','mota','costo','peta','porro','pastis','traficante','narco','mafioso','cholo','ratero','ladron',
+	'asesino','trampos','tranicner','infiel','incesto']
+
+
 all_words = ['a']
 
 # append together
-keywords = ['callSign'] + edu_words + hispanic_words + values_words + role_model_words + all_words
+keywords = ['callSign'] + edu_words + hispanic_words + values_words + role_model_words + all_words + bad_words
 
 
 

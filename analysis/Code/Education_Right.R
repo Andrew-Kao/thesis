@@ -1764,6 +1764,9 @@ stargazer(om1, om2, om3, out = "../../Output/Regs/edu_dda_gedpOLSIHS_spec3.tex",
 
 ## TODO: framing idea, only use identity mech, maybe educ as placebo
 ## TODO: get words relating to drugs, crime? 
+## see https://www.americamagazine.org/arts-culture/2018/04/06/why-telenovelas-are-powerful-and-problematic-part-latino-culture
+## and https://insightcrime.org/news/analysis/mexico-narco-soap-operas-do-more-than-just-glorify-drug-trade/
+## maybe find something academic
 
 label_spec3_ddaR <- c('TV $\\times$ Hispanic $\\times$ \\% programs on education',
                       'TV $\\times$ Hispanic $\\times$ \\% programs on identity',
