@@ -71,10 +71,13 @@ word_data <- read.csv('archive_station_word2.csv') %>%
            Misión.S.O.S. +  Carrusel.y.El.abuelo.y.Yo +  El.Juego.de.la.Vida +  De.pocas.pulgas +
            luz.Clarita +  Serafín +  X31.minutos +  Bizbirije +  Odisea.Burbujas +  El.Tesoro.del.Saber +
            Topo.Gigio +  Once.Niñas.y.Niños,
+         bad = mierda + grifa + goma + jaco + potro + chutarse + camello + mula + farlopa +
+           perico + mota + costo + peta + porro + pastis + traficante + narco +
+           mafioso + cholo + ratero + ladron + asesino + trampos + tranicner + infiel + incesto + maría + caballo + chocolate, # 
          all = a) %>%
   group_by(parent) %>%
   summarise(word_education = mean(education), word_latin = mean(latin), word_rolemodel = mean(rolemodel),
-            word_all = mean(all))
+            word_all = mean(all), word_bad = mean(bad))
 
 ## note others: Estrella, UniMas, PBS, MundoFox, TBN, Mega TV/SBS, 
 ## idea: use affiliation switches as test cases? but endogeneous... so maybe just drop
