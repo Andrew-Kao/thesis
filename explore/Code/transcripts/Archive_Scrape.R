@@ -82,6 +82,7 @@ word_data <- read.csv('archive_station_word2.csv') %>%
 ## note others: Estrella, UniMas, PBS, MundoFox, TBN, Mega TV/SBS, 
 ## idea: use affiliation switches as test cases? but endogeneous... so maybe just drop
 ## difference between stations based in Mexico vs US?
+## TODO: TFIDF
 
 station_word_data <- read.csv('archive_station_word.csv') %>%
   filter(callSign != "KETD" & callSign != "KFWD" & callSign != "KLUJ" & callSign != "KMBH" & callSign != "KMPX" & 

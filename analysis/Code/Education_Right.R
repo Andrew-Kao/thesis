@@ -656,40 +656,50 @@ telemundo <- station_word_data %>%
   head(1) %>%
   mutate(telemundo_word_edu = word_education/(word_all*20), telemundo_word_latin = word_latin/(word_all*26),
          telemundo_word_rolemodel = word_rolemodel/(word_all*16), telemundo_word_bad = word_bad/(word_all*29),
-         telemundo = 1) %>%
-  dplyr::select(telemundo_word_edu, telemundo_word_latin, telemundo_word_rolemodel, telemundo_word_bad, telemundo)
+         telemundo = 1, telemundo_log_edu = log(word_education/(word_all*20)), telemundo_log_latin = log(word_latin/(word_all*26)),
+         telemundo_log_rolemodel = log(word_rolemodel/(word_all*16)), telemundo_log_bad = log(word_bad/(word_all*29))) %>%
+  dplyr::select(telemundo_word_edu, telemundo_word_latin, telemundo_word_rolemodel, telemundo_word_bad, telemundo,
+                telemundo_log_edu, telemundo_log_latin, telemundo_log_rolemodel, telemundo_log_bad)
 univision <- station_word_data %>%
   filter(parent == "univision") %>%
   dplyr::select(-callSign) %>%
   head(1) %>%
   mutate(univision_word_edu = word_education/(word_all*20), univision_word_latin = word_latin/(word_all*26),
          univision_word_rolemodel = word_rolemodel/(word_all*16), univision_word_bad = word_bad/(word_all*29),
-         univision = 1) %>%
-  dplyr::select(univision_word_edu, univision_word_latin, univision_word_rolemodel, univision_word_bad, univision)
+         univision = 1, univision_log_edu = log(word_education/(word_all*20)), univision_log_latin = log(word_latin/(word_all*26)),
+         univision_log_rolemodel = log(word_rolemodel/(word_all*16)), univision_log_bad = log(word_bad/(word_all*29))) %>%
+  dplyr::select(univision_word_edu, univision_word_latin, univision_word_rolemodel, univision_word_bad, univision,
+                univision_log_edu, univision_log_latin, univision_log_rolemodel, univision_log_bad)
 pbs <- station_word_data %>%
   filter(parent == "pbs") %>%
   dplyr::select(-callSign) %>%
   head(1) %>%
   mutate(pbs_word_edu = word_education/(word_all*20), pbs_word_latin = word_latin/(word_all*26),
          pbs_word_rolemodel = word_rolemodel/(word_all*16), pbs_word_bad = word_bad/(word_all*29),
-         pbs = 1) %>%
-  dplyr::select(pbs_word_edu, pbs_word_latin, pbs_word_rolemodel, pbs_word_bad, pbs)
+         pbs = 1,pbs_log_edu = log(word_education/(word_all*20)), pbs_log_latin = log(word_latin/(word_all*26)),
+         pbs_log_rolemodel = log(word_rolemodel/(word_all*16)), pbs_log_bad = log(word_bad/(word_all*29))) %>%
+  dplyr::select(pbs_word_edu, pbs_word_latin, pbs_word_rolemodel, pbs_word_bad, pbs,
+                pbs_log_edu, pbs_log_latin, pbs_log_rolemodel, pbs_log_bad,)
 unimas <- station_word_data %>%
   filter(parent == "unimas") %>%
   dplyr::select(-callSign) %>%
   head(1) %>%
   mutate(unimas_word_edu = word_education/(word_all*20), unimas_word_latin = word_latin/(word_all*26),
          unimas_word_rolemodel = word_rolemodel/(word_all*16), unimas_word_bad = word_bad/(word_all*29),
-         unimas = 1) %>%
-  dplyr::select(unimas_word_edu, unimas_word_latin, unimas_word_rolemodel, unimas_word_bad, unimas)
+         unimas = 1, unimas_log_edu = log(word_education/(word_all*20)), unimas_log_latin = log(word_latin/(word_all*26)),
+         unimas_log_rolemodel = log(word_rolemodel/(word_all*16)), unimas_log_bad = log(word_bad/(word_all*29))) %>%
+  dplyr::select(unimas_word_edu, unimas_word_latin, unimas_word_rolemodel, unimas_word_bad, unimas,
+                unimas_log_edu, unimas_log_latin, unimas_log_rolemodel, unimas_log_bad)
 azteca <- station_word_data %>%
   filter(parent == "azteca") %>%
   dplyr::select(-callSign) %>%
   head(1) %>%
   mutate(azteca_word_edu = word_education/(word_all*20), azteca_word_latin = word_latin/(word_all*26),
          azteca_word_rolemodel = word_rolemodel/(word_all*16), azteca_word_bad = word_bad/(word_all*29),
-         azteca = 1) %>%
-  dplyr::select(azteca_word_edu, azteca_word_latin, azteca_word_rolemodel, azteca_word_bad, azteca)
+         azteca = 1, azteca_log_edu = log(word_education/(word_all*20)), azteca_log_latin = log(word_latin/(word_all*26)),
+         azteca_log_rolemodel = log(word_rolemodel/(word_all*16)), azteca_log_bad = log(word_bad/(word_all*29))) %>%
+  dplyr::select(azteca_word_edu, azteca_word_latin, azteca_word_rolemodel, azteca_word_bad, azteca,
+                azteca_log_edu, azteca_log_latin, azteca_log_rolemodel, azteca_log_bad)
 # word frequency = number of hits/(total hits * number words)
 
 # only keep obs in at least one of the affiliate networks
@@ -1439,7 +1449,11 @@ harass <- harass_hi %>%
          word_bad_mean = mean(c(telemundo_word_bad,univision_word_bad,pbs_word_bad,unimas_word_bad, azteca_word_bad),na.rm = TRUE),
          word_edu_max = max(c(telemundo_word_edu,univision_word_edu,pbs_word_edu,unimas_word_edu, azteca_word_edu),na.rm = TRUE),
          word_latin_max = max(c(telemundo_word_latin,univision_word_latin,pbs_word_latin,unimas_word_latin, azteca_word_latin),na.rm = TRUE),
-         word_rolemodel_max = max(c(telemundo_word_rolemodel,univision_word_rolemodel,pbs_word_rolemodel,unimas_word_rolemodel, azteca_word_rolemodel),na.rm = TRUE)) %>%
+         word_rolemodel_max = max(c(telemundo_word_rolemodel,univision_word_rolemodel,pbs_word_rolemodel,unimas_word_rolemodel, azteca_word_rolemodel),na.rm = TRUE),
+         word_edu_log = mean(c(telemundo_log_edu,univision_log_edu,pbs_log_edu,unimas_log_edu, azteca_log_edu),na.rm = TRUE),
+         word_latin_log = mean(c(telemundo_log_latin,univision_log_latin,pbs_log_latin,unimas_log_latin, azteca_log_latin),na.rm = TRUE),
+         word_rolemodel_log = mean(c(telemundo_log_rolemodel,univision_log_rolemodel,pbs_log_rolemodel,unimas_log_rolemodel, azteca_log_rolemodel),na.rm = TRUE),
+         word_bad_log = mean(c(telemundo_log_bad,univision_log_bad,pbs_log_bad,unimas_log_bad, azteca_log_bad),na.rm = TRUE)) %>%
   ungroup()
 
 label_spec3_dda <- c('TV $\\times$ Hispanic', 'TV Dummy',
@@ -1854,6 +1868,22 @@ stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_ddaR_absentOLSIHS_spe
           omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
                    'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
           order = c('TV:eth:word_edu_mean', 'TV:eth:word_latin_mean', 'TV:eth:word_rolemodel_mean','TV:eth:word_bad_mean','TV:eth','TV','eth'),
+          covariate.labels = c(label_spec3_ddaR), se= makeRobust4(om1,om2,om3,om4) , #coeftest(om1),  list(om1r,om2r,om3r) 
+          dep.var.labels = 'IHS(\\# Chronic Absent)')
+
+om1 <- lm(ihs(sch_absent) ~ TV*eth*word_edu_log + 
+            origpcHisp + origLogInc + origLogPop + hisp_students + asian_students, data=harass)
+om2 <- lm(ihs(sch_absent) ~ TV*eth*word_latin_log + +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students, data=harass)
+om3 <- lm(ihs(sch_absent) ~ TV*eth*word_rolemodel_log + +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students, data=harass)
+om4 <- lm(ihs(sch_absent) ~ TV*eth*word_bad_log + +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students, data=harass)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_ddaRlog_absentOLSIHS_spec3.tex", title="Differential Log Effect of TV on IHS(\\# Hispanic Chronic Absences) vs. Asian",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV:eth:word_edu_log', 'TV:eth:word_latin_log', 'TV:eth:word_rolemodel_log','TV:eth:word_bad_log','TV:eth','TV','eth'),
           covariate.labels = c(label_spec3_ddaR), se= makeRobust4(om1,om2,om3,om4) , #coeftest(om1),  list(om1r,om2r,om3r) 
           dep.var.labels = 'IHS(\\# Chronic Absent)')
 
