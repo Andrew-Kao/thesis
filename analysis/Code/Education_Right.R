@@ -1783,7 +1783,7 @@ stargazer(om1, om2, om3, out = "../../Output/Regs/edu_dda_gedpOLSIHS_spec3.tex",
 ##### Diff in diff mech #######
 
 ## TODO: framing idea, only use identity mech, maybe educ as placebo
-## TODO: figure out other specification (non-interacted?) that's not so mechanical
+## TODO: advanced placebo -- transcript content from English channels, show no/less effect
 ## see https://www.americamagazine.org/arts-culture/2018/04/06/why-telenovelas-are-powerful-and-problematic-part-latino-culture
 ## and https://insightcrime.org/news/analysis/mexico-narco-soap-operas-do-more-than-just-glorify-drug-trade/
 ## maybe find something academic
