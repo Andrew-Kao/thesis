@@ -36,6 +36,9 @@ df[df['sector']==72]['top_category'].value_counts()
 
 # Hispanic references
 
+# restaurants
+# see Language Schools
+
 
 # safegraph_place_id
 # parent_safegraph_place_id
