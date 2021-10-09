@@ -42,3 +42,4 @@ scons/
 *.gdbtabl
 *.xlsx
 *.txt
+*.geojson
