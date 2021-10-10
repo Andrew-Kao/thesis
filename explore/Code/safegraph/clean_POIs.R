@@ -1,4 +1,4 @@
-###### Safegraph data ####
+###### Safegraph data -- POI cleaning ####
 
 library(dplyr)
 library(data.table)
@@ -18,6 +18,7 @@ if (Sys.info()["user"] == "AndrewKao") {
   sdir <- '/n/holyscratch01/dyang_lab/sltv/explore/Data/safegraph/coreplaces'
 }
 
+######### merge to instrument #########
 
 # instrument data
 instrument <- readRDS("../instrument/countyInstrumentCovariate.Rdata")
@@ -46,7 +47,6 @@ for (cp in 1:5) {
     filter(iso_country_code == 'US') %>%
     mutate(sector = floor(naics_code/10000)) %>%
     filter(sector == 51 | sector == 52 | sector == 61 | sector == 71 | sector == 72)
-  print(nrow(df))
 
   # chunk for memory reasons
   for (j in 1:35) {
@@ -103,3 +103,43 @@ for (cp in 1:5) {
 
 
 }
+
+
+# combine data
+for (cp in 1:5) {
+  for (j in 1:35) {
+    df <- readRDS(paste0('POI/POIReadyRaster_',cp,'_',j,'.Rdata'))
+    
+    if (cp == 1 && j == 1) {
+      bdf <- df
+    } else {
+      bdf <- rbind(tdf, df)
+    }
+  }
+}
+
+saveRDS(bdf,paste0('POI/POIReadyRaster.Rdata'))
+
+# delete temp files for chunking
+for (cp in 1:5) {
+  for (j in 1:35) {
+    file.remove(paste0('POI/contourPOIMinDist_',cp,'_',j,'.Rdata'))
+    file.remove(paste0('POI/contourPOIInterAll_',cp,'_',j,'.Rdata'))
+    file.remove(paste0('POI/POIReadyRaster_',cp,'_',j,'.Rdata'))
+  }
+}
+
+
+######### cleaning data ########
+bdf <- readRDS('POI/POIReadyRaster.Rdata')@data %>%
+  mutate(school = ifelse(sub_category == "Elementary and Secondary Schools",1,0))
+
+
+# Hispanic references
+
+# restaurants - category_tags
+# see Language Schools
+
+# check location names, brand_ids
+
+
