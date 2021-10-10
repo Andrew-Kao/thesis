@@ -57,20 +57,19 @@ pb <- progress_bar$new(format = "[:bar] :current/:total (:percent)", total = len
 pb$tick(0)
 l_sdf <- map(gjsf[1:length(gjsf)], makeSPoly)  # 
 
+saveRDS(l_sdf,"safegraph_open_census_data_2010_to_2019_geometry/cbg_list_sdf.Rdata")
+
+gjsf <- 0
+
 # iterate through features and create list for distance and intersects
-map()
+pb <- progress_bar$new(format = "[:bar] :current/:total (:percent)", total = length(l_sdf))
+pb$tick(0)
+distance <- map(l_sdf[1:length(l_sdf)], getDistance) # 
 
-gjsf[[1]]    # map over
-testdf <- gjsf[[1]][1:10] # for individual
-x <- gjsf[[1]][1]
 
-# z <- gjsf[[1754]][[1]][2]
-z <- gjsf[[2475]][[1]][2]
-z3 <- gjsf[[3775]][[1]][2]
-zc <- z$coordinates
-zcdfl <- map(zc, as.data.frame)
-zcrbd <- rbindlist(zcdfl)
-z2 <- gjsf[[1]][[1]][2]
+# TODO: regression where you see relative coming/going from census block groups inside/outside the border
+
+######## FUNCTIONS ##########
 
 dfbind <- function(x) {
   if (typeof(x) == "list") {
@@ -83,7 +82,6 @@ dfbind <- function(x) {
 makeSPoly <- function(x) {
   pb$tick(1)
   x <- x[[1]][2]     # get coordinates
-  # print(typeof(x$coordinates[[1]][1]))
   
   # first test if multiple layers of coordinates
   if (length(x$coordinates) > 1 ) {
@@ -102,38 +100,13 @@ makeSPoly <- function(x) {
     coordinates(x) <- c('V1','V2')
   }
   proj4string(x) <- crs_nad83
-  # print(x)
   return(x)
 }
 
-
-
-makeSPoly <- function(x) {
+getDistance <- function(x) {
   pb$tick(1)
-  x <- x[[1]][2]     # get coordinates
-  # print(typeof(x$coordinates[[1]][1]))
-  
-  # first test if multiple layers of coordinates
-  if (length(x$coordinates) > 1 ) {
-    x <- map(x$coordinates, as.data.frame)
-    x <- rbindlist(x) 
-    coordinates(x) <- c('V1','V2')
-  } else if (typeof(x$coordinates[[1]][1]) == "double") {
-    # double - one set of coords
-    x <- as.data.frame(x)          # df 
-    coordinates(x) <- c('coordinates.1','coordinates.2')
-  } else if (typeof(x$coordinates[[1]][1]) == "list") {
-    # list with multiple coords inside
-    x <- map(x$coordinates[[1]], as.data.frame)
-    x <- rbindlist(x) 
-    coordinates(x) <- c('V1','V2')
-  }
-  proj4string(x) <- crs_nad83
-  # print(x)
-  return(x)
+  x <- spTransform(x, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
+  return(gDistance(x,df_project,byid = FALSE))
 }
 
-
-
-# TODO: regression where you see relative coming/going from census block groups inside/outside the border
 
