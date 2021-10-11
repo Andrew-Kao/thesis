@@ -59,13 +59,24 @@ l_sdf <- map(gjsf[1:length(gjsf)], makeSPoly)  #
 
 saveRDS(l_sdf,"safegraph_open_census_data_2010_to_2019_geometry/cbg_list_sdf.Rdata")
 
-gjsf <- 0
+gjsf <- 0 # just for memory
 
-# iterate through features and create list for distance and intersects
+# iterate through features and create list for distance 
 pb <- progress_bar$new(format = "[:bar] :current/:total (:percent)", total = length(l_sdf))
 pb$tick(0)
 distance <- map(l_sdf[1:length(l_sdf)], getDistance) # 
+saveRDS(distance,"safegraph_open_census_data_2010_to_2019_geometry/cbg_distance.Rdata")
 
+# same for intersects
+contours_poly <-SpatialPolygons(
+  lapply(1:length(contours_project), 
+         function(i) Polygons(lapply(coordinates(contours_project)[[i]], function(y) Polygon(y)), as.character(i))))
+crs(contours_poly) <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
+
+
+pb <- progress_bar$new(format = "[:bar] :current/:total (:percent)", total = length(l_sdf))
+pb$tick(0)
+intersects <- map(l_sdf[1:length(l_sdf)], getIntersects) # 
 
 # TODO: regression where you see relative coming/going from census block groups inside/outside the border
 
@@ -107,6 +118,18 @@ getDistance <- function(x) {
   pb$tick(1)
   x <- spTransform(x, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
   return(gDistance(x,df_project,byid = FALSE))
+}
+
+getIntersects <- function(x) {
+  pb$tick(1)
+  x <- spTransform(x, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
+  x <- over(x,contours_poly)
+  if (max(na.omit(x)) > 0) {
+    x <- 1
+  } else {
+    x <- 0
+  }
+  return(x)
 }
 
 
