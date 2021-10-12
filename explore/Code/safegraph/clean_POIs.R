@@ -132,14 +132,56 @@ for (cp in 1:5) {
 
 ######### cleaning data ########
 bdf <- readRDS('POI/POIReadyRaster.Rdata')@data %>%
-  mutate(school = ifelse(sub_category == "Elementary and Secondary Schools",1,0))
+  filter(minDist < 100000) %>%
+  mutate(school = ifelse(sub_category == "Elementary and Secondary Schools",1,0),
+         hispanic_food = ifelse(str_detect(category_tags,"Argentinean Food") | 
+                                str_detect(category_tags,"Cuban Food") |
+                                str_detect(category_tags,"Latin American Food") |
+                                str_detect(category_tags,"Mexican Food") |
+                                str_detect(category_tags,"Peruvian Food") |
+                                str_detect(category_tags,"Spanish Food") |
+                                str_detect(category_tags,"Tapas"),1,0),
+         hispanic_loc = ifelse(latinCheck(location_name) > 0 ,1,0))
 
+write.csv(bdf,"POI/POI_cleaned.csv")
 
-# Hispanic references
-
-# restaurants - category_tags
 # see Language Schools
 
 # check location names, brand_ids
 
+### Check if name contains common Latin American words/food identifiers/countries
+# substrings: taqueria, taco, empanada, huevo, pollo, burrito, arepa, pupusa, tamale, tortilla
+# salsa, asado, lechon, mojo, ropa, vieja, chorizo, 
+# countries: mexic, bolivia, chile, argentin, venezuela, beliz, costa rica, salvador
+# guatemala, hondur, nicaragua, panama, brazil, colombia, ecuador, guyana, paragua, peru
+# surinam, urugu, cuba, dominican, haiti, puerto, latin
+# words: la, de, como, su, que, el, para, en, por, los, casa, caliente
+latinCheck <- function(names, spec = 1) {
+  
+  output <- 0
+  
+  # spec:
+  # == 1 : everythting
+  # == 2 : no food
+  
+  patterns <- c('latin', 'mexic', 'bolivia', 'chile', 'argentin', 
+                'venezuela', 'beliz', 'costa rica', 'salvador', 'guatemala', 'hondur',
+                'nicaragua', 'panama', 'brazil', 'colombia', 'ecuador', 'guyana', 'paragua',
+                'peru', 'surinam', 'urugu', 'cuba', 'dominican', 'haiti', 'puerto',
+                '^la ', ' la ', '^de ', ' de ', '^como ', 'como ', '^su ', ' su ',
+                ' que ', '^el ', ' el ', '^para ', ' para ', '^en ', ' en ',
+                '^por ', ' por ', '^los ', ' los ', '^casa ', ' casa ',
+                '^caliente ', ' caliente ')
+  if (spec == 2) {
+    patterns <- c(patterns,'taqueria', 'taco', 'empanada', 'huevo', 'pollo', 'burrito', 'arepa',
+                  'pupusa', 'tamale', 'tortilla', 'salsa', 'asado', 'lechon', 'mojo', 'ropa',
+                  'vieja', 'chorizo')
+  }
+  for (p in patterns) {
+    output <- output + grepl(p, names, ignore.case=TRUE) 
+  }
+  
+  
+  return(output) 
+}
 

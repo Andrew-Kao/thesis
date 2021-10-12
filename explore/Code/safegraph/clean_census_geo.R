@@ -77,6 +77,11 @@ crs(contours_poly) <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 
 pb <- progress_bar$new(format = "[:bar] :current/:total (:percent)", total = length(l_sdf))
 pb$tick(0)
 intersects <- map(l_sdf[1:length(l_sdf)], getIntersects) # 
+saveRDS(intersects,"safegraph_open_census_data_2010_to_2019_geometry/cbg_intersects.Rdata")
+
+block_instr <- data.frame("distance" = unlist(distance), "intersects" = unlist(intersects))
+write.csv(block_instr,"safegraph_open_census_data_2010_to_2019_geometry/block_instr.csv")
+
 
 # TODO: regression where you see relative coming/going from census block groups inside/outside the border
 
