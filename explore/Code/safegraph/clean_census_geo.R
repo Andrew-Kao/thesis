@@ -58,6 +58,13 @@ pb$tick(0)
 l_sdf <- map(gjsf[1:length(gjsf)], makeSPoly)  # 
 
 saveRDS(l_sdf,"safegraph_open_census_data_2010_to_2019_geometry/cbg_list_sdf.Rdata")
+l_sdf = readRDS("safegraph_open_census_data_2010_to_2019_geometry/cbg_list_sdf.Rdata")
+
+## get CBGs
+pb <- progress_bar$new(format = "[:bar] :current/:total (:percent)", total = length(gjsf))
+pb$tick(0)
+cbgs <- map(gjsf[1:length(gjsf)],getCBG)
+saveRDS(distance,"safegraph_open_census_data_2010_to_2019_geometry/cbgs.Rdata")
 
 gjsf <- 0 # just for memory
 
@@ -79,7 +86,12 @@ pb$tick(0)
 intersects <- map(l_sdf[1:length(l_sdf)], getIntersects) # 
 saveRDS(intersects,"safegraph_open_census_data_2010_to_2019_geometry/cbg_intersects.Rdata")
 
-block_instr <- data.frame("distance" = unlist(distance), "intersects" = unlist(intersects))
+
+### create one CSV with all data
+distance <- readRDS("safegraph_open_census_data_2010_to_2019_geometry/cbg_distance.Rdata")
+intersects <- readRDS("safegraph_open_census_data_2010_to_2019_geometry/cbg_intersects.Rdata")
+
+block_instr <- data.frame("census_block_group" = unlist(cbgs), "distance" = unlist(distance), "intersects" = unlist(intersects))
 write.csv(block_instr,"safegraph_open_census_data_2010_to_2019_geometry/block_instr.csv")
 
 
@@ -137,4 +149,8 @@ getIntersects <- function(x) {
   return(x)
 }
 
+getCBG <- function(x) {
+  pb$tick(1)
+  return(x$properties$CensusBlockGroup)
+}
 
