@@ -37,6 +37,33 @@ def vertically_explode_json(df, json_column='visitor_home_cbgs', index_column='s
 
     return(pd.DataFrame(all_sgpid_cbg_data))
 
+# Heckman correction for selection
+def compute_adjust_factor(df, population_col, sample_col):
+    adjust_factor = df[population_col] / df[population_col].sum() * df[sample_col].sum() / df[sample_col]
+    return(adjust_factor)
+
+# Hispanic in out
+def get_poi_hispanic_inout(pois, cbgs):
+	# make vertically explode
+	poi = vertically_explode_json(df) 
+	# merge with census block data
+	visitors_join_walmart = pd.merge(visitors_df_walmart,census_df_hispanic, left_on='visitor_home_cbg', right_on='census_block_group').drop('visitor_home_cbg',axis='columns')
+
+	# do adjustment (Heckman selection)
+	poi['cbg_adjust_factor'] = compute_adjust_factor(poi,'B01001e1','number_devices_residing')
+	poi = ['visitor_count'] = poi['visitor_count'] * poi['cbg_adjust_factor'] 
+
+	# get mean number of visitors 
+	# TODO: inside and outside
+	for dc in hispanic_demo_codes:
+	    demos_walmart['visitor_count_'+dc+'_D_adj'] = demos_walmart[dc+'_frac'] * demos_walmart['visitor_count'] 
+
+	cols_to_keep = ['safegraph_place_id','visitor_count', 'visitor_count_B03003e2_D_adj', 'visitor_count_B03003e3_D_adj'] 
+	poi = poi[cols_to_keep]
+	poi = poi.groupby(['safegraph_place_id']).sum().reset_index()
+
+	return(poi)
+
 
 
 ## sectors:
@@ -53,6 +80,9 @@ def vertically_explode_json(df, json_column='visitor_home_cbgs', index_column='s
 pois = pd.read_csv('../../Data/safegraph/POI/POI_cleaned.csv')
 block_instr = pd.read_csv('../../Data/safegraph/safegraph_open_census_data_2010_to_2019_geometry/block_instr.csv')
 cbg = pd.read_csv('../../Data/safegraph/safegraph_open_census_data_2019/data/cbg_b03.csv')
+home_cbg = pd.read_csv('../../Data/safegraph/home_panel_summary.csv')
+total_cbg = pd.read_csv('../../Data/safegraph/safegraph_open_census_data_2019/data/cbg_b01.csv')
+
 
 # get only Hispanic subset for CBG
 hispanic_demo_codes = ['B03003e2','B03003e3']
@@ -60,15 +90,27 @@ cbg = cbg[['census_block_group'] + hispanic_demo_codes]
 demo_totals_hispanic = cbg[hispanic_demo_codes].sum(axis=1) # the sum of Hispanic and Not Hispanice for each CBG
 for this_code in hispanic_demo_codes:
         cbg[this_code+"_frac"] = cbg[this_code] / demo_totals_hispanic
-## add instrument data to CBG
-
-
+## merge instrument data to CBG
+cbg = pd.merge(cbg,block_instr, on = ['census_block_group'])
+## merge home data
+home_cbg = home_cbg[['census_block_group','number_devices_residing']]
+cbg = pd.merge(cbg,home_cbg, on = ['census_block_group'])
+## merge total resident data
+total_cbg = total_cbg[['census_block_group','B01001e1']]
+cbg = pd.merge(cbg,total_cbg, on = ['census_block_group'])
 
 ## process: make it work for patterns-part-1.csv and then rsync in parts to the cluster and chunk? (or locally)
-l1 = '01'
+month = '01'
 l2 = '1'
 
-patterns = pd.read_csv('~/Dropbox/safegraph/2019/' + l1 + '/patterns-part' + l2 + '.csv')
+patterns = pd.read_csv('~/Dropbox/safegraph/2019/' + month + '/patterns-part' + l2 + '.csv')
+
+# only do January for now, TODO: the rest (need acquire data past April)
+
+# merge block_instr and patterns
+
+
+
 
 
 # descriptives
