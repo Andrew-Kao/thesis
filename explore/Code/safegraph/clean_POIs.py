@@ -107,7 +107,7 @@ cbg['nonhisp_inside_frac'] = cbg['B03003e2_frac'] * cbg['intersects']
 
 ## process: make it work for patterns-part-1.csv and then rsync in parts to the cluster and chunk? (or locally)
 month = '01'
-l2 = '1'
+l2 = '4'
 
 patterns = pd.read_csv('~/Dropbox/safegraph/2019/' + month + '/patterns-part' + l2 + '.csv')
 

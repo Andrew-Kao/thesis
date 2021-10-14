@@ -130,7 +130,7 @@ for (cp in 1:5) {
 }
 
 
-######### cleaning data ########
+######### cleaning data: initial ########
 bdf <- readRDS('POI/POIReadyRaster.Rdata')@data %>%
   filter(minDist < 100000) %>%
   mutate(school = ifelse(sub_category == "Elementary and Secondary Schools",1,0),
@@ -148,6 +148,44 @@ write.csv(bdf,"POI/POI_cleaned.csv")
 # see Language Schools
 
 # check location names, brand_ids
+
+
+####### cleaning data: patterns ########
+
+# reshape data
+poi_pattern <- tibble()
+for (i in 1:4) {
+  df <- read.csv(paste0('POI/POI_pattern_01_',i,'.csv'))  %>%
+    rename(non_hispanic = visitor_count_B03003e2_D_adj, hispanic = visitor_count_B03003e3_D_adj,
+           hisp_inside = visitor_count_hisp_inside_D_adj, nonhisp_inside = visitor_count_nonhisp_inside_D_adj) %>%
+    mutate(hisp_outside = non_hispanic - nonhisp_inside, nonhisp_outside = hispanic - hisp_inside)
+  
+  hi <- df %>%
+    dplyr::select(safegraph_place_id, hisp_inside) %>%
+    mutate(hispanic = 1, inside = 1) %>%
+    rename(visitors = hisp_inside)
+  ho <- df %>%
+    dplyr::select(safegraph_place_id, hisp_outside) %>%
+    mutate(hispanic = 1, inside = 0)  %>%
+    rename(visitors = hisp_outside)
+  ni <- df %>%
+    dplyr::select(safegraph_place_id, nonhisp_inside) %>%
+    mutate(hispanic = 0, inside = 1) %>%
+    rename(visitors = nonhisp_inside)
+  no <- df %>%
+    dplyr::select(safegraph_place_id, nonhisp_outside) %>%
+    mutate(hispanic = 0, inside = 0) %>%
+    rename(visitors = nonhisp_outside)
+  
+  poi_pattern <- bind_rows(poi_pattern, hi, ho, ni, no)
+}
+
+poi <- read.csv('POI/POI_cleaned.csv')
+
+poi_pattern <- poi_pattern %>%
+  left_join(poi, by = c('safegraph_place_id'))
+
+saveRDS(poi_pattern,"POI/POI_pattern.Rdata")
 
 ### Check if name contains common Latin American words/food identifiers/countries
 # substrings: taqueria, taco, empanada, huevo, pollo, burrito, arepa, pupusa, tamale, tortilla
