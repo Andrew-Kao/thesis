@@ -5,7 +5,7 @@
 import pandas as pd
 import pdb
 import numpy as np
-
+import json
 
 # function from https://github.com/ryanfoxsquire/safegraph_demo_profile/blob/8128cacb4ae34664c8a7d2bbfc619aa9b54cf36d/demo_profile_functions/demo_profile_functions.py#L265
 def vertically_explode_json(df, json_column='visitor_home_cbgs', index_column='safegraph_place_id', key_col_name='visitor_home_cbg', value_col_name='visitor_count'):
@@ -45,24 +45,28 @@ def compute_adjust_factor(df, population_col, sample_col):
 # Hispanic in out
 def get_poi_hispanic_inout(pois, cbgs):
 	# make vertically explode
-	poi = vertically_explode_json(df) 
+    poi = vertically_explode_json(pois)
+    poi['visitor_home_cbg'] = pd.to_numeric(poi['visitor_home_cbg'])
 	# merge with census block data
-	visitors_join_walmart = pd.merge(visitors_df_walmart,census_df_hispanic, left_on='visitor_home_cbg', right_on='census_block_group').drop('visitor_home_cbg',axis='columns')
+    poi = pd.merge(poi,cbgs, left_on='visitor_home_cbg', right_on='census_block_group').drop('visitor_home_cbg',axis='columns')
 
 	# do adjustment (Heckman selection)
-	poi['cbg_adjust_factor'] = compute_adjust_factor(poi,'B01001e1','number_devices_residing')
-	poi = ['visitor_count'] = poi['visitor_count'] * poi['cbg_adjust_factor'] 
+    poi['cbg_adjust_factor'] = compute_adjust_factor(poi,'B01001e1','number_devices_residing')
+    poi['visitor_count'] = poi['visitor_count'] * poi['cbg_adjust_factor']
 
-	# get mean number of visitors 
-	# TODO: inside and outside
-	for dc in hispanic_demo_codes:
-	    demos_walmart['visitor_count_'+dc+'_D_adj'] = demos_walmart[dc+'_frac'] * demos_walmart['visitor_count'] 
+    # get mean number of visitors 
+    # TODO: inside and outside
+    demo_codes = ['B03003e2','B03003e3','hisp_inside','nonhisp_inside']
+    for dc in demo_codes:
+        poi['visitor_count_'+dc+'_D_adj'] = poi[dc+'_frac'] * poi['visitor_count'] 
 
-	cols_to_keep = ['safegraph_place_id','visitor_count', 'visitor_count_B03003e2_D_adj', 'visitor_count_B03003e3_D_adj'] 
-	poi = poi[cols_to_keep]
-	poi = poi.groupby(['safegraph_place_id']).sum().reset_index()
+    cols_to_keep = ['safegraph_place_id','visitor_count', 'visitor_count_B03003e2_D_adj',
+                    'visitor_count_B03003e3_D_adj','visitor_count_hisp_inside_D_adj',
+                    'visitor_count_nonhisp_inside_D_adj'] 
+    poi = poi[cols_to_keep]
+    poi = poi.groupby(['safegraph_place_id']).sum().reset_index()
 
-	return(poi)
+    return(poi)
 
 
 
@@ -98,6 +102,8 @@ cbg = pd.merge(cbg,home_cbg, on = ['census_block_group'])
 ## merge total resident data
 total_cbg = total_cbg[['census_block_group','B01001e1']]
 cbg = pd.merge(cbg,total_cbg, on = ['census_block_group'])
+cbg['hisp_inside_frac'] = cbg['B03003e3_frac'] * cbg['intersects']
+cbg['nonhisp_inside_frac'] = cbg['B03003e2_frac'] * cbg['intersects']
 
 ## process: make it work for patterns-part-1.csv and then rsync in parts to the cluster and chunk? (or locally)
 month = '01'
@@ -107,9 +113,15 @@ patterns = pd.read_csv('~/Dropbox/safegraph/2019/' + month + '/patterns-part' + 
 
 # only do January for now, TODO: the rest (need acquire data past April)
 
-# merge block_instr and patterns
+# need to merge pois patterns
+pois_id = pois['safegraph_place_id'].to_frame()
+pattern_pois = pois_id.merge(patterns, on = ['safegraph_place_id'])
 
+npois = get_poi_hispanic_inout(pattern_pois, cbg)
 
+npois.to_csv('../../Data/safegraph/POI/POI_pattern_' + month + '_' + l2 + '.csv')
+
+pdb.set_trace()
 
 
 
