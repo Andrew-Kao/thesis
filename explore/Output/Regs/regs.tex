@@ -1,5 +1,10 @@
 \documentclass[11pt]{article}
 
+\ExplSyntaxOn % providing \expandableinput
+\cs_new:Npn \expandableinput #1
+  { \use:c { @@input } { \file_full_name:n {#1} } }
+\ExplSyntaxOff
+
 \usepackage{amsmath,amsthm,amssymb} %Misc math symbols
 \usepackage{mathtools}
 
@@ -278,6 +283,56 @@
 \input{sg_hisploc.tex} 
 \input{sg_hispfood.tex} 
 \input{sg_nonhispfood.tex} 
+
+%% triple diff
+\begin{table}[!h]
+    \centering
+    \captionsetup{skip=1.5pt}
+    \caption{Visitors to restaurants} 
+    \scalebox{.8}{
+        \begin{threeparttable}
+            \begin{tabular}{lccccccc}
+                \hline\hline\addlinespace
+                & \multicolumn{3}{c}{\textit{IHS(Visitors)}} \\
+                \cmidrule{2-4} & (1)  & (2) & (3)  \\
+                \hline\addlinespace
+                \multicolumn{3}{l}{Panel A: By Hispanic food  } \\
+                \hline\addlinespace
+                \expandableinput{sg_3d_hispfood.tex} \addlinespace\hline\addlinespace
+                County FE & No & Yes & No & Yes \\
+                NAICS FE & No & No & Yes & Yes \\
+                \hline\hline\addlinespace
+            \end{tabular}
+            \begin{tablenotes}[flushleft]
+                \item \textit{Notes:} Regressions are at the location-visitor demographic level. Standard errors are robust.  \end{tablenotes}
+        \end{threeparttable}
+    }
+\end{table}
+
+\begin{table}[!h]
+    \centering
+    \captionsetup{skip=1.5pt}
+    \caption{Visitors to entertainment} 
+    \scalebox{.8}{
+        \begin{threeparttable}
+            \begin{tabular}{lccccccc}
+                \hline\hline\addlinespace
+                & \multicolumn{3}{c}{\textit{IHS(Visitors)}} \\
+                \cmidrule{2-4} & (1)  & (2) & (3)  \\
+                \hline\addlinespace
+                \multicolumn{3}{l}{Panel A: By Hispanic brands  } \\
+                \hline\addlinespace
+                \expandableinput{sg_3d_hisploc71.tex} \addlinespace\hline\addlinespace
+                County FE & No & Yes & No & Yes \\
+                NAICS FE & No & No & Yes & Yes \\
+                \hline\hline\addlinespace
+            \end{tabular}
+            \begin{tablenotes}[flushleft]
+                \item \textit{Notes:} Regressions are at the location-visitor demographic level. Standard errors are robust.  \end{tablenotes}
+        \end{threeparttable}
+    }
+\end{table}
+
 
 \end{document}
 
