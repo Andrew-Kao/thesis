@@ -83,11 +83,26 @@ restore
 
 preserve
 * activity data
-keep if activity == 120303
+keep if activity == 120303 | (rectype==4 & activity[_n - 1] == 120303)
+replace relatewu = relatewu[_n + 1]
+
+keep if rectype == 3
+decode relatewu, gen(rw)
+drop relatewu
+ren rw relatewu
+gen alone = (relatewu == "Alone") 
+gen family = (relatewu == "Spouse" | relatewu == " Unmarried partner" | relatewu == "Own household child" | relatewu == "Grandchild" | regexm(relatewu,"Parent") | relatewu == "Brother sister" | relatewu == "Other related person" | relatewu == "Foster child" | regexm(relatewu, "family"))  
+gen social = (relatewu != "Alone" & relatewu != "Refused" & relatewu != "Don't know" & relatewu != "Blank")   
+gen parent = (regexm(relatewu,"Parent"))
+
+gen duration_alone = duration * alone
+gen duration_family = duration * family
+gen duration_social = duration * social
+gen duration_parent = duration * parent
 
 * median 90 min, mean 114
 
-collapse (sum) duration_ext duration, by(caseid)
+collapse (sum) duration_ext duration duration_alone duration_family duration_social duration_parent, by(caseid)
 
 tempfile tv
 save `tv'
@@ -102,6 +117,11 @@ merge m:1 caseid using `indiv', keep(1 3) nogen
 
 replace duration_ext = 0 if missing(duration_ext)
 replace duration = 0 if missing(duration)
+replace duration_alone = 0 if missing(duration_alone)
+replace duration_family = 0 if missing(duration_family)
+replace duration_social = 0 if missing(duration_social)
+replace duration_parent = 0 if missing(duration_parent)
+replace duration_parent = duration_parent/cases
 
 
 export delim "atus_indiv_tv_all.csv", replace
