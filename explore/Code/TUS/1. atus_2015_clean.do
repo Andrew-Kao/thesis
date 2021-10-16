@@ -94,15 +94,17 @@ gen alone = (relatewu == "Alone")
 gen family = (relatewu == "Spouse" | relatewu == " Unmarried partner" | relatewu == "Own household child" | relatewu == "Grandchild" | regexm(relatewu,"Parent") | relatewu == "Brother sister" | relatewu == "Other related person" | relatewu == "Foster child" | regexm(relatewu, "family"))  
 gen social = (relatewu != "Alone" & relatewu != "Refused" & relatewu != "Don't know" & relatewu != "Blank")   
 gen parent = (regexm(relatewu,"Parent"))
+gen child = (relatewu == "Own household child" | relatewu == "Grandchild" | relatewu == "Foster child" | regexm(relatewu, "under"))
 
 gen duration_alone = duration * alone
 gen duration_family = duration * family
 gen duration_social = duration * social
 gen duration_parent = duration * parent
+gen duration_child = duration * child
 
 * median 90 min, mean 114
 
-collapse (sum) duration_ext duration duration_alone duration_family duration_social duration_parent, by(caseid)
+collapse (sum) duration_ext duration duration_alone duration_family duration_social duration_parent duration_child, by(caseid)
 
 tempfile tv
 save `tv'

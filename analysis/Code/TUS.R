@@ -291,6 +291,21 @@ stargazer(m2,m3,m4,m5, out = "../../Output/Regs/atus_2015_extpar.tex", title="Ef
           dep.var.labels = 'Minutes TV watched',
           notes ="", se = makeRobust4(m2,m3,m4,m5))
 
+m2 <- lm((duration_child) ~ TV*hispanic_d + logPop + age + sex + age2, data=atusCounty) 
+m3 <- lm((duration_child) ~ TV*hispanic_d + logPop + pcHisp  + age + sex + age2, data=atusCounty)
+m4 <- lm((duration_child) ~ TV*hispanic_d+ logPop + pcHisp + income  + age + sex + age2, data=atusCounty)
+m5 <- lm((duration_child) ~ TV*hispanic_d + logPop + pcHisp + income  + age + sex + age2 + foreign*hispanic_d, data=atusCounty)
+stargazer(m2,m3,m4,m5, out = "../../Output/Regs/atus_2015_extchild.tex", title="Effect of TV on Amount of TV Watched with children, DD",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt',
+          order = c('TV','TV:hispanic_d','hispanic_d$','logPop'),
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Hispanic ',
+                               'Hispanic dummy',
+                               'Log(Population)','County \\% Hispanic','Log(Income)',
+                               'Foregin-born','Foreign-born Hispanic'),
+          omit = c('Constant','dist2','age','sexMale','sexNIU','cases'),
+          dep.var.labels = 'Minutes TV watched',
+          notes ="", se = makeRobust4(m2,m3,m4,m5))
+
 nonparent <- atusCounty %>%
   mutate(duration = duration - duration_parent) %>%
   dplyr::select(duration, TV, hispanic_d, logPop, pcHisp, income, age, sex, age2, cases, foreign) %>%
