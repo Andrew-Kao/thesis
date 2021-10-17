@@ -1,0 +1,47 @@
+%% ADD MEAN/SD?
+\begin{table}[!htbp] \centering 
+  \caption{Effect of TV contour regulation on TV watched by ethnicity} 
+  \label{t:atus_main} 
+	\scalebox{.8}{
+		\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				& \multicolumn{4}{c}{\textit{Minutes of TV watched}}  \\  
+				\cmidrule(lr){2-5} &  (1) & (2) & (3) & (4) \\
+				\addlinespace\hline\addlinespace
+				\multicolumn{4}{l}{Panel A: Total TV watched} \\ %atus_2015_ext11
+                              	\hline\addlinespace
+				 TV Dummy & $-$1.341 & $-$0.172 & 0.948 & 2.039 \\ 
+				  & (1.594) & (1.597) & (1.605) & (1.605) \\
+				 TV Dummy $\times$ Hispanic  & 10.822$^{***}$ & 9.050$^{***}$ & 11.060$^{***}$ & 10.362$^{***}$ \\ 
+				  & (3.013) & (3.021) & (3.038) & (3.034) \\ 
+				\addlinespace\hline\addlinespace
+				\multicolumn{4}{l}{Panel B: TV watched with children} \\ %atus_2015_extchild
+                              	\hline\addlinespace
+				 TV Dummy & $-$0.008 & 0.206 & 0.411 & 0.470 \\ 
+				  & (0.592) & (0.592) & (0.598) & (0.599) \\ 
+				 TV Dummy $\times$ Hispanic  & 3.171$^{**}$ & 2.857$^{**}$ & 3.211$^{**}$ & 3.172$^{**}$ \\ 
+				  & (1.410) & (1.411) & (1.412) & (1.412) \\ 
+				\addlinespace\hline\addlinespace
+				\multicolumn{4}{l}{Panel C: TV watched with parents} \\ %atus_2015_extpar
+                              	\hline\addlinespace
+				 TV Dummy & $-$0.318$^{**}$ & $-$0.336$^{**}$ & $-$0.327$^{**}$ & $-$0.328$^{**}$ \\ 
+				  & (0.135) & (0.136) & (0.135) & (0.135) \\ 
+				 TV Dummy $\times$ Hispanic  & 0.481$^{**}$ & 0.507$^{**}$ & 0.523$^{**}$ & 0.522$^{**}$ \\ 
+				  & (0.241) & (0.242) & (0.244) & (0.244) \\ 
+				\addlinespace\hline\addlinespace
+				N & 91,315 & 91,315 & 91,315 & 91,315 \\ 
+				\hline\addlinespace
+				Indiv. demographic & Yes & Yes & Yes & Yes \\
+				County log(income) & Yes & Yes & Yes & Yes \\
+				County \% Hispanic & No & Yes & Yes & Yes \\
+				County log(pop.) & No & No & Yes & Yes \\
+				Foreign born $\times$ Hispanic & No & No & No & Yes \\ 
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} The table presents coefficient estimates from regressions at the individual level, only keeping those living in a county within 100 KM of a Spanish language TV contour boundary. The dependent variable in Panel A is the total number of minutes of TV watched, in Panel B the number of minutes of TV watched with children, and in Panel C the number of minutes of TV watched with parents. TV dummy is an indicator variable for a person living in a county with access to Spanish language television based on the FCC regulation OET Bulletin 69, which is interacted with an indicator for whether the individual is Hispanic. Columns 1-4 include individual demographic controls for sex, age, and age squared, as well as the mean log(income) of the county. Columns 2-4 control for the percentage of the population that is Hispanic. Columns 3-4 control for the county's log(population). Column 4 controls for whether the individual is foreign born, interacted with a Hispanic dummy. Standard errors are robust. *, **, and *** denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.
+			\end{tablenotes}
+		\end{threeparttable}
+	}
+\end{table}

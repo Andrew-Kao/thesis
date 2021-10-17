@@ -30,7 +30,8 @@ if (Sys.info()["user"] == "AndrewKao") {
 # get tv county boundary
 instrument <- readRDS("../instrument/countyInstrumentCovariate.Rdata") %>%
   mutate(TV = ifelse(intersects == 1 & (areaRatio > .95 | dist > 0),1,0)) %>%
-  mutate(stateCounty = paste0(state, county))
+  mutate(stateCounty = paste0(state, county)) %>%
+  filter(dist < 100000)
 
 # atus data and merge
 atus2015 <- read.csv('2015/atus_indiv_tv.csv') %>%
@@ -211,8 +212,8 @@ stargazer(m2,m3,m4,m5, out = "../../Output/Regs/atus_2015_ext10.tex", title="Eff
           notes ="")
 
 
-m2 <- lm(duration_ext ~ TV*hispanic_d + logPop + age + sex + age2, data=atusCounty) 
-m3 <- lm(duration_ext ~ TV*hispanic_d + logPop + pcHisp  + age + sex + age2, data=atusCounty)
+m2 <- lm(duration_ext ~ TV*hispanic_d + income + age + sex + age2, data=atusCounty) 
+m3 <- lm(duration_ext ~ TV*hispanic_d + income + pcHisp  + age + sex + age2, data=atusCounty)
 m4 <- lm(duration_ext ~ TV*hispanic_d+ logPop + pcHisp + income  + age + sex + age2, data=atusCounty)
 m5 <- lm(duration_ext ~ TV*hispanic_d + logPop + pcHisp + income  + age + sex + age2 + foreign*hispanic_d, data=atusCounty)
 ### what distance restriction works?
@@ -229,8 +230,8 @@ stargazer(m2,m3,m4,m5, out = "../../Output/Regs/atus_2015_ext11.tex", title="Eff
           dep.var.labels = 'Minutes TV watched',
           notes ="", se = makeRobust4(m2,m3,m4,m5))
 
-m2 <- lm(duration_ext ~ TV*hispanic_d + logPop + age + sex + age2, data=atusCounty, subset = foreign == 1) 
-m3 <- lm(duration_ext ~ TV*hispanic_d + logPop + pcHisp  + age + sex + age2 , data=atusCounty, subset = foreign == 1)
+m2 <- lm(duration_ext ~ TV*hispanic_d + income + age + sex + age2, data=atusCounty, subset = foreign == 1) 
+m3 <- lm(duration_ext ~ TV*hispanic_d + income + pcHisp  + age + sex + age2 , data=atusCounty, subset = foreign == 1)
 m4 <- lm(duration_ext ~ TV*hispanic_d+ logPop + pcHisp + income  + age + sex + age2, data=atusCounty, subset = foreign == 1)
 ### what distance restriction works?
 # m6 <- lm(duration_ext ~ TV*hispanic_d*dist + TV*dist2*hispanic_d + logPop + pcHisp + income  + age + sex + age2 + cases + foreign*hispanic_d, data=atusCounty,
@@ -276,8 +277,8 @@ stargazer(m2,m3,m4,m5, out = "../../Output/Regs/atus_2015_extsoc.tex", title="Ef
           dep.var.labels = 'Minutes TV watched',
           notes ="", se = makeRobust4(m2,m3,m4,m5))
 
-m2 <- lm((duration_parent) ~ TV*hispanic_d + logPop + age + sex + age2, data=atusCounty) 
-m3 <- lm((duration_parent) ~ TV*hispanic_d + logPop + pcHisp  + age + sex + age2, data=atusCounty)
+m2 <- lm((duration_parent) ~ TV*hispanic_d + income + age + sex + age2, data=atusCounty) 
+m3 <- lm((duration_parent) ~ TV*hispanic_d + income + pcHisp  + age + sex + age2, data=atusCounty)
 m4 <- lm((duration_parent) ~ TV*hispanic_d+ logPop + pcHisp + income  + age + sex + age2, data=atusCounty)
 m5 <- lm((duration_parent) ~ TV*hispanic_d + logPop + pcHisp + income  + age + sex + age2 + foreign*hispanic_d, data=atusCounty)
 stargazer(m2,m3,m4,m5, out = "../../Output/Regs/atus_2015_extpar.tex", title="Effect of TV on Amount of TV Watched with parent, DD",
@@ -291,8 +292,8 @@ stargazer(m2,m3,m4,m5, out = "../../Output/Regs/atus_2015_extpar.tex", title="Ef
           dep.var.labels = 'Minutes TV watched',
           notes ="", se = makeRobust4(m2,m3,m4,m5))
 
-m2 <- lm((duration_child) ~ TV*hispanic_d + logPop + age + sex + age2, data=atusCounty) 
-m3 <- lm((duration_child) ~ TV*hispanic_d + logPop + pcHisp  + age + sex + age2, data=atusCounty)
+m2 <- lm((duration_child) ~ TV*hispanic_d + income + age + sex + age2, data=atusCounty) 
+m3 <- lm((duration_child) ~ TV*hispanic_d + income + pcHisp  + age + sex + age2, data=atusCounty)
 m4 <- lm((duration_child) ~ TV*hispanic_d+ logPop + pcHisp + income  + age + sex + age2, data=atusCounty)
 m5 <- lm((duration_child) ~ TV*hispanic_d + logPop + pcHisp + income  + age + sex + age2 + foreign*hispanic_d, data=atusCounty)
 stargazer(m2,m3,m4,m5, out = "../../Output/Regs/atus_2015_extchild.tex", title="Effect of TV on Amount of TV Watched with children, DD",
@@ -305,6 +306,21 @@ stargazer(m2,m3,m4,m5, out = "../../Output/Regs/atus_2015_extchild.tex", title="
           omit = c('Constant','dist2','age','sexMale','sexNIU','cases'),
           dep.var.labels = 'Minutes TV watched',
           notes ="", se = makeRobust4(m2,m3,m4,m5))
+
+m2 <- lm((duration_parent) ~ TV*hispanic_d + logPop + age + sex + age2, data=atusCounty, subset = foreign == 1) 
+m3 <- lm((duration_parent) ~ TV*hispanic_d + logPop + pcHisp  + age + sex + age2, data=atusCounty, subset = foreign == 1)
+m4 <- lm((duration_parent) ~ TV*hispanic_d+ logPop + pcHisp + income  + age + sex + age2, data=atusCounty, subset = foreign == 1)
+stargazer(m2,m3,m4, out = "../../Output/Regs/atus_2015_extparf.tex", title="Effect of TV on Amount of TV Watched with parent, DD",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt',
+          order = c('TV','TV:hispanic_d','hispanic_d$','logPop'),
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Hispanic ',
+                               'Hispanic dummy',
+                               'Log(Population)','County \\% Hispanic','Log(Income)',
+                               'Foregin-born','Foreign-born Hispanic'),
+          omit = c('Constant','dist2','age','sexMale','sexNIU','cases'),
+          dep.var.labels = 'Minutes TV watched',
+          notes ="", se = makeRobust4(m2,m3,m4,m5))
+
 
 nonparent <- atusCounty %>%
   mutate(duration = duration - duration_parent) %>%

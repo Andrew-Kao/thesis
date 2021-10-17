@@ -1,0 +1,32 @@
+
+\begin{table}[!htbp] \centering 
+  \caption{Effect of TV contour regulation on TV watched by ethnicity for foreign born residents} 
+  \label{t:atus_foreign} 
+	\scalebox{.8}{
+		\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				& \multicolumn{3}{c}{\textit{Minutes of TV watched}}  \\ 
+				\cmidrule(lr){2-5} &  (1) & (2) & (3) & (4) \\
+				\addlinespace\hline\addlinespace
+				\multicolumn{4}{l}{Panel A: TV watched by foreign born residents} \\ %atus_2015_ext12
+                              	\hline\addlinespace
+				 TV dummy & 0.910 & 0.950 & 2.695 \\ 
+				  & (4.581) & (4.581) & (4.743) \\ 
+				 TV dummy $\times$ Hispanic  & 12.248$^{*}$ & 11.822$^{*}$ & 11.268 \\ 
+				  & (6.955) & (6.957) & (6.989) \\ 
+				\addlinespace\hline\addlinespace
+				N & 8,929 & 8,929 & 8,929 \\ 
+				\hline\addlinespace
+				Indiv. demographic & Yes & Yes & Yes  \\
+				County log(pop) & Yes & Yes & Yes  \\
+				County \% Hispanic & No & Yes & Yes  \\
+				County log(income) & No & No & Yes  \\
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} The table presents coefficient estimates from regressions at the individual level, only keeping those who were born in a foreign country. The dependent variable is the total number of minutes of TV watched. TV dummy is an indicator variable for a person living in a county with access to Spanish language television based on the FCC regulation OET Bulletin 69, which is interacted with an indicator for whether the individual is Hispanic. Columns 1-3 include individual demographic controls for sex, age, and age squared, as well as the log(population) of the county. Columns 2-3 control for the percentage of the population that is Hispanic. Column 3 controls for the county's mean log(income). Standard errors are robust. *, **, and *** denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.
+			\end{tablenotes}
+		\end{threeparttable}
+	}
+\end{table}

@@ -1,7 +1,12 @@
 
 
 \documentclass[11pt]{article}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ExplSyntaxOn % providing \expandableinput
+\cs_new:Npn \expandableinput #1
+  { \use:c { @@input } { \file_full_name:n {#1} } }
+\ExplSyntaxOff
+
 \usepackage{amsmath,amsthm,amssymb, pdfpages,mathtools}
 \usepackage{color}
 \usepackage{array}
@@ -107,7 +112,11 @@
 \maketitle
 
 \begin{abstract}
-\noindent This paper investigates the diverse impacts of Spanish Language Television (SLTV) on Hispanic communities. By exploiting a FCC regulation concerning broadcast signal protection, I estimate the impact of SLTV on closing inequality in businesses and schools via a spatial regression discontinuity. The results show that SLTV creates more Hispanic owned firms and Hispanic named firms, and induces higher educational performance and fewer disciplinary incidents among Hispanic students. I provide evidence that suggests a strengthening of identity drives these results. \\\\
+\noindent 
+(1) how does television impact educational outcomes?
+(2) 
+
+This paper investigates the diverse impacts of Spanish Language Television (SLTV) on Hispanic communities. By exploiting a FCC regulation concerning broadcast signal protection, I estimate the impact of SLTV on closing inequality in businesses and schools via a spatial regression discontinuity. The results show that SLTV creates more Hispanic owned firms and Hispanic named firms, and induces higher educational performance and fewer disciplinary incidents among Hispanic students. I provide evidence that suggests a strengthening of identity drives these results. \\\\
 \textbf{JEL Codes:} I24, J15, L82, Z13.\\
 \textbf{Keywords:} Hispanic, television, education, identity
 \end{abstract}
@@ -484,25 +493,25 @@ More broadly speaking, we think that looking at the spillover effects of identit
 
 \subsection{Figures}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Figure 1: Coverage Contours
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{figure}[!hbtp]
-\centering
-\caption{Dummy for Hispanic Owned Business with Hispanic Name by Distance to Contour Boundary }\label{busnnnamefig}
-\includegraphics[width=12cm]{../../analysis/Output/graphs/hispanicbusnname.pdf}
-
-\textit{Notes:} The figure presents data at the firm level, where a smoothed average of a residualized dummy for Hispanic businesses with Hispanic-indicating names is plotted against the distance of the school to the closest Spanish Language Television station contour boundary. Positive distances denote schools that are located within the boundary, while negative distances denote schools outside of them. Controls at the county level include log population, income, and percentage population Hispanic.
-\end{figure} 
-
-\begin{figure}[!hbtp]
-\centering
-\caption{IHS(\# Hispanic Students Suspended) by Distance to Contour Boundary }\label{suspensionsfig}
-\includegraphics[width=12cm]{../../analysis/Output/graphs/hispanicsuspensions.pdf}
-
-\textit{Notes:} The figure presents data at a school level, where a smoothed average of the inverse hyperbolic sine transformed counts of Hispanic students suspended is plotted against the distance of the school to the closest Spanish Language Television station contour boundary. Positive distances denote schools that are located within the boundary, while negative distances denote schools outside of them.
-\end{figure} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Figure 1: Coverage Contours
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\begin{figure}[!hbtp]
+%\centering
+%\caption{Dummy for Hispanic Owned Business with Hispanic Name by Distance to Contour Boundary }\label{busnnnamefig}
+%\includegraphics[width=12cm]{../../analysis/Output/graphs/hispanicbusnname.pdf}
+%
+%\textit{Notes:} The figure presents data at the firm level, where a smoothed average of a residualized dummy for Hispanic businesses with Hispanic-indicating names is plotted against the distance of the school to the closest Spanish Language Television station contour boundary. Positive distances denote schools that are located within the boundary, while negative distances denote schools outside of them. Controls at the county level include log population, income, and percentage population Hispanic.
+%\end{figure} 
+%
+%\begin{figure}[!hbtp]
+%\centering
+%\caption{IHS(\# Hispanic Students Suspended) by Distance to Contour Boundary }\label{suspensionsfig}
+%\includegraphics[width=12cm]{../../analysis/Output/graphs/hispanicsuspensions.pdf}
+%
+%\textit{Notes:} The figure presents data at a school level, where a smoothed average of the inverse hyperbolic sine transformed counts of Hispanic students suspended is plotted against the distance of the school to the closest Spanish Language Television station contour boundary. Positive distances denote schools that are located within the boundary, while negative distances denote schools outside of them.
+%\end{figure} 
 
 %\begin{figure}[!hbtp]
 %\centering
@@ -537,7 +546,7 @@ Table plan:
 \begin{enumerate}
 \item Summary stats table: education (school level), ATUS data, transcript data, Safegraph data
 \item ATUS: first stage (93), children (99)
-\item Education: top (and bottom?) performance
+\item Education: top performance
 \item Education: identity
 \item Transcript: identity
 \item Safegraph: identity
@@ -548,8 +557,63 @@ Appendix:
 \item Migration table
 \item ATUS: parents (97), foreign born (94)
 \item Education: robustness
+\item Education: robustness spatial (SAR lag, SAR error)
+\item Education: bottom performance?
 \item Additional robustness
 \end{enumerate}
+
+\expandableinput{../../analysis/Output/regs/atus_main.tex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+
+%ONLINE APPENDIX MATERIAL
+
+
+\clearpage
+
+\singlespacing
+
+\setcounter{footnote}{0}
+
+\setcounter{section}{0}
+
+\setcounter{page}{1}
+\renewcommand\thepage{A.\arabic{page}}
+
+\renewcommand*{\theHsection}{\arabic{section}.\arabic{section}} 
+
+\renewcommand*{\theHfigure}{\arabic{section}.\arabic{figure}} 
+\setcounter{figure}{0}
+\renewcommand\thefigure{A.\arabic{figure}}
+
+
+\renewcommand*{\theHtable}{\arabic{section}.\arabic{table}} 
+\setcounter{table}{0}
+\renewcommand\thetable{A.\arabic{table}}
+
+\renewcommand{\thesection}{Appendix \Alph{section}}
+
+
+
+\begin{center}
+\Large ONLINE APPENDIX
+\end{center}
+
+\section{Auxiliary data sources} \label{a:auxiliarydata}
+
+In addition to the primary data sources described in Section~\ref{s:data}, we also use a number of auxiliary data sources for the empirical analysis.
+
+
+\paragraph{American Time Use (ATUS)}
+
+\clearpage
+
+\section{Additional figures and tables}
+
+\expandableinput{../../analysis/Output/regs/atus_foreign.tex}
+
 
 
 
@@ -585,47 +649,32 @@ Appendix:
 %\input{../../analysis/Output/Regs/don_base.tex}
 
 
-\begin{table}[!h]
-	\centering
-	\captionsetup{skip=1.5pt}
-	\caption{Classification of Hispanic Firm Names} \label{firm_class}
-	\scalebox{.8}{
-		\begin{threeparttable}
-			\begin{tabular}{llcccccccc}
-				\hline\hline\addlinespace
-    \textit{Section A: Latin American Countries} & mexic, bolivia, chile, argentin, venezuela, beliz, costa rica, salvador, guatemala \\
-&  hondur, nicaragua, panama, brazil, colombia, ecuador, guyana, paragua, peru \\
-& surinam, urugu, cuba, dominican, haiti, puerto, latin \\
-				\addlinespace\hline
-\textit{Section B: Common Spanish Words} & la, de, como, su, que, el, para, en, por, los, casa, caliente \\ %%% MOST COMMON 
-\hline
-\textit{Section C: Common Hispanic Foods} & taqueria, taco, empanada, huevo, pollo, burrito, arepa, pupusa, tamale, tortilla \\
-& salsa, asado, lechon, mojo, ropa, vieja, chorizo \\		 		
-				\addlinespace\hline\hline
-			\end{tabular}
-			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} Firms are classified as having a Hispanic name if any keyword in the table above is matched within the word, subject to the following requirements: (1) Case does not matter, (2) For Sections A and C, an exact match of the string at any location in the firm name, (3) For Section B, the string must be a distinct word, (4) The inclusion of Section C is optional.
-			\end{tablenotes}
-		\end{threeparttable}
-	}
-\end{table}
+%\begin{table}[!h]
+%	\centering
+%	\captionsetup{skip=1.5pt}
+%	\caption{Classification of Hispanic Firm Names} \label{firm_class}
+%	\scalebox{.8}{
+%		\begin{threeparttable}
+%			\begin{tabular}{llcccccccc}
+%				\hline\hline\addlinespace
+%    \textit{Section A: Latin American Countries} & mexic, bolivia, chile, argentin, venezuela, beliz, costa rica, salvador, guatemala \\
+%&  hondur, nicaragua, panama, brazil, colombia, ecuador, guyana, paragua, peru \\
+%& surinam, urugu, cuba, dominican, haiti, puerto, latin \\
+%				\addlinespace\hline
+%\textit{Section B: Common Spanish Words} & la, de, como, su, que, el, para, en, por, los, casa, caliente \\ %%% MOST COMMON 
+%\hline
+%\textit{Section C: Common Hispanic Foods} & taqueria, taco, empanada, huevo, pollo, burrito, arepa, pupusa, tamale, tortilla \\
+%& salsa, asado, lechon, mojo, ropa, vieja, chorizo \\		 		
+%				\addlinespace\hline\hline
+%			\end{tabular}
+%			\begin{tablenotes}[flushleft]
+%				\item \textit{Notes:} Firms are classified as having a Hispanic name if any keyword in the table above is matched within the word, subject to the following requirements: (1) Case does not matter, (2) For Sections A and C, an exact match of the string at any location in the firm name, (3) For Section B, the string must be a distinct word, (4) The inclusion of Section C is optional.
+%			\end{tablenotes}
+%		\end{threeparttable}
+%	}
+%\end{table}
 
 
-%\begin{figure}[!h]
-%\begin{center}
-%\caption{{\bf Proposition 3: Receiver's Priors and Posteriors}} \label{theoryfig1}
-%
-%\
-%
-%\includegraphics[scale=.35]{Figure1Updated.pdf}
-%
-%\end{center}
-%\end{figure}
-
-%\begin{figure}[!h]
-%\begin{center}
-%\caption{{\bf Experiment 1A: Donation Rates Before and After the Election}} \label{mainexperiment1fig}
-%
 %\
 %
 %\includegraphics[scale=1]{fig_1_2017.eps}
@@ -639,49 +688,6 @@ Appendix:
 
 
 
-%\begin{table}[!h]
-%  \centering
-%\caption{{\bf Experiment 1A: Difference in Differences Regressions}\label{mainexperiment1tab}} 
-%      \begin{lrbox}{\tablebox}
-%\begin{tabular}{l*{4}{c}}
-%\\
-%\hline
-%            Dependent&\multicolumn{4}{l}{Dummy: individual authorizes donation to}\\
-%                        Variable&\multicolumn{4}{l}{anti-immigrant  organization}\\
-%\hline
-%            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
-%\hline
-%Public & -0.202*** & -0.200*** & -0.202*** & -0.199***\\
-%& [0.065] & [0.066] & [0.065] & [0.065]\\
-%& (0.004) & (0.005) & (0.004) & (0.007)\\
-%Information & -0.074 & -0.077 & -0.074 & -0.076\\
-%& [0.069] & [0.068] & [0.069] & [0.068]\\
-%& (0.277) & (0.266) & (0.277) & (0.281)\\
-%Public*Information & 0.188* & 0.178* & 0.188* & 0.178*\\
-%& [0.096] & [0.096] & [0.096] & [0.096]\\
-%& (0.045) & (0.062) & (0.045) & (0.062)\\
-%After Election & & & -0.057 & -0.062\\
-%& & & [0.073] & [0.072]\\
-%& & & (0.380) & (0.304)\\
-%Public*After Election & & & 0.191* & 0.186*\\
-%& & & [0.102] & [0.101]\\
-%& & & (0.071) & (0.080)\\
-%Mean Donation Rate\\
-%Control Private & \multicolumn{4}{c}{0.545}\\
-%Before Election\\
-%\hline
-%Controls & No & Yes & No & Yes\\
-%N & 428 & 428 & 594 & 594\\
-%$R^{2}$ & 0.022 & 0.033 & 0.017 & 0.034\\
-%\hline
-%\end{tabular}
-%   \end{lrbox}
-%
-%   \usebox{\tablebox}\\
-%\settowidth{\tableboxwidth}{\usebox{\tablebox}} \parbox{.995\tableboxwidth}{\emph{Notes}: Columns (1) and (2) includes the full pre-election sample. Columns (3) and (4) add the post-election sample of individuals already surveyed before the election. Columns (1) presents OLS regression of a dummy variable for whether a individual donates to the anti-immigration organization on a dummy for the Public condition, a dummy for the Information condition, and a dummy for the Public Information condition. The control private condition before the election is the omitted group, for which we report the mean donation rate. Columns (3) replicates and adds a dummy for the after election condition, and a dummy for the Public after election condition. Columns (2) and (4) replicate and add individual covariates (gender, age, marital status, years of education, household income, and race). Robust standard errors in brackets. \emph{P}-values from permutation tests with 1,000 repetitions in parentheses. * significant at 10\%; ** significant at 5\%; *** significant at 1\% based on robust standard errors.}
-%%\end{tiny}
-%\end{table}
-%
 
 \end{document}
 
