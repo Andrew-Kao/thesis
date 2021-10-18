@@ -1432,32 +1432,8 @@ harass_hi <- cleanSchoolAll %>%
   mutate(eth = 1)
 
 harass <- harass_hi %>%
-  rbind(harass_as) %>%
-  right_join(affiliatesLEA, by = 'LEAID') %>%
-  mutate(univision = ifelse(univision >= 1, 1, 0),
-         telemundo = ifelse(telemundo >= 1, 1, 0),
-         pbs = ifelse(pbs >= 1, 1, 0),
-         unimas = ifelse(unimas >= 1, 1 ,0),
-         azteca = ifelse(azteca >= 1, 1, 0)) %>%
-  filter(univision == 1 | telemundo == 1 | pbs == 1 | unimas == 1 | azteca == 1) %>%
-  left_join(telemundo, by = "telemundo") %>%
-  left_join(univision, by = 'univision') %>%
-  left_join(pbs, by = 'pbs') %>%
-  left_join(unimas, by = 'unimas') %>%
-  left_join(azteca, by = 'azteca') %>%
-  rowwise() %>%
-  mutate(word_edu_mean = mean(c(telemundo_word_edu,univision_word_edu,pbs_word_edu,unimas_word_edu, azteca_word_edu),na.rm = TRUE),
-         word_latin_mean = mean(c(telemundo_word_latin,univision_word_latin,pbs_word_latin,unimas_word_latin, azteca_word_latin),na.rm = TRUE),
-         word_rolemodel_mean = mean(c(telemundo_word_rolemodel,univision_word_rolemodel,pbs_word_rolemodel,unimas_word_rolemodel, azteca_word_rolemodel),na.rm = TRUE),
-         word_bad_mean = mean(c(telemundo_word_bad,univision_word_bad,pbs_word_bad,unimas_word_bad, azteca_word_bad),na.rm = TRUE),
-         word_edu_max = max(c(telemundo_word_edu,univision_word_edu,pbs_word_edu,unimas_word_edu, azteca_word_edu),na.rm = TRUE),
-         word_latin_max = max(c(telemundo_word_latin,univision_word_latin,pbs_word_latin,unimas_word_latin, azteca_word_latin),na.rm = TRUE),
-         word_rolemodel_max = max(c(telemundo_word_rolemodel,univision_word_rolemodel,pbs_word_rolemodel,unimas_word_rolemodel, azteca_word_rolemodel),na.rm = TRUE),
-         word_edu_log = mean(c(telemundo_log_edu,univision_log_edu,pbs_log_edu,unimas_log_edu, azteca_log_edu),na.rm = TRUE),
-         word_latin_log = mean(c(telemundo_log_latin,univision_log_latin,pbs_log_latin,unimas_log_latin, azteca_log_latin),na.rm = TRUE),
-         word_rolemodel_log = mean(c(telemundo_log_rolemodel,univision_log_rolemodel,pbs_log_rolemodel,unimas_log_rolemodel, azteca_log_rolemodel),na.rm = TRUE),
-         word_bad_log = mean(c(telemundo_log_bad,univision_log_bad,pbs_log_bad,unimas_log_bad, azteca_log_bad),na.rm = TRUE)) %>%
-  ungroup()
+  rbind(harass_as)
+
 
 label_spec3_dda <- c('TV $\\times$ Hispanic', 'TV Dummy',
                        'Hispanic') #  'TV Dummy $\\times$ Distance $\\times$ Hispanic', 'TV Dummy $\\times$ Distance', 'Distance to Boundary $\\times$ Hispanic',
@@ -1790,6 +1766,33 @@ stargazer(om1, om2, om3, out = "../../Output/Regs/edu_dda_gedpOLSIHS_spec3.tex",
 ## see https://www.americamagazine.org/arts-culture/2018/04/06/why-telenovelas-are-powerful-and-problematic-part-latino-culture
 ## and https://insightcrime.org/news/analysis/mexico-narco-soap-operas-do-more-than-just-glorify-drug-trade/
 ## maybe find something academic
+
+harass <- harass %>%
+  right_join(affiliatesLEA, by = 'LEAID') %>%
+  mutate(univision = ifelse(univision >= 1, 1, 0),
+         telemundo = ifelse(telemundo >= 1, 1, 0),
+         pbs = ifelse(pbs >= 1, 1, 0),
+         unimas = ifelse(unimas >= 1, 1 ,0),
+         azteca = ifelse(azteca >= 1, 1, 0)) %>%
+  filter(univision == 1 | telemundo == 1 | pbs == 1 | unimas == 1 | azteca == 1) %>%
+  left_join(telemundo, by = "telemundo") %>%
+  left_join(univision, by = 'univision') %>%
+  left_join(pbs, by = 'pbs') %>%
+  left_join(unimas, by = 'unimas') %>%
+  left_join(azteca, by = 'azteca') %>%
+  rowwise() %>%
+  mutate(word_edu_mean = mean(c(telemundo_word_edu,univision_word_edu,pbs_word_edu,unimas_word_edu, azteca_word_edu),na.rm = TRUE),
+         word_latin_mean = mean(c(telemundo_word_latin,univision_word_latin,pbs_word_latin,unimas_word_latin, azteca_word_latin),na.rm = TRUE),
+         word_rolemodel_mean = mean(c(telemundo_word_rolemodel,univision_word_rolemodel,pbs_word_rolemodel,unimas_word_rolemodel, azteca_word_rolemodel),na.rm = TRUE),
+         word_bad_mean = mean(c(telemundo_word_bad,univision_word_bad,pbs_word_bad,unimas_word_bad, azteca_word_bad),na.rm = TRUE),
+         word_edu_max = max(c(telemundo_word_edu,univision_word_edu,pbs_word_edu,unimas_word_edu, azteca_word_edu),na.rm = TRUE),
+         word_latin_max = max(c(telemundo_word_latin,univision_word_latin,pbs_word_latin,unimas_word_latin, azteca_word_latin),na.rm = TRUE),
+         word_rolemodel_max = max(c(telemundo_word_rolemodel,univision_word_rolemodel,pbs_word_rolemodel,unimas_word_rolemodel, azteca_word_rolemodel),na.rm = TRUE),
+         word_edu_log = mean(c(telemundo_log_edu,univision_log_edu,pbs_log_edu,unimas_log_edu, azteca_log_edu),na.rm = TRUE),
+         word_latin_log = mean(c(telemundo_log_latin,univision_log_latin,pbs_log_latin,unimas_log_latin, azteca_log_latin),na.rm = TRUE),
+         word_rolemodel_log = mean(c(telemundo_log_rolemodel,univision_log_rolemodel,pbs_log_rolemodel,unimas_log_rolemodel, azteca_log_rolemodel),na.rm = TRUE),
+         word_bad_log = mean(c(telemundo_log_bad,univision_log_bad,pbs_log_bad,unimas_log_bad, azteca_log_bad),na.rm = TRUE)) %>%
+  ungroup()
 
 label_spec3_ddaR <- c('TV $\\times$ Hispanic $\\times$ \\% programs on identity',
                       'TV $\\times$ Hispanic $\\times$ \\% programs on education',
