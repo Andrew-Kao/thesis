@@ -114,7 +114,7 @@
 \begin{abstract}
 \noindent 
 (1) how does television impact educational outcomes?
-(2) 
+(2) can identity be mobilized to reduce inequality?
 
 This paper investigates the diverse impacts of Spanish Language Television (SLTV) on Hispanic communities. By exploiting a FCC regulation concerning broadcast signal protection, I estimate the impact of SLTV on closing inequality in businesses and schools via a spatial regression discontinuity. The results show that SLTV creates more Hispanic owned firms and Hispanic named firms, and induces higher educational performance and fewer disciplinary incidents among Hispanic students. I provide evidence that suggests a strengthening of identity drives these results. \\\\
 \textbf{JEL Codes:} I24, J15, L82, Z13.\\
@@ -544,25 +544,31 @@ More broadly speaking, we think that looking at the spillover effects of identit
 
 Table plan:
 \begin{enumerate}
-\item Summary stats table: education (school level), ATUS data, transcript data, Safegraph data
-\item ATUS: first stage (93), children (99)
-\item Education: top performance
-\item Education: identity
-\item Transcript: identity
-\item Safegraph: identity
+\item $<>$ Summary stats table: ATUS data, education (school level), transcript data, Safegraph data
+\item $<X>$ ATUS: first stage (93), children (99), ATUS: parents (97),
+\item $<X>$ Education: top performance: gifted, SAT/ACT, AP passed, 
+\item $<X> $Education: identity
+\item $<X>$ Transcript: identity
+\item $<X>$ Safegraph: identity
 \end{enumerate}
 
 Appendix:
 \begin{enumerate}
 \item Migration table
-\item ATUS: parents (97), foreign born (94)
+\item $<X>$ foreign born (94)
 \item Education: robustness
 \item Education: robustness spatial (SAR lag, SAR error)
+\item $<X>$ Education: more top performance
 \item Education: bottom performance?
+\item Transcript: bad identity
 \item Additional robustness
 \end{enumerate}
 
 \expandableinput{../../analysis/Output/regs/atus_main.tex}
+\expandableinput{../../analysis/Output/regs/edu_main.tex}
+\expandableinput{../../analysis/Output/regs/edu_mech.tex}
+\expandableinput{../../analysis/Output/regs/transcript_main.tex}
+\expandableinput{../../analysis/Output/regs/safegraph_main.tex}
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -614,12 +620,14 @@ In addition to the primary data sources described in Section~\ref{s:data}, we al
 
 \expandableinput{../../analysis/Output/regs/atus_foreign.tex}
 
+\expandableinput{../../analysis/Output/regs/edu_extra_achieve.tex}
+
 
 
 
 %\input{../../explore/output/summary/LEAInfo.tex}
 %\input{../../explore/output/summary/SchoolInfo.tex}
-\input{../../analysis/Output/Sum/sum_init.tex}
+%\input{../../analysis/Output/Sum/sum_init.tex}
 \input{../../analysis/Output/Sum/sum_out.tex}
 \input{../../analysis/Output/Regs/mig_orig.tex}
 \input{../../analysis/Output/Regs/mig_dest.tex}
@@ -628,10 +636,10 @@ In addition to the primary data sources described in Section~\ref{s:data}, we al
 %\input{../../explore/Output/Regs/clinton_b2.tex}
 %\input{../../explore/Output/Regs/clinton_d2.tex}
 
-\input{../../analysis/Output/regs/firm_busn.tex}
-\input{../../analysis/Output/regs/firm_name.tex}
-\input{../../analysis/Output/regs/firm_robust.tex}
-\input{../../analysis/Output/regs/firm_spatial.tex}
+%\input{../../analysis/Output/regs/firm_busn.tex}
+%\input{../../analysis/Output/regs/firm_name.tex}
+%\input{../../analysis/Output/regs/firm_robust.tex}
+%\input{../../analysis/Output/regs/firm_spatial.tex}
 
 %\input{../../explore/Output/Regs/edu_OOSIHS2_spec2.tex}
 %\input{../../explore/Output/Regs/edu_harhOLSIHS2_spec2.tex}
@@ -640,9 +648,9 @@ In addition to the primary data sources described in Section~\ref{s:data}, we al
 %\input{../../explore/Output/Regs/edu_lepOLSIHS_spec2.tex} % motivate with this, then add square
 %\input{../../explore/Output/Regs/edu_giftedOLSIHS2_spec2.tex}
 %\input{../../explore/Output/Regs/edu_giftedOLSIHS_spec2.tex}
-\input{../../analysis/Output/regs/edu_top.tex}
-\input{../../analysis/Output/regs/edu_bot.tex}
-\input{../../analysis/Output/regs/edu_mech.tex}
+%\input{../../analysis/Output/regs/edu_top.tex}
+%\input{../../analysis/Output/regs/edu_bot.tex}
+%\input{../../analysis/Output/regs/edu_mech.tex}
 \input{../../analysis/Output/regs/edu_ap_robust.tex}
 \input{../../analysis/Output/regs/edu_spatial.tex}
 

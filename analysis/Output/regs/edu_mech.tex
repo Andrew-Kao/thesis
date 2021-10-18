@@ -1,42 +1,39 @@
-\begin{table}[!h]
-	\centering
-	\captionsetup{skip=1.5pt}
-	\caption{Influence of Spanish Language Television on Hispanic Identity} \label{edu_mech}
+
+\begin{table}[!htbp] \centering 
+  \caption{Effect of Spanish language TV on Hispanic vs. Asian identity outcomes} 
+  \label{t:edu_mech} 
 	\scalebox{.8}{
 		\begin{threeparttable}
 			\begin{tabular}{lcccccccccc}
 				\hline\hline\addlinespace
-				Panel A: IHS(\# Hispanic Students Limited English Proficiency) &  (1) & (2) & (3) \\
-                                \hline\addlinespace
- TV Dummy & 0.040$^{***}$ & 0.039$^{***}$ & 0.031$^{***}$ \\ 
-  & (0.007) & (0.007) & (0.007) \\ 
- TV Dummy $\times$ Distance to Boundary & 0.003$^{***}$ & 0.003$^{***}$ & 0.003$^{***}$ \\ 
-  & (0.0001) & (0.0001) & (0.0001) \\ 
- Distance to Boundary (meters) & $-$0.002$^{***}$ & $-$0.002$^{***}$ & $-$0.002$^{***}$ \\ 
-  & (0.0004) & (0.0004) & (0.0003) \\ 
- \# Hispanic Students & 0.004$^{***}$ & 0.004$^{***}$ & 0.004$^{***}$ \\ 
-  & (0.00003) & (0.00004) & (0.00004) \\ 
-Observations & 40,864 & 40,864 & 40,864 \\        
-\hline\hline\addlinespace
-Panel B: IHS(\# Hispanic Victims of Ethnicity-Based Harassment) & & & \\ 
-\hline\addlinespace
-TV Dummy & 0.003$^{**}$ & 0.002$^{*}$ & 0.002$^{*}$ \\ 
-  & (0.001) & (0.001) & (0.001) \\ 
- TV Dummy $\times$ Distance to Boundary & $-$0.0001$^{**}$ & $-$0.00005$^{*}$ & $-$0.00005$^{*}$ \\ 
-  & (0.00002) & (0.00002) & (0.00002) \\ 
- Distance to Boundary (meters) & $-$0.0004$^{***}$ & $-$0.0004$^{***}$ & $-$0.0004$^{***}$ \\ 
-  & (0.0001) & (0.0001) & (0.0001) \\ 
- \# Hispanic Students & 0.0001$^{***}$ & 0.00003$^{***}$ & 0.00004$^{***}$ \\ 
-  & (0.00001) & (0.00001) & (0.00001) \\ 
-  Observations & 40,811 & 40,811 & 40,811 \\ 
-\hline\hline\addlinespace
-                                County Controls & Yes & Yes  & Yes\\
-                                School Size Controls & No & Yes & Yes\\
-                                School Type Controls & No & No & Yes \\
-				\addlinespace\hline\hline
+%				& \multicolumn{4}{c}{\textit{Minutes of TV watched}}  \\  				\cmidrule(lr){2-5} 
+				&  (1) & (2) & (3)  \\
+				\addlinespace\hline\addlinespace
+				\multicolumn{3}{l}{Panel A: IHS(limited English proficiency)} \\ %edu_dda_satactOLSIHS_spec3
+                              	\hline\addlinespace
+				TV dummy $\times$ Hispanic & 0.304$^{***}$ & 0.304$^{***}$ & 0.304$^{***}$ \\ 
+				  & (0.005) & (0.005) & (0.005) \\ 
+				 TV dummy & $-$0.092$^{***}$ & $-$0.091$^{***}$ & $-$0.100$^{***}$ \\ 
+				  & (0.004) & (0.004) & (0.004) \\ 
+				\addlinespace\hline
+				N & 83,004 & 83,004 & 83,004 \\ 
+				\hline\hline\addlinespace
+				\multicolumn{3}{l}{Panel B: IHS(bullied based on ethnicity or race)} \\ %edu_dda_calcOLSIHS_spec3
+                              	\hline\addlinespace
+				 TV $\times$ Hispanic & 0.001$^{*}$ & 0.001$^{*}$ & 0.001$^{*}$ \\ 
+				  & (0.001) & (0.001) & (0.001) \\ 
+				 TV Dummy & 0.001$^{**}$ & 0.001$^{***}$ & 0.001$^{***}$ \\ 
+				  & (0.0004) & (0.0004) & (0.0004) \\ 				 
+				   \addlinespace\hline
+				N & 52,068 & 52,068 & 52,068 \\ 
+				\hline\hline\addlinespace
+				County controls & Yes & Yes  & Yes\\
+                                	School size controls & No & Yes & Yes\\
+                                	School type controls & No & No & Yes \\
+					\addlinespace\hline\hline
 			\end{tabular}
 			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} The table presents coefficient estimates from regressions at the school level, only keeping schools within 100 KM of a contour boundary. The dependent variables are inverse hyperbolic sine transformed counts of Hispanic students who have Limited English Proficiency Panel A, and Hispanic students bullied or harassed on the basis of their identity in Panel B. The key independent variable of interest is the TV Dummy, which tracks whether the school is within a coverage contour boundary for a Spanish language television station. This is interacted with the distance to the boundary. County controls include log income, log population, and percentage county Hispanic for the county which the school is located in. School size controls account for the number of teachers and total number of students at the school, while school type controls include dummies for whether the school contains a primary, middle, and high school division. All regressions also control for the number of Hispanic students enrolled at the school. Standard errors are given in parentheses. *, **, and *** denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.
+				\item \textit{Notes:} The table presents coefficient estimates from regressions at the school-ethnicity level, only keeping schools within 100 KM of a Spanish language TV contour boundary. The dependent variable are inverse hyperbolic sine transformed counts of students classified as having limited English proficiency in Panel A and the number of students bullied on the basis of their ethnicity or race in Panel B. TV dummy is an indicator variable for a person living in a county with access to Spanish language television based on the FCC regulation OET Bulletin 69, which is interacted with an indicator for whether the demographic is Hispanic (the omitted group are Asians). Columns 1-3 include county level controls for log(income), log(population), and percentage of the county that is Hispanic, as well as school level controls for the number of Hispanic and Asian students enrolled. Columns 2-3 control for the number of teachers and total number of students at the school. Column 3 controls for indicators denoting whether the school contains a primary, middle, and high school division. Standard errors are robust. *, **, and *** denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.
 			\end{tablenotes}
 		\end{threeparttable}
 	}

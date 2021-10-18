@@ -16,6 +16,9 @@ library(spdep)
 library(spatialreg)
 library(missForest)
 library(fixest)
+library(conflicted)
+conflict_prefer("select", "dplyr")
+conflict_prefer("filter", "dplyr")
 
 
 if (Sys.info()["user"] == "AndrewKao") {
@@ -1788,8 +1791,8 @@ stargazer(om1, om2, om3, out = "../../Output/Regs/edu_dda_gedpOLSIHS_spec3.tex",
 ## and https://insightcrime.org/news/analysis/mexico-narco-soap-operas-do-more-than-just-glorify-drug-trade/
 ## maybe find something academic
 
-label_spec3_ddaR <- c('TV $\\times$ Hispanic $\\times$ \\% programs on education',
-                      'TV $\\times$ Hispanic $\\times$ \\% programs on identity',
+label_spec3_ddaR <- c('TV $\\times$ Hispanic $\\times$ \\% programs on identity',
+                      'TV $\\times$ Hispanic $\\times$ \\% programs on education',
                       'TV $\\times$ Hispanic $\\times$ \\% programs with role models',
                       'TV $\\times$ Hispanic $\\times$ \\% programs with bad content',
                       'TV $\\times$ Hispanic', 'TV Dummy',
@@ -1814,18 +1817,18 @@ om3 <- lm(ihs(sch_satact) ~ TV*eth*word_rolemodel_mean +
 om4 <- lm(ihs(sch_satact) ~ TV*eth*word_bad_mean +
             origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
             total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass)
-stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_ddaR_satactOLSIHS_spec3.tex", title="Differential Effect of TV on IHS(\\# Hispanic SAT/ACT) vs. Asian",
+stargazer(om2, om1, om3, om4, out = "../../Output/Regs/edu_ddaR_satactOLSIHS_spec3.tex", title="Differential Effect of TV on IHS(\\# Hispanic SAT/ACT) vs. Asian",
           omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
           omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
                    'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
-          order = c('TV:eth:word_edu_mean', 'TV:eth:word_latin_mean', 'TV:eth:word_rolemodel_mean','TV:eth:word_bad_mean','TV:eth','TV','eth'),
+          order = c('TV:eth:word_latin_mean','TV:eth:word_edu_mean', 'TV:eth:word_rolemodel_mean','TV:eth:word_bad_mean','TV:eth','TV','eth'),
           #order = c('TV:eth', 'TV','TV:origdist:eth','TV:origdist','origdist:eth','eth'), 
-          covariate.labels = c(label_spec3_ddaR), se= makeRobust4(om1,om2,om3, om4) ,
+          covariate.labels = c(label_spec3_ddaR), se= makeRobust4(om2,om1,om3, om4) ,
           dep.var.labels = 'IHS(\\# SAT/ACT)')
 
-om1 <- lm(ihs(sch_appass_oneormore) ~ TV*eth*word_edu_mean + 
+om2 <- lm(ihs(sch_appass_oneormore) ~ TV*eth*word_edu_mean + 
             origpcHisp + origLogInc + origLogPop + hisp_students + asian_students, data=harass)
-om2 <- lm(ihs(sch_appass_oneormore) ~ TV*eth*word_latin_mean +
+om1 <- lm(ihs(sch_appass_oneormore) ~ TV*eth*word_latin_mean +
             origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
             total_students, data=harass)
 om3 <- lm(ihs(sch_appass_oneormore) ~ TV*eth*word_rolemodel_mean +
@@ -1838,7 +1841,7 @@ stargazer(om1, om2, om3,om4, out = "../../Output/Regs/edu_ddaR_appOLSIHS_spec3.t
           omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
           omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
                    'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
-          order = c('TV:eth:word_edu_mean', 'TV:eth:word_latin_mean', 'TV:eth:word_rolemodel_mean','TV:eth:word_bad_mean','TV:eth','TV','eth'),
+          order = c( 'TV:eth:word_latin_mean', 'TV:eth:word_edu_mean','TV:eth:word_rolemodel_mean','TV:eth:word_bad_mean','TV:eth','TV','eth'),
           covariate.labels = c(label_spec3_ddaR), se= makeRobust4(om1,om2,om3,om4),
           dep.var.labels = 'IHS(\\# AP Passed)')
 
@@ -1897,9 +1900,9 @@ stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_ddaRlog_absentOLSIHS_
 
 om1 <- lm(ihs(sch_gtenr) ~ TV*eth*word_edu_mean + 
             origpcHisp + origLogInc + origLogPop + hisp_students + asian_students, data=harass)
-om2 <- lm(ihs(sch_gtenr) ~ TV*eth*word_latin_mean + +
+om2 <- lm(ihs(sch_gtenr) ~ TV*eth*word_latin_mean +
             origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students, data=harass)
-om3 <- lm(ihs(sch_gtenr) ~ TV*eth*word_rolemodel_mean + +
+om3 <- lm(ihs(sch_gtenr) ~ TV*eth*word_rolemodel_mean +
             origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students, data=harass)
 om4 <- lm(ihs(sch_gtenr) ~ TV*eth*word_bad_mean + +
             origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students, data=harass)
@@ -2022,6 +2025,71 @@ stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_ddaR_apsciOLSIHS_spec
           order = c('TV:eth:word_edu_mean', 'TV:eth:word_latin_mean', 'TV:eth:word_rolemodel_mean','TV:eth:word_bad_mean','TV:eth','TV','eth'),
           covariate.labels = c(label_spec3_ddaR), se= makeRobust4(om1,om2,om3,om4) , #coeftest(om1),  list(om1r,om2r,om3r) 
           dep.var.labels = 'IHS(\\# AP Science)')
+
+om2 <- lm(ihs(sch_mathenr_advm) ~ TV*eth*word_edu_mean + 
+            origpcHisp + origLogInc + origLogPop + hisp_students + asian_students, data=harass)
+om1 <- lm(ihs(sch_mathenr_advm) ~ TV*eth*word_latin_mean + +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students, data=harass)
+om3 <- lm(ihs(sch_mathenr_advm) ~ TV*eth*word_rolemodel_mean + +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students, data=harass)
+om4 <- lm(ihs(sch_mathenr_advm) ~ TV*eth*word_bad_mean + +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students, data=harass)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_ddaR_advmOLSIHS_spec3.tex", title="Differential Effect of TV on IHS(\\# Hispanic advanced math) vs. Asian",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c( 'TV:eth:word_latin_mean','TV:eth:word_edu_mean', 'TV:eth:word_rolemodel_mean','TV:eth:word_bad_mean','TV:eth','TV','eth'),
+          covariate.labels = c(label_spec3_ddaR), se= makeRobust4(om1,om2,om3,om4) , #coeftest(om1),  list(om1r,om2r,om3r) 
+          dep.var.labels = 'IHS(\\# advanced math)')
+
+om2 <- lm(ihs(sch_mathenr_calc) ~ TV*eth*word_edu_mean + 
+            origpcHisp + origLogInc + origLogPop + hisp_students + asian_students, data=harass)
+om1 <- lm(ihs(sch_mathenr_calc) ~ TV*eth*word_latin_mean + +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students, data=harass)
+om3 <- lm(ihs(sch_mathenr_calc) ~ TV*eth*word_rolemodel_mean + +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students, data=harass)
+om4 <- lm(ihs(sch_mathenr_calc) ~ TV*eth*word_bad_mean + +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students, data=harass)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_ddaR_calcOLSIHS_spec3.tex", title="Differential Effect of TV on IHS(\\# Hispanic calculus) vs. Asian",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c( 'TV:eth:word_latin_mean', 'TV:eth:word_edu_mean', 'TV:eth:word_rolemodel_mean','TV:eth:word_bad_mean','TV:eth','TV','eth'),
+          covariate.labels = c(label_spec3_ddaR), se= makeRobust4(om1,om2,om3,om4) , #coeftest(om1),  list(om1r,om2r,om3r) 
+          dep.var.labels = 'IHS(\\# calculus)')
+
+om1 <- lm(ihs(sch_scienr_biol) ~ TV*eth*word_latin_mean + +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students, data=harass)
+om2 <- lm(ihs(sch_scienr_biol) ~ TV*eth*word_edu_mean + 
+            origpcHisp + origLogInc + origLogPop + hisp_students + asian_students, data=harass)
+om3 <- lm(ihs(sch_scienr_biol) ~ TV*eth*word_rolemodel_mean + +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students, data=harass)
+om4 <- lm(ihs(sch_scienr_biol) ~ TV*eth*word_bad_mean + +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students, data=harass)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_ddaR_biolOLSIHS_spec3.tex", title="Differential Effect of TV on IHS(\\# Hispanic bio) vs. Asian",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV:eth:word_latin_mean', 'TV:eth:word_edu_mean', 'TV:eth:word_rolemodel_mean','TV:eth:word_bad_mean','TV:eth','TV','eth'),
+          covariate.labels = c(label_spec3_ddaR), se= makeRobust4(om1,om2,om3,om4) , #coeftest(om1),  list(om1r,om2r,om3r) 
+          dep.var.labels = 'IHS(\\# bio)')
+
+om1 <- lm(ihs(sch_scienr_chem) ~ TV*eth*word_latin_mean + +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students, data=harass)
+om2 <- lm(ihs(sch_scienr_chem) ~ TV*eth*word_edu_mean + 
+            origpcHisp + origLogInc + origLogPop + hisp_students + asian_students, data=harass)
+om3 <- lm(ihs(sch_scienr_chem) ~ TV*eth*word_rolemodel_mean + +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students, data=harass)
+om4 <- lm(ihs(sch_scienr_chem) ~ TV*eth*word_bad_mean + +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students, data=harass)
+stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_ddaR_chemOLSIHS_spec3.tex", title="Differential Effect of TV on IHS(\\# Hispanic chem) vs. Asian",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV:eth:word_latin_mean', 'TV:eth:word_edu_mean', 'TV:eth:word_rolemodel_mean','TV:eth:word_bad_mean','TV:eth','TV','eth'),
+          covariate.labels = c(label_spec3_ddaR), se= makeRobust4(om1,om2,om3,om4) , #coeftest(om1),  list(om1r,om2r,om3r) 
+          dep.var.labels = 'IHS(\\# chem)')
+
 ###
 ### non-interacted mech
 ###
@@ -2080,7 +2148,7 @@ stargazer(om1, om2, om3, om4, out = "../../Output/Regs/edu_ddaR2_lepOLSIHS_spec3
           omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
           omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
                    'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
-          order = c('word_edu_mean', 'word_latin_mean', 'word_rolemodel_mean', 'TV:eth:word_bad_mean','TV:eth','TV','eth'),
+          order = c('word_edu_mean', 'word_latin_mean', 'word_rolemodel_mean', 'word_bad_mean','TV:eth:word_bad_mean','TV:eth','TV','eth'),
           covariate.labels = c(label_spec3_ddaR2), se= makeRobust4(om1,om2,om3,om4) , 
           dep.var.labels = 'IHS(\\# Limited English Proficiency)')
 
