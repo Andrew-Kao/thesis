@@ -1,0 +1,63 @@
+This is BibTeX, Version 0.99d (TeX Live 2021)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: Draft 2021-10-16.aux
+White space in argument---line 55 of file Draft 2021-10-16.aux
+ : \citation{@CITE
+ :                 ALESINA}
+I'm skipping whatever remains of this command
+The style file: aea.bst
+Database file #1: tv.bib
+Warning--empty author in noauthor_american_2020
+Warning--empty publisher in anselin_spatial_1998
+Warning--empty author in noauthor_ap_2015
+Warning--empty author in noauthor_ap_2020
+Warning--empty author in noauthor_elementary_2004
+Warning--empty author in noauthor_ensuring_2015
+Warning--empty author in noauthor_high_2015
+Warning--empty author in noauthor_hispanic_2016
+Warning--empty author in noauthor_master_2016
+Warning--empty author in noauthor_oet_2004
+Warning--empty publisher in scherr_bullying_2009
+Warning--empty institution in tienda_hispanicity_2009
+You've used 51 entries,
+            2695 wiz_defined-function locations,
+            882 strings with 14929 characters,
+and the built_in function-call counts, 256660 in all, are:
+= -- 42866
+> -- 2811
+< -- 1
++ -- 20488
+- -- 881
+* -- 22948
+:= -- 50137
+add.period$ -- 338
+call.type$ -- 51
+change.case$ -- 618
+chr.to.int$ -- 46
+cite$ -- 63
+duplicate$ -- 693
+empty$ -- 2059
+format.name$ -- 896
+if$ -- 46446
+int.to.chr$ -- 10
+int.to.str$ -- 0
+missing$ -- 0
+newline$ -- 160
+num.names$ -- 462
+pop$ -- 46
+preamble$ -- 1
+purify$ -- 720
+quote$ -- 0
+skip$ -- 646
+stack$ -- 0
+substring$ -- 60805
+swap$ -- 296
+text.length$ -- 625
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 198
+warning$ -- 12
+while$ -- 1079
+width$ -- 0
+write$ -- 258
+(There was 1 error message)

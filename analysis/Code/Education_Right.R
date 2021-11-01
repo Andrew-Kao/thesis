@@ -612,16 +612,35 @@ sum2a <- harass %>%
   summarize_all(funs( mean = mean(.,na.rm=TRUE), sd = sd(.,na.rm=TRUE)))
 
 
-###### DIFFERENCE BETWEEN WHITES AND HISPANICS ######
+###### DIFFERENCE BETWEEN WHITES/ASIANS AND HISPANICS ######
 hisp_to_summarize <- cleanSchoolAll %>%
-  mutate(gifted_pc_hisp = sch_gtenr_hi/hisp_students,
-         ap_pc_hisp = sch_apenr_hi/hisp_students,
-         ap_one_pc_hisp = sch_appass_oneormore_hi/hisp_students,
+  mutate(gifted_pc_hi = sch_gtenr_hi/hisp_students,
+         ap_pc_hi = sch_apenr_hi/hisp_students,
+         ap_one_pc_hi = sch_appass_oneormore_hi/hisp_students,
+         sat_pc_hi = sch_satact_hi/hisp_students,
+         calc_pc_hi = sch_mathenr_calc_hi/hisp_students,
+         ap_one_pc_wh = sch_appass_oneormore_wh/white_students,
+         sat_pc_wh = sch_satact_wh/white_students,
+         calc_pc_wh = sch_mathenr_calc_wh/white_students,
+         ap_one_pc_as = sch_appass_oneormore_as/asian_students,
+         sat_pc_as = sch_satact_as/asian_students,
+         calc_pc_as = sch_mathenr_calc_as/asian_students,
          suspend = sch_discwodis_singoos_hi/hisp_students,
-         absent = sch_absent_hi/hisp_students)
-summary(hisp_to_summarize$gifted_pc_hisp)
-summary(hisp_to_summarize$ap_pc_hisp)
-summary(hisp_to_summarize$ap_one_pc_hisp)
+         absent = sch_absent_hi/hisp_students,
+         )
+
+# weird, Hispanics are better than whites on calc
+summary(hisp_to_summarize$ap_one_pc_hi)
+summary(hisp_to_summarize$ap_one_pc_wh)
+summary(hisp_to_summarize$ap_one_pc_as)
+summary(hisp_to_summarize$sat_pc_hi)
+summary(hisp_to_summarize$sat_pc_wh)
+summary(hisp_to_summarize$sat_pc_as)
+summary(hisp_to_summarize$calc_pc_hi)
+summary(hisp_to_summarize$calc_pc_wh)
+summary(hisp_to_summarize$calc_pc_as)
+
+
 summary(hisp_to_summarize$suspend)
 summary(hisp_to_summarize$absent)
 
