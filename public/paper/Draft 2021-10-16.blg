@@ -7,6 +7,10 @@ White space in argument---line 55 of file Draft 2021-10-16.aux
 I'm skipping whatever remains of this command
 The style file: aea.bst
 Database file #1: tv.bib
+I was expecting a `,' or a `}'---line 1339 of file tv.bib
+ :  author = {FCC}    
+ :                    %, Federal Communications Commission
+I'm skipping whatever remains of this entry
 Warning--empty author in noauthor_american_2020
 Warning--empty publisher in anselin_spatial_1998
 Warning--empty author in noauthor_ap_2015
@@ -14,50 +18,49 @@ Warning--empty author in noauthor_ap_2020
 Warning--empty author in noauthor_elementary_2004
 Warning--empty author in noauthor_ensuring_2015
 Warning--empty author in noauthor_high_2015
-Warning--empty author in noauthor_hispanic_2016
 Warning--empty author in noauthor_master_2016
 Warning--empty author in noauthor_oet_2004
 Warning--empty publisher in scherr_bullying_2009
 Warning--empty institution in tienda_hispanicity_2009
-You've used 51 entries,
+You've used 54 entries,
             2695 wiz_defined-function locations,
-            882 strings with 14929 characters,
-and the built_in function-call counts, 256660 in all, are:
-= -- 42866
-> -- 2811
+            906 strings with 15118 characters,
+and the built_in function-call counts, 271512 in all, are:
+= -- 45291
+> -- 2971
 < -- 1
-+ -- 20488
-- -- 881
-* -- 22948
-:= -- 50137
-add.period$ -- 338
-call.type$ -- 51
-change.case$ -- 618
-chr.to.int$ -- 46
-cite$ -- 63
-duplicate$ -- 693
-empty$ -- 2059
-format.name$ -- 896
-if$ -- 46446
-int.to.chr$ -- 10
++ -- 21644
+- -- 929
+* -- 24273
+:= -- 53136
+add.period$ -- 361
+call.type$ -- 54
+change.case$ -- 662
+chr.to.int$ -- 50
+cite$ -- 65
+duplicate$ -- 747
+empty$ -- 2175
+format.name$ -- 947
+if$ -- 49050
+int.to.chr$ -- 9
 int.to.str$ -- 0
 missing$ -- 0
-newline$ -- 160
-num.names$ -- 462
-pop$ -- 46
+newline$ -- 169
+num.names$ -- 506
+pop$ -- 51
 preamble$ -- 1
-purify$ -- 720
+purify$ -- 770
 quote$ -- 0
-skip$ -- 646
+skip$ -- 681
 stack$ -- 0
-substring$ -- 60805
-swap$ -- 296
-text.length$ -- 625
+substring$ -- 64302
+swap$ -- 316
+text.length$ -- 677
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 198
-warning$ -- 12
-while$ -- 1079
+type$ -- 212
+warning$ -- 11
+while$ -- 1178
 width$ -- 0
-write$ -- 258
-(There was 1 error message)
+write$ -- 273
+(There were 2 error messages)

@@ -4,6 +4,13 @@
 
 \begin{thebibliography}{xx}
 
+\harvarditem[Aksoy \harvardand\ Link]{Tevfik Aksoy \harvardand\ Charles~R
+  Link}{2000}{aksoy2000panel}
+{\bf Aksoy, Tevfik, and Charles~R Link.} 2000. ``A panel analysis of student
+  mathematics achievement in the US in the 1990s: does increasing the amount of
+  time in learning activities affect math achievement?'' {\em Economics of
+  education review}, 19(3):~261--277.
+
 \harvarditem[]{}{2020{\em a}}{noauthor_american_2020}
 {\bf American {Community} {Survey} {Sample} {Size} and {Data} {Quality}.}
   2020{\em a}. ``American {Community} {Survey} {Sample} {Size} and {Data}
@@ -53,26 +60,11 @@
   {Identity} and {Economic} {Behavior}.'' National Bureau of Economic Research
   w15925, Cambridge, MA.
 
-\harvarditem[Berg \harvardand\ Zia]{Gunhild Berg \harvardand\ Bilal
-  Zia}{2017}{berg_harnessing_2017}
-{\bf Berg, Gunhild, and Bilal Zia.} 2017. ``Harnessing {Emotional}
-  {Connections} to {Improve} {Financial} {Decisions}: {Evaluating} the {Impact}
-  of {Financial} {Education} in {Mainstream} {Media}.'' {\em Journal of the
-  European Economic Association}, 15(5):~1025--1055.
-
 \harvarditem[Bisin et~al.]{Alberto Bisin, Eleonora Patacchini, Thierry Verdier
   \harvardand\ Yves Zenou}{2010}{bisin_bend_2010}
 {\bf Bisin, Alberto, Eleonora Patacchini, Thierry Verdier, and Yves Zenou.}
   2010. ``Bend {It} {Like} {Beckham}: {Ethnic} {Identity} and {Integration}.''
   National Bureau of Economic Research w16465, Cambridge, MA.
-
-\harvarditem[Bjorvatn et~al.]{Kjetil Bjorvatn, Alexander~W. Cappelen,
-  Linda~Helgesson Sekei, Erik~Ø. Sørensen \harvardand\ Bertil
-  Tungodden}{2019}{bjorvatn_teaching_2019}
-{\bf Bjorvatn, Kjetil, Alexander~W. Cappelen, Linda~Helgesson Sekei, Erik~Ø.
-  Sørensen, and Bertil Tungodden.} 2019. ``Teaching {Through} {Television}:
-  {Experimental} {Evidence} on {Entrepreneurship} {Education} in {Tanzania}.''
-  {\em Management Science}, mnsc.2019.3321.
 
 \harvarditem[Bursztyn et~al.]{Leonardo Bursztyn, Stefano Fiorin, Daniel
   Gottlieb \harvardand\ Martin Kanz}{2015}{bursztyn_moral_2015}
@@ -132,6 +124,15 @@
   {Educational} {Programs}.'' U.S. Department of Justice, Civil Rights Division
   and U.S. Department of Education, Office for Civil Rights.
 
+\harvarditem[Fairlie]{Robert~W Fairlie}{2012}{fairlie2012academic}
+{\bf Fairlie, Robert~W.} 2012. ``Academic achievement, technology and race:
+  Experimental evidence.'' {\em Economics of Education Review},
+  31(5):~663--679.
+
+\harvarditem[FCC]{FCC}{2016}{noauthor_hispanic_2016}
+{\bf FCC.} 2016. ``Hispanic {Television} {Study}.'' {\em Office of Strategic
+  Planning and Policy Analysis and Industry Analysis Division, Media Bureau}.
+
 \harvarditem[Ferrara, Chong \harvardand\ Duryea]{Eliana~La Ferrara, Alberto
   Chong \harvardand\ Suzanne Duryea}{2012}{ferrara_soap_2012}
 {\bf Ferrara, Eliana~La, Alberto Chong, and Suzanne Duryea.} 2012. ``Soap
@@ -160,20 +161,20 @@
   {Viewing} and {Adolescent} {Test} {Scores}: {Historical} {Evidence} from the
   {Coleman} {Study}.'' {\em Quarterly Journal of Economics}, 123(1):~279--323.
 
-\harvarditem[Giné \harvardand\ Mansuri]{Xavier Giné \harvardand\ Ghazala
-  Mansuri}{2014}{gine_money_2014}
-{\bf Giné, Xavier, and Ghazala Mansuri.} 2014. {\em Money or {Ideas}? {A}
-  {Field} {Experiment} on {Constraints} to {Entrepreneurship} in {Rural}
-  {Pakistan}.} {\em Policy {Research} {Working} {Papers}}, The World Bank.
-
 \harvarditem[]{}{2015{\em a}}{noauthor_high_2015}
 {\bf High {School} {Benchmarks} – 2015.} 2015{\em a}. ``High {School}
   {Benchmarks} – 2015.'' National Student Clearinghouse Research Center.
 
-\harvarditem[]{}{2016{\em a}}{noauthor_hispanic_2016}
-{\bf Hispanic {Television} {Study}.} 2016{\em a}. ``Hispanic {Television}
-  {Study}.'' Federal Communications Commission, Office of Strategic Planning
-  and Policy Analysis and Industry Analysis Division, Media Bureau.
+\harvarditem[Hornik]{Robert Hornik}{1981}{hornik1981out}
+{\bf Hornik, Robert.} 1981. ``Out-of-school television and schooling:
+  Hypotheses and methods.'' {\em Review of Educational Research},
+  51(2):~193--214.
+
+\harvarditem[Huang \harvardand\ Lee]{Fali Huang \harvardand\ Myoung-Jae
+  Lee}{2010}{huang2010dynamic}
+{\bf Huang, Fali, and Myoung-Jae Lee.} 2010. ``Dynamic treatment effect
+  analysis of TV effects on child cognitive development.'' {\em Journal of
+  Applied Econometrics}, 25(3):~392--419.
 
 \harvarditem[Jensen \harvardand\ Oster]{Robert Jensen \harvardand\ Emily
   Oster}{2009}{jensen_power_2009}
@@ -181,18 +182,19 @@
   {Television} and {Women}'s {Status} in {India} $^{\textrm{*}}$.'' {\em
   Quarterly Journal of Economics}, 124(3):~1057--1094.
 
-\harvarditem[Karlan \harvardand\ Valdivia]{Dean Karlan \harvardand\ Martin
-  Valdivia}{2011}{karlan_teaching_2011}
-{\bf Karlan, Dean, and Martin Valdivia.} 2011. ``Teaching {Entrepreneurship}:
-  {Impact} of {Business} {Training} on {Microfinance} {Clients} and
-  {Institutions}.'' {\em Review of Economics and Statistics}, 93(2):~510--527.
-
 \harvarditem[Kearney \harvardand\ Levine]{Melissa~S. Kearney \harvardand\
   Phillip~B. Levine}{2015}{kearney_media_2015}
 {\bf Kearney, Melissa~S., and Phillip~B. Levine.} 2015. ``Media {Influences} on
   {Social} {Outcomes}: {The} {Impact} of {MTV}’s \textit{16 and {Pregnant}}
   on {Teen} {Childbearing}.'' {\em American Economic Review},
   105(12):~3597--3632.
+
+\harvarditem[Keith et~al.]{Timothy~Z Keith, Thomas~M Reimers, Paul~G Fehrmann,
+  Sheila~M Pottebaum \harvardand\ Linda~W Aubey}{1986}{keith1986parental}
+{\bf Keith, Timothy~Z, Thomas~M Reimers, Paul~G Fehrmann, Sheila~M Pottebaum,
+  and Linda~W Aubey.} 1986. ``Parental involvement, homework, and TV time:
+  Direct and indirect effects on high school achievement.'' {\em Journal of
+  educational psychology}, 78(5):~373.
 
 \harvarditem[Kuntsche et~al.]{Emmanuel Kuntsche, William Pickett, Mary
   Overpeck, Wendy Craig, William Boyce \harvardand\ Margarida~Gaspar
@@ -202,9 +204,28 @@
   {Forms} of {Bullying} among {Adolescents} from {Eight} {Countries}.'' {\em
   Journal of Adolescent Health}, 39(6):~908--915.
 
-\harvarditem[]{}{2016{\em b}}{noauthor_master_2016}
-{\bf Master {List} of 2015 - 2016 {CRDC} {Definitions}.} 2016{\em b}. ``Master
-  {List} of 2015 - 2016 {CRDC} {Definitions}.'' Civil Rights Data Collection.
+\harvarditem[Kureishi \harvardand\ Yoshida]{Wataru Kureishi \harvardand\ Keiko
+  Yoshida}{2013}{kureishi2013does}
+{\bf Kureishi, Wataru, and Keiko Yoshida.} 2013. ``Does viewing television
+  affect the academic performance of children?'' {\em Social Science Japan
+  Journal}, 16(1):~87--105.
+
+\harvarditem[]{}{2016}{noauthor_master_2016}
+{\bf Master {List} of 2015 - 2016 {CRDC} {Definitions}.} 2016. ``Master {List}
+  of 2015 - 2016 {CRDC} {Definitions}.'' Civil Rights Data Collection.
+
+\harvarditem[Munasib \harvardand\ Bhattacharya]{Abdul Munasib \harvardand\
+  Samrat Bhattacharya}{2010}{munasib2010idiot}
+{\bf Munasib, Abdul, and Samrat Bhattacharya.} 2010. ``Is the ‘Idiot's
+  Box’raising idiocy? Early and middle childhood television watching and
+  child cognitive outcome.'' {\em Economics of Education Review},
+  29(5):~873--883.
+
+\harvarditem[Nakamuro et~al.]{Makiko Nakamuro, Tomohiko Inui, Wataru Senoh
+  \harvardand\ Takeshi Hiromatsu}{2015}{nakamuro2015television}
+{\bf Nakamuro, Makiko, Tomohiko Inui, Wataru Senoh, and Takeshi Hiromatsu.}
+  2015. ``Are television and video games really harmful for kids?'' {\em
+  Contemporary Economic Policy}, 33(1):~29--43.
 
 \harvarditem[Oberholzer-Gee \harvardand\ Waldfogel]{Felix Oberholzer-Gee
   \harvardand\ Joel Waldfogel}{2009}{oberholzer-gee_media_2009}
@@ -222,11 +243,6 @@
 {\bf Olken, Benjamin~A.} 2009. ``Do {Television} and {Radio} {Destroy} {Social}
   {Capital}? {Evidence} from {Indonesian} {Villages}.'' {\em American Economic
   Journal: Applied Economics}, 1(4):~1--33.
-
-\harvarditem[Orozco, Oyer \harvardand\ Porras]{Marlene Orozco, Paul Oyer
-  \harvardand\ Jerry Porras}{2017}{orozco_state_2017}
-{\bf Orozco, Marlene, Paul Oyer, and Jerry Porras.} 2017. ``State of {Latino}
-  {Entrepreneurship}.'' Stanford Graduate School of Business.
 
 \harvarditem[Pardo \harvardand\ Dreas]{Claudia Pardo \harvardand\ Charles
   Dreas}{2011}{pardo_three_2011}
