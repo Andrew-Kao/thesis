@@ -209,12 +209,6 @@ Finally, in the education and psychology literature, the stereotype threat pheno
 \paragraph{Layout.} Following this Introduction, Section \ref{s:data} presents the data sources used. Section \ref{s:rd} describes the difference-in-discontinuities empirical strategy and establishes the first stage. Section \ref{s:school} presents evidence that SLTV closes the Hispanic achievement gap. Section \ref{s:mech} presents evidence that an identity mechanism underlies these results. Finally, Section \ref{s:conclusion} concludes with a discussion of research questions opened by the preceding analysis.
 
 
-\vspace{5em}
-\hrule
-\vspace{.5em}
-EDIT \\
-\hrule
-\vspace{.5em}
 
 \section{Data}\label{s:data}
 
@@ -222,42 +216,27 @@ EDIT \\
 %\subsection{Broadcast TV and Geography}
 
 \paragraph{Coverage contours}  The central instrument in this paper is the discontinuity in coverage contours of SLTV stations introduced via FCC regulation OET Bulletin No.~69. To build the coverage contours of SLTV stations in the United States, I collect a list of the callsigns for all SLTV stations from TMS Media, a large provider of data on TV, movies, and other media.\footnote{ A TV station is defined to be SLTV if at least one of the primary broadcasts languages are Spanish.} There are 100 of these stations located across the United States. These callsigns are matched against data from the FCC's OET Bulletin No.~69 and the FCC's Consolidated DataBase System to directly obtain the coverage contour boundaries in 2015 as prescribed and regulated by the FCC.\footnote{ 2015 coverage contour data is used due to the 'FCC Spectrum Repack' that began in 2018, which relocates a number of signals, affecting the reception and coverage for a substantial number of stations.}  % repack cite: \citep{fletcher_fcc_2018}
-Figure~\ref{f:contour_example} presents an example of a coverage contour, while Figure~\ref{f:all_contours} displays a map of all SLTV contours in the United States.
+Figure~\ref{f:contour_example} presents an example of a coverage contour, while Figure~\ref{f:contours_schools} displays a map of all SLTV contours in the United States.
 
-\paragraph{Time use data} I collect time use data on 210,586 individuals from the American Time Use Dataset and construct the total amount of time spent watching TV, the time spent watching TV with children and parents, the time spent on children's education, and demographic variables.   
+\paragraph{Time use data} I collect time use data from the American Time Use Dataset and construct the total amount of time individuals spent watching TV, time spent watching TV with children and parents, time spent on children's education, and demographic variables. Individuals in the data are located at the county level---I classify a given county as falling within a SLTV contour coverage if at least 50\% of its area does. 68,373 individuals in the sample live within 100 kilometers of the contour boundary. Table~\ref{t:summary}, Panel A presents summary statistics for this data.  
 
-To merge to the county level, the area is said to fall within the coverage boundary if at least 50\% of its area does, 
-
- Of these, 68,373  Table~\ref{t:summary}, Panel A presents summary statistics for this data.  
-
-\paragraph{Public school data} I collect data on all 96,350 public schools across 17,280 school districts from the US Department of Education's Civil Rights Data Collection (CRDC) dataset in 2015. In order to prevent discrimination and for transparency purposes, all public schools in the United States are required to report data to the CRDC on an annualized basis. This data contains information on various indicators of educational performance by demographic category, including SAT/ACT tests taken, calculus courses taken, AP tests passed, students classified under `Limited English Proficiency', students bullied on the basis of ethnicity or race, as well as the number of teachers and students in the school.
-
- Figure \ref{schooldistrictfig} contains a map of these schools, while summary statistics for the outcomes and controls are presented in Panel B of Table \ref{sum_out}.
-
-School level controls include the number of teachers, the number of total students, the number of Hispanic students, as well as dummies for whether the school contains a primary school, middle school, and high school. Demographic control variables are sourced at the county level (income, percent Hispanic, population) from IPUMs as described in the Data section. These schools are geolocated using ArcGIS.
-
-% sample problems
-% \footnote{ In practice, this data is not released to the public every year. Furthermore, not all schools report all data (or correct data) required of them, which is why the number of observations for different variables in this dataset fluctuates. Some data, such as that on AP examinations, are not mandatory, but the bulk of outcome variables are, with non-compliance on the mandatory data typically representing $<1\%$ of total data.} 
+\paragraph{Public school data} I collect data on public schools from the US Department of Education's Civil Rights Data Collection (CRDC) dataset in 2015. For anti-discrimination and transparency purposes, all public schools in the United States are required to report data to the CRDC on an annualized basis. This data contains information on various indicators of educational performance by demographic category, including SAT/ACT tests taken, calculus courses taken, AP tests passed, students classified under `Limited English Proficiency', students bullied on the basis of ethnicity or race, as well as the number of teachers and students in the school.\footnote{More comprehensive variable descriptions are provided under \ref{a:auxiliarydata}.} School addresses are geocoded using ArcGIS and coded as receiving SLTV if they fall within a coverage contour. 83,004 schools fall within 100 kilometers of the contour boundary. Figure \ref{f:contours_schools} presents a map of these schools, while Table~\ref{t:summary}, Panel B presents summary statistics. 
 
 
+\paragraph{Television transcript data} To code the content of programs broadcasted by SLTV stations, I make use of archive.org's television transcript database. For each station in their database, I code the fraction of television programs whose transcripts contain keywords related to the mechanisms that I study: identity, education, and role models.\footnote{More advanced text analysis such as NLP is not possible due to copyright law restricting direct access to the text corpus. Thus, only keyword searches are feasible. The specific set of keywords used are displayed in Appendix Table~\ref{t:transcript_keywords} and the process for constructing this set is described under \ref{a:auxiliarydata}.}
 
-\paragraph{Geocoding}
-
-Location data for all outcomes was collected in the form of addresses written in text. To transform this into proper spatial data (coordinates with latitude \& longitude), two geocoding tools were used: (1) ArcGIS, which has its own proprietary database of locations. Over 99\% of addresses were successfully matched to one location and geocoded. This was used to geocode the schooling data, as well as portions of the campaign contribution data. (2) The US Census Geocoder, which contains the census database of locations. Over 80\% of addresses were successfully matched to one location and geocoded.\footnote{The US Census geocoder, unlike the ArcGIS geocoder, is free. However, due to the higher precision of the ArcGIS geocoder, data constructed from it is used wherever possible. } This was used to geocode the business data, as well as portions of the campaign contribution data. It is unlikely for non-geocoded addresses to be correlated with the instrument, given the relatively narrow band around the contour retained for the spatial regression discontinuity.
-
-For data that take the form of spatial points (such as the location of a school), determining its distance to the boundary and whether the datapoint falls within the coverage boundary is a straightforward process.  For data aggregated into grid points (typically a grid composed of $2 \times 2$ KM$^2$ chunks), we treat each any degree of intersection as the grid point falling within coverage, given its relatively small size. In locations covered by multiple SLTV stations, the distance to the boundary is taken as the distance to the closest boundary. %% FIX THIS: not true for migration. True for Trump, but smaller grid
-% For data that cover a wider area (such as a county), in the standard specification, the area is said to fall within the coverage boundary if at least 50\% of its area does, and the distance from the area to the boundary is taken as the minimum distance from the boundary to the area.
-% TODO: robustness; experiment with this for county controls data! calculate area... maybe also for campaigns
+Due to a lack of comprehensive coverage on all SLTV stations (less than half have data), I impute data
 
 
+\vspace{5em}
+\hrule
+\vspace{.5em}
+EDIT \\
+\hrule
+\vspace{.5em}
 
-\subsection{Controls and Other Non-Outcome Data}
-Controls at the county level are sourced from IPUMS and consist of basic relevant demographic information: population, income, percent of county that is Hispanic etc. County level data is mapped to its relevant location using census data as well. 
+\subsection{Other data} \ref{a:auxiliarydata} describes other data used in the paper, including IPUMS migration data, American Community Survey data, and also describes in greater detail the data construction process for the datasets above.
 
-Data on migration comes from the 2011-2015 American Community Survey (ACS), which reports the number of people moving from each origin county to destination county (aggregated over the four years).\footnote{ Historically, approximately 15\% of the ACS migration data has been allocated, or imputed based on salient characteristics (United States Census Bureau \cite{noauthor_american_2020}). } This sample also contains migration flows by Hispanic origin, allowing us to determine whether they move based on geographic boundaries.
-% TODO: propagate errors based on the margin of error
-
-Finally, data attached to specific outcomes are discussed under their relevant section.
 
 
 \section{Empirical Strategy}\label{s:rd}
@@ -497,20 +476,14 @@ More broadly speaking, we think that looking at the spillover effects of identit
 
 \begin{figure}[!hbtp]
 \centering
-\caption{Coverage Map for TV Station WUVC-DT}\label{f:contour_example}
+\caption{Coverage map for TV station WUVC-DT}\label{f:contour_example}
 \includegraphics[width=14.5cm]{../../analysis/Output/img/ContourExample.png}
 \end{figure} 
 
 \begin{figure}[!hbtp]
 \centering
-\caption{The Coverage Contours of Spanish Language TV stations}\label{f:all_contours}
-\includegraphics[width=14.5cm]{../../analysis/Output/img/SpanishContours_pretty.pdf}
-\end{figure} 
-
-\begin{figure}[!hbtp]
-\centering
-\caption{Map of School Districts in the US}\label{schooldistrictfig}
-\includegraphics[width=12cm]{../../analysis/Output/img/LEAMap.png}
+\caption{Map of coverage contours of Spanish Language TV stations and public schools in the US}\label{f:contours_schools}
+\includegraphics[width=14.5cm]{../../analysis/Output/img/Schools_pretty2.pdf}
 \end{figure} 
 
 \clearpage
@@ -588,6 +561,11 @@ More broadly speaking, we think that looking at the spillover effects of identit
 In addition to the primary data sources described in Section~\ref{s:data}, we also use a number of auxiliary data sources for the empirical analysis.
 
 
+\paragraph{Migration data}
+
+Data on migration comes from the 2011-2015 American Community Survey (ACS), which reports the number of people moving from each origin county to destination county (aggregated over the four years).\footnote{ Historically, approximately 15\% of the ACS migration data has been allocated, or imputed based on salient characteristics (United States Census Bureau \cite{noauthor_american_2020}). } This sample also contains migration flows by Hispanic origin, allowing us to determine whether they move based on geographic boundaries.
+
+
 \paragraph{American Time Use (ATUS)}
 
 \paragraph{Civil Rights Data Collection (CRDC)}
@@ -614,6 +592,26 @@ Harassment or bullying on the basis of race, color, or national origin ``refers 
 \end{itemize}
 
 Notably, all the outcome information described above is also provided for Hispanic subpopulations --- hence, the outcome of interest is generally the number of Hispanic students passing AP tests, or being bullied on the basis of their ethnicity, etc. These variables are all reported at the school level. 
+dummies for whether the school contains a primary school, middle school, and high school. 
+
+
+% sample problems
+% \footnote{ In practice, this data is not released to the public every year. Furthermore, not all schools report all data (or correct data) required of them, which is why the number of observations for different variables in this dataset fluctuates. Some data, such as that on AP examinations, are not mandatory, but the bulk of outcome variables are, with non-compliance on the mandatory data typically representing $<1\%$ of total data.} 
+
+Controls at the county level are sourced from IPUMS and consist of basic relevant demographic information: population, income, percent of county that is Hispanic etc. County level data is mapped to its relevant location using census data as well. 
+
+% TODO: propagate errors based on the margin of error
+
+Finally, data attached to specific outcomes are discussed under their relevant section.
+
+
+
+\paragraph{Geocoding}
+
+Geocoding by ArcGIS is successful over 99.9\% of the time. Schools not successfully geocoded are dropped from the sample.
+
+Distance for counties are computed by minimum distances
+
 
 
 
@@ -637,6 +635,31 @@ Notably, all the outcome information described above is also provided for Hispan
 
 
 
+%TODO: fill
+\begin{table}[!h]
+	\centering
+	\captionsetup{skip=1.5pt}
+	\caption{TV transcript keywords} \label{t:transcript_keywords}
+	\scalebox{.8}{
+		\begin{threeparttable}
+			\begin{tabular}{llcccccccc}
+				\hline\hline\addlinespace
+    \textit{Section A: Latin American Countries} & mexic, bolivia, chile, argentin, venezuela, beliz, costa rica, salvador, guatemala \\
+&  hondur, nicaragua, panama, brazil, colombia, ecuador, guyana, paragua, peru \\
+& surinam, urugu, cuba, dominican, haiti, puerto, latin \\
+				\addlinespace\hline
+\textit{Section B: Common Spanish Words} & la, de, como, su, que, el, para, en, por, los, casa, caliente \\ %%% MOST COMMON 
+\hline
+\textit{Section C: Common Hispanic Foods} & taqueria, taco, empanada, huevo, pollo, burrito, arepa, pupusa, tamale, tortilla \\
+& salsa, asado, lechon, mojo, ropa, vieja, chorizo \\		 		
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} Firms are classified as having a Hispanic name if any keyword in the table above is matched within the word, subject to the following requirements: (1) Case does not matter, (2) For Sections A and C, an exact match of the string at any location in the firm name, (3) For Section B, the string must be a distinct word, (4) The inclusion of Section C is optional.
+			\end{tablenotes}
+		\end{threeparttable}
+	}
+\end{table}
 
 %\begin{table}[!h]
 %	\centering
