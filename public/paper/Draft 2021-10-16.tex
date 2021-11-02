@@ -150,31 +150,41 @@
 %\begin{flushright} - Marshall McLuhan, \textit{War and Peace in the Global Village}\end{flushright}
 %\end{quotation}
 
-The Hispanic achievement gap is wide and persistent: Hispanics face the lowest high school and college completion rates out of all major ethnic and racial groups in the United States.\footnote{See \cite{tienda_hispanicity_2009}. This achievement gap extends to many more educational outcomes, from test scores to disciplinary incidents to enrolment in advanced classes. TODO: other cites on the achievement gap.} In this paper, I argue that Spanish Language Television (SLTV) is a media technology that has reduced educational inequality, and that moreover, these gains in Hispanic student performance can be attributed (at least in part) to a heightened sense of a Hispanic identity.
+The Hispanic achievement gap is wide and persistent. Hispanics face the lowest high school and college completion rates out of all major ethnic and racial groups in the United States.\footnote{See \cite{tienda_hispanicity_2009}. This achievement gap extends to many more educational outcomes, from test scores to disciplinary incidents to enrolment in advanced classes. Factors such as segregation \citep{cascio_cracks_2012}, XXX, XXX exacerbate the achievement gap, whereas interventions such as providing free computers \citep{fairlie2012academic} XXX help close it.  TODO: other cites on the achievement gap. } In this paper, I argue that Spanish Language Television (SLTV) is a media technology that has reduced educational inequality, and that moreover, these gains in Hispanic student performance can be attributed (at least in part) to a heightened sense of a Hispanic identity.
 % TODO: use citations and figures in https://www.colorincolorado.org/article/closing-achievement-gap-focus-latino-students-0
+% move footnote into main draft?
 
-Americans spend an average of three hours a day watching TV---more than any activity bar sleeping. Accordingly, a large literature documents the impact that television has on education, but prior work has largely been correlational and findings remain conflicted. One mainstream line of research contends that TV is as a distraction which `rots' the mind and harms students \citep{zavodny_does_2006}.\footnote{ See \cite{aksoy2000panel}, \cite{hornik1981out}, and \cite{keith1986parental}. This theory enjoys popular support (see \cite{winn_plug-drug_2002} or \cite{gentile_well-child_2004} which finds broad support among paediatricians). \cite{huang2010dynamic} and \cite{nakamuro2015television} use causal identification strategies and also find negative (but generally much smaller) effects.} A more recent line of inquiry has found null effects of TV,\footnote{ \cite{gaddy1986television}, \cite{gortmaker1990impact}, and \cite{hu2020relationship} take correlational approaches, while \cite{munasib2010idiot} and \cite{kureishi2013does} use self-reportedly weak instruments.} with \cite{gentzkow_preschool_2008} unique in finding that TV improves student test scores---particularly among nonwhite and English language learners. 
- 
-Examining Spanish Language TV, in particular, allows me to take a closer look at Hispanic communities and examine its ties to identity. 78\% of Spanish-dominant households watch SLTV, while 50\% of multi-language Spanish-speaking homes do. In 2010, the top 10 broadcast shows in the Hispanic demographic category were all Spanish language programs \citep{pardo_three_2011}. Despite the rise of the internet, broadcast SLTV remains an important institution in Hispanic households. 
+Despite the rise of the internet, broadcast Spanish Language TV remains an important fixture in Hispanic households. 78\% of Spanish-dominant households watch SLTV, while 50\% of multi-language Spanish-speaking homes do. In 2010, every single one of the top 10 shows watched by Hispanics were Spanish language programs \citep{pardo_three_2011}. By investigating Spanish Language TV, I take a closer look at Hispanic communities and examine the ties between SLTV, identity, and education. 
 
+To identify the causal effect of SLTV, I follow \cite{velez_tuning_2019} and exploit a spatial regression discontinuity arising from the FCC regulation OET Bulletin 69. This regulation grants federal protection of a TV station’s broadcast signal only within a certain distance of a station’s main antenna. Thus, households and schools just inside a TV station's coverage contour should be observably similar to those just outside the contour, except for the presence of broadcast and satellite TV. I argue that this allows me to identify the causal effect of SLTV, given several features: (1) contours are mechanically decided by a formula involving geographical features and antenna strength, (2) contours are large and tend to cut across suburban and `small town' areas, rather than dense urban areas which corporations might try to include for profitability reasons (urban centers fall squarely within contours), (3) SLTV stations were often built before this regulation was imposed, (4) demographic and other controls across the regression discontinuity are similar, and (5) Hispanics do not differentially migrate across contours, minimizing the possibility of selection. To further dispel concerns over potential confounds, I employ a difference-in-discontinuities design, comparing outcomes for Hispanic students against Asian students in schools within 100 kilometers of SLTV coverage contours.\footnote{I compare against Asian rather than white students because they are much less likely to identify as Hispanic.} 
 
-The central instrument utilized in this paper is the spatial regression discontinuity in television coverage contours introduced via a FCC regulation guaranteeing TV station signal protection only within a certain distance of a station's main antenna. Households just inside the coverage contour are able to receive broadcast and/or satellite TV coverage, whereas those just outside oftentimes cannot, and so the regression discontinuity keeps those just inside and outside the coverage boundary (usually defined as those within 100 KM of the boundary) for comparability between observations. This, combined with the fact that television signals grow weaker with greater distance from a station, lends credibility to the discontinuity actually demarcating a difference between those with and without access to SLTV.
+I verify the relevance of this instrument's first stage by employing the difference-in-discontinuities approach with the American Time Use Dataset. I find that Hispanics watch over 10 minutes more of TV when within coverage contours, a plausible lower bound for the amount of extra Spanish Language TV watched if Hispanics substitute watching English programs with Spanish ones. I further show that Hispanics watch more TV with their children---Hispanic students, in other words. Notably, non-Hispanics do not exhibit differential TV viewership across SLTV coverage contours.
 
-I argue that this allows us to identify the causal effect of SLTV, given several factors: (1) contours are mechanically decided by a formula involving geographical features and antenna strength, (2) contours are large and tend to cut across suburban and `small town' areas, rather than dense urban areas which corporations might try to include for profitability reasons (urban centers fall squarely within contours), (3) SLTV stations were often built before the regulation was imposed, (4) demographic and other controls across the regression discontinuity look similar, making it plausible that there are not external factors driving the differences observed, and (5) Hispanics do not appear to migrate across contours in either direction, minimizing the probability of effects being driven by selection.
+Next, I utilize the Civil Rights Data Collection to analyze the effect of SLTV on Hispanic students in public schools. Academic outcomes improve across the board: compared to Asians, Hispanics with SLTV are 16\% more likely to take the SAT or ACT, 27\% more likely to enrol in calculus and higher math, and pass 8\% more AP exams, among other results. These gains are present in absolute terms, extend to other academic outcomes, and also remain qualitatively similar under a variety of robustness tests, establishing that SLTV reduces the Hispanic achievement gap.
 
+Given this finding, I then marshal three sources of evidence that each indicate an identity mechanism may drive these results. First, using the same data, I show that Hispanic students are differentially classified as having ‘limited English proficiency’ under SLTV despite greater general academic achievement, a likely outcome if these students shift from English to Spanish mastery due to the presence of SLTV. Furthermore, Hispanic students are also differentially bullied more on the basis of their ethnicity, directly indicating a more salient identity that other students may target. Second, I use archive.org’s TV transcript database to classify the proportion of programs in each SLTV station that focus on the Hispanic identity. I show that locales with a greater amount of SLTV programming focused on the Hispanic identity are associated with stronger Hispanic academic performance when compared against locales with fewer such programs on identity. However, a greater amount of programming focused on education \& schools or positive role models for children each have a null effect on Hispanic performance. This indicates that the content of these television programs matter, and that identity is a primary channel through which these gains are attained. Finally, I use foot-traffic data from Safegraph to demonstrate the general strengthening of the Hispanic identity under SLTV. Hispanics with SLTV are differentially more likely to visit Hispanic branded restaurants and recreation establishments. However, Hispanics with SLTV are no more likely to visit Brazilian, Greek, and Korean establishments. This speaks to the specific strengthening of the Hispanic identity versus a broader Latin American one. Collectively, these results suggest that identity is an important mechanism through which SLTV reduces inequality and the Hispanic achievement gap. 
 
+\paragraph{Literature} Americans spend an average of three hours a day watching TV---more than any activity bar sleeping. Accordingly, a large literature has examined the impact that television has on education. Prior work has frequently been correlational and findings remain conflicted: one line of research contends that TV is as a distraction which `rots' the mind and harms student outcomes \citep{zavodny_does_2006},\footnote{ See \cite{aksoy2000panel}, \cite{hornik1981out}, and \cite{keith1986parental}. This theory enjoys popular support (see \cite{winn_plug-drug_2002} or \cite{gentile_well-child_2004} which finds broad support among paediatricians). \cite{huang2010dynamic} and \cite{nakamuro2015television} use causal identification strategies and also find negative (but generally much smaller) effects.} while another line of inquiry has found consistent null effects.\footnote{ \cite{gaddy1986television}, \cite{gortmaker1990impact}, and \cite{hu2020relationship} take correlational approaches, while \cite{munasib2010idiot} and \cite{kureishi2013does} use self-reportedly weak instruments.} \cite{gentzkow_preschool_2008} are closest to this paper in finding that TV improves student test scores---particularly among nonwhite students and English language learners. 
 
--------------
+Others have studied the effect of television on Hispanic communities. \cite{oberholzer-gee_media_2009} demonstrate that the presence of Spanish language local news increases Hispanic voter turnout, whereas  \cite{velez_tuning_2019} (who develop the instrument used in this paper) find that SLTV depresses voter turnout. \cite{trujillo_devil_2012} run an experiment testing trust in the government and the census based on a scripted soap opera scene. I extend on this literature by moving beyond the political realm, arguing that the consequences of SLTV are large in educational settings too, and also provide the first evidence on a mechanism through which SLTV operates: identity.
 
-
- 
-SLTV programming is also more likely to contain content that is directly salient to a Hispanic person's identity. This occurs not only because of the language of the broadcast, but also its content: roughly 20\% of programming on SLTVs are telenovelas produced in foreign (Latin American) countries, with a similar proportion of programming dedicated to non-locally produced news and paid programming.\footnote{For more information, see \cite{noauthor_hispanic_2016}. }
-
-When explicitly looking at the effect of television on Hispanic communities, \cite{oberholzer-gee_media_2009} demonstrate that the presence of Spanish language local news increases Hispanic voter turnout, whereas  \cite{velez_tuning_2019}, who first developed the instrument used in this paper, show that SLTV leads to lower voter turnout rates. \cite{trujillo_devil_2012} run an experiment testing trust in the government and the census based on a soap opera scene. I extend on this literature by expanding the scope of resesarch to a national-level analysis while attaining more granularity with spatial microdata, and also by exploring outcomes beyond the political realm.
+There is a growing literature that looks at how identity can influence behaviour: this has been studied through theory, in the lab, and the field.\footnote{ See \cite{akerlof2000economics}, \cite{benjamin_social_2007}, \cite{benjamin_religious_2010}, and \cite{bursztyn2019moral}.} However, the underlying factors that build identity (rather than simply triggering them via priming or other short-term interventions) are less well understood. \cite{bisin_bend_2010}, \cite{atkin_how_2019}, and \cite{bazzi_unity_2019} encompass some recent studies on this topic, and all come to the conclusion that intergroup tensions or differences lead to a strengthening of identity. \cite{alesina2013origins} take the long view and shows how gender norms can be traced back to early agricultural practices. I contribute to this literature by proposing an alternate, media-based channel through which identity may be strengthened and influence action. This is closest to work such as \cite{jensen_power_2009} and \cite{gentzkow_media_2004}, which establish a link between media and gender norms, and media and anti-Americanism, respectively.\footnote{Other related work on the impact of mass media on social forces include \cite{ferrara_soap_2012}, \cite{kearney_media_2015},  \cite{olken_television_2009}, \cite{dellavigna_fox_2007},  \cite{yanagizawa-drott_propaganda_2014}, and \cite{putnam_bowling_2001}. For an overview, see \cite{dellavigna_economic_2015}.} Finally, in the education and psychology literature, the stereotype threat phenomenon tightly links minority identity and achievement gaps together (\cite{spencer2016stereotype}, \cite{appel2012stereotypes}), leading to educators to suggest methods such as ``situational disengagement'' to improve performance \citep{nussbaum2007situational}. This paper suggests that a stronger sense of identity may not have uniformly negative consequences on Hispanic students, creating space for a more positive conception of identity.
 
 
-% media on identity
- \cite{olken_television_2009} finds that that radio and television decrease `social capital' in Indonesia, in line with \cite{putnam_bowling_2001}'s argument that mass media is socially isolating. \cite{yanagizawa-drott_propaganda_2014} shows that radio broadcasts in Rwanda contributed to the violence and genocide that took place in the 90s. \cite{dellavigna_fox_2007} find that the introduction of Fox News induced gains in Republican voteshares, while other work establishes the link between media and gender norms, media and anti-Americanism, and media and fertility.\footnote{ Papers that investigate the means by which media affects identity and action include \cite{jensen_power_2009}, \cite{gentzkow_media_2004}, \cite{ferrara_soap_2012}, and \cite{kearney_media_2015}. For an overview, see \cite{dellavigna_economic_2015}.}
+% some pushback claiming that individual shows can lead to fewer teenage births \citep{kearney_media_2015}
+
+
+
+
+% TODO: caveats, include in relevant section
+% - other outcomes of importance, violence and obesity.  --
+% - Prove the existence of identity mechanism, but does not rule out other mechanisms
+
+
+
+
+
+
  
 
 % Market sizing: CITE FCC Hispanic TV 
@@ -191,58 +201,25 @@ When explicitly looking at the effect of television on Hispanic communities, \ci
 
 % in recent years, highest viewed: Pequeños Gigantes (talent show, kids), El Señor de los Cielos (telenovella, cartel leader),   https://www.statista.com/statistics/497739/spanish-tv-programs-usa/
 
-
-
-We find results that broadly align with the latter, showing that Hispanic enrolment in gifted programs and AP classes increases in response to the presence of SLTV, while instances of out of school suspension and chronic absenteeism decrease. However, some of our findings do cut against this narrative: the number of Hispanic students placed into Limited English Proficiency programs and the number of Hispanic students bullied or harassed on the basis of their ethnicity both increase---we are inclined to tie attribute this to a stronger sense of ethnic identity.
-
-
-
-
-Persistent educational gap --- what role does TV play?  (we know media affects outcomes)  (why Hispanics care about TV) specifically on TV and education—still open question
-
 % TODO: absolute gains in tables
-
-Then talk about identity: Stereotype threat vs stereotype boost. Ways in which identity matters. 
-
-% Hispanic inequality in other sectors
-% We focus on Hispanic viewership of television for several reasons. First, Hispanics face substantial inequality as both entrepreneurs and students. They open 68\% fewer businesses than whites and command the fewest business loans from financial institutions out of major racial and ethnic groups (they secure 35\% less than white-owned businesses according to \cite{orozco_state_2017}). They have the lowest high school graduation rates (they are 23\% less likely to complete high school than whites) and the lowest college completion rates too (they are 60\% less likely to complete college than whites according to \cite{tienda_hispanicity_2009}).  
+% TODO: check caribbean?
 
 
 
-
-
-
-
-
-% old intro: We spend our waking hours inundated by mass media. The internet, newspapers, radio, and television stations broadcast to us a constant stream of facts, beliefs, entertainment, and ideas---ideas that percolate in our heads, and ideas that, I argue, shape our own identities and the way we live our lives. In this paper, I examine the impact of Spanish Language Television (SLTV) on Hispanic communities, looking at how it might reduce inequality in the domains of entrepreneurship and education. In each case, I find that SLTV induces changes in behavior can be attributed, at least in part, to a stronger sense of identity; causality is established via a spatial regression discontinuity introduced by a regulation on television signal protection.
-
-% old figure: These two major results are highlighted in Figures \ref{busnnnamefig}, \ref{suspensionsfig}, corresponding to the two domains of analysis. Figure \ref{busnnnamefig} shows that the number of Hispanic owned firms with Hispanic names sharply increases under the presence of television (distances above $0$), while Figure \ref{suspensionsfig} shows the decline in Hispanic students suspended when in communities with SLTV access.
-
-
-
-
-There has not been much work done by economists looking at the performance of Hispanic students in schools in particular, though \cite{cascio_cracks_2012} provides a look at these outcomes in relation to schooling and social segregation in California. Through a comprehensive look at the outcome of Hispanic students in the US public school system, I provide additional color to this area of study at a national level, showing that Hispanic students are roughly 5\% more likely to take and pass more advanced coursework and 10\% less likely to earn disciplinary infractions under the influence of SLTV.
-
-\cite{fairlie2012academic} is another related study that randomly provides computers to low-income students and finds that treated minority students perform better academically.
- some pushback claiming that individual shows can lead to fewer teenage births \citep{kearney_media_2015}
-
-
-There is a growing literature that looks at how identity can be a mechanism driving behavior; this has been studied in both lab environments\footnote{ See \cite{benjamin_social_2007} or \cite{benjamin_religious_2010}.} and more organic settings too \citep{bursztyn_moral_2015}. However, the underlying factors that strengthen identity in the first place (rather than simply triggering them via priming or other short-term interventions) is less well understood.  \cite{bisin_bend_2010}, \cite{atkin_how_2019}, and \cite{bazzi_unity_2019} encompass some recent studies on this topic, and all come to the conclusion that intergroup tensions or differences lead to a strengthening of identity. Earlier work includes \cite{@CITE ALESINA}, who take the very long view and show how gender norms can be traced back to early agricultural practices. With our work on Hispanic firm names and harassment based on Hispanic identity, I provide an alternate, media-based look at how identity may be strengthened. 
-
-Thus, to summarize the key contributions of the paper: I open the door to studying the effect of media on Hispanic communities in ways other than the political, and in tackling these questions, use a national natural experiment that is larger in scope than most of the extant literature, while simultaneously making use of geocoded microdata to provide a more precise look at the underlying effects. I also provide an additional bridge into the existing literature on identity, showing how media might bolster and strengthen it.
-%that identity/outcomes mutually reinforce -- find some sociology thing
 
 %% Do everything with d^2
 %% spatial errors: http://www.trfetzer.com/using-r-to-estimate-spatial-hac-errors-per-conley/
 
-% Waldfogel 2004: local TV markets benefit minorities more when there's a larger group of them
-
-%% FOR LATER
-% \section{Model/Background/Hypothesis}\label{sectheory}
-
 
 \paragraph{Layout.} Following this Introduction, Section \ref{s:data} presents the data sources used. Section \ref{s:rd} describes the difference-in-discontinuities empirical strategy and establishes the first stage. Section \ref{s:school} presents evidence that SLTV closes the Hispanic achievement gap. Section \ref{s:mech} presents evidence that an identity mechanism underlies these results. Finally, Section \ref{s:conclusion} concludes with a discussion of research questions opened by the preceding analysis.
 
+
+\vspace{5em}
+\hrule
+\vspace{.5em}
+EDIT \\
+\hrule
+\vspace{.5em}
 
 \section{Data}\label{s:data}
 
@@ -415,6 +392,9 @@ Noting that increases in AP enrolment are predictive of higher rates of college 
 Similarly, these increases in disciplinary outcomes can ameliorate the serious downstream effects that exist beyond the disciplinary event itself: the literature suggests that not only are suspended students at immediate risk of academic harm and further disciplinary issues \citep{arcia_achievement_2006}, but that these students are also more likely to be incarcerated as adults  \citep{wolf_school_2017}. Non-disciplined students appear to suffer from spillover effects in their academic performance as well \citep{perry_suspending_2014}.
 % HOW MANY STUDENTS get bullied? 7169 cases, so 22 students
 
+
+% TODO: robustness on distance, spatial error, weighting by # students, imputing missings, 
+
 On the whole, this suggests that the lives of Hispanic students living may materially improve along academic and social dimensions as a result of SLTV. 
 
 \paragraph{The Difference Between `Identity' and Other Outcomes}
@@ -425,6 +405,9 @@ Though we do not have a rigorous argument that can fully resolve this puzzle, we
 
 
 \section{The identity mechanism}\label{s:mech}
+
+SLTV programming is also more likely to contain content that is directly salient to a Hispanic person's identity. This occurs not only because of the language of the broadcast, but also its content: roughly 20\% of programming on SLTVs are telenovelas produced in foreign (Latin American) countries, with a similar proportion of programming dedicated to non-locally produced news and paid programming.\footnote{For more information, see \cite{noauthor_hispanic_2016}. }
+
 
 We marshal three
 
@@ -464,11 +447,11 @@ More broadly speaking, we think that looking at the spillover effects of identit
 \pagebreak
 
 \begin{singlespace}
-\begin{small}
+\begin{scriptsize}
 \bibliographystyle{aea}
 %\bibliographystyle{plainnat}
 \bibliography{tv}{}
-\end{small}
+\end{scriptsize}
 \end{singlespace}
 
 \pagebreak

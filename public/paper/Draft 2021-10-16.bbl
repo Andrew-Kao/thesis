@@ -4,12 +4,23 @@
 
 \begin{thebibliography}{xx}
 
+\harvarditem[Akerlof \harvardand\ Kranton]{George~A Akerlof \harvardand\
+  Rachel~E Kranton}{2000}{akerlof2000economics}
+{\bf Akerlof, George~A, and Rachel~E Kranton.} 2000. ``Economics and
+  identity.'' {\em The quarterly journal of economics}, 115(3):~715--753.
+
 \harvarditem[Aksoy \harvardand\ Link]{Tevfik Aksoy \harvardand\ Charles~R
   Link}{2000}{aksoy2000panel}
 {\bf Aksoy, Tevfik, and Charles~R Link.} 2000. ``A panel analysis of student
   mathematics achievement in the US in the 1990s: does increasing the amount of
   time in learning activities affect math achievement?'' {\em Economics of
   education review}, 19(3):~261--277.
+
+\harvarditem[Alesina, Giuliano \harvardand\ Nunn]{Alberto Alesina, Paola
+  Giuliano \harvardand\ Nathan Nunn}{2013}{alesina2013origins}
+{\bf Alesina, Alberto, Paola Giuliano, and Nathan Nunn.} 2013. ``On the origins
+  of gender roles: Women and the plough.'' {\em The quarterly journal of
+  economics}, 128(2):~469--530.
 
 \harvarditem[]{}{2020{\em a}}{noauthor_american_2020}
 {\bf American {Community} {Survey} {Sample} {Size} and {Data} {Quality}.}
@@ -25,6 +36,12 @@
 \harvarditem[]{}{2015{\em b}}{noauthor_ap_2015}
 {\bf {AP} {Data} – {Archived} {Data} 2015.} 2015{\em b}. ``{AP} {Data} –
   {Archived} {Data} 2015.'' College Board.
+
+\harvarditem[Appel \harvardand\ Kronberger]{Markus Appel \harvardand\ Nicole
+  Kronberger}{2012}{appel2012stereotypes}
+{\bf Appel, Markus, and Nicole Kronberger.} 2012. ``Stereotypes and the
+  achievement gap: Stereotype threat prior to test taking.'' {\em Educational
+  Psychology Review}, 24(4):~609--635.
 
 \harvarditem[]{}{2020{\em b}}{noauthor_ap_2020}
 {\bf {AP} {Score} {Distributions}.} 2020{\em b}. ``{AP} {Score}
@@ -67,11 +84,10 @@
   National Bureau of Economic Research w16465, Cambridge, MA.
 
 \harvarditem[Bursztyn et~al.]{Leonardo Bursztyn, Stefano Fiorin, Daniel
-  Gottlieb \harvardand\ Martin Kanz}{2015}{bursztyn_moral_2015}
+  Gottlieb \harvardand\ Martin Kanz}{2019}{bursztyn2019moral}
 {\bf Bursztyn, Leonardo, Stefano Fiorin, Daniel Gottlieb, and Martin Kanz.}
-  2015. ``Moral {Incentives} in {Credit} {Card} {Debt} {Repayment}: {Evidence}
-  from a {Field} {Experiment}.'' National Bureau of Economic Research w21611,
-  Cambridge, MA.
+  2019. ``Moral incentives in credit card debt repayment: evidence from a field
+  experiment.'' {\em Journal of Political Economy}, 127(4):~1641--1683.
 
 \harvarditem[Cascio \harvardand\ Lewis]{Elizabeth~U Cascio \harvardand\ Ethan~G
   Lewis}{2012}{cascio_cracks_2012}
@@ -144,6 +160,10 @@
 {\bf Fletcher, Heald, and Hildreth.} 2018. ``{FCC} {Updates} {DTV} {Reception}
   {Map}.''
 
+\harvarditem[Gaddy]{Gary~D Gaddy}{1986}{gaddy1986television}
+{\bf Gaddy, Gary~D.} 1986. ``Television's impact on high school achievement.''
+  {\em Public opinion quarterly}, 50(3):~340--359.
+
 \harvarditem[Gentile]{D.~A. Gentile}{2004}{gentile_well-child_2004}
 {\bf Gentile, D.~A.} 2004. ``Well-{Child} {Visits} in the {Video} {Age}:
   {Pediatricians} and the {American} {Academy} of {Pediatrics}' {Guidelines}
@@ -161,6 +181,13 @@
   {Viewing} and {Adolescent} {Test} {Scores}: {Historical} {Evidence} from the
   {Coleman} {Study}.'' {\em Quarterly Journal of Economics}, 123(1):~279--323.
 
+\harvarditem[Gortmaker et~al.]{Steven~L Gortmaker, Charles~A Salter, Deborah~K
+  Walker \harvardand\ William~H Dietz~Jr}{1990}{gortmaker1990impact}
+{\bf Gortmaker, Steven~L, Charles~A Salter, Deborah~K Walker, and William~H
+  Dietz~Jr.} 1990. ``The impact of television viewing on mental aptitude and
+  achievement: A longitudinal study.'' {\em Public opinion quarterly},
+  54(4):~594--604.
+
 \harvarditem[]{}{2015{\em a}}{noauthor_high_2015}
 {\bf High {School} {Benchmarks} – 2015.} 2015{\em a}. ``High {School}
   {Benchmarks} – 2015.'' National Student Clearinghouse Research Center.
@@ -175,6 +202,13 @@
 {\bf Huang, Fali, and Myoung-Jae Lee.} 2010. ``Dynamic treatment effect
   analysis of TV effects on child cognitive development.'' {\em Journal of
   Applied Econometrics}, 25(3):~392--419.
+
+\harvarditem[Hu et~al.]{Bi~Ying Hu, Gregory~Kirk Johnson, Timothy Teo
+  \harvardand\ Zhongling Wu}{2020}{hu2020relationship}
+{\bf Hu, Bi~Ying, Gregory~Kirk Johnson, Timothy Teo, and Zhongling Wu.} 2020.
+  ``Relationship between screen time and Chinese children’s cognitive and
+  social development.'' {\em Journal of Research in Childhood Education},
+  34(2):~183--207.
 
 \harvarditem[Jensen \harvardand\ Oster]{Robert Jensen \harvardand\ Emily
   Oster}{2009}{jensen_power_2009}
@@ -227,6 +261,12 @@
   2015. ``Are television and video games really harmful for kids?'' {\em
   Contemporary Economic Policy}, 33(1):~29--43.
 
+\harvarditem[Nussbaum \harvardand\ Steele]{A~David Nussbaum \harvardand\
+  Claude~M Steele}{2007}{nussbaum2007situational}
+{\bf Nussbaum, A~David, and Claude~M Steele.} 2007. ``Situational disengagement
+  and persistence in the face of adversity.'' {\em Journal of experimental
+  social psychology}, 43(1):~127--134.
+
 \harvarditem[Oberholzer-Gee \harvardand\ Waldfogel]{Felix Oberholzer-Gee
   \harvardand\ Joel Waldfogel}{2009}{oberholzer-gee_media_2009}
 {\bf Oberholzer-Gee, Felix, and Joel Waldfogel.} 2009. ``Media {Markets} and
@@ -266,6 +306,11 @@
 {\bf Scherr, Tracey, and Jim Larson.} 2009. ``Bullying dynamics associated with
   race, ethnicity, and immigration status.'' In {\em Handbook of bullying in
   schools: {An} international perspective}. 223--234.
+
+\harvarditem[Spencer, Logel \harvardand\ Davies]{Steven~J Spencer, Christine
+  Logel \harvardand\ Paul~G Davies}{2016}{spencer2016stereotype}
+{\bf Spencer, Steven~J, Christine Logel, and Paul~G Davies.} 2016. ``Stereotype
+  threat.'' {\em Annual review of psychology}, 67:~415--437.
 
 \harvarditem[Speroni]{Cecilia Speroni}{2011}{speroni_determinants_2011}
 {\bf Speroni, Cecilia.} 2011. ``Determinants of {Students}' {Success}: {The}

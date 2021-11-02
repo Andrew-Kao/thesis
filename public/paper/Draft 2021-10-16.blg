@@ -1,13 +1,9 @@
 This is BibTeX, Version 0.99d (TeX Live 2021)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Draft 2021-10-16.aux
-White space in argument---line 55 of file Draft 2021-10-16.aux
- : \citation{@CITE
- :                 ALESINA}
-I'm skipping whatever remains of this command
 The style file: aea.bst
 Database file #1: tv.bib
-I was expecting a `,' or a `}'---line 1339 of file tv.bib
+I was expecting a `,' or a `}'---line 1429 of file tv.bib
  :  author = {FCC}    
  :                    %, Federal Communications Commission
 I'm skipping whatever remains of this entry
@@ -22,45 +18,45 @@ Warning--empty author in noauthor_master_2016
 Warning--empty author in noauthor_oet_2004
 Warning--empty publisher in scherr_bullying_2009
 Warning--empty institution in tienda_hispanicity_2009
-You've used 54 entries,
+You've used 62 entries,
             2695 wiz_defined-function locations,
-            906 strings with 15118 characters,
-and the built_in function-call counts, 271512 in all, are:
-= -- 45291
-> -- 2971
+            959 strings with 16503 characters,
+and the built_in function-call counts, 326809 in all, are:
+= -- 54600
+> -- 3561
 < -- 1
-+ -- 21644
-- -- 929
-* -- 24273
-:= -- 53136
-add.period$ -- 361
-call.type$ -- 54
-change.case$ -- 662
-chr.to.int$ -- 50
-cite$ -- 65
-duplicate$ -- 747
-empty$ -- 2175
-format.name$ -- 947
-if$ -- 49050
++ -- 26159
+- -- 1115
+* -- 29289
+:= -- 63809
+add.period$ -- 417
+call.type$ -- 62
+change.case$ -- 766
+chr.to.int$ -- 58
+cite$ -- 73
+duplicate$ -- 869
+empty$ -- 2517
+format.name$ -- 1139
+if$ -- 59013
 int.to.chr$ -- 9
 int.to.str$ -- 0
 missing$ -- 0
-newline$ -- 169
-num.names$ -- 506
-pop$ -- 51
+newline$ -- 193
+num.names$ -- 594
+pop$ -- 59
 preamble$ -- 1
-purify$ -- 770
+purify$ -- 890
 quote$ -- 0
-skip$ -- 681
+skip$ -- 777
 stack$ -- 0
-substring$ -- 64302
-swap$ -- 316
-text.length$ -- 677
+substring$ -- 77734
+swap$ -- 365
+text.length$ -- 789
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 212
+type$ -- 244
 warning$ -- 11
-while$ -- 1178
+while$ -- 1382
 width$ -- 0
-write$ -- 273
-(There were 2 error messages)
+write$ -- 313
+(There was 1 error message)

@@ -2,7 +2,7 @@
 \begin{table}[!htbp] \centering 
   \caption{Effect of Spanish language TV on Hispanic foot traffic} 
   \label{t:safegraph_main} 
-	\scalebox{.8}{
+	\scalebox{.75}{
 		\begin{threeparttable}
 			\begin{tabular}{lcccccccccc}
 				\hline\hline\addlinespace
@@ -19,7 +19,12 @@
 				TV $\times$ Hispanic $\times$ Korean food&       0.233 & 0.233 & 0.233 & 0.233 \\
 		                    &     (0.225)   &     (0.225)   &     (0.225)   &     (0.223)   \\
 				\addlinespace\hline
-				\multicolumn{4}{l}{Panel A.3: Restaurants --- Brazilian dummy} \\ 
+				\multicolumn{4}{l}{Panel A.3: Restaurants --- Greek dummy} \\ 
+                              	\hline\addlinespace
+				Hispanic $\times$ TV $\times$ Greek food&      -0.305   &      -0.305   &      -0.305   &      -0.305   \\
+	                    &     (0.215)   &     (0.214)   &     (0.214)   &     (0.211)   \\
+				\addlinespace\hline
+				\multicolumn{4}{l}{Panel A.4: Restaurants --- Brazilian dummy} \\ 
                               	\hline\addlinespace
 				TV $\times$ Hispanic $\times$ Brazilian food&       0.058 & 0.058 & 0.058 & 0.058 \\
 		                    &     (0.525)   &     (0.530)   &     (0.530)   &     (0.526)   \\
@@ -30,12 +35,17 @@
                               	\hline\addlinespace
 				TV $\times$ Hispanic $\times$ Hispanic brand&       0.569*  &       0.569*  &       0.569*  &       0.569*  \\
 		                    &     (0.303)   &     (0.304)   &     (0.304)   &     (0.302)   \\				\addlinespace\hline
-				\multicolumn{4}{l}{Panel A.2: Recreation --- Korean dummy} \\
+				\multicolumn{4}{l}{Panel B.2: Recreation --- Korean dummy} \\
                               	\hline\addlinespace
 				TV $\times$ Hispanic $\times$ Korean brand&       0.190 & 0.190 & 0.190 & 0.190 \\
 		                    &     (1.020)   &     (0.989)   &     (0.977)   &     (0.804)   \\
 				\addlinespace\hline
-				\multicolumn{4}{l}{Panel A.3: Recreation --- Brazilian dummy} \\ 
+				\multicolumn{4}{l}{Panel B.3: Recreation --- Greek dummy} \\
+                              	\hline\addlinespace
+					Hispanic $\times$ TV $\times$ Greek brand&      -0.286   &      -0.286   &      -0.286   &      -0.286   \\
+		                    &     (4.317)   &     (4.460)   &     (4.397)   &     (3.905)   \\
+				\addlinespace\hline
+				\multicolumn{4}{l}{Panel B.4: Recreation --- Brazilian dummy} \\ 
                               	\hline\addlinespace
 				TV $\times$ Hispanic $\times$ Brazilian brand&       0.328 & 0.328 & 0.328 & 0.328 \\
 		                    &     (0.598)   &     (0.598)   &     (0.599)   &     (0.610)   \\
@@ -50,7 +60,7 @@
 					\addlinespace\hline\hline
 			\end{tabular}
 			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} The table presents coefficient estimates from regressions at the establishment-visitor identity level, where a visitor identity is one of 4 categories (Hispanic or not $\times$ TV or not), only keeping locations within 100 KM of a Spanish language TV contour boundary. The dependent variable are inverse hyperbolic sine transformed counts of visitors to a given location from the ethnicity group. Panel A restricts the universe of locations to food service establishments, while Panel B restricts to arts, entertainment, and recreation establishments. TV dummy is an indicator variable for visitors to the location with home access to Spanish language television based on the FCC regulation OET Bulletin 69, which is interacted with an indicator for whether the visitor group is Hispanic (the omitted group are non-Hispanics). Panels A.1 and B.1 interact these variables with an indicator for Hispanic establishments, Panels A.2 and B.2 interact these variables with an indicator for Korean establishments, and Panels A.3 and B.3 interact these variables with an indicator for Brazilian establishments.   Columns 1-4 include controls for the mean log(income) of the county. Columns 2-4 control for the percentage of the county that is Hispanic. Columns 3-4 control for the county's log(population). Column 4 adds fixed effects for the county and NAICS code. Standard errors are robust. *, **, and *** denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.
+				\item \textit{Notes:} The table presents coefficient estimates from regressions at the establishment-visitor identity level, where a visitor identity is one of 4 categories (Hispanic or not $\times$ TV or not), only keeping locations within 100 KM of a Spanish language TV contour boundary. The dependent variable are inverse hyperbolic sine transformed counts of visitors to a given location from the ethnicity group. Panel A restricts the universe of locations to food service establishments, while Panel B restricts to arts, entertainment, and recreation establishments. TV dummy is an indicator variable for visitors to the location with home access to Spanish language television based on the FCC regulation OET Bulletin 69, which is interacted with an indicator for whether the visitor group is Hispanic (the omitted group are non-Hispanics). Panels A.1 and B.1 interact these variables with an indicator for Hispanic establishments, Panels A.2 and B.2 interact these variables with an indicator for Korean establishments, Panels A.3 and B.3 interact these variables with an indicator for Greek establishments, and Panels A.4 and B.4 interact these variables with an indicator for Brazilian establishments.   Columns 1-4 include controls for the mean log(income) of the county. Columns 2-4 control for the percentage of the county that is Hispanic. Columns 3-4 control for the county's log(population). Column 4 adds fixed effects for the county and NAICS code. Standard errors are robust. *, **, and *** denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.
 			\end{tablenotes}
 		\end{threeparttable}
 	}
