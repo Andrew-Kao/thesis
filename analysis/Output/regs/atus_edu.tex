@@ -1,0 +1,31 @@
+
+\begin{table}[!htbp] \centering 
+  \caption{Effect of TV contour regulation on time spent on child's education by ethnicity} 
+  \label{t:atus_edu} 
+	\scalebox{.8}{
+		\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				& \multicolumn{4}{c}{\textit{Minutes spent on child's education}}  \\  
+				\cmidrule(lr){2-5} &  (1) & (2) & (3) & (4) \\
+				\addlinespace\hline\addlinespace
+				\multicolumn{4}{l}{Panel A: Total TV watched} \\ %atus_2015_ext11
+                              	\hline\addlinespace
+				 TV dummy $\times$ Hispanic  & 0.060 & 0.105 & 0.178 & 0.179 \\ 
+				  & (0.301) & (0.301) & (0.302) & (0.302) \\
+				 TV dummy & 0.194 & 0.164 & 0.205 & 0.202 \\ 
+				  & (0.154) & (0.154) & (0.155) & (0.155) \\ 
+				\addlinespace\hline\addlinespace
+				Indiv. demographic & Yes & Yes & Yes & Yes \\
+				County log(income) & Yes & Yes & Yes & Yes \\
+				County \% Hispanic & No & Yes & Yes & Yes \\
+				County log(pop.) & No & No & Yes & Yes \\
+				Foreign born $\times$ Hispanic & No & No & No & Yes \\ 
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} The table presents coefficient estimates from regressions at the individual level, only keeping those living in a county within 100 KM of a Spanish language TV contour boundary. The dependent variable is the number of minutes spent on household children's education (e.g. helping with homework or talking with teachers). TV dummy is an indicator variable for a person living in a county with access to Spanish language television based on the FCC regulation OET Bulletin 69, which is interacted with an indicator for whether the individual is Hispanic. Columns 1-4 include demographic controls for sex, age, and age squared, as well as the mean log(income) of the county. Columns 2-4 control for the percentage of the county that is Hispanic. Columns 3-4 control for the county's log(population). Column 4 controls for whether the individual is foreign born interacted with a Hispanic dummy. Standard errors are robust. *, **, and *** denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.
+			\end{tablenotes}
+		\end{threeparttable}
+	}
+\end{table}

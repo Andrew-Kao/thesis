@@ -12,6 +12,9 @@ library(spdep)
 library(spatialreg)
 library(texreg)
 library(tidyverse)
+library(sandwich)
+library(lmtest)
+
 
 
 ###### ATUS Data ######
@@ -321,6 +324,73 @@ stargazer(m2,m3,m4, out = "../../Output/Regs/atus_2015_extparf.tex", title="Effe
           dep.var.labels = 'Minutes TV watched',
           notes ="", se = makeRobust4(m2,m3,m4,m5))
 
+
+## children activities
+m2 <- lm(nonedu ~ TV*hispanic_d + income + age + sex + age2, data=atusCounty) 
+m3 <- lm(nonedu ~ TV*hispanic_d + income + pcHisp  + age + sex + age2, data=atusCounty)
+m4 <- lm(nonedu ~ TV*hispanic_d+ logPop + pcHisp + income  + age + sex + age2, data=atusCounty)
+m5 <- lm(nonedu ~ TV*hispanic_d + logPop + pcHisp + income  + age + sex + age2 + foreign*hispanic_d, data=atusCounty)
+stargazer(m2,m3,m4,m5, out = "../../Output/Regs/atus_2015_nonedu.tex", title="Effect of TV on Child care, DD",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt',
+          order = c('TV','TV:hispanic_d','hispanic_d$','logPop'),
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Hispanic ',
+                               'Hispanic dummy',
+                               'Log(Population)','County \\% Hispanic','Log(Income)',
+                               'Foregin-born','Foreign-born Hispanic'),
+          omit = c('Constant','dist2','age','sexMale','sexNIU','cases'),
+          dep.var.labels = 'Child care',
+          notes ="", se = makeRobust4(m2,m3,m4,m5))
+
+m2 <- lm(edu ~ TV*hispanic_d + income + age + sex + age2, data=atusCounty) 
+m3 <- lm(edu ~ TV*hispanic_d + income + pcHisp  + age + sex + age2, data=atusCounty)
+m4 <- lm(edu ~ TV*hispanic_d+ logPop + pcHisp + income  + age + sex + age2, data=atusCounty)
+m5 <- lm(edu ~ TV*hispanic_d + logPop + pcHisp + income  + age + sex + age2 + foreign*hispanic_d, data=atusCounty)
+stargazer(m2,m3,m4,m5, out = "../../Output/Regs/atus_2015_edu.tex", title="Effect of TV on Child edu, DD",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt',
+          order = c('TV','TV:hispanic_d','hispanic_d$','logPop'),
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Hispanic ',
+                               'Hispanic dummy',
+                               'Log(Population)','County \\% Hispanic','Log(Income)',
+                               'Foregin-born','Foreign-born Hispanic'),
+          omit = c('Constant','dist2','age','sexMale','sexNIU','cases'),
+          dep.var.labels = 'Child edu',
+          notes ="", se = makeRobust4(m2,m3,m4,m5))
+
+m2 <- lm(nonedu_child ~ TV*hispanic_d + income + age + sex + age2, data=atusCounty) 
+m3 <- lm(nonedu_child ~ TV*hispanic_d + income + pcHisp  + age + sex + age2, data=atusCounty)
+m4 <- lm(nonedu_child ~ TV*hispanic_d+ logPop + pcHisp + income  + age + sex + age2, data=atusCounty)
+m5 <- lm(nonedu_child ~ TV*hispanic_d + logPop + pcHisp + income  + age + sex + age2 + foreign*hispanic_d, data=atusCounty)
+stargazer(m2,m3,m4,m5, out = "../../Output/Regs/atus_2015_nonedu_child.tex", title="Effect of TV on Child care, DD",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt',
+          order = c('TV','TV:hispanic_d','hispanic_d$','logPop'),
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Hispanic ',
+                               'Hispanic dummy',
+                               'Log(Population)','County \\% Hispanic','Log(Income)',
+                               'Foregin-born','Foreign-born Hispanic'),
+          omit = c('Constant','dist2','age','sexMale','sexNIU','cases'),
+          dep.var.labels = 'Child care',
+          notes ="", se = makeRobust4(m2,m3,m4,m5))
+
+atus_u19 <- atusCounty %>%
+  filter(age < 19)
+
+m2 <- lm(duration_ext ~ TV*hispanic_d + income + age + sex + age2, data=atus_u19) 
+m3 <- lm(duration_ext ~ TV*hispanic_d + income + pcHisp  + age + sex + age2, data=atus_u19)
+m4 <- lm(duration_ext ~ TV*hispanic_d+ logPop + pcHisp + income  + age + sex + age2, data=atus_u19)
+m5 <- lm(duration_ext ~ TV*hispanic_d + logPop + pcHisp + income  + age + sex + age2 + foreign*hispanic_d, data=atus_u19)
+### what distance restriction works?
+# m6 <- lm(duration_ext ~ TV*hispanic_d*dist + TV*dist2*hispanic_d + logPop + pcHisp + income  + age + sex + age2 + cases + foreign*hispanic_d, data=atusCounty,
+# subset = dist < 10000)
+stargazer(m2,m3,m4,m5, out = "../../Output/Regs/atus_2015_ext11child.tex", title="Effect of TV on Amount of TV Watched, DD, 18 or under",
+          omit.stat = c('f','ser'), column.sep.width = '-5pt',
+          order = c('TV','TV:hispanic_d','hispanic_d$','logPop'),
+          covariate.labels = c('TV Dummy', 'TV Dummy $\\times$ Hispanic ',
+                               'Hispanic dummy',
+                               'Log(Population)','County \\% Hispanic','Log(Income)',
+                               'Foregin-born','Foreign-born Hispanic'),
+          omit = c('Constant','dist2','age','sexMale','sexNIU','cases'),
+          dep.var.labels = 'Minutes TV watched',
+          notes ="", se = makeRobust4(m2,m3,m4,m5))
 
 nonparent <- atusCounty %>%
   mutate(duration = duration - duration_parent) %>%
