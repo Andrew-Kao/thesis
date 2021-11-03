@@ -214,7 +214,6 @@ stargazer(m2,m3,m4,m5, out = "../../Output/Regs/atus_2015_ext10.tex", title="Eff
           dep.var.labels = 'Minutes TV watched',
           notes ="")
 
-
 m2 <- lm(duration_ext ~ TV*hispanic_d + income + age + sex + age2, data=atusCounty) 
 m3 <- lm(duration_ext ~ TV*hispanic_d + income + pcHisp  + age + sex + age2, data=atusCounty)
 m4 <- lm(duration_ext ~ TV*hispanic_d+ logPop + pcHisp + income  + age + sex + age2, data=atusCounty)
@@ -391,6 +390,45 @@ stargazer(m2,m3,m4,m5, out = "../../Output/Regs/atus_2015_ext11child.tex", title
           omit = c('Constant','dist2','age','sexMale','sexNIU','cases'),
           dep.var.labels = 'Minutes TV watched',
           notes ="", se = makeRobust4(m2,m3,m4,m5))
+
+
+###### CLUSTER ########
+
+m2 <- feols(duration_ext ~ TV*hispanic_d + income + age + sex + age2, data=atusCounty, cluster = c('stateCounty'))
+m3 <- feols(duration_ext ~ TV*hispanic_d + income + pcHisp + age + sex + age2, data=atusCounty, cluster = c('stateCounty'))
+m4 <- feols(duration_ext ~ TV*hispanic_d + logPop + income + pcHisp + age + sex + age2, data=atusCounty, cluster = c('stateCounty'))
+m5 <- feols(duration_ext ~ TV*hispanic_d + logPop + income + pcHisp + age + sex + age2 + foreign*hispanic_d, data=atusCounty, cluster = c('stateCounty'))
+etable(m2,m3,m4,m5, tex = TRUE, file = "../../Output/Regs/atus_2015_ext11_cl.tex",
+       order = etable_order, replace = TRUE, keep = c('TV'), digits = "r3")
+
+m2 <- feols(duration_child ~ TV*hispanic_d + income + age + sex + age2, data=atusCounty, cluster = c('stateCounty'))
+m3 <- feols(duration_child ~ TV*hispanic_d + income + pcHisp + age + sex + age2, data=atusCounty, cluster = c('stateCounty'))
+m4 <- feols(duration_child ~ TV*hispanic_d + logPop + income + pcHisp + age + sex + age2, data=atusCounty, cluster = c('stateCounty'))
+m5 <- feols(duration_child ~ TV*hispanic_d + logPop + income + pcHisp + age + sex + age2 + foreign*hispanic_d, data=atusCounty, cluster = c('stateCounty'))
+etable(m2,m3,m4,m5, tex = TRUE, file = "../../Output/Regs/atus_2015_child_cl.tex",
+       order = etable_order, replace = TRUE, keep = c('TV'), digits = "r3")
+
+m2 <- feols(duration_parent ~ TV*hispanic_d + income + age + sex + age2, data=atusCounty, cluster = c('stateCounty'))
+m3 <- feols(duration_parent ~ TV*hispanic_d + income + pcHisp + age + sex + age2, data=atusCounty, cluster = c('stateCounty'))
+m4 <- feols(duration_parent ~ TV*hispanic_d + logPop + income + pcHisp + age + sex + age2, data=atusCounty, cluster = c('stateCounty'))
+m5 <- feols(duration_parent ~ TV*hispanic_d + logPop + income + pcHisp + age + sex + age2 + foreign*hispanic_d, data=atusCounty, cluster = c('stateCounty'))
+etable(m2,m3,m4,m5, tex = TRUE, file = "../../Output/Regs/atus_2015_parent_cl.tex",
+       order = etable_order, replace = TRUE, keep = c('TV'), digits = "r3")
+
+m2 <- feols(duration_ext ~ TV*hispanic_d + income + age + sex + age2, data=atusCounty, cluster = c('stateCounty'), subset = atusCounty$foreign == 1)
+m3 <- feols(duration_ext ~ TV*hispanic_d + income + pcHisp + age + sex + age2, data=atusCounty, cluster = c('stateCounty'), subset = atusCounty$foreign == 1)
+m4 <- feols(duration_ext ~ TV*hispanic_d + logPop + income + pcHisp + age + sex + age2, data=atusCounty, cluster = c('stateCounty'), subset = atusCounty$foreign == 1)
+etable(m2,m3,m4, tex = TRUE, file = "../../Output/Regs/atus_2015_foreign_cl.tex",
+       order = etable_order, replace = TRUE, keep = c('TV'), digits = "r3")
+
+
+m2 <- feols(edu ~ TV*hispanic_d + income + age + sex + age2, data=atusCounty, cluster = c('stateCounty'))
+m3 <- feols(edu ~ TV*hispanic_d + income + pcHisp + age + sex + age2, data=atusCounty, cluster = c('stateCounty'))
+m4 <- feols(edu ~ TV*hispanic_d + logPop + income + pcHisp + age + sex + age2, data=atusCounty, cluster = c('stateCounty'))
+m5 <- feols(edu ~ TV*hispanic_d + logPop + income + pcHisp + age + sex + age2 + foreign*hispanic_d, data=atusCounty, cluster = c('stateCounty'))
+etable(m2,m3,m4,m5, tex = TRUE, file = "../../Output/Regs/atus_2015_edu_cl.tex",
+       order = etable_order, replace = TRUE, keep = c('TV'), digits = "r3")
+
 
 nonparent <- atusCounty %>%
   mutate(duration = duration - duration_parent) %>%

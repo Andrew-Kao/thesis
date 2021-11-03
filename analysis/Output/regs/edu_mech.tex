@@ -11,29 +11,25 @@
 				\addlinespace\hline\addlinespace
 				\multicolumn{3}{l}{Panel A: IHS(limited English proficiency)} \\ %edu_dda_satactOLSIHS_spec3
                               	\hline\addlinespace
-				TV dummy $\times$ Hispanic & 0.304$^{***}$ & 0.304$^{***}$ & 0.304$^{***}$ \\ 
-				  & (0.005) & (0.005) & (0.005) \\ 
-				 TV dummy & $-$0.092$^{***}$ & $-$0.091$^{***}$ & $-$0.100$^{***}$ \\ 
-				  & (0.004) & (0.004) & (0.004) \\ 
+				TV dummy $\times$ Hispanic & 0.3042$^{***}$ & 0.3042$^{***}$ & 0.3042$^{***}$\\
+				  &(0.0379) & (0.0379) & (0.0379)\\
 				\addlinespace\hline
 				N & 83,004 & 83,004 & 83,004 \\ 
 				\hline\hline\addlinespace
 				\multicolumn{3}{l}{Panel B: IHS(bullied based on ethnicity or race)} \\ %edu_dda_calcOLSIHS_spec3
                               	\hline\addlinespace
-				 TV dummy $\times$ Hispanic & 0.001$^{*}$ & 0.001$^{*}$ & 0.001$^{*}$ \\ 
-				  & (0.001) & (0.001) & (0.001) \\ 
-				 TV dummy & 0.001$^{**}$ & 0.001$^{***}$ & 0.001$^{***}$ \\ 
-				  & (0.0004) & (0.0004) & (0.0004) \\ 				 
+				 TV dummy $\times$ Hispanic & 0.0015$^{*}$ & 0.0015$^{*}$ & 0.0015$^{*}$\\
+				  &(0.0009) & (0.0009) & (0.0009)\\		 
 				   \addlinespace\hline
 				N & 52,068 & 52,068 & 52,068 \\ 
 				\hline\hline\addlinespace
-				County controls & Yes & Yes  & Yes\\
+				School district FE & Yes & Yes  & Yes\\
                                 	School size controls & No & Yes & Yes\\
                                 	School type controls & No & No & Yes \\
 					\addlinespace\hline\hline
 			\end{tabular}
 			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} The table presents coefficient estimates from regressions at the school-ethnicity level, only keeping schools within 100 KM of a Spanish language TV contour boundary. The dependent variable are inverse hyperbolic sine transformed counts of students classified as having limited English proficiency in Panel A and the number of students bullied on the basis of their ethnicity or race in Panel B. TV dummy is an indicator variable for a person living in a county with access to Spanish language television based on the FCC regulation OET Bulletin 69, which is interacted with an indicator for whether the demographic is Hispanic (the omitted group are Asians). Columns 1-3 include county level controls for log(income), log(population), and percentage of the county that is Hispanic, as well as school level controls for the number of Hispanic and Asian students enrolled. Columns 2-3 control for the number of teachers and total number of students at the school. Column 3 controls for indicators denoting whether the school contains a primary, middle, and high school division. Standard errors are robust. *, **, and *** denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.
+				\item \textit{Notes:} The table presents coefficient estimates from regressions at the school-ethnicity level, only keeping schools within 100 KM of a Spanish language TV contour boundary. The dependent variable are inverse hyperbolic sine transformed counts of students classified as having limited English proficiency in Panel A and the number of students bullied on the basis of their ethnicity or race in Panel B. TV dummy is an indicator variable for a person living in a county with access to Spanish language television, which is interacted with an indicator for whether the demographic is Hispanic (the omitted group are Asians). Columns 1-3 include county level controls for log(income), log(population), and percentage of the county that is Hispanic, as well as school level controls for the number of Hispanic and Asian students enrolled. Columns 2-3 control for the number of teachers and total number of students at the school. Column 3 controls for indicators denoting whether the school contains a primary, middle, and high school division. School district fixed effects are always included. Standard errors are clustered at the school district level. *, **, and *** denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.
 			\end{tablenotes}
 		\end{threeparttable}
 	}

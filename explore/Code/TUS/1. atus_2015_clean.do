@@ -62,7 +62,7 @@ set more off
 
 use "atus_hierarchy_all.dta", clear
 
-keep if year <= 2015
+// keep if year <= 2015
 
 * indiv data
 preserve
