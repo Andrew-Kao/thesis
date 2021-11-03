@@ -126,3 +126,45 @@ binomial_smooth <- function(...) {
   geom_smooth(method = "glm", method.args = list(family = "binomial"), ...)
 }
 
+
+
+##### TIME USE
+if (Sys.info()["user"] == "AndrewKao") {
+  setwd('~/Documents/College/All/thesis/explore/Data/TUS') 
+}
+instrument_all <- readRDS("../instrument/countyInstrumentCovariate.Rdata") %>%
+  mutate(TV = ifelse(intersects == 1 & (areaRatio > .95 | dist > 0),1,0)) %>%
+  mutate(stateCounty = paste0(state, county))
+
+atus2015 <- read.csv('atus_indiv_tv_all.csv') %>%
+  mutate(stateCounty = str_pad(county,5,side = "left", pad = "0"))
+
+atusCounty = inner_join(atus2015, instrument_all, by = "stateCounty") %>%
+  mutate(logPop = log(population), income = log(income)) %>%
+  mutate(dist2 = dist*dist, hispanic_d = if_else(hispan != "Not Hispanic",1,0),
+         age2 = age*age,
+         foreign = if_else(citizen == "Foreign born, not a U.S. citizen" | citizen == "Foreign born, U.S. citizen by naturalization",
+                           1, 0),
+         inout = ifelse(intersects == 1, 1, -1),
+         dist = dist * inout,
+         dist = dist/1000) 
+
+
+
+if (Sys.info()["user"] == "AndrewKao") {
+  setwd('~/Documents/College/All/thesis/analysis/Output/graphs') 
+}
+
+mdext <- mean(atusCounty$duration_ext)
+m1 <- lm(duration_ext ~ income + logPop + pcHisp + age + sex + age2 , data=atusCounty)
+pred_dext <- predict(m1,atusCounty)
+atusCounty <- atusCounty %>%
+  mutate(pdext = duration_ext - pred_dext + mdext)
+
+ggplot() + geom_smooth(data = atusCounty[atusCounty$dist > -100 & atusCounty$hispanic_d == 1,], aes(dist,pdext, color = "blue")) +
+ geom_smooth(data = atusCounty[atusCounty$dist > -100  & atusCounty$hispanic_d == 0,], aes(dist,pdext, color = "red")) +
+  labs(x = "Distance to contour boundary (KM)", y = "Minutes of TV watched") +
+  theme(legend.position = c(0.2, 0.8)) + scale_color_discrete(name = "Demographic",
+                                                              labels = c("Hispanic", "Non-Hispanic"))
+ggsave("atus.pdf")
+

@@ -1778,6 +1778,29 @@ stargazer(om1, om2, om3, out = "../../Output/Regs/edu_dda_gedpOLSIHS_spec3.tex",
           dep.var.labels = 'IHS(\\# GED Participate)')
 
 
+
+######## DD FE/cl test
+
+etable_order <- c('TV $\times$ eth','TV','TV:origdist:eth','TV:origdist','origdist:eth','eth')
+setFixest_dict(c('TV:eth' = "TV dummy $\\times$ Hispanic"))
+
+om1 <- feols(ihs(sch_satact) ~ TV*eth + 
+            origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass)
+om2 <- feols(ihs(sch_satact) ~ TV*eth +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+            total_students | LEAID, cluster = c("LEAID"), data=harass)
+om3 <- feols(ihs(sch_satact) ~ TV*eth +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("LEAID"), data=harass)
+etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_satactOLSIHS_spec4.tex",
+       order = etable_order, replace = TRUE)
+
+
+
+
+
+
+
 ##### Diff in diff mech #######
 
 ## TODO: framing idea, only use identity mech, maybe educ as placebo
