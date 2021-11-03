@@ -405,6 +405,70 @@
 \input{edu_calcIHS_abs.tex}
 \input{edu_appIHS_abs.tex}
 
+% distance: clear!
+\input{edu_dda_satactOLSIHS_dist50.tex}
+\input{edu_dda_calcOLSIHS_dist50.tex}
+\input{edu_dda_appOLSIHS_dist50.tex}
+\input{edu_dda_satactOLSIHS_dist33.tex}
+\input{edu_dda_calcOLSIHS_dist33.tex}
+\input{edu_dda_appOLSIHS_dist33.tex}
+
+% weights: clear!
+\input{edu_dda_satactOLSIHS_sweight.tex}
+\input{edu_dda_calcOLSIHS_sweight.tex}
+\input{edu_dda_appOLSIHS_sweight.tex}
+\input{edu_dda_satactOLSIHS_tweight.tex}
+\input{edu_dda_calcOLSIHS_tweight.tex}
+\input{edu_dda_appOLSIHS_tweight.tex}
+
+% vs white: clear!
+\input{edu_dda_satactOLSIHS_vswhite.tex}
+\input{edu_dda_calcOLSIHS_vswhite.tex}
+\input{edu_dda_appOLSIHS_vswhite.tex}
+
+% spatial autocorr: clear!
+\begin{table}[!h]
+    \centering
+    \captionsetup{skip=1.5pt}
+    \caption{Spatial autocorr} 
+    \scalebox{.8}{
+        \begin{threeparttable}
+            \begin{tabular}{lccccccc}
+                \hline\hline\addlinespace
+                & \multicolumn{3}{c}{\textit{IHS(Visitors)}} \\
+                \cmidrule{2-4} & (1)  & (2) & (3)  \\
+                \hline\addlinespace
+                \multicolumn{3}{l}{Panel A: SAT ACT autocorr  } \\
+                \hline\addlinespace
+                \expandableinput{edu_dda_satactOLSIHS_spatial.tex} \addlinespace\hline\addlinespace
+                \multicolumn{3}{l}{Panel B: Calc autocorr  } \\
+                \hline\addlinespace
+                \expandableinput{edu_dda_calcOLSIHS_spatial.tex} \addlinespace\hline\addlinespace
+                \multicolumn{3}{l}{Panel C: AP pass autocorr  } \\
+                \hline\addlinespace
+                \expandableinput{edu_dda_appOLSIHS_spatial.tex} \addlinespace\hline\addlinespace
+                \multicolumn{3}{l}{Panel D: SAT ACT autocorr Bartlett  } \\
+                \hline\addlinespace
+                \expandableinput{edu_dda_satactOLSIHS_spatialbart.tex} \addlinespace\hline\addlinespace
+                \multicolumn{3}{l}{Panel E: Calc autocorr Bartlett } \\
+                \hline\addlinespace
+                \expandableinput{edu_dda_calcOLSIHS_spatialbart.tex} \addlinespace\hline\addlinespace
+                \multicolumn{3}{l}{Panel F: AP pass autocorr Bartlett } \\
+                \hline\addlinespace
+                \expandableinput{edu_dda_appOLSIHS_spatialbart.tex} \addlinespace\hline\addlinespace
+                \hline\hline\addlinespace
+            \end{tabular}
+            \begin{tablenotes}[flushleft]
+                \item \textit{Notes:} Regressions are at the location-visitor demographic level. Standard errors are robust.  \end{tablenotes}
+        \end{threeparttable}
+    }
+\end{table}
+
+% cluster network: clear!
+\input{edu_dda_satactOLSIHS_clnetwork.tex}
+\input{edu_dda_calcOLSIHS_clnetwork.tex}
+\input{edu_dda_appOLSIHS_clnetwork.tex}
+
 \end{document}
 
 
