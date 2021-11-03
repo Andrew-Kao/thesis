@@ -9,6 +9,7 @@ library(rgeos)
 library(dplyr)
 library(stringr)
 library(stargazer)
+library(readxl)
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/education') 
@@ -213,6 +214,12 @@ stargazer(ged, out="../../Output/Summary/EduDFGed.tex", title="GED Completions",
 
 ## AP next
 
+######### ancient data (2011-2012) ########
+sch_char <- read_excel('2011-12 Public Use File/SCH/CRDC-collected data file for schools/Pt 1-School Characteristics/2011-12 Public Use File_SCH_CRDC-collected _Pt 1-School Characteristics_02 - School Characteristics.xlsx') %>%
+  select(LEAID, SCHID, SP_ED, MG_SCH, CHARTER_SCH, ALT_SCH, MG_SCH2, ALT_ACD_DIF, ALT_DISC_PROB, ALT_OTHER) %>%
+  mutate(leasch = as.numeric(SCHID) + 100000*as.numeric(LEAID))
+saveRDS(sch_char,'sch11_char.Rdata')
+
 
 #### SPATIAL MERGE ####
 # Strategy: do all spatial computations with the LEAs, merge in to school data as needed
@@ -272,6 +279,16 @@ leas2 <- merge(leas, instrument, by = 'stateCounty', all.x = TRUE)
 saveRDS(leas2, 'LEAReadyRaster.Rdata')
 
 
+####### contour variations ######
+contourLEADist <- gDistance(contours_project,leas_project, byid = TRUE)
+contourLEAMinPos <- apply(contourLEADist,1,FUN=which.min)
+cdata <- contours1@data %>%
+  mutate(contourLEAMinPos = 1:nrow(contours1@data))
+leaContour <- fread('2015-16-crdc-data/Data Files and Layouts/CRDC 2015-16 LEA Data.csv') %>%
+  select(LEAID) %>%
+  mutate(contourLEAMinPos = contourLEAMinPos) %>%
+  left_join(cdata, by = c('contourLEAMinPos'))
+saveRDS(leaContour, 'LEAContour.RData')
 
 ######## mechanism analysis ########
 # need to merge only Univision/Telemundo
