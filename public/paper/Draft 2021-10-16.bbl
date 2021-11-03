@@ -27,12 +27,6 @@
   2020{\em a}. ``American {Community} {Survey} {Sample} {Size} and {Data}
   {Quality}.'' United States Census Bureau.
 
-\harvarditem[Anselin \harvardand\ Bera]{Luc Anselin \harvardand\ Anil
-  Bera}{1998}{anselin_spatial_1998}
-{\bf Anselin, Luc, and Anil Bera.} 1998. ``Spatial {Dependence} in {Linear}
-  {Regression} {Models} with an {Introduction} to {Spatial} {Econometrics}.''
-  In {\em Handbook of applied economic statistics}. 237.
-
 \harvarditem[]{}{2015{\em b}}{noauthor_ap_2015}
 {\bf {AP} {Data} – {Archived} {Data} 2015.} 2015{\em b}. ``{AP} {Data} –
   {Archived} {Data} 2015.'' College Board.
@@ -89,26 +83,22 @@
   2019. ``Moral incentives in credit card debt repayment: evidence from a field
   experiment.'' {\em Journal of Political Economy}, 127(4):~1641--1683.
 
+\harvarditem[Casas-Arce \harvardand\ Saiz]{Pablo Casas-Arce \harvardand\ Albert
+  Saiz}{2015}{casas2015women}
+{\bf Casas-Arce, Pablo, and Albert Saiz.} 2015. ``Women and power: unpopular,
+  unwilling, or held back?'' {\em Journal of political Economy},
+  123(3):~641--669.
+
 \harvarditem[Cascio \harvardand\ Lewis]{Elizabeth~U Cascio \harvardand\ Ethan~G
   Lewis}{2012}{cascio_cracks_2012}
 {\bf Cascio, Elizabeth~U, and Ethan~G Lewis.} 2012. ``Cracks in the {Melting}
   {Pot}: {Immigration}, {School} {Choice}, and {Segregation}.'' {\em American
   Economic Journal: Economic Policy}, 4(3):~91--117.
 
-\harvarditem[Cliff \harvardand\ Ord]{Andrew Cliff \harvardand\ J~Keith
-  Ord}{1973}{cliff_spatial_1973}
-{\bf Cliff, Andrew, and J~Keith Ord.} 1973. ``Spatial {Autocorrelation}.''
-
 \harvarditem[Coghill \harvardand\ McGinnis]{Heather Coghill \harvardand\ Chris
   McGinnis}{2018}{coghill_tuning_2018}
 {\bf Coghill, Heather, and Chris McGinnis.} 2018. ``Tuning {In} to {Hispanic}
   {Audiences}.'' effectv.
-
-\harvarditem[Cutler, Glaeser \harvardand\ Vigdor]{David~M. Cutler, Edward~L.
-  Glaeser \harvardand\ Jacob~L. Vigdor}{2008}{cutler_when_2008}
-{\bf Cutler, David~M., Edward~L. Glaeser, and Jacob~L. Vigdor.} 2008. ``When
-  are ghettos bad? {Lessons} from immigrant segregation in the {United}
-  {States}.'' {\em Journal of Urban Economics}, 63(3):~759--774.
 
 \harvarditem[De~La~Merced \harvardand\ Gelles]{Michael De~La~Merced
   \harvardand\ David Gelles}{2014}{de_la_merced_att_2014}
@@ -128,10 +118,10 @@
   {Impacts} of the {Media}.'' In {\em Handbook of {Media} {Economics}}. Vol.~1,
   723--768. Elsevier.
 
-\harvarditem[]{}{2004{\em b}}{noauthor_elementary_2004}
+\harvarditem[]{}{2004}{noauthor_elementary_2004}
 {\bf Elementary and {Secondary} {Education} {Act} {Title} {IX} - {General}
-  {Provisions}.} 2004{\em b}. ``Elementary and {Secondary} {Education} {Act}
-  {Title} {IX} - {General} {Provisions}.'' U.S. Department of Education.
+  {Provisions}.} 2004. ``Elementary and {Secondary} {Education} {Act} {Title}
+  {IX} - {General} {Provisions}.'' U.S. Department of Education.
 
 \harvarditem[]{}{2015{\em c}}{noauthor_ensuring_2015}
 {\bf Ensuring {English} {Learner} {Students} {Can} {Participate} {Meaningfully}
@@ -154,11 +144,6 @@
 {\bf Ferrara, Eliana~La, Alberto Chong, and Suzanne Duryea.} 2012. ``Soap
   {Operas} and {Fertility}: {Evidence} from {Brazil}.'' {\em American Economic
   Journal: Applied Economics}, 4(4):~1--31.
-
-\harvarditem[Fletcher, Heald \harvardand\ Hildreth]{Fletcher, Heald
-  \harvardand\ Hildreth}{2018}{fletcher_fcc_2018}
-{\bf Fletcher, Heald, and Hildreth.} 2018. ``{FCC} {Updates} {DTV} {Reception}
-  {Map}.''
 
 \harvarditem[Gaddy]{Gary~D Gaddy}{1986}{gaddy1986television}
 {\bf Gaddy, Gary~D.} 1986. ``Television's impact on high school achievement.''
@@ -187,6 +172,11 @@
   Dietz~Jr.} 1990. ``The impact of television viewing on mental aptitude and
   achievement: A longitudinal study.'' {\em Public opinion quarterly},
   54(4):~594--604.
+
+\harvarditem[Grembi, Nannicini \harvardand\ Troiano]{Veronica Grembi, Tommaso
+  Nannicini \harvardand\ Ugo Troiano}{2016}{grembi2016fiscal}
+{\bf Grembi, Veronica, Tommaso Nannicini, and Ugo Troiano.} 2016. ``Do fiscal
+  rules matter?'' {\em American Economic Journal: Applied Economics}, 1--30.
 
 \harvarditem[]{}{2015{\em a}}{noauthor_high_2015}
 {\bf High {School} {Benchmarks} – 2015.} 2015{\em a}. ``High {School}
@@ -272,12 +262,6 @@
 {\bf Oberholzer-Gee, Felix, and Joel Waldfogel.} 2009. ``Media {Markets} and
   {Localism}: {Does} {Local} {News} en {Espanol} {Boost} {Hispanic} {Voter}
   {Turnout}?'' {\em American Economic Review}, 99(5):~2120--2128.
-
-\harvarditem[]{}{2004{\em a}}{noauthor_oet_2004}
-{\bf {OET} {BULLETIN} {No}. 69: {Longley}-{Rice} {Methodology} for {Evaluating}
-  {TV} {Coverage} and {Interference}.} 2004{\em a}. ``{OET} {BULLETIN} {No}.
-  69: {Longley}-{Rice} {Methodology} for {Evaluating} {TV} {Coverage} and
-  {Interference}.'' Federal Communications Commission.
 
 \harvarditem[Olken]{Benjamin~A Olken}{2009}{olken_television_2009}
 {\bf Olken, Benjamin~A.} 2009. ``Do {Television} and {Radio} {Destroy} {Social}

@@ -96,7 +96,7 @@
 
 \begin{document}
 \title{\textbf{Seeing is Believing: Identity, Inequality, and the Impact of Television on the Hispanic Achievement Gap}%Unravel}
-\thanks{Many appreciated suggestions, critiques and encouragement were provided by Leonardo Bursztyn, Lucas Cusimano, Benjamin Enke, Victor Lima, Aakaash Rao, Jaya Wen, David Yang, and Kotaro Yoshida, seminar participants at EPoD and Harvard PE, as well as Trip from SatelliteGuys for technical advice. }\\
+\thanks{Many appreciated suggestions, critiques and encouragement were provided by Leonardo Bursztyn, Lucas Cusimano, Benjamin Enke, Victor Lima, Aakaash Rao, Jaya Wen, David Yang, and Kotaro Yoshida, seminar participants at EPoD and Harvard PE, as well as Mark Colombo for technical advice. }\\
 }
 
 
@@ -156,7 +156,7 @@ The Hispanic achievement gap is wide and persistent. Hispanics face the lowest h
 
 Despite the rise of the internet, broadcast Spanish Language TV remains an important fixture of Hispanic households. 78\% of Spanish-dominant households watch SLTV (and 50\% of multi-language Spanish-speaking homes do). In 2010, every single one of the top 10 shows watched by Hispanics were Spanish language programs \citep{pardo_three_2011}. By investigating Spanish Language TV, I take a closer look at Hispanic communities and examine the ties between SLTV, identity, and education. 
 
-To identify the causal effect of SLTV, I follow \cite{velez_tuning_2019} and exploit a spatial regression discontinuity arising from the Federal Communications Commission (FCC) regulation OET Bulletin No.~69. This regulation grants federal protection of a TV station’s broadcast signal only within a certain distance of a station’s main antenna. Thus, households and schools just inside a TV station's coverage contour should be observably similar to those just outside the contour, except for the presence of broadcast and satellite TV. I argue that this allows me to identify the causal effect of SLTV, given several features: (1) contours are mechanically decided by a formula involving geographical features and antenna strength, (2) contours are large and tend to cut across suburban and `small town' areas, rather than dense urban areas which corporations might try to capture for profitability reasons (urban centers fall squarely within contours), (3) SLTV stations were often built before this regulation was imposed, (4) demographic and other controls across the regression discontinuity are similar, and (5) Hispanics do not differentially migrate across contours, minimizing the possibility of selection. To further dispel concerns over potential confounds, I employ a difference-in-discontinuities design, comparing outcomes for Hispanic students against Asian students in schools with and without SLTV based on a 100 kilometer cut-off to SLTV coverage contours.\footnote{I compare against Asian rather than white students because they are much less likely to identify as Hispanic.} 
+To identify the causal effect of SLTV, I follow \cite{velez_tuning_2019} and exploit a spatial regression discontinuity arising from a Federal Communications Commission (FCC) regulation. This regulation grants federal protection of a TV station’s broadcast signal only within a certain distance of a station’s main antenna. Thus, households and schools just inside a TV station's coverage contour should be observably similar to those just outside the contour, except for the presence of broadcast and satellite TV. I argue that this allows me to identify the causal effect of SLTV, given several features: (1) contours are mechanically decided by a formula involving geographical features and antenna strength, (2) contours are large and tend to cut across suburban and `small town' areas, rather than dense urban areas which corporations might try to capture for profitability reasons (urban centers fall squarely within contours), (3) SLTV stations were often built before this regulation was imposed, (4) demographic and other controls across the regression discontinuity are similar, and (5) Hispanics do not differentially migrate across contours, minimizing the possibility of selection. To further dispel concerns over potential confounds, I employ a difference-in-discontinuities design, comparing outcomes for Hispanic students against Asian students in schools with and without SLTV based on a 100 kilometer cut-off to SLTV coverage contours.\footnote{I compare against Asian rather than white students because they are much less likely to identify as Hispanic.} 
 
 I verify the relevance of this instrument's first stage by employing the difference-in-discontinuities approach with the American Time Use Dataset. I find that Hispanics watch 10 minutes more of TV when within coverage contours, a plausible lower bound for the amount of extra Spanish Language TV watched if Hispanics substitute watching English programs with Spanish ones. I further show that Hispanics watch more TV with their children---Hispanic students, in other words. Notably, non-Hispanics do not exhibit differential TV viewership across SLTV coverage contours.
 	
@@ -178,7 +178,8 @@ Finally, in the education and psychology literature, the stereotype threat pheno
 % TODO: absolute gains in tables
 % TODO: check caribbean?
 % TODO: robustness, Spanish only instrument (no EN/ES)
-
+% TODO: cluster by network
+% TODO: doughnut specification, cutting out middle 25 KM
 
 
 % some pushback claiming that individual shows can lead to fewer teenage births \citep{kearney_media_2015}
@@ -215,17 +216,22 @@ Finally, in the education and psychology literature, the stereotype threat pheno
 
 %\subsection{Broadcast TV and Geography}
 
-\paragraph{Coverage contours}  The central instrument in this paper is the discontinuity in coverage contours of SLTV stations introduced via FCC regulation OET Bulletin No.~69. To build the coverage contours of SLTV stations in the United States, I collect a list of the callsigns for all SLTV stations from TMS Media, a large provider of data on TV, movies, and other media.\footnote{ A TV station is defined to be SLTV if at least one of the primary broadcasts languages are Spanish.} There are 100 of these stations located across the United States. These callsigns are matched against data from the FCC's OET Bulletin No.~69 and the FCC's Consolidated DataBase System to directly obtain the coverage contour boundaries in 2015 as prescribed and regulated by the FCC.\footnote{ 2015 coverage contour data is used due to the 'FCC Spectrum Repack' that began in 2018, which relocates a number of signals, affecting the reception and coverage for a substantial number of stations.}  % repack cite: \citep{fletcher_fcc_2018}
+\paragraph{Coverage contours}  The central instrument in this paper is the discontinuity in coverage contours of SLTV stations introduced via FCC regulation. To build the coverage contours of SLTV stations in the United States, I collect a list of the callsigns for all SLTV stations from TMS Media, a large provider of data on TV, movies, and other media.\footnote{ A TV station is defined to be SLTV if at least one of the primary broadcasts languages are Spanish.} There are 100 of these stations located across the United States. These callsigns are matched against data from the FCC's OET Bulletin No.~69 and the FCC's Consolidated DataBase System to directly obtain the coverage contour boundaries in 2015 as prescribed and regulated by the FCC.\footnote{ 2015 coverage contour data is used due to the 'FCC Spectrum Repack' that began in 2018, which relocates a number of signals, affecting the reception and coverage for a substantial number of stations.}  % repack cite: \citep{fletcher_fcc_2018}
 Figure~\ref{f:contour_example} presents an example of a coverage contour, while Figure~\ref{f:contours_schools} displays a map of all SLTV contours in the United States.
 
-\paragraph{Time use data} I collect time use data from the American Time Use Dataset and construct the total amount of time individuals spent watching TV, time spent watching TV with children and parents, time spent on children's education, and demographic variables. Individuals in the data are located at the county level---I classify a given county as falling within a SLTV contour coverage if at least 50\% of its area does. 68,373 individuals in the sample live within 100 kilometers of the contour boundary. Table~\ref{t:summary}, Panel A presents summary statistics for this data.  
+\paragraph{Time use data} I collect time use data from the American Time Use Dataset from 2003-2015 and construct the total amount of time individuals spent watching TV, time spent watching TV with children and parents, time spent on children's education, and demographic variables. Individuals in the data are located at the county level---I classify a given county as falling within a SLTV contour coverage if at least 50\% of its area does. 68,373 individuals in the sample live within 100 kilometers of the contour boundary. Table~\ref{t:summary}, Panel A presents summary statistics for this data.  
+	
 
-\paragraph{Public school data} I collect data on public schools from the US Department of Education's Civil Rights Data Collection (CRDC) dataset in 2015. For anti-discrimination and transparency purposes, all public schools in the United States are required to report data to the CRDC on an annualized basis. This data contains information on various indicators of educational performance by demographic category, including SAT/ACT tests taken, calculus courses taken, AP tests passed, students classified under `Limited English Proficiency', students bullied on the basis of ethnicity or race, as well as the number of teachers and students in the school.\footnote{More comprehensive variable descriptions are provided under \ref{a:auxiliarydata}.} School addresses are geocoded using ArcGIS and coded as receiving SLTV if they fall within a coverage contour. 83,004 schools fall within 100 kilometers of the contour boundary. Figure \ref{f:contours_schools} presents a map of these schools, while Table~\ref{t:summary}, Panel B presents summary statistics. 
+\paragraph{Public school data} I collect data on public schools from the US Department of Education's Civil Rights Data Collection (CRDC) dataset in 2015. For anti-discrimination and transparency purposes, all public schools in the United States are required to report data to the CRDC on an annualized basis. This data contains information on various indicators of educational performance by demographic category, including SAT/ACT tests taken, calculus courses taken, AP tests passed, students classified under `Limited English Proficiency', students bullied on the basis of ethnicity or race, as well as the number of teachers and students in the school.\footnote{More comprehensive variable descriptions are provided under \ref{a:auxiliarydata}.} School addresses are geocoded using ArcGIS and coded as receiving SLTV if they fall within a coverage contour. 83,004 schools fall within 100 kilometers of the contour boundary. Figure \ref{f:contours_schools} presents a map of these schools, while Table~\ref{t:summary}, Panel B presents summary statistics for this data. 
 
 
-\paragraph{Television transcript data} To code the content of programs broadcasted by SLTV stations, I make use of archive.org's television transcript database. For each station in their database, I code the fraction of television programs whose transcripts contain keywords related to the mechanisms that I study: identity, education, and role models.\footnote{More advanced text analysis such as NLP is not possible due to copyright law restricting direct access to the text corpus. Thus, only keyword searches are feasible. The specific set of keywords used are displayed in Appendix Table~\ref{t:transcript_keywords} and the process for constructing this set is described under \ref{a:auxiliarydata}.}
+\paragraph{Television transcript data} To code the content of programs broadcasted by SLTV stations, I make use of archive.org's television transcript database covering the years 2005-2015. Because transcript data is available at the television network level, I assign all affiliate stations data from their parent network.\footnote{There are nine major Spanish Language TV networks present in the data: Telemundo, Univision, UniMás, Azteca América, PBS, Estrella TV, MundoMax, Enlace TBN, and Mega TV. } For each network in the database, I code the fraction of television programs whose transcripts contain kesywords related to the mechanisms that I study: identity, education, and role models.\footnote{More sophisticated text analysis techniques such as NLP are not possible due to copyright law restricting direct access to the text corpus. Thus, only keyword searches are feasible. The specific set of keywords used are displayed in Appendix Table~\ref{t:transcript_keywords} and the process for constructing this set is described under \ref{a:auxiliarydata}.}  Table~\ref{t:summary}, Panel C presents summary statistics for this data. 
+% TODO: correct time period
+% TODO: drop Brazil, Suriname
 
-Due to a lack of comprehensive coverage on all SLTV stations (less than half have data), I impute data
+\paragraph{Foot-traffic data} I gather Safegraph foot-traffic data from 2019 to analyze whether Hispanics differentially visit Hispanic-branded establishments under the presence of SLTV. Safegraph uses location tracking data from mobile phones to compile comprehensive foot-traffic data to over 10 million points of interest around the world. I restrict the analysis to two sectors where ethnic branding is common: food services (NAICS code 72) and arts, entertainment, and recreation (NAICS code 71). Restaurants and other food service establishments are tagged by Safegraph with the kind of cuisine served, which I use to classify an establishment as Hispanic or not. Recreation establishments are not tagged, so I match establishment names with the identity keywords used to classify the transcript data above to code establishments as Hispanic. I repeat this for a number of placebo ethnicities: Greek, Korean, and Brazilian. Safegraph provides data on the number of visitors to each establishment at the census block group level. Thus, I use census data and the instrument to impute the number of Hispanics and non-Hispanics, with and without SLTV, who visit each establishment within 100 kilometers of a SLTV coverage contour.\footnote{Given the potential selection concern of users whose data get reported to Safegraph, I also apply a Heckman correction based on moments from the census data to adjust the number of visitors in each category.} There are 273,216 establishments included in my sample. Table~\ref{t:summary}, Panel D presents summary statistics for this data. 
+
+\paragraph{Other data} \ref{a:auxiliarydata} describes other data used in the paper. Briefly, they are IPUMS migration data at the origin county-destination county level from 2010-2015, used to test for selection via migration, and American Community Survey data for county level demographic controls. The appendix also describes in greater detail the data construction process for the datasets above.
 
 
 \vspace{5em}
@@ -235,84 +241,83 @@ EDIT \\
 \hrule
 \vspace{.5em}
 
-\subsection{Other data} \ref{a:auxiliarydata} describes other data used in the paper, including IPUMS migration data, American Community Survey data, and also describes in greater detail the data construction process for the datasets above.
-
 
 
 \section{Empirical Strategy}\label{s:rd}
 
-To isolate the causal effect of Spanish language television, I adapt the technique used in \cite{velez_tuning_2019}  and generalize it from two counties to the entirety of the US. Velez and Newman exploit a FCC (Federal Communications Commission) regulation which determines the distance from a TV station in which the station's broadcast signal is protected from interference.
+To isolate the causal effect of Spanish language television, I adapt the technique used in \cite{velez_tuning_2019}  and extend it from two counties to the entirety of the United States. Velez and Newman construct a spatial regression discontinuity based on a FCC (Federal Communications Commission) regulation which determines the distance from a TV station in which the station's broadcast signal is protected from interference.
 
-Digital and satellite TV stations operate by broadcasting signals from a central antenna, and the field strength at a given point resulting from this antenna is a mechanical product of several factors: The antenna's ERP (Effective Radiated Power, which is the amount of input power given to the antenna adjusted for idiosyncrasies in the antenna that may boost or attenuate the effective power), the antenna's HAAT (High Above Average Terrain), and the distance from the point to the antenna.
-
+Digital and satellite TV stations operate by broadcasting signals from a central antenna, and the antenna's field strength at any given point is a mechanical product of several factors: the antenna's ERP (Effective Radiated Power, which is the amount of input power given to the antenna adjusted for antenna idiosyncrasies that may boost or attenuate the effective power), the antenna's HAAT (High Above Average Terrain), and the distance from the point to the antenna. This signal declines in strength with the square of distance, making it subject to interference and general loss of signal. When one gets far enough away from a station, this interference becomes widespread and meaningfully impedes TV viewership: the FCC completely repacked the spectrum between 2018-2020 to more efficiently allocate radio frequencies and prevent interference.\footnote{ Interference is most common from other TV broadcasters, where even weak signals and signals from adjacent channels (both digital and analog) can cause major reception issues. Distance also aggravates common TV signal quality issues such as ghosting (the appearance of double images due to geographical obstacles/multiple signals) and exacerbates interference from other signals, including radio transmitters (whether commercial, CB, or amateur), and can even cause electrical sources such as power lines or large motors to prevent reception.} To safeguard TV signals, the FCC passed in 1997 a series of regulations to protect signals for commercial TV stations from interference. These took the form of contour areas for which service holds at 50\% of locations 10\% of the time, termed a noise-limited bounding contour, inside of which sufficiently strong interfering signals are banned.\footnote{ The relevant sections of federal law are 47 C.F.R. 73.622, 73.623, and 74.704. The FCC's OET Bulletin No. 69 most clearly summarizes and provides guidance on the salient features in this law. The contour interference protection lines are termed $F(50,10)$ lines. In practice, this regulation is most frequently used to restrict new TV station allotments. There are also $F(50,90)$ lines which demarcate minimum field strength for digital TV service; these coverage contours are strict subsets of the interference contours and are not as suitable for a regression discontinuity as it is likely that people just outside of these contours are still able to access a television signal.} The blue contour line in Figure~\ref{f:contour_example} presents an example of one such coverage contour.
 %@CITE https://www.fcc.gov/media/radio/fm-and-tv-propagation-curves
 %@CITE White Paper TAC
 
-This signal declines in strength as one grows more distant from the station, making it subject to interference. The FCC regulation OET Bulletin No. 69 (FCC,\cite{noauthor_oet_2004}) protects signals for commercial TV stations from interference in a contour area for which service holds at 50\% of locations 90\% of the time.\footnote{ These contour lines are termed $(50,90)$ lines. There is a small adjustment made for different channel numbers, which have varying noise-limited coverage. } An example of this coverage contour can be seen in Figure \ref{contourexamplefig}; note that they tend to be sizable enough to fully cover major metropolitan areas, with contours boundaries ending substantially beyond them.
+% interference: https://www.ic.gc.ca/eic/site/smt-gst.nsf/eng/sf01382.html
+% law: https://www.ecfr.gov/current/title-47/chapter-I/subchapter-C/part-73/subpart-E/section-73.622
 
-This creates a natural spatial regression discontinuity, where the decaying strength of a signal due to distance from a station is combined with this cutoff in broadcast protection to create a split among people just inside and outside these coverage contours that are presumably comparable save for their access to broadcast TV.  This minimizes the potential concern of omitted variable bias, as the groups we are comparing across this border should share many overarching characteristics.
+This regulation creates a natural spatial regression discontinuity. Combined with the decaying strength of a TV signal due to distance, this cut-off in broadcast protection creates a split among households and schools just inside and outside of these coverage contours that should be ex ante comparable save for their access to broadcast TV. This is operationalized as a 100 kilometer cut-off from the coverage contour border in my baseline specifications. By studying Spanish Language TV in particular, I should be able to examine its causal effect on Hispanic communities for spatially located outcomes, so long as the location of these contours are uncorrelated with any of the other determinants for the outcomes studied. 
 
-In the case of Spanish Language TV in particular, this should allow us to examine its causal effect on Hispanic communities for spatially located outcomes. As mentioned, these contours are purely determined by an algorithm and only dependent on physical variables like local elevation and antennae strength. Thus, the precise regulatory boundaries are located in more or less random locations, and coverage is large enough that these contours tend to cut across towns and suburbs, rather than large cities --- television networks are not constructing their antennas to be just large enough to only cover the most dense and populous areas. This implies that network executives, if they are aiming to maximize profit, ratings, or audiences, would not have these boundaries at the forefront of their calculus.
+Given that these contours are purely determined by an algorithm and only dependent on physical variables like local elevation and antennae strength, the precise regulatory boundaries are located in more or less random locations. Coverage contours are large enough that they tend to cut across towns and suburbs rather than large cities---television networks have not constructed their antennas to be just large enough to only cover the most dense and populous areas.\footnote{These urban centres fall squarely within the aforementioned $F(50,90)$ lines. This implies that network executives aiming to maximize profit, ratings, or audiences, should not have these boundaries at the forefront of their decision calculus.} 
 
-In order for the causal effect of SLTV to be identified, the actual coverage of the contours must be uncorrelated with any of the other determinants for the outcome variables with which we are interested. One reassurance is that the interference protection regulation, OET Bulletin 69, was only codified in 1977 --- in contrast, Univision, the largest owner of SLTV stations, was founded in 1955, and had built a substantial number of their television stations and antennas by 1977.\footnote{ Though Telemundo, the second largest owner of SLTV, was technically founded in 1984, the stations it initially acquired were built in 1954. It also primarily expanded through the acquisition of existing stations, rather than building out its own new ones. } Furthermore, the most recent Longley-Rice methodology used to determine TV service coverage was only adopted in 1997, making it even less likely that stations were built or adapted in response to the policy.\footnote{ See FCC\cite{noauthor_oet_2004} for details.} Nonetheless, one may be concerned that SLTV stations target areas with more Hispanic people, or wealthier communities, or more populous areas, all of which are factors that could affect the areas of interest. Hence, I include explicit controls for these variables in the regression.
-% @CITE univisino, telemundo
+Another reassurance is that the interference protection regulation and the Longley-Rice methodology used to determine TV service coverage were only adopted in 1997, making it unlikely that stations were built or adapted in response to the policy. Univision, the largest owner of SLTV stations, was founded in 1955, and had built the vast majority of their television stations and antennas by 1997. Telemundo, the second largest owner of SLTV, was founded in 1984 and the stations it initially acquired were built in 1954. Like most SLTV networks, it primarily expanded through the acquisition of existing stations, rather than building out its own new ones. Nonetheless, one may still believe that SLTV stations target areas with more Hispanic people, or wealthier communities, or more populous areas, all of which are factors that could affect the areas of interest. Hence, I include explicit controls for these variables in regressions.
+% @TODO CITE univisino, telemundo
 
-cite GREMBI 
 
-The instrument therefore consists of two variables interacted: First, a dummy for whether the outcome data falls within a SLTV station's coverage contour boundaries, and second, the distance from the outcome of interest to the closest coverage boundary. To guarantee similarity between the people inside and outside the boundaries, only data points located within a distance of 100 KM of the boundary are kept.\footnote{ Using a round number in kilometers rather than miles makes the cutoff less likely to be correlated with some real-world phenomena.} 
+Finally, one may still be worried concerns that unobserved variation across coverage contours could drive the observed results. Therefore, I follow a recent literature on difference-in-discontinuities (\cite{casas2015women}, \cite{grembi2016fiscal}) and employ a design that, in addition to the regression discontinuity, also compares outcomes for Hispanic students against Asian students.\footnote{I compare against Asian rather than white students because they are much less likely to identify as Hispanic. The achievement gap between Hispanics and Asians tend to be as large, if not larger, than the Hispanic-white achievement gap, making this a result of independent interest.} Thus, any alternative explanation for these results would need to differentially affect Hispanics across these coverage contours.
+
+The instrument therefore consists of two variables interacted: first, an indicator for whether the outcome data falls within a SLTV station's coverage contour boundaries, and second, a Hispanic indicator. To ensure similarity between obervations inside and outside the boundaries, only observations located within a distance of 100 KM of boundary are kept.\footnote{ Using a round number in kilometers rather than miles makes this cutoff less likely to be correlated with real-world phenomena in the US.} The main specification is: 
+
+\[ y_{i,j} =  \beta \mathbb{I}[InsideContour_{i,j}] \times \mathbb{I}[Hispanic_{i,j}] + \gamma X_i + \epsilon_{i,j} \]
+
+where $y_{i,j}$ is an outcome for observation $i$ under demographic category $j \in \{$Hispanic, not Hispanic$\}$, and $X$ is a vector of controls for the observation. The main coefficient of interest is $\beta$, and in particular, the interaction term between the Inside Contour and Hispanic indicators. 
+
+% TODO: Because data is rarely reported at the individual level but rather at the demographic level (for instance, SAT and ACT tests taken by Hispanics in a given school), errors are clustered at the school levels
+% I prefer to leave standard errors robust, and separately check for robustness with respect to spatial autocorrelation for each main result. Other fixed effects/clustering options are treated similarly.
 
 Several concerns that potentially remain:
 \begin{itemize}
-\item \textit{Can we guarantee that it is Hispanic people who watch SLTV?} If it were the case that non-Hispanic people were frequent viewers of SLTV, the interpretation of the main effects would potentially be different: we would be looking at the effect of SLTV on all people. Thus, though outcomes restrict the analysis to how the lives of Hispanic people change, this could be driven by, for instance, white people treating Hispanic people differently due to having viewed SLTV. However, only 4\% of total SLTV station programming watched can be attributed to non-Hispanic people, a number that is only as high as it is because some SLTV stations also broadcast in English  (FCC\cite{noauthor_hispanic_2016}). Similarly, $<1\%$ of all programming watched by non-Hispanics is in the Spanish language.
+\item \textit{Can we guarantee that it is Hispanic people who watch SLTV?} If it were the case that non-Hispanic people were frequent viewers of SLTV, the interpretation of the main effects would potentially be different: we would be looking at the heterogeneous effect of SLTV on all people. This could be driven by, for instance, white people treating Hispanics and Asians differently due to having viewed SLTV. However,  $<1\%$ of all programming watched by non-Hispanics is in the Spanish language, making such stories extremely unlikely to hold true \cite{noauthor_hispanic_2016}.
+% However, only 4\% of total SLTV station programming watched can be attributed to non-Hispanic people, a number that is only as high as it is because some SLTV stations also broadcast in English  (FCC). Similarly,
 
-\item \textit{How do we account for the possibility of selection?} It is theoretically possible that Hispanic people move in response to these television coverage contour boundaries, and that the effects seen are therefore a result of Hispanic people self-sorting. If this were true, it would be a fairly remarkable result---people moving in significant quantities for access to better television in a way that influences life outcomes ranging from education to business to politics. However, as the subsection on migration beneath demonstrates, the selection story does not appear to be borne out by the data.
+\item \textit{How do we account for the possibility of selection?} It is theoretically possible that Hispanic people move in response to these television coverage contour boundaries, and that the effects seen are therefore a result of Hispanic people self-sorting. If true, this would be a remarkable result---people moving in large numbers for the sake of access to better television. However, using census migration data, I find that Hispanics do not differentially move into or out of counties with access to SLTV. Tables \ref{t:mig_orig} and \ref{t:mig_dest} present these results and suggest that, if anything, Hispanics are \textit{averse} to moving across coverage contour boundaries.
+
+%Tables \ref{mig_orig} and \ref{mig_dest} present the results on migration. These tables present results at the origin county - destination county level, tracking the Inverse Hyperbolic Sine (IHS) transformed values of the number of Hispanic migrants between the two counties.\footnote{ The IHS transform can be interpreted similarly to the Log transform (\% changes), but has the added advantage of being able to handle cases when $0$ is the observed value.} Table \ref{mig_orig} restricts to only origin counties that are within 100 KM of a coverage contour (the standard cut-off distance used for later outcomes).\footnote{ There are 636 such counties. The average origin county has 20 destination counties for which there is significant enough cross-county Hispanic migration that the ACS reports data for it.} In panel A, this is further restricted to origin counties inside the television contour, and so the main variable of interest is the dummy for the destination county being outside the TV contour. We observe a clear negative and significant relationship for migrations that cross the coverage contour. We interact the distance to the origin/destination with the TV dummy to ensure that we are controlling for all distance related effects, and control for county level characteristics including Log Population, Log Income, and percent of the county that is Hispanic for both origin and destination. All specifications also include origin fixed effects.
+%
+%In panel B, we restrict to origin counties outside the television contour, and the main variable of interest is the dummy for the destination county being \textit{inside} the TV contour. In this case, the point estimate is negative, although results are overall insignificant---this is sufficient for us to make our argument, given that so long as there are not positive coefficients, there is no evidence of migration across contour borders.
+%
+%Table \ref{mig_dest} repeats the analysis, this time restricting to only destination counties within 100 KM of a coverage contour. Results closely echo those seen in the prior table, with negative coefficients associated with migration across coverage contours, significant when the destination is inside the contour and not when they are outside. 
+%
+%These results combined indicate that movement across coverage contours is not a major threat to identification. Even in cases where insignificant results are observed, the base rate of migration is not very high to begin with---in our origin county sample, an average of 84 Hispanic people are observed to move between each county-county pair (median: 25) over the five year period which the dataset spans. This also speaks to the magnitude of the coefficients observed, where the drop in 10 to 40\% of migrants observed still falls within a plausible range. Though we do not have theories as to why people may be \textit{averse} to moving across coverage contour boundaries, it is in and of itself an interesting result perhaps worth further investigation.
+
+
+%% maybe to do someday: reverse causality, building SLTV stations where Hispanics are most successful
+
 \end{itemize}
 
-\subsection{Main Specification}
 
-A standard regression thus looks like restricting the universe of observations to only those within a small radius of the contour boundary, where the key independent variable of interest is an indicator for the observation being inside or outside the boundary, interacted with the distance to the boundary:
-\[ Y_i^{} = \beta_0 + \beta \mathbb{I}[InsideContour_i] \times Distance_i + \gamma X_i + \epsilon_i \]
 
-where $Y_i$ is an outcome for observation $i$ and $X$ is a vector of controls for the observation. The main coefficient of interest is $\beta$, and due to the nature of our instrument, we place the majority of interpretive weight on the indicator for being inside the television coverage contour. 
+%\subsection{Spatial Autocorrelation}
+%
+%Spatial autocorrelation, or spatial dependence, occurs when our outcomes of interest are correlated with itself in space \citep{cliff_spatial_1973}. In general, this only means that I allow for $Cov(Y_i,Y_j) \neq 0$ when $i\neq j$ for locations $i$, $j$. For tractability, when given a dataset with $n$ locations, I place more structure on the problem, constructing a $n \times n$ spatial weights matrix $W$ with entries $w_{ij} = 1$ if locations $i,j$ are considered neighbors, and $w_{ij} = 0$ otherwise \citep{anselin_spatial_1998}. For data that takes the form of grids in space, I construct weights based on the rook criterion (grid points have unit weight if they share an edge), while for points in space, I assign unit weight to the four nearest neighbors as a comparable measure.
+%
+%There are two primary models of spatial autocorrelation that I conduct robustness tests for:
+%
+%\paragraph{The Spatial Autoregressive Model}
+%
+%In this model, the spatial autocorrelation is directly accounted for in the specification:
+%\[ Y = \beta_0 + \rho W Y + \beta \mathbb{I}[InsideContour] \times Distance + \gamma X + \epsilon \]
+%
+%This model is identical to the prior main specification, except for the addition of the $\rho W Y$ term, where $W$ is the aforementioned spatial weights matrix, and $\rho$ the autoregressive coefficient. In this model, spatial dependence affects the outcome variable only (e.g. a Hispanic business opening up may induce neighbors to not open businesses, due to an increased amount of competition in the area).
+%
+%\paragraph{The Spatial Error Model}
+%
+%In this model, the autocorrelation occurs in the error term:
+%\[ Y = \beta_0 + \beta \mathbb{I}[InsideContour] \times Distance + \gamma X + \epsilon \]
+%\[\epsilon = \lambda W \epsilon + \nu\]
+%
+%This model is identical to the main specification, except the error terms are now additionally correlated due to the addition of the $\lambda W \epsilon$ term. In this model, spatial dependence enters through  the presence of missing spatial covariates which may affect the outcome.\footnote{ In particular, this allows us to further adjust for unique features of Hispanic communities, such as the geographic clustering of immigrants as \cite{cutler_when_2008} and \cite{cascio_cracks_2012} find.}
 
-The unit of observation depends on the set of outcomes we are looking at. For firm data, we aggregate our data into a set of grid points (typically roughly 2 $\times$ 2 KM in size) so that we can compare the number of firms across areas.\footnote{ In addition to providing cleaner interpretability, grouping data into `raster' form is also less computationally intensive for the analysis.} For school data, the unit of observation is a single school, as we have school-level controls. I typically aggregate into grids by taking the sum of observations within grids (i.e., the number of Hispanic-owned businesses within a grid point), except where otherwise noted.
 
-I prefer to leave standard errors robust, and separately check for robustness with respect to spatial autocorrelation for each main result. Other fixed effects/clustering options are treated similarly.
 
-\subsection{Spatial Autocorrelation}
-
-Spatial autocorrelation, or spatial dependence, occurs when our outcomes of interest are correlated with itself in space \citep{cliff_spatial_1973}. In general, this only means that I allow for $Cov(Y_i,Y_j) \neq 0$ when $i\neq j$ for locations $i$, $j$. For tractability, when given a dataset with $n$ locations, I place more structure on the problem, constructing a $n \times n$ spatial weights matrix $W$ with entries $w_{ij} = 1$ if locations $i,j$ are considered neighbors, and $w_{ij} = 0$ otherwise \citep{anselin_spatial_1998}. For data that takes the form of grids in space, I construct weights based on the rook criterion (grid points have unit weight if they share an edge), while for points in space, I assign unit weight to the four nearest neighbors as a comparable measure.
-
-There are two primary models of spatial autocorrelation that I conduct robustness tests for:
-
-\paragraph{The Spatial Autoregressive Model}
-
-In this model, the spatial autocorrelation is directly accounted for in the specification:
-\[ Y = \beta_0 + \rho W Y + \beta \mathbb{I}[InsideContour] \times Distance + \gamma X + \epsilon \]
-
-This model is identical to the prior main specification, except for the addition of the $\rho W Y$ term, where $W$ is the aforementioned spatial weights matrix, and $\rho$ the autoregressive coefficient. In this model, spatial dependence affects the outcome variable only (e.g. a Hispanic business opening up may induce neighbors to not open businesses, due to an increased amount of competition in the area).
-
-\paragraph{The Spatial Error Model}
-
-In this model, the autocorrelation occurs in the error term:
-\[ Y = \beta_0 + \beta \mathbb{I}[InsideContour] \times Distance + \gamma X + \epsilon \]
-\[\epsilon = \lambda W \epsilon + \nu\]
-
-This model is identical to the main specification, except the error terms are now additionally correlated due to the addition of the $\lambda W \epsilon$ term. In this model, spatial dependence enters through  the presence of missing spatial covariates which may affect the outcome.\footnote{ In particular, this allows us to further adjust for unique features of Hispanic communities, such as the geographic clustering of immigrants as \cite{cutler_when_2008} and \cite{cascio_cracks_2012} find.}
-
-\subsection{Migration}
-
-While it is theoretically conceivable that Hispanics would move based on access to SLTV, causing results to be driven by selection and confounding the direct effect of television itself, I demonstrate that movement across these coverage contours is minimal.
-
-As mentioned in Section \ref{secdata}, the migration data from the ACS is provided at the origin county-destination county level. Given the relative size of a county, to define whether a county is inside a coverage contour or not, we further impose that at least 95\% of the area that the county encompasses must be inside of the coverage contour.\footnote{ Results are robust to different area cut-offs for a county to be considered inside the coverage contour.} We present summary statistics for this sample in Table \ref{sum_init}.
-
-Tables \ref{mig_orig} and \ref{mig_dest} present the results on migration. These tables present results at the origin county - destination county level, tracking the Inverse Hyperbolic Sine (IHS) transformed values of the number of Hispanic migrants between the two counties.\footnote{ The IHS transform can be interpreted similarly to the Log transform (\% changes), but has the added advantage of being able to handle cases when $0$ is the observed value.} Table \ref{mig_orig} restricts to only origin counties that are within 100 KM of a coverage contour (the standard cut-off distance used for later outcomes).\footnote{ There are 636 such counties. The average origin county has 20 destination counties for which there is significant enough cross-county Hispanic migration that the ACS reports data for it.} In panel A, this is further restricted to origin counties inside the television contour, and so the main variable of interest is the dummy for the destination county being outside the TV contour. We observe a clear negative and significant relationship for migrations that cross the coverage contour. We interact the distance to the origin/destination with the TV dummy to ensure that we are controlling for all distance related effects, and control for county level characteristics including Log Population, Log Income, and percent of the county that is Hispanic for both origin and destination. All specifications also include origin fixed effects.
-
-In panel B, we restrict to origin counties outside the television contour, and the main variable of interest is the dummy for the destination county being \textit{inside} the TV contour. In this case, the point estimate is negative, although results are overall insignificant---this is sufficient for us to make our argument, given that so long as there are not positive coefficients, there is no evidence of migration across contour borders.
-
-Table \ref{mig_dest} repeats the analysis, this time restricting to only destination counties within 100 KM of a coverage contour. Results closely echo those seen in the prior table, with negative coefficients associated with migration across coverage contours, significant when the destination is inside the contour and not when they are outside. 
-
-These results combined indicate that movement across coverage contours is not a major threat to identification. Even in cases where insignificant results are observed, the base rate of migration is not very high to begin with---in our origin county sample, an average of 84 Hispanic people are observed to move between each county-county pair (median: 25) over the five year period which the dataset spans. This also speaks to the magnitude of the coefficients observed, where the drop in 10 to 40\% of migrants observed still falls within a plausible range. Though we do not have theories as to why people may be \textit{averse} to moving across coverage contour boundaries, it is in and of itself an interesting result perhaps worth further investigation.
 
 % include 0s
 
@@ -565,6 +570,8 @@ In addition to the primary data sources described in Section~\ref{s:data}, we al
 
 Data on migration comes from the 2011-2015 American Community Survey (ACS), which reports the number of people moving from each origin county to destination county (aggregated over the four years).\footnote{ Historically, approximately 15\% of the ACS migration data has been allocated, or imputed based on salient characteristics (United States Census Bureau \cite{noauthor_american_2020}). } This sample also contains migration flows by Hispanic origin, allowing us to determine whether they move based on geographic boundaries.
 
+The migration data from the ACS is provided at the origin county-destination county level. Given the relative size of a county, to define whether a county is inside a coverage contour or not, we further impose that at least 95\% of the area that the county encompasses must be inside of the coverage contour.\footnote{ Results are robust to different area cut-offs for a county to be considered inside the coverage contour.} 
+
 
 \paragraph{American Time Use (ATUS)}
 
@@ -603,6 +610,10 @@ Controls at the county level are sourced from IPUMS and consist of basic relevan
 % TODO: propagate errors based on the margin of error
 
 Finally, data attached to specific outcomes are discussed under their relevant section.
+
+
+\paragraph{archive.org transcript data} 
+Appendix Table~\ref{t:transcript_keywords} Panel A contains the list of word stubs for Hispanic countries. Panel B contains a list of common words relating to education. Panel C contains a list of telenovelas with good role models that aired before 2015.
 
 
 
@@ -644,57 +655,27 @@ Distance for counties are computed by minimum distances
 		\begin{threeparttable}
 			\begin{tabular}{llcccccccc}
 				\hline\hline\addlinespace
-    \textit{Section A: Latin American Countries} & mexic, bolivia, chile, argentin, venezuela, beliz, costa rica, salvador, guatemala \\
-&  hondur, nicaragua, panama, brazil, colombia, ecuador, guyana, paragua, peru \\
-& surinam, urugu, cuba, dominican, haiti, puerto, latin \\
+    \textit{Panel A: Hispanic references} & mexic, bolivia, chile, argentin, venezuela, beliz, costa rica, salvador, guatemala \\
+&  hondur, nicaragua, panama, colombia, ecuador, guyana, paragua, peru \\
+& urugu, cuba, dominican, puerto, latin \\
 				\addlinespace\hline
-\textit{Section B: Common Spanish Words} & la, de, como, su, que, el, para, en, por, los, casa, caliente \\ %%% MOST COMMON 
+\textit{Panel B: Education references} &educación , enseñanza, colegio, escuela, universidad, estudio, estudiar, estudiante\\  
+& alumna, alumno, profesora, profesor, maestro, maestra, clase, rango, grado \\
+& aprender, mates, matematicas \\
 \hline
-\textit{Section C: Common Hispanic Foods} & taqueria, taco, empanada, huevo, pollo, burrito, arepa, pupusa, tamale, tortilla \\
-& salsa, asado, lechon, mojo, ropa, vieja, chorizo \\		 		
+\textit{Panel C: Role model references} & Vivan los niños, Alegrijes y rebujos, Aventuras en El tiempo, amigos por siempre \\
+					& Misión S.O.S., Carrusel y El abuelo y Yo, El Juego de la Vida, De pocas pulgas\\
+					& luz Clarita, Serafín, 31 minutos, Bizbirije, Odisea Burbujas, El Tesoro del Saber \\
+					& Topo Gigio, Once Niñas y Niños \\		 		
 				\addlinespace\hline\hline
 			\end{tabular}
 			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} Firms are classified as having a Hispanic name if any keyword in the table above is matched within the word, subject to the following requirements: (1) Case does not matter, (2) For Sections A and C, an exact match of the string at any location in the firm name, (3) For Section B, the string must be a distinct word, (4) The inclusion of Section C is optional.
+				\item \textit{Notes:} Television transcripts are classified as containing a reference name if any keyword (or program title in Panel C) in the panel is exactly matched within the word, ignoring case. Panel A contains the list of word stubs for Hispanic countries. Panel B contains a list of common words relating to education. Panel C contains a list of telenovelas with good role models for children that aired before 2015.
 			\end{tablenotes}
 		\end{threeparttable}
 	}
 \end{table}
 
-%\begin{table}[!h]
-%	\centering
-%	\captionsetup{skip=1.5pt}
-%	\caption{Classification of Hispanic Firm Names} \label{firm_class}
-%	\scalebox{.8}{
-%		\begin{threeparttable}
-%			\begin{tabular}{llcccccccc}
-%				\hline\hline\addlinespace
-%    \textit{Section A: Latin American Countries} & mexic, bolivia, chile, argentin, venezuela, beliz, costa rica, salvador, guatemala \\
-%&  hondur, nicaragua, panama, brazil, colombia, ecuador, guyana, paragua, peru \\
-%& surinam, urugu, cuba, dominican, haiti, puerto, latin \\
-%				\addlinespace\hline
-%\textit{Section B: Common Spanish Words} & la, de, como, su, que, el, para, en, por, los, casa, caliente \\ %%% MOST COMMON 
-%\hline
-%\textit{Section C: Common Hispanic Foods} & taqueria, taco, empanada, huevo, pollo, burrito, arepa, pupusa, tamale, tortilla \\
-%& salsa, asado, lechon, mojo, ropa, vieja, chorizo \\		 		
-%				\addlinespace\hline\hline
-%			\end{tabular}
-%			\begin{tablenotes}[flushleft]
-%				\item \textit{Notes:} Firms are classified as having a Hispanic name if any keyword in the table above is matched within the word, subject to the following requirements: (1) Case does not matter, (2) For Sections A and C, an exact match of the string at any location in the firm name, (3) For Section B, the string must be a distinct word, (4) The inclusion of Section C is optional.
-%			\end{tablenotes}
-%		\end{threeparttable}
-%	}
-%\end{table}
-
-
-%\
-%
-%\includegraphics[scale=1]{fig_1_2017.eps}
-%
-%\settowidth{\tableboxwidth}{\usebox{\tablebox}} \parbox{.92\textwidth}
-%{\emph{Notes}: the two bars on the left display donation rates to the anti-immigration organization for individuals in the private and public conditions in the control group before the election (full sample, respectively N=112 and N=111), the two central bars display those in the information group before the election (full sample, respectively N=102 and N=103), and the last two bars display those in the control group after the election (for individuals already surveyed before the election, respectively N=82 and N=84). Error bars reflect 95\% confidence intervals. Top horizontal bars show \emph{p}-values for \emph{t} tests of equality of means between different experimental conditions.}
-%\end{center}
-%\end{figure}
 
 \pagebreak
 
