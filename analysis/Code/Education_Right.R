@@ -1453,6 +1453,7 @@ harass_hi <- cleanSchoolAll %>%
 harass <- harass_hi %>%
   rbind(harass_as)
 
+write.csv(harass, file = "dda.csv")
 
 label_spec3_dda <- c('TV $\\times$ Hispanic', 'TV Dummy',
                        'Hispanic') #  'TV Dummy $\\times$ Distance $\\times$ Hispanic', 'TV Dummy $\\times$ Distance', 'Distance to Boundary $\\times$ Hispanic',
@@ -1941,7 +1942,7 @@ om3 <- feols(ihs(sch_algpass_g08) ~ TV*eth +
 etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_alg8OLSIHS_spec4.tex",
        order = etable_order, replace = TRUE, keep = c('TV'))
 
-######## CL absolute #########
+######## absolute, robust #########
 om1 <- lm(ihs(sch_satact) ~ TV + 
                origpcHisp + origLogInc + origLogPop + hisp_students + asian_students,data=harass_hi)
 om2 <- lm(ihs(sch_satact) ~ TV +
@@ -1955,8 +1956,43 @@ stargazer(om1, om2, om3, out = "../../Output/Regs/edu_satactIHS_abs.tex", title=
           omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
                    'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
           order = c('TV','TV:origdist','origdist','hisp_students' ), 
-          covariate.labels = c(label_spec3),
+          covariate.labels = c(label_spec3), se= makeRobust3(om1,om2,om3),
           dep.var.labels = 'IHS(Hispanic Students Enrolled Calculus)')
+
+
+om1 <- lm(ihs(sch_mathenr_calc) ~ TV + 
+            origpcHisp + origLogInc + origLogPop + hisp_students + asian_students,data=harass_hi)
+om2 <- lm(ihs(sch_mathenr_calc) ~ TV +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+            total_students, data=harass_hi)
+om3 <- lm(ihs(sch_mathenr_calc) ~ TV +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass_hi)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_calcIHS_abs.tex", title="Effect of TV on Calculus",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','hisp_students' ), 
+          covariate.labels = c(label_spec3), se= makeRobust3(om1,om2,om3),
+          dep.var.labels = 'IHS(Hispanic Students Enrolled Calculus)')
+
+om1 <- lm(ihs(sch_appass_oneormore) ~ TV + 
+            origpcHisp + origLogInc + origLogPop + hisp_students + asian_students,data=harass_hi)
+om2 <- lm(ihs(sch_appass_oneormore) ~ TV +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+            total_students, data=harass_hi)
+om3 <- lm(ihs(sch_appass_oneormore) ~ TV +
+            origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+            total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09, data=harass_hi)
+stargazer(om1, om2, om3, out = "../../Output/Regs/edu_appIHS_abs.tex", title="Effect of TV on AP pass",
+          omit.stat = c('f','ser'), column.sep.width = '-2pt', notes.append = FALSE,
+          omit = c("Constant",'origpcHisp','origLogInc','origLogPop','SCH_TEACHERS_CURR_TOT',
+                   'total_students','SCH_GRADE_G01Yes','SCH_GRADE_G06Yes','SCH_GRADE_G09Yes'),
+          order = c('TV','TV:origdist','origdist','hisp_students' ), 
+          covariate.labels = c(label_spec3), se= makeRobust3(om1,om2,om3),
+          dep.var.labels = 'IHS(Hispanic Students Enrolled Calculus)')
+
+
 
 
 

@@ -358,6 +358,8 @@ Table \ref{edu_mech} examines the effect of SLTV on outcomes more directly tied 
 
 Finally, we may be concerned about the potential effects of spatial autocorrelation in the data. A Moran's I test using 4 nearest neighbours between the schools indicate that there is spatial autocorrelation at any reasonable level for $\alpha$. Hence, Table \ref{edu_spatial} presents two alternate models that control for the effects of spatial autocorrelation. Column (2) uses a spatially autoregressive lag model, wherein the outcome variable may be correlated with its neighbours. Column (3) uses a spatially autoregressive error model, wherein the presence of missing spatial covariates (causing correlated errors) is adjusted for. In both cases, the alternate models yield results that closely resemble the standard specification in column (1). 
 
+% no direct: Table~\ref{t:edu_abs} The collinearity between school districts and the presence of SLTV prevents the inclusion of school district fixed effects. Instead, we use county level controls 
+
 
 \subsection{Discussion}
 
@@ -635,6 +637,8 @@ Distance for counties are computed by minimum distances
 \expandableinput{../../analysis/Output/regs/atus_foreign.tex}
 
 \expandableinput{../../analysis/Output/regs/edu_extra_achieve.tex}
+\expandableinput{../../analysis/Output/regs/edu_abs.tex}
+
 
 \expandableinput{../../analysis/Output/regs/atus_edu.tex}
 
@@ -645,7 +649,7 @@ Distance for counties are computed by minimum distances
 
 
 
-%TODO: fill
+
 \begin{table}[!h]
 	\centering
 	\captionsetup{skip=1.5pt}

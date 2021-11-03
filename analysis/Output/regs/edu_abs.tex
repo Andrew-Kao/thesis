@@ -1,0 +1,42 @@
+
+\begin{table}[!htbp] \centering 
+  \caption{Effect of Spanish language TV on Hispanic academic achievement} 
+  \label{t:edu_abs} 
+	\scalebox{.8}{
+		\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				&  (1) & (2) & (3)  \\
+				\addlinespace\hline\addlinespace
+				\multicolumn{3}{l}{Panel A: IHS(Hispanic SAT/ACTs taken)} \\ %edu_satactIHS_abs
+                              	\hline\addlinespace
+				 TV dummy & 0.036$^{***}$ & 0.038$^{***}$ & 0.034$^{***}$ \\ 
+  & (0.013) & (0.012) & (0.012) \\ 
+				\addlinespace\hline
+				N & 21,610 & 21,610 & 21,610 \\ 
+				\hline\hline\addlinespace
+				\multicolumn{3}{l}{Panel B: IHS(Hispanic calculus taken)} \\ %
+                              	\hline\addlinespace
+				   TV dummy & 0.068$^{***}$ & 0.076$^{***}$ & 0.075$^{***}$ \\ 
+  & (0.012) & (0.012) & (0.011) \\ 
+				  \addlinespace\hline
+				N & 11,460 & 11,460 & 11,460 \\ 
+				\hline\hline\addlinespace
+				\multicolumn{3}{l}{Panel C: IHS(Hispanic APs passed)} \\ %
+                              	\hline\addlinespace
+				  TV dummy & 0.038$^{***}$ & 0.048$^{***}$ & 0.047$^{***}$ \\ 
+  & (0.009) & (0.009) & (0.009) \\ 
+				\addlinespace\hline
+				N & 3,757 & 3,757 & 3,757 \\ 
+				\hline\hline\addlinespace
+				County controls & Yes & Yes  & Yes\\
+                                	School size controls & No & Yes & Yes\\
+                                	School type controls & No & No & Yes \\
+					\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} The table presents coefficient estimates from regressions at the school, only keeping schools within 100 KM of a Spanish language TV contour boundary. The dependent variable are inverse hyperbolic sine transformed counts of the number of Hispanic students taking the SAT or ACT in Panel A, the number of Hispanic students enrolled in calculus in Panel B, and the number of Advanced Placement tests passed by Hispanic students in Panel C. TV dummy is an indicator variable for a school with access to Spanish language television. Table~\ref{t:edu_main}  Columns 1-3 include county level controls for log(income), log(population), and percentage of the county that is Hispanic, as well as school level controls for the number of Hispanic and Asian students enrolled. Columns 2-3 control for the number of teachers and total number of students at the school. Column 3 controls for indicators denoting whether the school contains a primary, middle, and high school division. School district fixed effects are always included. Standard errors are robust. *, **, and *** denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.
+			\end{tablenotes}
+		\end{threeparttable}
+	}
+\end{table}
