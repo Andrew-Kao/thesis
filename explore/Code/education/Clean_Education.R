@@ -57,7 +57,10 @@ enroll <- schoolMaster %>%
          'SCH_ENR_BL_M', 'SCH_ENR_BL_F',
          'SCH_LEPENR_HI_M', 'SCH_LEPENR_HI_F', 'TOT_LEPENR_F', 'TOT_LEPENR_M', # limited english proficiency
          'SCH_LEPENR_AS_M', 'SCH_LEPENR_AS_F', 'SCH_LEPENR_WH_M', 'SCH_LEPENR_WH_F',
-         'SCH_LEPENR_BL_M', 'SCH_LEPENR_BL_F')  
+         'SCH_LEPENR_BL_M', 'SCH_LEPENR_BL_F',
+         'SCH_IDEAENR_HI_M', 'SCH_IDEAENR_HI_F', 'TOT_IDEAENR_F', 'TOT_IDEAENR_M', # disability
+         'SCH_IDEAENR_AS_M', 'SCH_IDEAENR_AS_F', 'SCH_IDEAENR_WH_M', 'SCH_IDEAENR_WH_F',
+         'SCH_IDEAENR_BL_M', 'SCH_IDEAENR_BL_F')  
 saveRDS(enroll, 'SchEnroll.Rdata')
 
 gifted <- schoolMaster %>%
@@ -195,7 +198,8 @@ harass <- schoolMaster %>%
          'SCH_HBDISCIPLINED_SEX_HI_M', 'SCH_HBDISCIPLINED_SEX_HI_F', 'TOT_HBDISCIPLINED_SEX_M', 'TOT_HBDISCIPLINED_SEX_F', # offender sex
          'SCH_HBDISCIPLINED_RAC_HI_M', 'SCH_HBDISCIPLINED_RAC_HI_F', 'TOT_HBDISCIPLINED_RAC_M', 'TOT_HBDISCIPLINED_RAC_F', # offender race
          'SCH_HBDISCIPLINED_RAC_AS_M', 'SCH_HBDISCIPLINED_RAC_AS_F', 'SCH_HBDISCIPLINED_RAC_WH_M', 'SCH_HBDISCIPLINED_RAC_WH_F',
-         'SCH_HBDISCIPLINED_RAC_BL_M', 'SCH_HBDISCIPLINED_RAC_BL_F') 
+         'SCH_HBDISCIPLINED_RAC_BL_M', 'SCH_HBDISCIPLINED_RAC_BL_F',
+         'SCH_HBREPORTED_SEX_WH_M', 'SCH_HBREPORTED_SEX_WH_F', 'SCH_HBREPORTED_SEX_AS_M', 'SCH_HBREPORTED_SEX_AS_F') 
 saveRDS(harass, 'SchHarass.Rdata')   
 
 restraint <- schoolMaster %>%

@@ -322,6 +322,12 @@
                 \multicolumn{3}{l}{Panel E: Korean food  } \\
                 \hline\addlinespace
                 \expandableinput{sg_3d_hispfood_korea.tex} \addlinespace\hline\addlinespace
+                 \multicolumn{3}{l}{Panel F: Turkish food  } \\
+                \hline\addlinespace
+                \expandableinput{sg_3d_hispfood_turkish.tex} \addlinespace\hline\addlinespace
+		 \multicolumn{3}{l}{Panel G: Cajun and Creole food  } \\
+                \hline\addlinespace
+                \expandableinput{sg_3d_hispfood_cajun.tex} \addlinespace\hline\addlinespace
                 County FE & No & Yes & No & Yes \\
                 NAICS FE & No & No & Yes & Yes \\
                 \hline\hline\addlinespace
@@ -358,6 +364,12 @@
                 \multicolumn{3}{l}{Panel E: Korean brands  } \\
                 \hline\addlinespace
                 \expandableinput{sg_3d_hisploc71_korea.tex} \addlinespace\hline\addlinespace
+		\multicolumn{3}{l}{Panel F: Turkish brands  } \\
+                \hline\addlinespace
+                \expandableinput{sg_3d_hisploc71_turkish.tex} \addlinespace\hline\addlinespace
+                \multicolumn{3}{l}{Panel G: Cajun and Creole brands  } \\
+                \hline\addlinespace
+                \expandableinput{sg_3d_hisploc71_cajun.tex} \addlinespace\hline\addlinespace
                 County FE & No & Yes & No & Yes \\
                 NAICS FE & No & No & Yes & Yes \\
                 \hline\hline\addlinespace
@@ -526,12 +538,105 @@
 \input{edu_dda_calcOLSIHS_robust.tex}
 \input{edu_dda_appOLSIHS_robust.tex}
 
-% selection in schools
+% selection in schools: clear!
 \input{edu_dda_numstudentsOLSIHS.tex}
 \input{edu_dda_retOLSIHS.tex}
 \input{edu_dda_ret9OLSIHS.tex}
 \input{edu_dda_ret10OLSIHS.tex}
 \input{edu_retOLSIHS.tex}
+
+% placebo
+% sex harass
+\input{edu_dda_harsexhOLSIHS_spec4.tex}
+% disability
+\input{edu_dda_ideaOLSIHS_spec4.tex}
+
+
+% transcript notes:
+% 50 doesn't work, doughnut doesn't work
+% 75 works, dist works
+
+\input{edu_ddaR_satactOLSIHS_d50.tex} 
+\input{edu_ddaR_calcOLSIHS_d50.tex}   
+\input{edu_ddaR_appOLSIHS_d50.tex} 
+\input{edu_ddaR_satactOLSIHS_doughnut.tex} 
+\input{edu_ddaR_calcOLSIHS_doughnut.tex}   
+\input{edu_ddaR_appOLSIHS_doughnut.tex} 
+\input{edu_ddaR_satactOLSIHS_dist.tex} 
+\input{edu_ddaR_calcOLSIHS_dist.tex}   
+\input{edu_ddaR_appOLSIHS_dist.tex} 
+
+\input{edu_ddaR2_calcOLSIHS_spec3.tex} 
+
+\input{edu_lepIHS_abs.tex}
+\input{edu_harhIHS_abs.tex}
+
+%% douoblle diff
+\begin{table}[!h]
+    \centering
+    \captionsetup{skip=1.5pt}
+    \caption{Visitors to restaurants} 
+    \scalebox{.8}{
+        \begin{threeparttable}
+            \begin{tabular}{lccccccc}
+                \hline\hline\addlinespace
+                & \multicolumn{3}{c}{\textit{IHS(Visitors)}} \\
+                \cmidrule{2-4} & (1)  & (2) & (3)  \\
+                \hline\addlinespace
+                \multicolumn{3}{l}{Panel A: Hispanic food  } \\
+                \hline\addlinespace
+                \expandableinput{sg_2d_hispfood.tex} \addlinespace\hline\addlinespace
+                \multicolumn{3}{l}{Panel C: Japanese food  } \\
+                \hline\addlinespace
+                \expandableinput{sg_2d_hispfood_japan.tex} \addlinespace\hline\addlinespace
+                \multicolumn{3}{l}{Panel D: Brazilian food  } \\
+                \hline\addlinespace
+                \expandableinput{sg_2d_hispfood_brazil.tex} \addlinespace\hline\addlinespace
+               \multicolumn{3}{l}{Panel G: Cajun and Creole food  } \\
+                \hline\addlinespace
+                \expandableinput{sg_2d_hispfood_cajun.tex} \addlinespace\hline\addlinespace
+                County FE & No & Yes & No & Yes \\
+                NAICS FE & No & No & Yes & Yes \\
+                \hline\hline\addlinespace
+            \end{tabular}
+            \begin{tablenotes}[flushleft]
+                \item \textit{Notes:} Regressions are at the location-visitor demographic level. Standard errors are robust.  \end{tablenotes}
+        \end{threeparttable}
+    }
+\end{table}
+
+\begin{table}[!h]
+    \centering
+    \captionsetup{skip=1.5pt}
+    \caption{Visitors to entertainment} 
+    \scalebox{.8}{
+        \begin{threeparttable}
+            \begin{tabular}{lccccccc}
+                \hline\hline\addlinespace
+                & \multicolumn{3}{c}{\textit{IHS(Visitors)}} \\
+                \cmidrule{2-4} & (1)  & (2) & (3)  \\
+                \hline\addlinespace
+                \multicolumn{3}{l}{Panel A: Hispanic brands  } \\
+                \hline\addlinespace
+                \expandableinput{sg_2d_hisploc71.tex} \addlinespace\hline\addlinespace
+                \multicolumn{3}{l}{Panel C: Japanese brands  } \\
+                \hline\addlinespace
+                \expandableinput{sg_2d_hisploc71_japan.tex} \addlinespace\hline\addlinespace
+                \multicolumn{3}{l}{Panel D: Brazilian brands  } \\
+                \hline\addlinespace
+                \expandableinput{sg_2d_hisploc71_brazil.tex} \addlinespace\hline\addlinespace
+                \multicolumn{3}{l}{Panel G: Cajun and Creole brands  } \\
+                \hline\addlinespace
+                \expandableinput{sg_2d_hisploc71_cajun.tex} \addlinespace\hline\addlinespace
+                County FE & No & Yes & No & Yes \\
+                NAICS FE & No & No & Yes & Yes \\
+                \hline\hline\addlinespace
+            \end{tabular}
+            \begin{tablenotes}[flushleft]
+                \item \textit{Notes:} Regressions are at the location-visitor demographic level. Standard errors are robust.  \end{tablenotes}
+        \end{threeparttable}
+    }
+\end{table}
 
 \end{document}
 

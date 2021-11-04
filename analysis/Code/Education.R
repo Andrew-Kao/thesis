@@ -58,7 +58,9 @@ varList <- c('SCH_HBREPORTED_RAC_HI_','TOT_HBREPORTED_RAC_', 'SCH_HBDISCIPLINED_
              'SCH_LEPENR_BL_', 'SCH_GTENR_BL_',
              'SCH_RET_G09_HI_','SCH_RET_G10_HI_', 'SCH_RET_G11_HI_', 'SCH_RET_G12_HI_',
              'SCH_RET_G09_AS_','SCH_RET_G10_AS_', 'SCH_RET_G11_AS_', 'SCH_RET_G12_AS_',
-             'SCH_RET_G09_WH_','SCH_RET_G10_WH_', 'SCH_RET_G11_WH_', 'SCH_RET_G12_WH_')
+             'SCH_RET_G09_WH_','SCH_RET_G10_WH_', 'SCH_RET_G11_WH_', 'SCH_RET_G12_WH_',
+             'SCH_HBREPORTED_SEX_HI_', 'SCH_HBREPORTED_SEX_AS_', 'SCH_HBREPORTED_SEX_WH_',
+             'SCH_IDEAENR_HI_', 'SCH_IDEAENR_AS_', 'SCH_IDEAENR_WH_')
 
 # cred: https://stackoverflow.com/questions/59294898/creating-a-function-in-dplyr-that-operates-on-columns-through-variable-string-ma
 adder <- function(data, name) {

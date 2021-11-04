@@ -124,7 +124,7 @@
 
 \begin{document}
 \title{\textbf{Seeing is Believing: Identity, Inequality, and the Impact of Television on the Hispanic Achievement Gap}%Unravel}
-\thanks{Many appreciated suggestions, critiques and encouragement were provided by Leonardo Bursztyn, Lucas Cusimano, Benjamin Enke, Victor Lima, Aakaash Rao, Jaya Wen, David Yang, and Kotaro Yoshida, seminar participants at EPoD and Harvard PE, as well as Mark Colombo for technical advice. }\\
+\thanks{Many appreciated suggestions, critiques and encouragement were provided by Leonardo Bursztyn, Lucas Cusimano, Benjamin Enke, Victor Lima, Aakaash Rao, Jaya Wen, David Yang, and Kotaro Yoshida, seminar participants at EPoD, Harvard PE, and the University of Chicago Honors Thesis Workshop as well as Mark Colombo for technical advice on televisions. }\\
 }
 
 
@@ -140,7 +140,7 @@
 \maketitle
 
 \begin{abstract}
-\noindent  Can identity reduce inequality? Using a spatial regression discontinuity arising from a FCC regulation, I investigate the impact of Spanish Language Television (SLTV) on Hispanic students in public schools. I find that SLTV improves academic performance and helps close the Hispanic achievement gap. I marshal three of sources of evidence that each indicate an identity mechanism is at play: (1) more Hispanic students are labelled `limited English proficiency' and bullied on the basis of their ethnicity in SLTV schools, (2) Hispanic students perform better academically in locales where SLTV programming focuses more on the Hispanic identity, and (3) Hispanics with access to SLTV differentially visit Hispanic branded establishments more frequently. Collectively, they suggest that identity is a mechanism through which SLTV reduces the Hispanic achievement gap.\\\\
+\noindent  Can identity reduce inequality? Using a spatial regression discontinuity arising from FCC regulation, I investigate the impact of Spanish Language Television (SLTV) on Hispanic students in public schools. I find that SLTV improves academic performance and helps close the Hispanic achievement gap. I marshal three of sources of evidence that each indicate an identity mechanism is at play: (1) more Hispanic students are labelled `limited English proficiency' and bullied on the basis of their ethnicity in SLTV schools, (2) Hispanic students perform better academically in locales where SLTV programming focuses more on the Hispanic identity, and (3) Hispanics with access to SLTV differentially visit Hispanic branded establishments more frequently. Collectively, they suggest that identity is a mechanism through which SLTV reduces the Hispanic achievement gap.\\\\
 \textbf{JEL Codes:} I24, J15, L82, Z13.\\
 \textbf{Keywords:} Hispanic, television, education, identity
 \end{abstract}
@@ -201,12 +201,10 @@ There is a growing literature that looks at how identity can influence behaviour
 Finally, in the education and psychology literature, the stereotype threat phenomenon pinpoints minority identities as a root cause of achievement gaps (\cite{spencer2016stereotype}, \cite{appel2012stereotypes}), leading to the rise of methods such as ``situational disengagement'' \citep{nussbaum2007situational}. This paper suggests that a stronger sense of identity may not have uniformly negative consequences on Hispanic students, creating space for a more positive conception of identity.
 
 % TODO: caveats, include in relevant section
-% - other outcomes of importance, violence and obesity.  --
 % - Prove the existence of identity mechanism, but does not rule out other mechanisms
 % TODO: check caribbean?
-% TODO: drop non-traditional (special education, magnet, discipline schools)
-% TODO: regress on retention for private schools
 
+% TODO: ICPSR, show that historically they are similar
 % TODO: geo-tagged tweets
 
 % some pushback claiming that individual shows can lead to fewer teenage births \citep{kearney_media_2015}
@@ -256,13 +254,13 @@ Figure~\ref{f:contour_example} presents an example of a coverage contour, while 
 % TODO: correct time period
 % TODO: drop Brazil, Suriname
 
-\paragraph{Foot-traffic data} I gather Safegraph foot-traffic data from 2019 to analyze whether Hispanics differentially visit Hispanic-branded establishments under the presence of SLTV. Safegraph uses location tracking data from mobile phones to compile comprehensive foot-traffic data to over 10 million points of interest around the world. I restrict the analysis to two commercial sectors where ethnic branding is common: food services (NAICS code 72) and arts, entertainment, and recreation (NAICS code 71). Restaurants and other food service establishments are tagged by Safegraph with the type of cuisine served, which I use to classify an establishment as Hispanic or not. Recreation establishments are not tagged, so I match establishment names with the same identity keywords used to classify the transcript data to code establishments as Hispanic. I repeat this for a number of placebo ethnicities: Greek, Korean, and Brazilian. Safegraph provides data on the number of visitors to each establishment at the census block group level. Thus, I use census data and the instrument to impute the number of Hispanics and non-Hispanics, with and without SLTV, who visit each establishment within 100 kilometers of a SLTV coverage contour.\footnote{ Given the potential selection concern of users whose data are covered by Safegraph, I also apply a Heckman correction based on moments from the census data to adjust the number of visitors in each category.} There are 273,216 establishments included in my sample. Table~\ref{t:summary}, Panel D presents summary statistics for this data. 
+\paragraph{Foot-traffic data} I gather Safegraph foot-traffic data from 2019 to analyze whether Hispanics differentially visit Hispanic-branded establishments under the presence of SLTV. Safegraph uses location tracking data from mobile phones to compile comprehensive foot-traffic data to over 10 million points of interest around the world. I restrict the analysis to two commercial sectors where ethnic branding is common: food services (NAICS code 72) and arts, entertainment, and recreation (NAICS code 71). Restaurants and other food service establishments are tagged by Safegraph with the type of cuisine served, which I use to classify an establishment as Hispanic or not. Recreation establishments are not tagged, so I match establishment names with the same identity keywords used to classify the transcript data to code establishments as Hispanic. I repeat this for a number of placebo ethnicities: Greek, Korean, and Brazilian. Safegraph provides data on the number of visitors to each establishment at the census block group level. Thus, I use census data and the instrument to impute the number of Hispanics and non-Hispanics, with and without SLTV, who visit each establishment within 100 kilometers of a SLTV coverage contour.\footnote{ Given the potential selection concern of users whose data are covered by Safegraph, I also apply a Heckman correction based on sample moments from the Safegraph data to match the census data to correct the number of visitors in each category.} There are 273,216 establishments included in my sample. Table~\ref{t:summary}, Panel D presents summary statistics for this data. 
 
 \paragraph{Other data} \ref{a:auxiliarydata} describes other data used in the paper. Briefly, they are IPUMS migration data at the origin county-destination county level from 2010-2015, used to test for selection via migration, and the American Community Survey data for county level demographic controls. The appendix also describes in greater detail the data construction process for the datasets above.
 
 
 
-\section{Empirical Strategy}\label{s:rd}
+\section{Empirical strategy}\label{s:rd}
 
 To isolate the causal effect of Spanish language television, I adapt the technique used in \cite{velez_tuning_2019}  and extend it from two counties to the entirety of the United States. Velez and Newman construct a spatial regression discontinuity based on a FCC (Federal Communications Commission) regulation which determines the distance from a TV station in which the station's broadcast signal is protected from interference.
 
@@ -354,10 +352,60 @@ Finally, one might wonder how SLTV affects the white-Hispanic achievement gap. P
 
 % TODO: table notes for longtable
 
-Taken as a whole, these results suggest that SLTV is a meaningful force that can improve Hispanic student performance in public schools 
+Taken as a whole, these results suggest that SLTV is a meaningful force that can improve Hispanic student performance in public schools and reduce the achievement gap. Nonetheless, several caveats must be made: first, although taking the SAT and ACT exams, taking higher math, and passing AP exams are all correlated with enrolment in college and higher earnings, I do not actually observe long-run outcomes for these Hispanic students. Thus, it may be the case that SLTV helps the youth but not adults.\footnote{ Though it is in principle possible to employ this difference-in-discontinuity design to these long-run outcomes, I focus on immediate schooling outcomes in this paper and leave the long-run effect as space for potential future work.} Second, although students outcomes in schools improve, this analysis does not speak to a variety of other negative consequences thought to be caused by TV, such as obesity or violence. Finally, these findings are focused on measuring the effect of \textit{Spanish Language} TV, rather than on TV as a whole. It is worth bearing in mind that the literature typically finds null to negative effects of TV, which may lead the positive effects of SLTV to come as a shock to some. Academic brilliancy is not typically associated with the banal, mindless enjoyment of lazing on a couch before a flatscreen. So what might drive these results?
 
-% downstream into college and workforce
 
+
+\section{The identity mechanism}\label{s:mech}
+
+In this section, I present evidence to show that a strengthened Hispanic identity is a mechanism through which SLTV improves academic performance. 
+
+Compared to English broadcasts, SLTV is more likely to contain content that is directly salient to a Hispanic person's identity. This is not only because of the language of the broadcast, but also its content: roughly 20\% of programming on SLTVs are telenovelas produced in Latin American countries, with a similar proportion of programming dedicated to non-locally produced news and paid programming.\footnote{ For more information, see \cite{noauthor_hispanic_2016}. } These programs can serve as a direct tie to a viewer's country of origin, supplementing and strengthening their sense of self. % TODO: find footnote cite; if none just use econ TV identity above
+
+
+\subsection{Identity within schools}
+
+I return to the CRDC public school data used in Section~\ref{s:school} and identify two variables that speak to the strength of one's Hispanic identity: (1) classification as a `Limited English Proficient' (LEP) student, and (2) harassment or bullying on the basis of race, color, or national origin. Table~\ref{t:edu_mech} follows the difference-in-discontinuities specification used in Table~\ref{t:edu_main} and examines the differential effect of SLTV on these outcomes.
+
+Table~\ref{t:edu_mech}, Panel A shows that Hispanics with access to SLTV are 30\% more likely to be classified as a  `Limited English Proficient' (LEP) student when compared to their peers. This decrease in educational performance stands in contrast to all other academic outcomes studied thus far, suggesting that it is not a difference in general intelligence or work ethic that drives this result, but rather an idiosyncratic decline in English speaking ability. Though I do not directly observe the extent to which students speak Spanish, the most parsimonious explanation for this finding is that watching SLTV causes students to attain greater mastery of Spanish, at the cost of their English skills.\footnote{ This decline in English ability is a genuine cost that should be evaluated against the gains made in other academic areas. A full cost-benefit analysis is beyond the scope of this paper.} To guard against the concern that this effect is driven by a purely \textit{perceptual} change of Hispanic students by teachers and administrators, Appendix Table~\ref{t:edu_mech_placebo} shows that the number of Hispanic students classified as disabled under IDEA (Individuals with Disabilities Education Act) does not differentially change with access to SLTV. This panel also serves as a general sanity check, as SLTV should not cause students to develop disabilities. 
+
+Table~\ref{t:edu_mech}, Panel B shows that Hispanics with access to SLTV are also differentially likely to be harassed or bullied on the basis of their ethnicity. Hispanic students with SLTV are more likely to be bullied because they are Hispanic. On the other hand, Appendix Table~\ref{t:edu_mech_placebo} shows that the number of Hispanic students bullied on the basis of their sex does not differentially change across the SLTV contour when compared to their peers. Any mechanism through which SLTV increases the propensity for Hispanic students to be bullied (such as students picking on strong academic performers) would need to reconcile the null result for bullying on sex. My preferred explanation for this finding is that Hispanics watching SLTV make their ethnic identity more salient, making them a greater target for bullying along this particular dimension. This is corroborated by a substantial literature that has shown that increased visibility of (non-majority) ethnicities is associated with them being bullied more.\footnote{ See \cite{scherr_bullying_2009} for a review of this literature.} Appendix Table~\ref{t:edu_mech_abs} shows that LEP classification and bullying based on ethnicity for Hispanics with SLTV also increase in absolute terms. 
+
+Thus, though it is impossible to rule out all other stories that may drive this set of results, there are not many which can explain the reversal in academic ability for only English proficiency and the increased bullying on the basis of ethnicity but not sex among Hispanic students. A strengthened Hispanic identity through SLTV neatly takes care of these considerations.
+
+
+\subsection{The content of TV programs: narrowing down the mechanisms at play} \label{s:transcripts}
+
+I next turn to the content of these SLTV programs in order to assess three potential mechanisms through which SLTV increases educational performance: (1) SLTV programs strengthening the Hispanic identity, (2) SLTV programs stressing the importance of education, and (3) SLTV programs provide good role models for students. I infer the content of SLTV programs using keyword matching of terms related to each mechanism in the archive.org TV transcript database. To evaluate the strength of each mechanism, I modify the main specification by interacting the difference-in-discontinuity with the salience of each mechanism:
+
+\[ y_{i,j} =  \beta \mathbb{I}[InsideContour_{i,j}] \times \mathbb{I}[Hispanic_{i,j}] \times Mechanism_{s} + \gamma_k + \delta  X_i + \epsilon_{i,j}\] 
+
+where $s$ indexes a given SLTV station, and $Mechanism_s$ is the percentage of programs from the station focused on a given mechanism. The triple interaction term between Inside Contour, Hispanic, and Mechanism yields the elasticity of the outcome with respect to the mechanism, and is thus the coefficient of interest.
+
+Table~\ref{t:transcript_main} displays results for regressions following this specification. I focus first on column 1, measuring the strength of the identity mechanism. The triple interaction term is positive for the outcomes SATs and ACTs taken (Panel A), calculus courses taken (Panel B), and AP exams passed (Panel C). Panels A and B both show strong and significant effects, whereas Panel C is borderline insignificant---it suffers most from power issues due to the low number of schools reporting this data and the demands of a triple difference. These results indicate that SLTV stations increase Hispanic academic performance more when they focus more on the Hispanic identity. Appendix Table~\ref{t:transcript_abs}, column 1, shows the effect of the regression discontinuity interacted with the percentage of programs on identity (comparing only within Hispanic students, and not against Asian students as well), and finds that results remain largely similar. Thus, if these identity-focused shows impart a stronger sense of identity for Hispanics, then this would suggest that identity can be mobilized to close the Hispanic achievement gap.
+
+Turning to Table~\ref{t:transcript_main}, column 2, this suggests that a greater emphasis on education in SLTV programs do not necessarily translate into stronger academic performance among Hispanics when compared to their peers. Although signs are positive for calculus taken (Panel B) and AP exams passed (Panel C), they are insignificant, and the sign on SATs and ACTs taken is negative.\footnote{ This is potentially due to the fact that I cannot measure the valence with which education is treated by SLTV stations. One show may laud the merits of school, while another might paint it as a bore; both would appear in my data as a program focused on education.} Appendix Table~\ref{t:transcript_abs}, column 2, shows a similar effect when looking at Hispanics alone. Returning to the time use data, Appendix Table~\ref{t:atus_edu} shows that parents do not spend any more time with their child on educational activities when they have access to SLTV. Taken together, these findings suggest that SLTV does not improve academic performance by raising the importance of education itself.
+
+Table~\ref{t:transcript_main}, column 3, looks at the percentage of programs that contain good role models for students and children. As in the preceding case of education, the sign on the triple interaction term is mixed and never significant. Appendix Table~\ref{t:transcript_abs}, column 3 shows the interaction between the regression discontinuity and percentage of programs that contain good role models; again, no result is indicative of this mechanism improving student outcomes. It is worth noting that this does not mean that role models have no role to play---it may simply be that their presence in programs that not explicitly targeted at students and children are more important, or that they may inspire Hispanics in paths outside of traditional academic success.
+
+Finally, one should keep in mind that the selection of television programming may be endogenous. Network executives may decide to play more segments on education or with good role models for children if they cover academically weaker Hispanic segments of the population, or to target academically strong areas with more programming on identity.\footnote{ Though if this were true, the 100 kilometer sample restriction would imply that executives decide their programming based on the peripheries of their coverage contours rather than the dense urban cores containing most of their viewership.} Thus, these results, while suggestive, are not guaranteed to be causal. 
+
+
+%%%%%%%%%% safegraph %%%%%%%%
+\subsection{Foot-traffic and identity}\label{s:safegraph}
+
+I now move out of the school setting and examine how SLTV might strengthen the Hispanic identity for all Hispanics using foot-traffic data from Safegraph. I follow a specification similar to that used in Section~\ref{s:transcripts}, except that $i$ now indexes an establishment instead of a school, $j$ is a demographic category within the set $\{$Hispanic, non-Hispanic$\} \times  \{$SLTV, no SLTV$\}$, and $s$ is an identity measure at the establishment level instead of at the TV station level. The outcome of interest is therefore the IHS transformed number of visitors from demographic category $j$ to establishment $i$.
+
+I first study foot-traffic to restaurants, which are tagged by Safegraph with the kind of cuisine that they serve. Table~\ref{t:safegraph_main}, Panel A.1 shows that Hispanics differentially visit Hispanic restaurants when they live in areas with SLTV by a massive degree---80\%. Given this, one may wonder if Hispanics with SLTV simply visit more restaurants. Panel A.2 performs a placebo test, showing that Hispanics with SLTV do not differentially visit Japanese restaurants. Panel A.3 performs an even sharper placebo tests: Brazil is the rare country in South America where the predominant language is Portuguese and not Spanish, and is therefore not considered a Hispanic country. Hispanics with SLTV do not differentially go to more Brazilian restaurants. Panel A.4 performs a similarly sharp placebo test: some Cajuns and Creoles may speak Spanish or have Spanish heritage, but whether they are Hispanic can depend on individual labels, with a difference in geography often making this distinction ambiguous.\footnote{ Cajuns and Creoles are grouped together by Safegraph as one category, but this discussion is most relevant to Creoles.} Certainly, SLTV is not usually targeted towards this audience. I also find that Hispanics do not differentially visit Cajun and Creole restaurants. 
+
+Table~\ref{t:safegraph_main}, Panel B, replicates the analysis using recreation and arts establishments instead of restaurants. Because Safegraph does not label these establishments, I use the same keyword matching process for TV transcripts to identify Hispanic (and other ethnic) establishments. Results are qualitatively similar, with Hispanics differentially visiting Hispanic branded places for recreation and the arts, but not for any of the placebos. Appendix Table~\ref{t:safegraph_abs} presents the result for the regression discontinuity interacted with establishment indicators of ethnicity among Hispanic visitors only; results look largely the same. 
+
+These tables suggest that SLTV strengthens the Hispanic identity for all Hispanics, inducing them to eat and play more at Hispanic places. The Brazilian and Creole placebo exercises make the case that this Hispanic identity is both language and place dependent. Notably, this increased foot-traffic to explicitly Hispanic branded locations does not appear to come with a corresponding decline to locations branded by other ethnicities, suggesting that Hispanics do not become more insular despite their strengthened identity.
+
+Taking a step back, I have presented three distinct strands of evidence that suggest that SLTV increases the Hispanic identity: (1) Hispanic students are more likely to be classified as having limited English proficiency and are more likely to be bullied on the basis of their ethnicity when receiving SLTV, (2) Hispanic students perform better when local TV stations broadcast more content relating to identity, and (3) Hispanics in general frequent more Hispanic-branded locations when they have access to SLTV. Although no individual piece of evidence is fully persuasive, collectively, they make a strong case that identity is a mechanism through which SLTV operates.
+
+
+% cluster: Esarey (2019) following Ibragimov and Muller 2010
 
 
 \vspace{5em}
@@ -367,60 +415,17 @@ EDIT \\
 \hrule
 \vspace{.5em}
 
-
-
-
-
-
-\section{The identity mechanism}\label{s:mech}
-
-SLTV programming is also more likely to contain content that is directly salient to a Hispanic person's identity. This occurs not only because of the language of the broadcast, but also its content: roughly 20\% of programming on SLTVs are telenovelas produced in foreign (Latin American) countries, with a similar proportion of programming dedicated to non-locally produced news and paid programming.\footnote{For more information, see \cite{noauthor_hispanic_2016}. }
-
-
-We marshal three
-
-\subsection{Identity within schools}
-
-\paragraph{Evidence of Identity as a Mechanism}
-The results in Table \ref{edu_mech} provide some concrete evidence that identity changes as a result of the effect of television. We believe that access to SLTV reinforces Hispanic identities, making them more salient to the Hispanic individuals consuming the broadcast programs. The most direct evidence for this stems from the results on harassment and bullying based on ethnicity. Given that very few non-Hispanic people view SLTV programming, the fact that more Hispanic students are bullied on the basis of their ethnicity suggests that some change must be occurring within the students along this dimension.\footnote{ This increase in bullying does not appear to be the result of `retaliation' to Hispanic students bullying others: the coefficient only attenuates slightly when further controlling for the total number of students bullied, and running the main specification with the number of Hispanic students as perpetrators of race/ethnicity based bullying yields an insignificant negative coefficient. } 
-
-A substantial literature has shown that increased visibility of (non-majority) ethnicities is associated with greater amounts of bullying,\footnote{ See \cite{scherr_bullying_2009} for a review of this literature.} consistent with the results that we see. Though it is impossible to rule out all other stories (perhaps children who watch more TV overall are more likely to be victims of bullying---but this is not supported by the literature. If anything, there is support for television causing children to become bullies \citep{kuntsche_television_2006}, but this is not borne out in our data), the most parsimonious explanation is one in which television increases identity salience and hence ethnicity-based bullying.
-
-We make a similar argument in the interpretation of the greater number of Hispanic students classified as having Limited English Proficiency. This increase demonstrates that these students possess a lower degree of command over the English language, suggesting two possibilities: either (1) that academic/linguistic abilities are lowered across the board, or that (2) there is some substitution in ability towards the Spanish language instead. Given that academic abilities appear to be \textit{enhanced} by the presence of SLTV, the substitution story appears more plausible to us.\footnote{ Granted, the measures of academic ability measure only the performance of students at the top end. But given the existence of these results, a countervailing narrative in which SLTV decreases the academic performance for other Hispanic students would need require a mechanism that could produce such differential effects.} Unfortunately, we do not have direct evidence on the Spanish-speaking abilities of students, and so recognize that this is not a settled matter. Thus, while the evidence presented is fairly suggestive, more research could be done on this matter.
-
-\paragraph{The Difference Between `Identity' and Other Outcomes}
-It appears that while Hispanic discipline issues are generally improved by SLTV, this does not extend to the measure directly tied to identity: bullying and harassment based on ethnicity. Similarly, while academic achievement is generally improved by SLTV, this finding does not also generalize to LEP rates. This puzzle---explaining how identity driven results move in opposite directions from the others---is not easily resolved without relying on identity in some form. 
-
-Though we do not have a rigorous argument that can fully resolve this puzzle, we suggest that a substitution effect based on SLTV affecting identity can explain much of the results seen. That is, SLTV might in the immediate affect the identity based mechanisms that we see (more social issues, worse academic performance on metrics tied to identity), but that student performance in other non-identity tied outcomes might in turn shift to make up for the difference. If this were the case, we would expect to see results in line with what we see. An alternative explanation not relying on identity would still need to be able to explain why most academic and disciplinary measures point in one direction, whereas the ones more tightly linked to identity reverse.
-
-\subsection{The content of TV programs: narrowing down mechanisms}
-
-
-Table~\ref{t:atus_edu} provides further evidence that no direct time spent on education
-
-
-%%%%%%%%%% safegraph %%%%%%%%
-\subsection{Foot-traffic and identity}\label{s:safegraph}
-
-
-
-\paragraph{Firm Name Classification} Unlike the names of firm principals, there is no readily available or standardized method to determine whether a firm's name is a `Hispanic name' or not. Although a machine learning approach is still theoretically possible under these circumstances, a quick visual inspection of the data revealed that a relatively low percentage of firms had names that were explicit tied to a Hispanic identity---hence, many approaches would likely identify a significant number of false positives.
-
-In order to be conservative and ensure that firms identified as bearing Hispanic names actually are such, we construct a measure that classifies a firm name as Hispanic if it contains certain keywords that are explicitly associated with a Hispanic identity. These keywords are split into three major categories: (1) References to countries in Latin America or Latin America itself. Firms that include the base forms of country names in Latin America are considered to be explicitly referencing a Hispanic identity (examples include: `Cuban Guys 102, LLC' , `Bravo Latino Brands, LLC.') (2) Names containing common one of the top 50 most Spanish words that are not also present in English (examples include: `La Joya Estates, Ltd.', `Conselho Nacional De Saude Mental E Medicina Psicossomatica Inc.'), and (3) Names containing common Hispanic foods. (examples include: `Charlie Cactus Tacos, LLC', `Taqueria Casas 2 Inc.') Due to the lack of a systemic means to construct this last category, I conduct robustness checks dropping this category; results do not substantially change when omitting this third category. Table \ref{firm_class} contains a list of these keywords as well as some additional detail on the classification process.
-
-Out of our sample, 1.1\% of firms meet this criteria (1\% if omitting the food-based names). A manual check of firms that are classified as Hispanic also confirms that the firm name classification process succeeds.
-
-% cluster: Esarey (2019) following Ibragimov and Muller 2010
-
-
-
-
 \section{Conclusion} \label{s:conclusion}
+
+% caveat other mechanismss
+
+
 
 In this paper, we provide a number of high-level results: we show that SLTV has a substantial impact on reducing the inequality that Hispanics face as entrepreneurs and students. From a business standpoint, SLTV increases Hispanic firm ownership, while also increasing the total number of firms bearing Hispanic names, pointing to an expansion in demand for goods and services linked to the Hispanic identity. From an educational standpoint, SLTV further improves the academic performance of top achievers while decreasing the occurrence of disciplinary issues among Hispanic students; instances in which this is violated are instances that one would expect to arise from a stronger sense of identity being reinforced. 
 
 Undergirding these findings is the consistent notion that identity is strengthened from the presence of television, and though we cannot ever perfectly confirm that this is the case, we believe the cumulative weight of the results is suggestive. However, this would be a prime area for future work to be done: we think that a more precise and direct effect on identity from the media (for both Hispanics and other minorities), would be of value---especially if one could show its relative influence and power over time.
 
+Second, some have opined that telenovelas and other staples of Spanish Language TV valorize gang culture and misogyny . This should be acknowledged, and work to determine whether wheat can be separated from the chaff would be important
 
 
 Political consequences?
@@ -608,6 +613,16 @@ Finally, data attached to specific outcomes are discussed under their relevant s
 \paragraph{archive.org transcript data} 
 Appendix Table~\ref{t:transcript_keywords} Panel A contains the list of word stubs for Hispanic countries. Panel B contains a list of common words relating to education. Panel C contains a list of telenovelas with good role models that aired before 2015.
 
+though noisy, aggregating at the parent network level is XX given that more than half the content in SLTV stations are either sourced internationally or produced for national consumption
+
+\paragraph{Safegraph foot-traffic data}
+% on names
+Unlike the names of firm principals, there is no readily available or standardized method to determine whether a firm's name is a `Hispanic name' or not. Although a machine learning approach is still theoretically possible under these circumstances, a quick visual inspection of the data revealed that a relatively low percentage of firms had names that were explicit tied to a Hispanic identity---hence, many approaches would likely identify a significant number of false positives.
+
+In order to be conservative and ensure that firms identified as bearing Hispanic names actually are such, we construct a measure that classifies a firm name as Hispanic if it contains certain keywords that are explicitly associated with a Hispanic identity. These keywords are split into three major categories: (1) References to countries in Latin America or Latin America itself. Firms that include the base forms of country names in Latin America are considered to be explicitly referencing a Hispanic identity (examples include: `Cuban Guys 102, LLC' , `Bravo Latino Brands, LLC.') (2) Names containing common one of the top 50 most Spanish words that are not also present in English (examples include: `La Joya Estates, Ltd.', `Conselho Nacional De Saude Mental E Medicina Psicossomatica Inc.'), and (3) Names containing common Hispanic foods. (examples include: `Charlie Cactus Tacos, LLC', `Taqueria Casas 2 Inc.') Due to the lack of a systemic means to construct this last category, I conduct robustness checks dropping this category; results do not substantially change when omitting this third category. Table \ref{firm_class} contains a list of these keywords as well as some additional detail on the classification process.
+
+Out of our sample, 1.1\% of firms meet this criteria (1\% if omitting the food-based names). A manual check of firms that are classified as Hispanic also confirms that the firm name classification process succeeds.
+
 
 
 \paragraph{Geocoding}
@@ -623,6 +638,9 @@ Distance for counties are computed by minimum distances
 
 \section{Additional figures and tables}
 
+% TODO: map contours by parent network?
+% TODO: map all POIs
+
 \input{../../analysis/Output/Regs/mig_orig.tex}
 \input{../../analysis/Output/Regs/mig_dest.tex}
 
@@ -636,8 +654,13 @@ Distance for counties are computed by minimum distances
 \clearpage
 \expandableinput{../../analysis/Output/regs/edu_retain.tex}
 
+\expandableinput{../../analysis/Output/regs/edu_mech_placebo.tex}
+\expandableinput{../../analysis/Output/regs/edu_mech_abs.tex}
+
+\expandableinput{../../analysis/Output/regs/transcript_abs.tex}
 \expandableinput{../../analysis/Output/regs/atus_edu.tex}
 
+\expandableinput{../../analysis/Output/regs/safegraph_abs.tex}
 
 
 %\input{../../analysis/Output/regs/edu_ap_robust.tex}

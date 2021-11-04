@@ -1,0 +1,54 @@
+
+\begin{table}[!htbp] \centering 
+  \caption{Effect of Spanish language TV by program content on Hispanic academic achievement} 
+  \label{t:transcript_abs} 
+	\scalebox{.8}{
+		\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				&  (1) & (2) & (3)  \\
+				\addlinespace\hline\addlinespace
+				\multicolumn{3}{l}{Panel A: IHS(SAT/ACTs taken)} \\ %edu_ddaR2_satactOLSIHS_spec3
+                              	\hline\addlinespace
+				 TV $\times$  \% programs on identity & 2.054$^{***}$ &  &  \\ 
+				  & (0.678) &  &  \\ 
+				 TV $\times$ \% programs on education &  & 1.116** &  \\ 
+				  &  & (0.453) &  \\ 
+				 TV $\times$  \% programs with role models &  &  & 1.601 \\ 
+				  &  &  & (1.259) \\ 
+				\addlinespace\hline
+				N & 13,480 & 13,480 & 13,480 \\ 
+				\hline\hline\addlinespace
+				\multicolumn{3}{l}{Panel B: IHS(calculus taken)} \\ %edu_ddaR2_appOLSIHS_spec3
+                              	\hline\addlinespace
+				 TV $\times$  \% programs on identity & 0.581 &  &  \\ 
+				  & (0.787) &  &  \\ 
+				 TV $\times$  \% programs on education &  &  $-$0.709&  \\ 
+				  &  & (0.502) &  \\ 
+				 TV $\times$  \% programs with role models &  &  & -3.098* \\ 
+				  &  &  & (1.583) \\ 
+				\addlinespace\hline
+				N & 7,112 & 7,112 & 7,112 \\ 
+				\hline\hline\addlinespace
+				\multicolumn{3}{l}{Panel C: IHS(APs passed)} \\ %edu_ddaR2_calcOLSIHS_spec3
+                              	\hline\addlinespace
+				 TV $\times$  \% programs on identity & 5.475*** &  &  \\ 
+				  & (1.079) &  &  \\
+				 TV $\times$  \% programs on education &  & -0.132 &  \\ 
+				  &  & (0.666) &  \\ 
+				 TV $\times$  \% programs with role models &  &  & -0.554 \\ 
+				  &  &  & (2.384) \\ 
+				  \addlinespace\hline
+				N & 3,168 & 3,168 & 3,168 \\ 
+				\hline\hline\addlinespace
+				County controls & Yes & Yes  & Yes\\
+				\# Hispanic, Asian students & Yes & Yes  & Yes\\
+                                	School size controls & No & Yes & Yes\\
+                                	School type controls & No & No & Yes \\
+					\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} The table presents coefficient estimates from regressions at the school level, only keeping schools within 100 KM of a Spanish language TV contour boundary. The dependent variable are inverse hyperbolic sine transformed counts of the number of Hispanic students taking the SAT or ACT in Panel A, the number of Hispanic students enrolled in calculus in Panel B, and the number of Advanced Placement tests passed by Hispanic students in Panel C. \% programs on identity, education, and role models are coded based on TV channel network transcripts. TV dummy is an indicator variable for a school with access to Spanish language television, which is interacted with the \% of programs on identity, education, and role models. Columns 1-3 include county level controls for log(income), log(population), and percentage of the county that is Hispanic, as well as school level controls for the number of Hispanic and Asian students enrolled. Columns 2-3 control for the number of teachers and total number of students at the school. Column 3 controls for indicators denoting whether the school contains a primary, middle, and high school division. Standard errors are clustered at the school district level. *, **, and *** denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.			\end{tablenotes}
+		\end{threeparttable}
+	}
+\end{table}
