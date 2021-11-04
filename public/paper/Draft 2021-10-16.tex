@@ -206,6 +206,7 @@ Finally, in the education and psychology literature, the stereotype threat pheno
 % TODO: check caribbean?
 % TODO: drop non-traditional (special education, magnet, discipline schools)
 
+% TODO: geo-tagged tweets
 
 % some pushback claiming that individual shows can lead to fewer teenage births \citep{kearney_media_2015}
 
@@ -241,7 +242,7 @@ Finally, in the education and psychology literature, the stereotype threat pheno
 
 %\subsection{Broadcast TV and Geography}
 
-\paragraph{Coverage contours}  The central instrument in this paper is the discontinuity in SLTV coverage across coverage contours introduced by FCC regulation. To build the coverage contours of SLTV stations in the United States, I collect a list of the callsigns for all SLTV stations from TMS Media, a large provider of data on TV, movies, and other media.\footnote{ A TV station is defined to be SLTV if at least one of the primary broadcasts languages are Spanish.} There are 100 of these stations located across the United States. These callsigns are matched against data from the FCC's OET Bulletin No.~69 and the FCC's Consolidated DataBase System (CDBS) to directly obtain the coverage contour boundaries in 2015.\footnote{ 2015 coverage contour data is used due to the 'FCC Spectrum Repack' that began in 2018 which altered the reception and coverage for a substantial number of stations. Coverage contours prior to 2015 were generally stable. }  % repack cite: \citep{fletcher_fcc_2018}
+\paragraph{Coverage contours}  The central instrument in this paper is the discontinuity in SLTV coverage across coverage contours introduced by FCC regulation. To build the coverage contours of SLTV stations in the United States, I collect a list of the callsigns for all SLTV stations from TMS Media, a large provider of data on TV, movies, and other media.\footnote{ A TV station is defined to be SLTV if at least one of the primary broadcasts languages are Spanish.} There are 103 of these stations located across the United States. These callsigns are matched against data from the FCC's OET Bulletin No.~69 and the FCC's Consolidated DataBase System (CDBS) to directly obtain the coverage contour boundaries in 2015.\footnote{ 2015 coverage contour data is used due to the 'FCC Spectrum Repack' that began in 2018 which altered the reception and coverage for a substantial number of stations. Coverage contours prior to 2015 were generally stable. }  % repack cite: \citep{fletcher_fcc_2018}
 Figure~\ref{f:contour_example} presents an example of a coverage contour, while Figure~\ref{f:contours_schools} displays a map of all SLTV contours in the United States.
 
 \paragraph{Time use data} I collect time use data from the American Time Use Survey between 2003-2015 and construct the total amount of time individuals spent watching TV, time spent watching TV with children and parents, time spent on children's education, and demographic variables. Individuals in the data are located at the county level---I classify a given county as falling within a SLTV contour coverage if at least 50\% of its area does. 68,373 individuals in the sample live within 100 kilometers of the contour boundary. Table~\ref{t:summary}, Panel A presents summary statistics for this data.  
@@ -283,55 +284,23 @@ Finally, one may still be worried that unobserved variation across coverage cont
 
 The instrument therefore consists of two variables interacted: first, an indicator for whether the observation falls within any SLTV station's coverage contour boundary, and second, a Hispanic indicator. To ensure similarity between obervations inside and outside the boundaries, only observations located within a distance of 100 KM of the boundary are kept. The main specification is: %\footnote{ Using a round number in kilometers rather than miles makes this cutoff less likely to be correlated with real-world phenomena in the US.} 
 
-\[ y_{i,j} =  \beta \mathbb{I}[InsideContour_{i,j}] \times \mathbb{I}[Hispanic_{i,j}] + \gamma X_i + \epsilon_{i,j} \]
+\[ y_{i,j} =  \beta \mathbb{I}[InsideContour_{i,j}] \times \mathbb{I}[Hispanic_{i,j}] + \gamma_k + \delta  X_i + \epsilon_{i,j} \]
 
-where $y_{i,j}$ is an outcome for observation $i$ (which may be an individual, school, or establishment) under demographic category $j \in \{$Hispanic, not Hispanic$\}$, and $X$ is a vector of controls for the observation. The main coefficient of interest is $\beta$, and in particular, the interaction term between the Inside Contour and Hispanic indicators. 
+where $y_{i,j}$ is an outcome for observation $i$ (which may be an individual, school, or establishment) under demographic category $j \in \{$Hispanic, not Hispanic$\}$, $\gamma_k$ is a school district fixed effect (when relevant), and $X$ is a vector of controls for the observation. The main coefficient of interest is $\beta$, and in particular, the interaction term between the Inside Contour and Hispanic indicators. 
 
-% TODO: Because data is rarely reported at the individual level but rather at the demographic level (for instance, SAT and ACT tests taken by Hispanics in a given school), errors are clustered at the school levels
-% I prefer to leave standard errors robust, and separately check for robustness with respect to spatial autocorrelation for each main result. Other fixed effects/clustering options are treated similarly.
 
-Two concerns potentially remain:
+Two potential concerns remain:
 \begin{itemize}
 \item \textit{Can we guarantee that it is Hispanic people who watch SLTV?} If it were the case that non-Hispanic people were frequent viewers of SLTV, the interpretation of the main effects would potentially be different: we would be looking at the heterogeneous effect of SLTV on all people. This could be the case if, for instance, white people treated Hispanics and Asians differently after having viewed SLTV. However,  $<1\%$ of all TV programming watched by non-Hispanics is in Spanish, making such stories unlikely to hold water \citep{noauthor_hispanic_2016}.
 % However, only 4\% of total SLTV station programming watched can be attributed to non-Hispanic people, a number that is only as high as it is because some SLTV stations also broadcast in English  (FCC). Similarly,
 
 \item \textit{How do we account for the possibility of selection?} It is theoretically possible that Hispanic people move in response to these television coverage contour boundaries, and that the effects seen are therefore a result of Hispanics self-sorting. If true, this would be a remarkable result---people moving in large numbers for the sake of access to better television. However, using census migration data, I find that Hispanics do not differentially move into or out of counties with access to SLTV. Appendix Tables \ref{t:mig_orig} and \ref{t:mig_dest} present these regression results and suggest that, if anything, Hispanics are \textit{averse} to moving across coverage contour boundaries.
 
-%Tables \ref{mig_orig} and \ref{mig_dest} present the results on migration. These tables present results at the origin county - destination county level, tracking the Inverse Hyperbolic Sine (IHS) transformed values of the number of Hispanic migrants between the two counties.\footnote{ The IHS transform can be interpreted similarly to the Log transform (\% changes), but has the added advantage of being able to handle cases when $0$ is the observed value.} Table \ref{mig_orig} restricts to only origin counties that are within 100 KM of a coverage contour (the standard cut-off distance used for later outcomes).\footnote{ There are 636 such counties. The average origin county has 20 destination counties for which there is significant enough cross-county Hispanic migration that the ACS reports data for it.} In panel A, this is further restricted to origin counties inside the television contour, and so the main variable of interest is the dummy for the destination county being outside the TV contour. We observe a clear negative and significant relationship for migrations that cross the coverage contour. We interact the distance to the origin/destination with the TV dummy to ensure that we are controlling for all distance related effects, and control for county level characteristics including Log Population, Log Income, and percent of the county that is Hispanic for both origin and destination. All specifications also include origin fixed effects.
-%
-%In panel B, we restrict to origin counties outside the television contour, and the main variable of interest is the dummy for the destination county being \textit{inside} the TV contour. In this case, the point estimate is negative, although results are overall insignificant---this is sufficient for us to make our argument, given that so long as there are not positive coefficients, there is no evidence of migration across contour borders.
-%
-%Table \ref{mig_dest} repeats the analysis, this time restricting to only destination counties within 100 KM of a coverage contour. Results closely echo those seen in the prior table, with negative coefficients associated with migration across coverage contours, significant when the destination is inside the contour and not when they are outside. 
-%
-%These results combined indicate that movement across coverage contours is not a major threat to identification. Even in cases where insignificant results are observed, the base rate of migration is not very high to begin with---in our origin county sample, an average of 84 Hispanic people are observed to move between each county-county pair (median: 25) over the five year period which the dataset spans. This also speaks to the magnitude of the coefficients observed, where the drop in 10 to 40\% of migrants observed still falls within a plausible range. Though we do not have theories as to why people may be \textit{averse} to moving across coverage contour boundaries, it is in and of itself an interesting result perhaps worth further investigation.
 
-
-%% maybe to do someday: reverse causality, building SLTV stations where Hispanics are most successful
 
 \end{itemize}
 
 
-
-%\subsection{Spatial Autocorrelation}
-%
-%Spatial autocorrelation, or spatial dependence, occurs when our outcomes of interest are correlated with itself in space \citep{cliff_spatial_1973}. In general, this only means that I allow for $Cov(Y_i,Y_j) \neq 0$ when $i\neq j$ for locations $i$, $j$. For tractability, when given a dataset with $n$ locations, I place more structure on the problem, constructing a $n \times n$ spatial weights matrix $W$ with entries $w_{ij} = 1$ if locations $i,j$ are considered neighbors, and $w_{ij} = 0$ otherwise \citep{anselin_spatial_1998}. For data that takes the form of grids in space, I construct weights based on the rook criterion (grid points have unit weight if they share an edge), while for points in space, I assign unit weight to the four nearest neighbors as a comparable measure.
-%
-%There are two primary models of spatial autocorrelation that I conduct robustness tests for:
-%
-%\paragraph{The Spatial Autoregressive Model}
-%
-%In this model, the spatial autocorrelation is directly accounted for in the specification:
-%\[ Y = \beta_0 + \rho W Y + \beta \mathbb{I}[InsideContour] \times Distance + \gamma X + \epsilon \]
-%
-%This model is identical to the prior main specification, except for the addition of the $\rho W Y$ term, where $W$ is the aforementioned spatial weights matrix, and $\rho$ the autoregressive coefficient. In this model, spatial dependence affects the outcome variable only (e.g. a Hispanic business opening up may induce neighbors to not open businesses, due to an increased amount of competition in the area).
-%
-%\paragraph{The Spatial Error Model}
-%
-%In this model, the autocorrelation occurs in the error term:
-%\[ Y = \beta_0 + \beta \mathbb{I}[InsideContour] \times Distance + \gamma X + \epsilon \]
-%\[\epsilon = \lambda W \epsilon + \nu\]
-%
-%This model is identical to the main specification, except the error terms are now additionally correlated due to the addition of the $\lambda W \epsilon$ term. In this model, spatial dependence enters through  the presence of missing spatial covariates which may affect the outcome.\footnote{ In particular, this allows us to further adjust for unique features of Hispanic communities, such as the geographic clustering of immigrants as \cite{cutler_when_2008} and \cite{cascio_cracks_2012} find.}
 
 
 \subsection{Evidence of a first stage: do Hispanics in SLTV coverage contours watch more television?}
@@ -352,6 +321,39 @@ Compared to other viewers of television, Hispanics are also uniquely likely to w
 % even the largest markets do not locally source more than 20\% of their Spanish language programming - from foreign countries or domestic
 
 
+%%%%%%%%%% PUBLIC SCHOOLS %%%%%%%%
+\section{The impact of Spanish language television on Hispanic educational performance}\label{s:school}
+
+How big is the achievement gap in our data? Table~\ref{t:edu_magnitude}, columns 1 and 3 present the achievement gap between Asians and Hispanics and whites and Hispanics respectively. In almost every outcome of interest, Hispanics trail substantially behind their Asian and white peers. Compared to Asian students, Hispanic students take the SAT or ACT 46.8\% less frequently, take calculus 53.6\% less frequently, and pass 72.3\% less AP examinations. These are startlingly large figures, making it imperative for us to find solutions that can help close the achievement gap.
+
+To determine the effect of SLTV on the Hispanic achievement gap, I apply the main specification at the school-ethnicity level and compare differential outcomes between Hispanics and Asians under the presence of SLTV. I apply the inverse hyperbolic sine transform to all outcome variables in order to study the elasticity, or percentage difference, of these academic outcomes with respect to SLTV. Only schools within 100 KM of the coverage contour boundary are kept and standard errors are clustered at the school district level. 
+ 
+Table~\ref{t:edu_main}, Panel A presents results on the IHS transformed number of SAT and ACT tests taken, Panel B presents results on the IHS transformed number of calculus courses taken, and Panel C presents results on the IHS transformed number of APs passed.\footnote{The sample size changes across panels due to schools not reporting data when it is irrelevant. Not all schools offer the SAT/ACT test or calculus or AP exams. In order for missing data to bias results, selection would need to be correlated with the presence of coverage contours. It is unclear that schools have such an incentive to differentially manipulate reporting along this dimension.} All columns control for school district fixed effects and the number of Hispanic and Asian students in sample. Columns 2 and 3 add controls for the total number of students and teachers in the school, and column 3 adds controls for the school type (elementary, middle, and high school indicators). Results are statistically and economically significant, with SLTV differentially improving the number of Hispanics taking the SAT or ACT by 16\% (Panel A), the number of Hispanics taking calculus by 27\% (Panel B), and the number of Hispanics passing an AP exam by 10\% (Panel C). The degree to which this decreases the achievement gap is presented in Appendix Table~\ref{t:edu_magnitude}. 
+
+One may naturally wonder whether Hispanic students only gain in relative terms to their peers. Appendix Table~\ref{t:edu_abs} presents results utilizing only the regression discontinuity instead of the difference-in-discontinuities specification. Although the estimated coefficients are generally smaller, the effect of SLTV remains positive, indicating that Hispanic students gain in absolute as well as relative terms. These gains in academic performance are present in a variety of other academic outcomes: Appendix Table~\ref{t:edu_extra_achieve} shows that the Hispanic achievement gap is reduced in the number of gifted students (Panel A), advanced math courses taken (Panel B), biology courses taken (Panel C), physics courses taken (Panel D), and chemistry courses taken (Panel E). Appendix Table~\ref{t:edu_magnitude} presents the size of the achievement gap and the degree to which SLTV ameliorates it for these auxiliary outcomes.
+
+
+\paragraph{Robustness and ruling out alternative hypothesis}
+
+The difference-in-discontinuities strategy should take care of most concerns regarding identification. I next perform several robustness checks and rule out potential alternative hypotheses that may explain the data in Appendix Table~\ref{t:edu_robust}. For each of these checks, I replicate results for SAT and ACT tests as Panels X.X.1, calculus classes taken as Panels X.X.2, and AP exams passed as Panels X.X.3. Baseline results are presented in Panel A.1.
+
+One may be concerned that schools near the outer bounds of the 100 kilometer cutoff may look quite different from one another. I narrow the sample distance cutoff to the contour boundary from 100 kilometers to 50 kilometers and 33 kilometers and find that coefficients remain stable (see Panels A.2 and A.3). One may also be concerned about treatment effects very close to the coverage contour: students who attend a school 1 kilometer outside the contour may in fact live inside the contour, and the interference protection regulation may not be tightly enforced down to the last square foot. Thus, I omit schools between 25 and 100 kilometers of the contour boundary and find qualitatively similar results (see Panel A.4). Given that television signals decrease with the (square) of distance from the main station, I additionally add controls for distance and distance$^2$ and find that results are robust (see Panel A.5). Any variation along state or county levels are also absorbed by the school district fixed effects. 
+
+Given the interest in the Hispanic achievement gap and the presence of 0s in the data, it is natural to use the IHS transform on outcome variables. The results are robust to using the $log(x+1)$ transform instead (see Panel B.1). If one is interested instead in the numerical difference (rather than percentage change) that SLTV induces, Panel B.2 presents results for raw counts and Panel B.3 presents results for the standardized count of the variables. In each case, results remain positive and significant. Similarly, though results are run at the school level, one may be interested in student-level outcomes. Panel C.1 weights observations by the size of schools whereas Panel C.2 weights observations by the number of students in the given demographic category to make the data representative at the student level; results remain largely unchanged.
+
+The presence of bilingual stations that broadcast in both English and Spanish may alter the interpretation of results if change in Hispanic behavior is driven by these stations. There are 14 such stations in the data. Panel D.1 drops these stations and finds that coefficients remain stable. 
+
+Reverse causality could be a concern if TV executives strategically place TV stations to capture certain markets by the edges of the coverage contours. Panel E.1 controls for the station-level determinants of a TV signal's field strength (its effective radiated power, height above average terrain, radiation center above mean sea level, and presence of a directional antenna), which should account for the factors that a network could manipulate to increase or decrease coverage, and finds that results are robust. Panel E.2 drops the 11 SLTV stations that were built after 1997 (when the FCC regulation was passed) which may have been constructed with the interference coverage contour in mind; results remain qualitatively similar.
+
+These results also remain significant under different treatments of standard errors. Panels F.1 and F.2 correct for spatial autocorrelation, accounting for arbitrary spatial clusters and allowing for linear decay in correlation structure (using the Bartlett kernel). Panel F.3 two-way clusters standard errors by school district and the parent TV network of the closest station. Panel F.4 clusters standard errors at the TV station level. Panel F.5 uses heteroskedasticity robust standard errors.
+
+Finally, one might wonder about how SLTV affects the white-Hispanic achievement gap. Panel G.1 presents results using white students as the omitted category instead of Asian students. Hispanics make up even more ground under this specification.
+
+% TODO: table notes for longtable
+
+Taken as a whole, these results
+% downstream into college and workforce
+
 
 
 \vspace{5em}
@@ -362,59 +364,7 @@ EDIT \\
 \vspace{.5em}
 
 
-%%%%%%%%%% PUBLIC SCHOOLS %%%%%%%%
-\section{The impact of Spanish language television on Hispanic educational performance}\label{s:school}
 
-How big is the achievement gap in our data? Table~\ref{t:edu_magnitude}, columns 1 and 3 present the achievement gap between Asians and Hispanics and whites and Hispanics respectively. In almost every outcome of interest, Hispanics trail substantially behind their Asian and white peers. 
-
-
-In this section, we examine the performance of Hispanics in public schools and find that while academic achievement generally increases and disciplinary issues generally decrease in response to SLTV, the opposite holds true when the measures are more directly to identity. 
-
-
-\subsection{Results}
-
-Table \ref{edu_top} presents the standard specification for the education dataset, looking at the effect of television on schools within 100 KM of a coverage contour. For each of these measures of academic achievement, column (1) includes only county level controls, column (2) adds controls for school size (number of students and teachers), and column (3) adds controls for whether the school contains primary/middle/high school divisions. Panel A examines the effect of television on the IHS of the number Hispanic students considered gifted, while panels B and C look at the effect on the number of Hispanic students enrolled in an AP course or passing at least one AP course respectively. The coefficient of interest, the dummy for whether the school is located within a coverage contour or not, is significant at the 5\% level for all columns and panels. The effect sizes are modest, but non-trivial: an approximately 1.5\% increase in the number of gifted students, and increases on the order of roughly 5\% for the number of students involved in Advanced Placement curricula. 
-
-Table \ref{edu_bot} examines the effect of SLTV on disciplinary incidents: Panel A presents the effect on the number of Hispanic students ever given an out of school suspension over the prior school year, while Panel B presents this on the number of Hispanic students considered chronically absent. These results are all significant at the 1\% level for all columns and panels. The effect sizes are comparable to that regarding academic achievement, displaying a 1.5\% decrease in the number of students suspended, and a 7\% decrease in the number of students who are chronically absent.
-
-Table \ref{edu_mech} examines the effect of SLTV on outcomes more directly tied to identity: Panel A presents the effect on the number of students categorized as having Limited English Proficiency. These effects are significant at the 1\% level, and represent a 3-4\% increase in the number of students designated under this category. Panel B, on the other hand, presents the effect on the number of Hispanic students who are ever victims of harassment on the basis of their ethnicity. These results are significant at the 10\% and 5\% levels, and account for a small .2\% bump in the number of such cases. 
-
-\paragraph{Robustness} To test the robustness of these results, we present Table \ref{edu_ap_robust}, which uses as its outcome variable the number of Hispanic students passing the AP. We choose to present robustness on this outcome in particular due to its lower sample size --- it is a priori the most likely to be underpowered. Column (1) presents the baseline results (it is identical to column (3) of Table \ref{edu_top}), while column (2) includes the interaction of the TV dummy with the distance to the boundary squared. This is plausibly relevant to the main effect, given that television signals decay in strength in proportion to the square of the distance. Columns (3) and (6) reduce the cutoff distance from the boundary to one half and one third of the original 100 KM limit. Column (4) includes county level fixed effects. Column (5) additionally controls for the total number of APs passed by all students. The robustness checks hold up across the board with all columns maintaining significance, although the 33 KM boundary limit is close to underpowered. Robustness checks on the other outcome variables of interest hold up to a similar analysis.
-
-Finally, we may be concerned about the potential effects of spatial autocorrelation in the data. A Moran's I test using 4 nearest neighbours between the schools indicate that there is spatial autocorrelation at any reasonable level for $\alpha$. Hence, Table \ref{edu_spatial} presents two alternate models that control for the effects of spatial autocorrelation. Column (2) uses a spatially autoregressive lag model, wherein the outcome variable may be correlated with its neighbours. Column (3) uses a spatially autoregressive error model, wherein the presence of missing spatial covariates (causing correlated errors) is adjusted for. In both cases, the alternate models yield results that closely resemble the standard specification in column (1). 
-
-% no direct: Table~\ref{t:edu_abs} The collinearity between school districts and the presence of SLTV prevents the inclusion of school district fixed effects. Instead, we use county level controls 
-% robustness: school district is nested within county and state
-
-
-\subsection{Discussion}
-
-\paragraph{Evidence of Identity as a Mechanism}
-The results in Table \ref{edu_mech} provide some concrete evidence that identity changes as a result of the effect of television. We believe that access to SLTV reinforces Hispanic identities, making them more salient to the Hispanic individuals consuming the broadcast programs. The most direct evidence for this stems from the results on harassment and bullying based on ethnicity. Given that very few non-Hispanic people view SLTV programming, the fact that more Hispanic students are bullied on the basis of their ethnicity suggests that some change must be occurring within the students along this dimension.\footnote{ This increase in bullying does not appear to be the result of `retaliation' to Hispanic students bullying others: the coefficient only attenuates slightly when further controlling for the total number of students bullied, and running the main specification with the number of Hispanic students as perpetrators of race/ethnicity based bullying yields an insignificant negative coefficient. } 
-
-A substantial literature has shown that increased visibility of (non-majority) ethnicities is associated with greater amounts of bullying,\footnote{ See \cite{scherr_bullying_2009} for a review of this literature.} consistent with the results that we see. Though it is impossible to rule out all other stories (perhaps children who watch more TV overall are more likely to be victims of bullying---but this is not supported by the literature. If anything, there is support for television causing children to become bullies \citep{kuntsche_television_2006}, but this is not borne out in our data), the most parsimonious explanation is one in which television increases identity salience and hence ethnicity-based bullying.
-
-We make a similar argument in the interpretation of the greater number of Hispanic students classified as having Limited English Proficiency. This increase demonstrates that these students possess a lower degree of command over the English language, suggesting two possibilities: either (1) that academic/linguistic abilities are lowered across the board, or that (2) there is some substitution in ability towards the Spanish language instead. Given that academic abilities appear to be \textit{enhanced} by the presence of SLTV, the substitution story appears more plausible to us.\footnote{ Granted, the measures of academic ability measure only the performance of students at the top end. But given the existence of these results, a countervailing narrative in which SLTV decreases the academic performance for other Hispanic students would need require a mechanism that could produce such differential effects.} Unfortunately, we do not have direct evidence on the Spanish-speaking abilities of students, and so recognize that this is not a settled matter. Thus, while the evidence presented is fairly suggestive, more research could be done on this matter.
-
-\paragraph{Effects on Academic Achievement and Discipline} 
-We next turn our attention to the results presented in Tables \ref{edu_top} and \ref{edu_bot}. The results on academic achievement unambiguously show that, for the top end of Hispanic students, performance is bolstered by the presence of SLTV. This effect appears to hold across students of all ages --- while gifted programs are typically aimed at students in primary and middle schools, AP courses and exams are almost exclusive taken by high schoolers. 
-
- The number of observations recorded for these regressions is worth addressing: compared to the 40,000 schools seen in other regressions, there are only 26,000 seen for gifted students, and fewer than 10,000 for the AP results. In the case of gifted programs, this drop is due to the fact that schools which do not have gifted student programs were omitted from the sample. We find it unlikely that the presence of a gifted program in a school is correlated with the the school being placed just inside or outside a television coverage contour, and so do not believe that this omission introduces any bias. Similarly, in the case of the AP results, only 9,765 of the schools in the sample are high schools with 12th graders enrolled in them---hence, the observed 6,089 schools opting to self-report AP course results is still sizable. Though the number of schools reporting AP exam results is substantially lower and may be concerning for this result, this can at least partially be attributed to the fact that students directly receive their AP scores, and the schools at which they are enrolled may not always have access to their AP scores. Furthermore, given that overall AP scores do not meaningfully change, it is unlikely that there is substantial selection into score reporting over the concerns of Hispanic students passing AP scores---especially because there are no real-world incentives or benefits attached to doing so.
-
-Noting that increases in AP enrolment are predictive of higher rates of college enrolment and degree attainment \citep{speroni_determinants_2011}, it is likely that SLTV can have downstream effects beyond simply greater academic attainment in the short term. Running counter to the mainstream narrative, these increases in academic performance match the results found by \cite{gentzkow_preschool_2008}, who find that television increases test scores for preschoolers (and in particular, preschoolers from households where English is not the dominant language).
-
-Similarly, these increases in disciplinary outcomes can ameliorate the serious downstream effects that exist beyond the disciplinary event itself: the literature suggests that not only are suspended students at immediate risk of academic harm and further disciplinary issues \citep{arcia_achievement_2006}, but that these students are also more likely to be incarcerated as adults  \citep{wolf_school_2017}. Non-disciplined students appear to suffer from spillover effects in their academic performance as well \citep{perry_suspending_2014}.
-% HOW MANY STUDENTS get bullied? 7169 cases, so 22 students
-
-
-% TODO: robustness on distance, spatial error, weighting by # students, imputing missings, 
-
-On the whole, this suggests that the lives of Hispanic students living may materially improve along academic and social dimensions as a result of SLTV. 
-
-\paragraph{The Difference Between `Identity' and Other Outcomes}
-It appears that while Hispanic discipline issues are generally improved by SLTV, this does not extend to the measure directly tied to identity: bullying and harassment based on ethnicity. Similarly, while academic achievement is generally improved by SLTV, this finding does not also generalize to LEP rates. This puzzle---explaining how identity driven results move in opposite directions from the others---is not easily resolved without relying on identity in some form. 
-
-Though we do not have a rigorous argument that can fully resolve this puzzle, we suggest that a substitution effect based on SLTV affecting identity can explain much of the results seen. That is, SLTV might in the immediate affect the identity based mechanisms that we see (more social issues, worse academic performance on metrics tied to identity), but that student performance in other non-identity tied outcomes might in turn shift to make up for the difference. If this were the case, we would expect to see results in line with what we see. An alternative explanation not relying on identity would still need to be able to explain why most academic and disciplinary measures point in one direction, whereas the ones more tightly linked to identity reverse.
 
 
 
@@ -426,6 +376,18 @@ SLTV programming is also more likely to contain content that is directly salient
 We marshal three
 
 \subsection{Identity within schools}
+
+\paragraph{Evidence of Identity as a Mechanism}
+The results in Table \ref{edu_mech} provide some concrete evidence that identity changes as a result of the effect of television. We believe that access to SLTV reinforces Hispanic identities, making them more salient to the Hispanic individuals consuming the broadcast programs. The most direct evidence for this stems from the results on harassment and bullying based on ethnicity. Given that very few non-Hispanic people view SLTV programming, the fact that more Hispanic students are bullied on the basis of their ethnicity suggests that some change must be occurring within the students along this dimension.\footnote{ This increase in bullying does not appear to be the result of `retaliation' to Hispanic students bullying others: the coefficient only attenuates slightly when further controlling for the total number of students bullied, and running the main specification with the number of Hispanic students as perpetrators of race/ethnicity based bullying yields an insignificant negative coefficient. } 
+
+A substantial literature has shown that increased visibility of (non-majority) ethnicities is associated with greater amounts of bullying,\footnote{ See \cite{scherr_bullying_2009} for a review of this literature.} consistent with the results that we see. Though it is impossible to rule out all other stories (perhaps children who watch more TV overall are more likely to be victims of bullying---but this is not supported by the literature. If anything, there is support for television causing children to become bullies \citep{kuntsche_television_2006}, but this is not borne out in our data), the most parsimonious explanation is one in which television increases identity salience and hence ethnicity-based bullying.
+
+We make a similar argument in the interpretation of the greater number of Hispanic students classified as having Limited English Proficiency. This increase demonstrates that these students possess a lower degree of command over the English language, suggesting two possibilities: either (1) that academic/linguistic abilities are lowered across the board, or that (2) there is some substitution in ability towards the Spanish language instead. Given that academic abilities appear to be \textit{enhanced} by the presence of SLTV, the substitution story appears more plausible to us.\footnote{ Granted, the measures of academic ability measure only the performance of students at the top end. But given the existence of these results, a countervailing narrative in which SLTV decreases the academic performance for other Hispanic students would need require a mechanism that could produce such differential effects.} Unfortunately, we do not have direct evidence on the Spanish-speaking abilities of students, and so recognize that this is not a settled matter. Thus, while the evidence presented is fairly suggestive, more research could be done on this matter.
+
+\paragraph{The Difference Between `Identity' and Other Outcomes}
+It appears that while Hispanic discipline issues are generally improved by SLTV, this does not extend to the measure directly tied to identity: bullying and harassment based on ethnicity. Similarly, while academic achievement is generally improved by SLTV, this finding does not also generalize to LEP rates. This puzzle---explaining how identity driven results move in opposite directions from the others---is not easily resolved without relying on identity in some form. 
+
+Though we do not have a rigorous argument that can fully resolve this puzzle, we suggest that a substitution effect based on SLTV affecting identity can explain much of the results seen. That is, SLTV might in the immediate affect the identity based mechanisms that we see (more social issues, worse academic performance on metrics tied to identity), but that student performance in other non-identity tied outcomes might in turn shift to make up for the difference. If this were the case, we would expect to see results in line with what we see. An alternative explanation not relying on identity would still need to be able to explain why most academic and disciplinary measures point in one direction, whereas the ones more tightly linked to identity reverse.
 
 \subsection{The content of TV programs: narrowing down mechanisms}
 
@@ -485,7 +447,7 @@ More broadly speaking, we think that looking at the spillover effects of identit
 %% Figure 1: Coverage Contours
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% TODO: nice figure! show Hispanic vs. Asian
+% TODO: nice figure! show Hispanic vs. Asian for outcomess?
 
 %
 %\begin{figure}[!hbtp]
@@ -501,13 +463,13 @@ More broadly speaking, we think that looking at the spillover effects of identit
 \begin{figure}[!hbtp]
 \centering
 \caption{Coverage map for TV station WUVC-DT}\label{f:contour_example}
-\includegraphics[width=14.5cm]{../../analysis/Output/img/ContourExample.png}
+\includegraphics[width=14.4cm]{../../analysis/Output/img/ContourExample.png}
 \end{figure} 
 
 \begin{figure}[!hbtp]
 \centering
 \caption{Map of coverage contours of Spanish Language TV stations and public schools in the US}\label{f:contours_schools}
-\includegraphics[width=14.5cm]{../../analysis/Output/img/Schools_pretty2.pdf}
+\includegraphics[width=14.4cm]{../../analysis/Output/img/Schools_pretty2.pdf}
 \end{figure} 
 
 \begin{figure}[!hbtp]
@@ -663,8 +625,8 @@ Distance for counties are computed by minimum distances
 \expandableinput{../../analysis/Output/regs/atus_foreign.tex}
 
 \expandableinput{../../analysis/Output/regs/edu_magnitude.tex}
-\expandableinput{../../analysis/Output/regs/edu_extra_achieve.tex}
 \expandableinput{../../analysis/Output/regs/edu_abs.tex}
+\expandableinput{../../analysis/Output/regs/edu_extra_achieve.tex}
 \clearpage
 \expandableinput{../../analysis/Output/regs/edu_robust.tex}
 \clearpage
