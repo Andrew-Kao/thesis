@@ -615,6 +615,8 @@ sum2a <- harass %>%
 ###### DIFFERENCE BETWEEN WHITES/ASIANS AND HISPANICS ######
 hisp_to_summarize <- cleanSchoolAll %>%
   mutate(gifted_pc_hi = sch_gtenr_hi/hisp_students,
+         gifted_pc_wh = sch_gtenr_wh/white_students,
+         gifted_pc_as = sch_gtenr_as/asian_students,
          ap_pc_hi = sch_apenr_hi/hisp_students,
          ap_one_pc_hi = sch_appass_oneormore_hi/hisp_students,
          sat_pc_hi = sch_satact_hi/hisp_students,
@@ -627,10 +629,21 @@ hisp_to_summarize <- cleanSchoolAll %>%
          calc_pc_as = sch_mathenr_calc_as/asian_students,
          suspend = sch_discwodis_singoos_hi/hisp_students,
          absent = sch_absent_hi/hisp_students,
-         )
+         advm_pc_hi = sch_mathenr_advm_hi/hisp_students,
+         advm_pc_wh = sch_mathenr_advm_wh/white_students,
+         advm_pc_as = sch_mathenr_advm_as/asian_students,
+         biol_pc_hi = sch_scienr_biol_hi/hisp_students,
+         biol_pc_wh = sch_scienr_biol_wh/white_students,
+         biol_pc_as = sch_scienr_biol_as/asian_students,
+         phys_pc_hi = sch_scienr_phys_hi/hisp_students,
+         phys_pc_wh = sch_scienr_phys_wh/white_students,
+         phys_pc_as = sch_scienr_phys_as/asian_students,
+         chem_pc_hi = sch_scienr_chem_hi/hisp_students,
+         chem_pc_wh = sch_scienr_chem_wh/white_students,
+         chem_pc_as = sch_scienr_chem_as/asian_students)
 
 # use median
-summary(hisp_to_summarize$ap_one_pc_hi, digits = 10)
+summary(hisp_to_summarize$ap_one_pc_hi)
 summary(hisp_to_summarize$ap_one_pc_wh)
 summary(hisp_to_summarize$ap_one_pc_as)
 summary(hisp_to_summarize$sat_pc_hi)
@@ -650,8 +663,40 @@ weighted.mean(hisp_to_summarize$calc_pc_hi, hisp_to_summarize$hisp_students, na.
 weighted.mean(hisp_to_summarize$calc_pc_wh, hisp_to_summarize$white_students, na.rm = TRUE)
 weighted.mean(hisp_to_summarize$calc_pc_as, hisp_to_summarize$asian_students, na.rm = TRUE)
 
+### medians
+(median(hisp_to_summarize$sat_pc_wh, na.rm = TRUE) - median(hisp_to_summarize$sat_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$sat_pc_wh, na.rm = TRUE)
+(median(hisp_to_summarize$sat_pc_as, na.rm = TRUE) - median(hisp_to_summarize$sat_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$sat_pc_as, na.rm = TRUE)
+(median(hisp_to_summarize$sat_pc_as, na.rm = TRUE) - 1.1598*median(hisp_to_summarize$sat_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$sat_pc_as, na.rm = TRUE)
 
-summary(hisp_to_summarize$suspend)
+(median(hisp_to_summarize$calc_pc_wh, na.rm = TRUE) - median(hisp_to_summarize$calc_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$calc_pc_wh, na.rm = TRUE)
+(median(hisp_to_summarize$calc_pc_as, na.rm = TRUE) - median(hisp_to_summarize$calc_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$calc_pc_as, na.rm = TRUE)
+(median(hisp_to_summarize$calc_pc_as, na.rm = TRUE) - 1.2718*median(hisp_to_summarize$calc_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$calc_pc_as, na.rm = TRUE)
+
+(median(hisp_to_summarize$ap_one_pc_wh, na.rm = TRUE) - median(hisp_to_summarize$ap_one_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$ap_one_pc_wh, na.rm = TRUE)
+(median(hisp_to_summarize$ap_one_pc_as, na.rm = TRUE) - median(hisp_to_summarize$ap_one_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$ap_one_pc_as, na.rm = TRUE)
+(median(hisp_to_summarize$ap_one_pc_as, na.rm = TRUE) - 1.0964*median(hisp_to_summarize$ap_one_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$ap_one_pc_as, na.rm = TRUE)
+
+(median(hisp_to_summarize$gifted_pc_wh, na.rm = TRUE) - median(hisp_to_summarize$gifted_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$gifted_pc_wh, na.rm = TRUE)
+(median(hisp_to_summarize$gifted_pc_as, na.rm = TRUE) - median(hisp_to_summarize$gifted_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$gifted_pc_as, na.rm = TRUE)
+(median(hisp_to_summarize$gifted_pc_as, na.rm = TRUE) - 1.2389*median(hisp_to_summarize$gifted_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$gifted_pc_as, na.rm = TRUE)
+
+(median(hisp_to_summarize$advm_pc_as, na.rm = TRUE) - median(hisp_to_summarize$advm_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$advm_pc_as, na.rm = TRUE)
+(median(hisp_to_summarize$advm_pc_as, na.rm = TRUE) - 1.2501*median(hisp_to_summarize$advm_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$advm_pc_as, na.rm = TRUE)
+(median(hisp_to_summarize$advm_pc_wh, na.rm = TRUE) - median(hisp_to_summarize$advm_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$advm_pc_wh, na.rm = TRUE)
+
+(median(hisp_to_summarize$biol_pc_as, na.rm = TRUE) - median(hisp_to_summarize$biol_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$biol_pc_as, na.rm = TRUE)
+(median(hisp_to_summarize$biol_pc_as, na.rm = TRUE) - 1.2596*median(hisp_to_summarize$biol_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$biol_pc_as, na.rm = TRUE)
+(median(hisp_to_summarize$biol_pc_wh, na.rm = TRUE) - median(hisp_to_summarize$biol_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$biol_pc_wh, na.rm = TRUE)
+
+(median(hisp_to_summarize$phys_pc_as, na.rm = TRUE) - median(hisp_to_summarize$phys_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$phys_pc_as, na.rm = TRUE)
+(median(hisp_to_summarize$phys_pc_as, na.rm = TRUE) - 1.3114*median(hisp_to_summarize$phys_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$phys_pc_as, na.rm = TRUE)
+(median(hisp_to_summarize$phys_pc_wh, na.rm = TRUE) - median(hisp_to_summarize$phys_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$phys_pc_wh, na.rm = TRUE)
+
+(median(hisp_to_summarize$chem_pc_as, na.rm = TRUE) - median(hisp_to_summarize$chem_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$chem_pc_as, na.rm = TRUE)
+(median(hisp_to_summarize$chem_pc_as, na.rm = TRUE) - 1.2896*median(hisp_to_summarize$chem_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$chem_pc_as, na.rm = TRUE)
+(median(hisp_to_summarize$chem_pc_wh, na.rm = TRUE) - median(hisp_to_summarize$chem_pc_hi, na.rm = TRUE))/ median(hisp_to_summarize$chem_pc_wh, na.rm = TRUE)
+
+  summary(hisp_to_summarize$suspend)
 summary(hisp_to_summarize$absent)
 
 # schoolMaster from Clean_Education.R
