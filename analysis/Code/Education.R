@@ -61,7 +61,7 @@ varList <- c('SCH_HBREPORTED_RAC_HI_','TOT_HBREPORTED_RAC_', 'SCH_HBDISCIPLINED_
 adder <- function(data, name) {
   data %>%
     mutate(!! str_to_lower(str_sub(name, end=-2)) := dplyr::select(., starts_with(name)) %>% 
-             map(function(x) ifelse(x <0, NA,x)) %>% 
+             purrr::map(function(x) ifelse(x <0, NA,x)) %>% 
              reduce(`+`))
 }
 

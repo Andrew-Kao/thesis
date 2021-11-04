@@ -629,8 +629,8 @@ hisp_to_summarize <- cleanSchoolAll %>%
          absent = sch_absent_hi/hisp_students,
          )
 
-# weird, Hispanics are better than whites on calc
-summary(hisp_to_summarize$ap_one_pc_hi)
+# use median
+summary(hisp_to_summarize$ap_one_pc_hi, digits = 10)
 summary(hisp_to_summarize$ap_one_pc_wh)
 summary(hisp_to_summarize$ap_one_pc_as)
 summary(hisp_to_summarize$sat_pc_hi)
@@ -639,6 +639,16 @@ summary(hisp_to_summarize$sat_pc_as)
 summary(hisp_to_summarize$calc_pc_hi)
 summary(hisp_to_summarize$calc_pc_wh)
 summary(hisp_to_summarize$calc_pc_as)
+
+weighted.mean(hisp_to_summarize$ap_one_pc_hi, hisp_to_summarize$hisp_students, na.rm = TRUE)
+weighted.mean(hisp_to_summarize$ap_one_pc_wh, hisp_to_summarize$white_students, na.rm = TRUE)
+weighted.mean(hisp_to_summarize$ap_one_pc_as, hisp_to_summarize$asian_students, na.rm = TRUE)
+weighted.mean(hisp_to_summarize$sat_pc_hi, hisp_to_summarize$hisp_students, na.rm = TRUE)
+weighted.mean(hisp_to_summarize$sat_pc_wh, hisp_to_summarize$white_students, na.rm = TRUE)
+weighted.mean(hisp_to_summarize$sat_pc_as, hisp_to_summarize$asian_students, na.rm = TRUE)
+weighted.mean(hisp_to_summarize$calc_pc_hi, hisp_to_summarize$hisp_students, na.rm = TRUE)
+weighted.mean(hisp_to_summarize$calc_pc_wh, hisp_to_summarize$white_students, na.rm = TRUE)
+weighted.mean(hisp_to_summarize$calc_pc_as, hisp_to_summarize$asian_students, na.rm = TRUE)
 
 
 summary(hisp_to_summarize$suspend)
@@ -1406,7 +1416,9 @@ harass_as <- cleanSchoolAll %>%
   filter(minDist < 100000 ) %>%
   mutate(origdist = minDist/1000, dist2 = origdist^2,
          origLogPop = log(origpopulation), origLogInc = log(origincome),
-         origdist = ifelse(TV == 1,0,origdist)) %>%
+         origdist = ifelse(TV == 1,0,origdist),
+         nontrad = ifelse(SCH_STATUS_MAGNET == 1 | SCH_STATUS_ALT == 1, 1, 0),
+         CHARTER_SCH = SCH_STATUS_CHARTER) %>%
   select(TV, origdist, dist2, origpcHisp , origLogInc , origLogPop , SCH_TEACHERS_CURR_TOT , hisp_students,  
          asian_students, white_students, 
          total_students , SCH_GRADE_G01 , SCH_GRADE_G06 , SCH_GRADE_G09,
@@ -1414,7 +1426,7 @@ harass_as <- cleanSchoolAll %>%
          sch_hbreported_rac_as, sch_hbdisciplined_rac_as, sch_apenr_as, sch_lepenr_as, sch_algpass_g08_as,
          sch_apmathenr_as, sch_apscienr_as, sch_mathenr_advm_as,
          sch_mathenr_calc_as, sch_scienr_biol_as, sch_scienr_chem_as, sch_scienr_phys_as, sch_satact_as,
-         lea_gedpart_as, LEAID, stateCounty, STATE, X, Y, SCHID) %>%
+         lea_gedpart_as, LEAID, stateCounty, STATE, X, Y, SCHID, nontrad, CHARTER_SCH) %>%
   rename(sch_gtenr = sch_gtenr_as, sch_appass_oneormore = sch_appass_oneormore_as, lea_gedcred = lea_gedcred_as,
          sch_absent = sch_absent_as, sch_discwodis_singoos = sch_discwodis_singoos_as, 
          sch_hbreported_rac = sch_hbreported_rac_as, sch_hbdisciplined_rac = sch_hbdisciplined_rac_as,
@@ -1431,7 +1443,9 @@ harass_hi <- cleanSchoolAll %>%
   filter(minDist < 100000 ) %>%
   mutate(origdist = minDist/1000, dist2 = origdist^2,
          origLogPop = log(origpopulation), origLogInc = log(origincome),
-         origdist = ifelse(TV == 1,0,origdist)) %>%
+         origdist = ifelse(TV == 1,0,origdist),
+         nontrad = ifelse(SCH_STATUS_MAGNET == 1 | SCH_STATUS_ALT == 1, 1, 0),
+         CHARTER_SCH = SCH_STATUS_CHARTER) %>%
   select(TV, origdist, dist2, origpcHisp , origLogInc , origLogPop , SCH_TEACHERS_CURR_TOT , hisp_students,  
          asian_students, white_students, 
          total_students , SCH_GRADE_G01 , SCH_GRADE_G06 , SCH_GRADE_G09,
@@ -1439,7 +1453,7 @@ harass_hi <- cleanSchoolAll %>%
          sch_hbreported_rac_hi, sch_hbdisciplined_rac_hi, sch_apenr_hi, sch_lepenr_hi, sch_algpass_g08_hi,
          sch_apmathenr_hi, sch_apscienr_hi, sch_mathenr_advm_hi,
          sch_mathenr_calc_hi, sch_scienr_biol_hi, sch_scienr_chem_hi, sch_scienr_phys_hi, sch_satact_hi,
-         lea_gedpart_hi, LEAID, stateCounty, STATE, X, Y, SCHID) %>%
+         lea_gedpart_hi, LEAID, stateCounty, STATE, X, Y, SCHID, nontrad, CHARTER_SCH) %>%
   rename(sch_gtenr = sch_gtenr_hi, sch_appass_oneormore = sch_appass_oneormore_hi, lea_gedcred = lea_gedcred_hi,
          sch_absent = sch_absent_hi, sch_discwodis_singoos = sch_discwodis_singoos_hi, 
          sch_hbreported_rac = sch_hbreported_rac_hi, sch_hbdisciplined_rac = sch_hbdisciplined_rac_hi,
@@ -1964,7 +1978,7 @@ harass_contour <- harass %>%
 # 13: traditional -- work on
 # 14: no new stationss
 
-spec <- 14
+spec <- 7
 
 if (spec == 1) {
   om1 <- lm(ihs(sch_satact) ~ TV + 
@@ -2279,37 +2293,37 @@ if (spec == 7) {
            network == ifelse(azteca == 1, 5, network))
   
   om1 <- feols(ihs(sch_satact) ~ TV*eth + 
-                 origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("network"),data=harass_net)
+                 origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("network","LEAID"),data=harass_net)
   om2 <- feols(ihs(sch_satact) ~ TV*eth +
                  origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
-                 total_students | LEAID, cluster = c("network"), data=harass_net)
+                 total_students | LEAID, cluster = c("network","LEAID"), data=harass_net)
   om3 <- feols(ihs(sch_satact) ~ TV*eth +
                  origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
-                 total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("network"), data=harass_net)
+                 total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("network","LEAID"), data=harass_net)
   etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_satactOLSIHS_clnetwork.tex",
          order = etable_order, replace = TRUE, keep = c('TV'),
          title = "cluster by network")
   
   om1 <- feols(ihs(sch_mathenr_calc) ~ TV*eth + 
-                 origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("network"),data=harass_net)
+                 origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("network","LEAID"),data=harass_net)
   om2 <- feols(ihs(sch_mathenr_calc) ~ TV*eth +
                  origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
-                 total_students | LEAID, cluster = c("network"), data=harass_net)
+                 total_students | LEAID, cluster = c("network","LEAID"), data=harass_net)
   om3 <- feols(ihs(sch_mathenr_calc) ~ TV*eth +
                  origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
-                 total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("network"), data=harass_net)
+                 total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("network","LEAID"), data=harass_net)
   etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_calcOLSIHS_clnetwork.tex",
          order = etable_order, replace = TRUE, keep = c('TV'),
          title = "cluster by network")
   
   om1 <- feols(ihs(sch_appass_oneormore) ~ TV*eth + 
-                 origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("network"),data=harass_net)
+                 origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("network","LEAID"),data=harass_net)
   om2 <- feols(ihs(sch_appass_oneormore) ~ TV*eth +
                  origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
-                 total_students | LEAID, cluster = c("network"), data=harass_net)
+                 total_students | LEAID, cluster = c("network","LEAID"), data=harass_net)
   om3 <- feols(ihs(sch_appass_oneormore) ~ TV*eth +
                  origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
-                 total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("network"), data=harass_net)
+                 total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("network","LEAID"), data=harass_net)
   etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_appOLSIHS_clnetwork.tex",
          order = etable_order, replace = TRUE, keep = c('TV'),
          title = "cluster by network")
@@ -2520,105 +2534,96 @@ if (spec == 12){
          title = 'distance control')
 }
 if (spec == 13){
-  sch_char <- fread('2015-16-crdc-data/Data Files and Layouts/CRDC 2015-16 School Data.csv')%>%
-    mutate(nontrad = ifelse(SCH_STATUS_SPED == 1 | SCH_STATUS_MAGNET == 1 | SCH_STATUS_ALT == 1, 1, 0)) %>%
-    mutate(leasch = as.numeric(SCHID) + 100000*as.numeric(LEAID)) %>%
-    mutate(CHARTER_SCH = SCH_STATUS_CHARTER) %>%
-    select(leasch, nontrad, CHARTER_SCH)
   
-  harass_sch <- harass %>%
-    mutate(leasch = as.numeric(SCHID) + 100000*as.numeric(LEAID)) %>%
-    left_join(sch_char, by = c("leasch"))
-
   om1 <- feols(ihs(sch_satact) ~ TV*eth + 
-                 origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass_sch,
-               subset = harass_sch$nontrad != 1)
-om2 <- feols(ihs(sch_satact) ~ TV*eth + origdist*total_students + dist2*total_students +
-               origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
-               total_students | LEAID, cluster = c("LEAID"), data=harass_sch,
-             subset = harass_sch$nontrad != 1)
-om3 <- feols(ihs(sch_satact) ~ TV*eth + origdist*total_students + dist2*total_students +
-               origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
-               total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("LEAID"), data=harass_sch,
-             subset = harass_sch$nontrad != 1)
-etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_satactOLSIHS_nontrad.tex",
-       order = etable_order, replace = TRUE, keep = c('TV'),
-       title = 'non traditional')
-
-om1 <- feols(ihs(sch_mathenr_calc) ~ TV*eth + 
-               origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass_sch,
-             subset = harass_sch$nontrad != 1)
-om2 <- feols(ihs(sch_mathenr_calc) ~ TV*eth + origdist*total_students + dist2*total_students +
-               origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
-               total_students | LEAID, cluster = c("LEAID"), data=harass_sch,
-             subset = harass_sch$nontrad != 1)
-om3 <- feols(ihs(sch_mathenr_calc) ~ TV*eth + origdist*total_students + dist2*total_students +
-               origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
-               total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("LEAID"), data=harass_sch,
-             subset = harass_sch$nontrad != 1)
-etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_calcOLSIHS_nontrad.tex",
-       order = etable_order, replace = TRUE, keep = c('TV'),
-       title = 'non traditional')
-
-om1 <- feols(ihs(sch_appass_oneormore) ~ TV*eth + 
-               origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass_sch,
-             subset = harass_sch$nontrad != 1)
-om2 <- feols(ihs(sch_appass_oneormore) ~ TV*eth + origdist*total_students + dist2*total_students +
-               origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
-               total_students | LEAID, cluster = c("LEAID"), data=harass_sch,
-             subset = harass_sch$nontrad != 1)
-om3 <- feols(ihs(sch_appass_oneormore) ~ TV*eth + origdist*total_students + dist2*total_students +
-               origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
-               total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("LEAID"), data=harass_sch,
-             subset = harass_sch$nontrad != 1)
-etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_appOLSIHS_nontrad.tex",
-       order = etable_order, replace = TRUE, keep = c('TV'),
-       title = 'non traditional')  
-
-om1 <- feols(ihs(sch_satact) ~ TV*eth + 
-               origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass_sch,
-             subset = harass_sch$CHARTER_SCH != 1)
-om2 <- feols(ihs(sch_satact) ~ TV*eth + origdist*total_students + dist2*total_students +
-               origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
-               total_students | LEAID, cluster = c("LEAID"), data=harass_sch,
-             subset = harass_sch$CHARTER_SCH != 1)
-om3 <- feols(ihs(sch_satact) ~ TV*eth + origdist*total_students + dist2*total_students +
-               origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
-               total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("LEAID"), data=harass_sch,
-             subset = harass_sch$CHARTER_SCH != 1)
-etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_satactOLSIHS_noncharter.tex",
-       order = etable_order, replace = TRUE, keep = c('TV'),
-       title = 'non charter')
-
-om1 <- feols(ihs(sch_mathenr_calc) ~ TV*eth + 
-               origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass_sch,
-             subset = harass_sch$CHARTER_SCH != 1)
-om2 <- feols(ihs(sch_mathenr_calc) ~ TV*eth + origdist*total_students + dist2*total_students +
-               origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
-               total_students | LEAID, cluster = c("LEAID"), data=harass_sch,
-             subset = harass_sch$CHARTER_SCH != 1)
-om3 <- feols(ihs(sch_mathenr_calc) ~ TV*eth + origdist*total_students + dist2*total_students +
-               origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
-               total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("LEAID"), data=harass_sch,
-             subset = harass_sch$CHARTER_SCH != 1)
-etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_calcOLSIHS_noncharter.tex",
-       order = etable_order, replace = TRUE, keep = c('TV'),
-       title = 'non charter')
-
-om1 <- feols(ihs(sch_appass_oneormore) ~ TV*eth + 
-               origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass_sch,
-             subset = harass_sch$CHARTER_SCH != 1)
-om2 <- feols(ihs(sch_appass_oneormore) ~ TV*eth + origdist*total_students + dist2*total_students +
-               origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
-               total_students | LEAID, cluster = c("LEAID"), data=harass_sch,
-             subset = harass_sch$CHARTER_SCH != 1)
-om3 <- feols(ihs(sch_appass_oneormore) ~ TV*eth + origdist*total_students + dist2*total_students +
-               origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
-               total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("LEAID"), data=harass_sch,
-             subset = harass_sch$CHARTER_SCH != 1)
-etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_appOLSIHS_noncharter.tex",
-       order = etable_order, replace = TRUE, keep = c('TV'),
-       title = 'non charter')  
+                 origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass,
+               subset = harass$nontrad != 1)
+  om2 <- feols(ihs(sch_satact) ~ TV*eth + origdist*total_students + dist2*total_students +
+                 origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                 total_students | LEAID, cluster = c("LEAID"), data=harass,
+               subset = harass$nontrad != 1)
+  om3 <- feols(ihs(sch_satact) ~ TV*eth + origdist*total_students + dist2*total_students +
+                 origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                 total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("LEAID"), data=harass,
+               subset = harass$nontrad != 1)
+  etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_satactOLSIHS_nontrad.tex",
+         order = etable_order, replace = TRUE, keep = c('TV'),
+         title = 'non traditional')
+  
+  om1 <- feols(ihs(sch_mathenr_calc) ~ TV*eth + 
+                 origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass,
+               subset = harass$nontrad != 1)
+  om2 <- feols(ihs(sch_mathenr_calc) ~ TV*eth + origdist*total_students + dist2*total_students +
+                 origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                 total_students | LEAID, cluster = c("LEAID"), data=harass,
+               subset = harass$nontrad != 1)
+  om3 <- feols(ihs(sch_mathenr_calc) ~ TV*eth + origdist*total_students + dist2*total_students +
+                 origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                 total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("LEAID"), data=harass,
+               subset = harass$nontrad != 1)
+  etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_calcOLSIHS_nontrad.tex",
+         order = etable_order, replace = TRUE, keep = c('TV'),
+         title = 'non traditional')
+  
+  om1 <- feols(ihs(sch_appass_oneormore) ~ TV*eth + 
+                 origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass,
+               subset = harass$nontrad != 1)
+  om2 <- feols(ihs(sch_appass_oneormore) ~ TV*eth + origdist*total_students + dist2*total_students +
+                 origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                 total_students | LEAID, cluster = c("LEAID"), data=harass,
+               subset = harass$nontrad != 1)
+  om3 <- feols(ihs(sch_appass_oneormore) ~ TV*eth + origdist*total_students + dist2*total_students +
+                 origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                 total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("LEAID"), data=harass,
+               subset = harass$nontrad != 1)
+  etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_appOLSIHS_nontrad.tex",
+         order = etable_order, replace = TRUE, keep = c('TV'),
+         title = 'non traditional')  
+  
+  om1 <- feols(ihs(sch_satact) ~ TV*eth + 
+                 origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass,
+               subset = harass$CHARTER_SCH != 1)
+  om2 <- feols(ihs(sch_satact) ~ TV*eth + origdist*total_students + dist2*total_students +
+                 origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                 total_students | LEAID, cluster = c("LEAID"), data=harass,
+               subset = harass$CHARTER_SCH != 1)
+  om3 <- feols(ihs(sch_satact) ~ TV*eth + origdist*total_students + dist2*total_students +
+                 origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                 total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("LEAID"), data=harass,
+               subset = harass$CHARTER_SCH != 1)
+  etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_satactOLSIHS_noncharter.tex",
+         order = etable_order, replace = TRUE, keep = c('TV'),
+         title = 'non charter')
+  
+  om1 <- feols(ihs(sch_mathenr_calc) ~ TV*eth + 
+                 origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass,
+               subset = harass$CHARTER_SCH != 1)
+  om2 <- feols(ihs(sch_mathenr_calc) ~ TV*eth + origdist*total_students + dist2*total_students +
+                 origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                 total_students | LEAID, cluster = c("LEAID"), data=harass,
+               subset = harass$CHARTER_SCH != 1)
+  om3 <- feols(ihs(sch_mathenr_calc) ~ TV*eth + origdist*total_students + dist2*total_students +
+                 origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                 total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("LEAID"), data=harass,
+               subset = harass$CHARTER_SCH != 1)
+  etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_calcOLSIHS_noncharter.tex",
+         order = etable_order, replace = TRUE, keep = c('TV'),
+         title = 'non charter')
+  
+  om1 <- feols(ihs(sch_appass_oneormore) ~ TV*eth + 
+                 origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass,
+               subset = harass$CHARTER_SCH != 1)
+  om2 <- feols(ihs(sch_appass_oneormore) ~ TV*eth + origdist*total_students + dist2*total_students +
+                 origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                 total_students | LEAID, cluster = c("LEAID"), data=harass,
+               subset = harass$CHARTER_SCH != 1)
+  om3 <- feols(ihs(sch_appass_oneormore) ~ TV*eth + origdist*total_students + dist2*total_students +
+                 origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                 total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("LEAID"), data=harass,
+               subset = harass$CHARTER_SCH != 1)
+  etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_appOLSIHS_noncharter.tex",
+         order = etable_order, replace = TRUE, keep = c('TV'),
+         title = 'non charter')  
 }
 if (spec == 14) {
   pre1997 <-  !(harass_contour$simpleCall == 'WWSI' | harass_contour$simpleCall == 'KKJB' | harass_contour$simpleCall == 'KPNZ' | 
