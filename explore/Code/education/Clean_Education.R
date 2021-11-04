@@ -137,7 +137,11 @@ retention <- schoolMaster %>%
          'SCH_RET_G09_HI_M', 'SCH_RET_G09_HI_F', 'SCH_RET_G09_HI_M', 'TOT_RET_G09_M', 'TOT_RET_G09_F',
          'SCH_RET_G10_HI_M', 'SCH_RET_G10_HI_F', 'SCH_RET_G10_HI_M', 'TOT_RET_G10_M', 'TOT_RET_G10_F',
          'SCH_RET_G11_HI_M', 'SCH_RET_G11_HI_F', 'SCH_RET_G11_HI_M', 'TOT_RET_G11_M', 'TOT_RET_G11_F',
-         'SCH_RET_G12_HI_M', 'SCH_RET_G12_HI_F', 'SCH_RET_G12_HI_M', 'TOT_RET_G12_M', 'TOT_RET_G12_F') 
+         'SCH_RET_G12_HI_M', 'SCH_RET_G12_HI_F', 'SCH_RET_G12_HI_M', 'TOT_RET_G12_M', 'TOT_RET_G12_F',
+         'SCH_RET_G09_AS_M','SCH_RET_G09_AS_F','SCH_RET_G10_AS_M','SCH_RET_G10_AS_F', 'SCH_RET_G11_AS_M',
+         'SCH_RET_G11_AS_F', 'SCH_RET_G12_AS_M','SCH_RET_G12_AS_F', 
+         'SCH_RET_G09_WH_M','SCH_RET_G09_WH_F','SCH_RET_G10_WH_M','SCH_RET_G10_WH_F', 'SCH_RET_G11_WH_M',
+         'SCH_RET_G11_WH_F', 'SCH_RET_G12_WH_M','SCH_RET_G12_WH_F') 
 saveRDS(retention, 'SchRetention.Rdata') 
          
 

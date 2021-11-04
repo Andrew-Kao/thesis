@@ -1,0 +1,28 @@
+
+\begin{table}[!htbp] \centering 
+  \caption{Effect of Spanish language TV on Hispanic student retention} 
+  \label{t:edu_retain} 
+	\scalebox{.8}{
+		\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				&  (1) & (2) & (3)  \\
+				\addlinespace\hline\addlinespace
+				\multicolumn{3}{l}{Panel A: IHS(Hispanic students retained)} \\ %edu_satactIHS_abs
+                              	\hline\addlinespace
+				 TV dummy & -0.0251 & -0.0211 & -0.0216\\
+  &(0.0155) & (0.0152) & (0.0151)\\
+				\addlinespace\hline
+				N & 5,968 & 5,968 & 5,968 \\ 
+				\hline\hline\addlinespace
+				County controls & Yes & Yes  & Yes\\
+                                	School size controls & No & Yes & Yes\\
+                                	School type controls & No & No & Yes \\
+					\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} The table presents coefficient estimates from regressions at the school level, only keeping schools within 100 KM of a Spanish language TV contour boundary. The dependent variable is the inverse hyperbolic sine transformed count of the number of high school Hispanic students retained from the prior year. TV dummy is an indicator variable for a school with access to Spanish language television. Columns 1-3 include county level controls for log(income), log(population), and percentage of the county that is Hispanic, as well as school level controls for the number of Hispanic and Asian students enrolled. Columns 2-3 control for the number of teachers and total number of students at the school. Column 3 controls for indicators denoting whether the school contains a primary, middle, and high school division. Standard errors are clustered at the school district level. *, **, and *** denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.
+			\end{tablenotes}
+		\end{threeparttable}
+	}
+\end{table}
