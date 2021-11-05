@@ -10,20 +10,20 @@
 				& \textit{All} &  \textit{No SLTV} & \textit{SLTV} \\
 				\cline{2-4} \addlinespace
 				& (1) & (2) & (3) \\
-				\hline\addlinespace \multicolumn{4}{l}{Panel A: American Time Use Survey} \\
+				\hline\addlinespace \multicolumn{4}{l}{Panel A: American Time Use Survey (individual level)} \\
 				\hline\addlinespace
-				Hispanics & 0.251 & 0.254 & 0.248 \\ 
+				Hispanic indicator & 0.251 & 0.254 & 0.248 \\ 
 				& (0.434) & (0.432) & (0.436) \\
 				Minutes of TV watched & 170.846 & 172.140 & 169.649 \\ 
 				& (177.361) &  (177.897) & (176.858) \\
 				TV watched with children & 19.061 & 19.139  & 18.990 \\ 
 				& (63.577) &  (63.481) & (63.666) \\ 
-				TV watched with parents & 1.644 & 1.773 & 1.526 \\
-				& (14.243) & (14.721) & (13.785) \\
+%				TV watched with parents & 1.644 & 1.773 & 1.526 \\
+%				& (14.243) & (14.721) & (13.785) \\
 				Observations & 68,373 & 32,844 & 35,529\\
 				\hline\addlinespace
 				\hline\addlinespace
-				 \multicolumn{4}{l}{Panel B: Schools, Civil Rights Data Collection} \\
+				 \multicolumn{4}{l}{Panel B: Civil Rights Data Collection (school level)} \\
 				\hline\addlinespace
 				IHS(SAT/ACTs taken) & 1.719 & 1.233 & 2.006 \\
 				& (1.926) & (1.515) & (2.079) \\
@@ -35,9 +35,9 @@
 				 & (1.943) & (1.660) & (2.015) \\
 				 IHS(harassment based on ethnicity or race) & 0.032 & 0.016 & 0.041 \\
 				 & (0.229) & (0.163) & (0.257) \\
-				 Log income & 9.547 & 9.430 & 9.608 \\
+				 Log(income) & 9.547 & 9.430 & 9.608 \\
 				 & (0.303) & (0.200) & (0.328) \\
-				 Log population & 12.484 & 11.559 & 12.964 \\
+				 Log(population) & 12.484 & 11.559 & 12.964 \\
 				 & (1.576) & (1.471) & (1.405) \\
 				 Fraction county Hispanic & 0.107 & 0.037 & 0.143 \\
 				 & (0.160) & (0.079) & (0.179) \\
@@ -50,7 +50,7 @@
 				 Observations & 83,004 & 22,504 & 60,500 \\
 				\hline\addlinespace
 				\hline\addlinespace
-				\multicolumn{4}{l}{Panel C: Schools, archive.org TV transcripts } \\
+				\multicolumn{4}{l}{Panel C: archive.org TV transcripts (school level) } \\
 				\hline\addlinespace
 				\% programs on identity & - & -& 0.108 \\
 				& - & - & (0.017) \\
@@ -61,19 +61,19 @@
 				 Observations & - & - & 60,500 \\
 				\hline\addlinespace
 				 \hline\addlinespace
-				\multicolumn{4}{l}{Panel D: Establishments, Safegraph foot traffic } \\
+				\multicolumn{4}{l}{Panel D: Safegraph foot traffic (establishment level) } \\
 				\hline\addlinespace
-				Restaurants --- IHS(visitors) & 2.673 & 2.183 & 3.685 \\
-				& (2.273) & (2.291) & (3.685) \\
-				Restaurants --- Hispanic dummy & 0.116 & - & - \\
+				Restaurants --- IHS(visitors) & 2.673 & - & -  \\ % 2.183 & 3.685
+				& (2.273) & - & - \\ % (2.291) & (3.685)
+				Restaurants --- Hispanic cuisine indicator & 0.116 & - & - \\
 				& (0.321) & - & - \\
-				Observations & 203,236 & 101,806 & 101,806 \\
+				Observations & 101,806 & - & - \\
 				\hline
-				Recreation --- IHS(visitors) & 2.642 & 1.943 & 3.341 \\
-				& (2.259) & (2.106) & (2.190) \\
-				Recreation --- Hispanic dummy & 0.107 & - & - \\
+				Recreation --- IHS(visitors) & 2.642 & - & - \\ % 1.943 & 3.341
+				& (2.259) & - & - \\ % (2.106) & (2.190)
+				Recreation --- Hispanic brand indicator & 0.107 & - & - \\
 				& (0.103) & - & - \\
-				Observations & 70,096 & 35,048 & 35,048 \\
+				Observations & 35,048 & - & - \\
 				\hline\addlinespace
 				 \hline\addlinespace
 			\end{tabular}

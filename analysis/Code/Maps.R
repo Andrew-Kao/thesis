@@ -46,7 +46,11 @@ system2(command = "pdfcrop",
         args    = c("../../../analysis/Output/img/SpanishContours_pretty.pdf", 
                     "../../../analysis/Output/img/SpanishContours_pretty.pdf"))
 
+if (Sys.info()["user"] == "AndrewKao") {
+  setwd('~/Documents/College/All/thesis/explore/Data/education') 
+}
 
+educ <- readRDS('LEAReadyRaster.Rdata')
 counties <- map_data("county")
 states <- map_data("state")
 ed <- data.frame(educ)
@@ -71,7 +75,36 @@ system2(command = "pdfcrop",
         args    = c("../../../analysis/Output/img/Schools_pretty.pdf", 
                     "../../../analysis/Output/img/Schools_pretty.pdf"))
 
+
+gg_f <- ggplot(data=states, mapping=aes(x=long, y=lat,group = group)) +
+  geom_polygon(color="black", fill="gray") +
+  geom_polygon(data=counties, fill=NA, color="white") + 
+  geom_polygon(color="black", fill=NA) + 
+  geom_point(data = ed[ed$origdist < 1000,], aes(x = coords.x1, y = coords.x2, colour = "ivory", group = optional), alpha = 1) +
+  geom_polygon(data = spanishCont, aes(alpha = 0.1, colour = "cornsilk", fill = "blue")) +
+  ylim(24,50) +
+  xlim(-125,-65) +
+  theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank(),
+        axis.title.y=element_blank(), axis.text.y=element_blank(), axis.ticks.y=element_blank()) +
+  theme(legend.position = "none") +
+  scale_bar(lon = -120, lat = 26, 
+            distance_lon = 500, distance_lat = 100, distance_legend = 200, 
+            dist_unit = "km", orientation = FALSE,
+            legend_size = 5)
+plot(gg_f)
+ggsave("../../../analysis/Output/img/Schools_inside.pdf", width = 16, height = 10)
+
 ## manually add legend  
+
+if (Sys.info()["user"] == "AndrewKao") {
+  setwd('~/Documents/College/All/thesis/explore/Data/safegraph') 
+}
+
+# didn't save lat long...
+pois <- read.csv('POI/POI_cleaned.csv')
+pois <- readRDS('POI/POI_pattern.Rdata')
+
+
 
 # gotta do more classification
 spplot(busn2,"hispFoodName")
@@ -81,11 +114,7 @@ leaflet(spanishCont) %>%
   addTiles()
 # save img/SpanishContours.png
 
-if (Sys.info()["user"] == "AndrewKao") {
-  setwd('~/Documents/College/All/thesis/explore/Data/education') 
-}
 
-educ <- readRDS('LEAReadyRaster.Rdata')
 
 leaflet(educ) %>%
   addCircleMarkers(opacity = .001, radius = 1) %>%

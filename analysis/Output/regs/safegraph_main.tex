@@ -9,44 +9,44 @@
 				& \multicolumn{4}{c}{\textit{IHS(visitors to location)}}  \\  				
 				\cmidrule(lr){2-5} &  (1) & (2) & (3) & (4) \\
 				\addlinespace\hline\addlinespace
-				\multicolumn{4}{l}{Panel A.1: Restaurants --- Hispanic dummy} \\ 
+				\multicolumn{4}{l}{Panel A.1: Restaurants --- Hispanic establishment indicator} \\ 
                               	\hline\addlinespace
 				TV $\times$ Hispanic $\times$ Hispanic food&       0.872***&       0.872***&       0.872***&       0.872***\\
 		                  &     (0.062)   &     (0.062)   &     (0.062)   &     (0.062)   \\
 				\addlinespace\hline
-				\multicolumn{4}{l}{Panel A.2: Restaurants --- Japanese dummy} \\ 
+				\multicolumn{4}{l}{Panel A.2: Restaurants --- Japanese establishment indicator} \\ 
                               	\hline\addlinespace
 				TV $\times$ Hispanic $\times$ Japanese food&        0.010   &       0.010   &       0.010   &       0.010   \\
                     &     (0.067)   &     (0.067)   &     (0.067)   &     (0.067)   \\
 				\addlinespace\hline
-				\multicolumn{4}{l}{Panel A.3: Restaurants --- Brazilian dummy} \\ 
+				\multicolumn{4}{l}{Panel A.3: Restaurants --- Brazilian establishment indicator} \\ 
                               	\hline\addlinespace
 				Hispanic $\times$ TV $\times$ Brazilian food&   0.058   &       0.058   &       0.058   &       0.058   \\
                     &     (0.241)   &     (0.241)   &     (0.241)   &     (0.241)   \\
 				\addlinespace\hline
-				\multicolumn{4}{l}{Panel A.4: Restaurants --- Cajun and Creole dummy} \\ 
+				\multicolumn{4}{l}{Panel A.4: Restaurants --- Cajun and Creole establishment indicator} \\ 
                               	\hline\addlinespace
 				TV $\times$ Hispanic $\times$ Cajun and Creole food&       0.174   &       0.174   &       0.174   &       0.174   \\
                     &     (0.196)   &     (0.196)   &     (0.196)   &     (0.196)   \\
 				\addlinespace\hline
 				N & 203,236 & 203,236 & 203,236 & 203,236 \\ 
 				\hline\hline\addlinespace
-				\multicolumn{4}{l}{Panel B.1: Recreation --- Hispanic dummy} \\ 
+				\multicolumn{4}{l}{Panel B.1: Recreation --- Hispanic establishment indicator} \\ 
                               	\hline\addlinespace
 				TV $\times$ Hispanic $\times$ Hispanic brand&        0.569***&       0.569***&       0.569***&       0.569***\\
                     &     (0.137)   &     (0.137)   &     (0.137)   &     (0.137)   \\	
                     			\addlinespace\hline
-				\multicolumn{4}{l}{Panel B.2: Recreation --- Japanese dummy} \\
+				\multicolumn{4}{l}{Panel B.2: Recreation --- Japanese establishment indicator} \\
                               	\hline\addlinespace
 				TV $\times$ Hispanic $\times$ Japanese brand&        0.702   &       0.702   &       0.702   &       0.702   \\
                     &     (0.528)   &     (0.528)   &     (0.528)   &     (0.528)   \\
 				\addlinespace\hline
-				\multicolumn{4}{l}{Panel B.3: Recreation --- Brazilian dummy} \\
+				\multicolumn{4}{l}{Panel B.3: Recreation --- Brazilian establishment indicator} \\
                               	\hline\addlinespace
 					Hispanic $\times$ TV $\times$ Brazilian brand&      0.328 & 0.328 & 0.328 & 0.328 \\
 		                    &     (0.598)   &     (0.598)   &     (0.599)   &     (0.610)   \\
 				\addlinespace\hline
-				\multicolumn{4}{l}{Panel B.4: Recreation --- Cajun and Creole dummy} \\ 
+				\multicolumn{4}{l}{Panel B.4: Recreation --- Cajun and Creole establishment indicator} \\ 
                               	\hline\addlinespace
 				TV $\times$ Hispanic $\times$ Cajun and Creole brand&      -0.187 & -0.187 & -0.187 & -0.187 \\
 				& (1.630)  & (1.630)& (1.630) & (1.631) \\
@@ -61,7 +61,7 @@
 					\addlinespace\hline\hline
 			\end{tabular}
 			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} The table presents coefficient estimates from regressions at the establishment-visitor identity level, where a visitor identity is one of 4 categories (Hispanic or not $\times$ TV or not), only keeping locations within 100 KM of a Spanish language TV contour boundary. The dependent variable are inverse hyperbolic sine transformed counts of visitors to a given location from the ethnicity group. Panel A restricts the universe of locations to food service establishments, while Panel B restricts to arts, entertainment, and recreation establishments. TV dummy is an indicator variable for visitors to the location with home access to Spanish language television, which is interacted with an indicator for whether the visitor group is Hispanic (the omitted group are non-Hispanics). Panels A.1 and B.1 interact these variables with an indicator for Hispanic establishments, Panels A.2 and B.2 interact these variables with an indicator for Japanese establishments, Panels A.3 and B.3 interact these variables with an indicator for Brazilian establishments, and Panels A.4 and B.4 interact these variables with an indicator for Cajun and Creole establishments.   Columns 1-4 include controls for the mean log(income) of the county. Columns 2-4 control for the percentage of the county that is Hispanic. Columns 3-4 control for the county's log(population). Column 4 adds fixed effects for the county and NAICS code. Standard errors are clustered at the county level. *, **, and *** denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.
+				\item \textit{Notes:} The table presents coefficient estimates from regressions at the establishment-visitor identity level, where a visitor identity is one of 4 categories (Hispanic or not $\times$ TV or not), only keeping locations within 100 KM of a Spanish language TV contour boundary. The dependent variable are inverse hyperbolic sine transformed counts of visitors to a given location from the identity group. Panel A restricts the universe of locations to food service establishments, while Panel B restricts to arts, entertainment, and recreation establishments. TV dummy is an indicator variable for visitors to the location with home access to Spanish language television, which is interacted with an indicator for whether the visitor group is Hispanic (the omitted group is non-Hispanics). Panels A.1 and B.1 interact these variables with an indicator for Hispanic establishments, Panels A.2 and B.2 interact these variables with an indicator for Japanese establishments, Panels A.3 and B.3 interact these variables with an indicator for Brazilian establishments, and Panels A.4 and B.4 interact these variables with an indicator for Cajun and Creole establishments.   Columns 1-4 include controls for the mean log(income) of the county. Columns 2-4 control for the percentage of the county that is Hispanic. Columns 3-4 control for the county's log(population). Column 4 adds county and NAICS code fixed effects. Standard errors are clustered at the county level. *, **, and *** denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.
 			\end{tablenotes}
 		\end{threeparttable}
 	}
