@@ -3,57 +3,56 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Draft 2021-10-16.aux
 The style file: aea.bst
 Database file #1: tv.bib
-I was expecting a `,' or a `}'---line 1521 of file tv.bib
+I was expecting a `,' or a `}'---line 1565 of file tv.bib
  :  author = {FCC}    
  :                    %, Federal Communications Commission
 I'm skipping whatever remains of this entry
 Warning--empty author in noauthor_american_2020
 Warning--empty author in noauthor_ap_2015
 Warning--empty author in noauthor_ap_2020
-Warning--empty author in noauthor_elementary_2004
 Warning--empty author in noauthor_high_2015
 Warning--empty author in noauthor_master_2016
 Warning--empty publisher in scherr_bullying_2009
 Warning--empty institution in tienda_hispanicity_2009
-You've used 60 entries,
+You've used 63 entries,
             2695 wiz_defined-function locations,
-            944 strings with 15285 characters,
-and the built_in function-call counts, 330122 in all, are:
-= -- 55244
-> -- 3504
+            967 strings with 15835 characters,
+and the built_in function-call counts, 354650 in all, are:
+= -- 59357
+> -- 3790
 < -- 1
-+ -- 26532
-- -- 1096
-* -- 29605
-:= -- 64395
-add.period$ -- 409
-call.type$ -- 60
-change.case$ -- 750
-chr.to.int$ -- 58
-cite$ -- 68
-duplicate$ -- 849
-empty$ -- 2458
-format.name$ -- 1123
-if$ -- 59546
++ -- 28557
+- -- 1186
+* -- 31817
+:= -- 69172
+add.period$ -- 432
+call.type$ -- 63
+change.case$ -- 794
+chr.to.int$ -- 61
+cite$ -- 70
+duplicate$ -- 900
+empty$ -- 2580
+format.name$ -- 1213
+if$ -- 63931
 int.to.chr$ -- 7
 int.to.str$ -- 0
 missing$ -- 0
-newline$ -- 187
-num.names$ -- 594
-pop$ -- 57
+newline$ -- 196
+num.names$ -- 638
+pop$ -- 60
 preamble$ -- 1
-purify$ -- 870
+purify$ -- 920
 quote$ -- 0
-skip$ -- 752
+skip$ -- 790
 stack$ -- 0
-substring$ -- 78904
-swap$ -- 351
-text.length$ -- 781
+substring$ -- 84865
+swap$ -- 372
+text.length$ -- 833
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 234
-warning$ -- 8
-while$ -- 1374
+type$ -- 246
+warning$ -- 7
+while$ -- 1472
 width$ -- 0
-write$ -- 304
+write$ -- 319
 (There was 1 error message)
