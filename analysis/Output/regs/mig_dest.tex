@@ -1,70 +1,38 @@
 \begin{table}[!h]
 	\centering
 	\captionsetup{skip=1.5pt}
-	\caption{Influence of Spanish Language Television on Migration Between Counties - Destination Sample} \label{t:mig_dest}
-	\scalebox{.7}{
+	\caption{Effect of Spanish Language TV on Hispanic migration between counties --- destination sample} \label{t:mig_dest}
+	\scalebox{.8}{
 		\begin{threeparttable}
 			\begin{tabular}{lcccccccccc}
 				\hline\hline\addlinespace
 				& \multicolumn{3}{c}{IHS(\# Hispanic Migrants)} \\
 				\cline{2-4} 
-				Panel A: Destination County Inside Contour&  (1) & (2) & (3) \\
+				&  (1) & (2) & (3) \\
                                 \hline\addlinespace
- Dummy: Origin Outside TV Contour & $-$0.410$^{***}$ & $-$0.356$^{***}$ & $-$0.349$^{***}$ \\ 
-  & (0.088) & (0.082) & (0.081) \\ 
- TV Dummy $\times$ Distance to Destination & $-$0.007$^{***}$ & $-$0.008$^{***}$ & $-$0.008$^{***}$ \\ 
-  & (0.003) & (0.003) & (0.003) \\ 
- TV Dummy $\times$ Distance to Origin & $-$0.002 & $-$0.004$^{**}$ & $-$0.004$^{*}$ \\ 
-  & (0.002) & (0.002) & (0.002) \\ 
- Distance from Contor to Destination (KM) & 0.002 & 0.004$^{**}$ & 0.004$^{**}$ \\ 
-  & (0.002) & (0.002) & (0.002) \\ 
- Distance from Contour to Origin (KM) & 0.001 & 0.004 & 0.003 \\ 
-  & (0.002) & (0.002) & (0.002) \\ 
- Destination Log(Population) & 0.179$^{***}$ & 0.181$^{***}$ & 0.175$^{***}$ \\ 
-  & (0.019) & (0.016) & (0.019) \\ 
- Origin Log(Population) & 0.115$^{***}$ & 0.117$^{***}$ & 0.102$^{***}$ \\ 
-  & (0.018) & (0.017) & (0.020) \\ 
- Destination \% Hispanic &  & 1.384$^{***}$ & 1.428$^{***}$ \\ 
-  &  & (0.183) & (0.205) \\ 
- Origin \% Hispanic &  & 0.813$^{***}$ & 0.949$^{***}$ \\ 
-  &  & (0.182) & (0.203) \\ 
- Destination Log(Income) &  &  & 0.041 \\ 
-  &  &  & (0.099) \\ 
- Origin Log(Income) &  &  & 0.138 \\ 
-  &  &  & (0.109) \\ 
-Observations & 4,338 & 4,338 & 4,338 \\ 
+				\multicolumn{4}{l}{Panel A: Destination county inside contour} \\
+                                \hline\addlinespace
+Origin outside TV contour &  -0.2305 & -0.2430 & -0.2408\\
+  &(0.1920) & (0.1870) & (0.1882)\\
+  \addlinespace\hline\addlinespace
+Observations & 4,062&4,062&4,062 \\
 \hline\addlinespace
-Panel B: Origin County Outside Contour & & & \\ 
+\multicolumn{4}{l}{Panel B: Destination county outside contour} \\ 
 \hline\addlinespace
- Dummy: Origin Inside TV Contour & $-$0.140 & $-$0.194 & $-$0.193 \\ 
-  & (0.152) & (0.144) & (0.144) \\ 
- TV Dummy $\times$ Distance to Destination & $-$0.004$^{*}$ & $-$0.007$^{***}$ & $-$0.007$^{***}$ \\ 
-  & (0.002) & (0.002) & (0.002) \\ 
- TV Dummy $\times$ Distance to Origin & $-$0.007$^{**}$ & $-$0.004 & $-$0.004 \\ 
-  & (0.003) & (0.003) & (0.003) \\ 
- Distance from Contor to Destination (KM) & $-$0.0003 & 0.002 & 0.002 \\ 
-  & (0.002) & (0.001) & (0.001) \\ 
- Distance from Contour to Origin (KM) & $-$0.001$^{***}$ & $-$0.002$^{***}$ & $-$0.002$^{***}$ \\ 
-  & (0.0004) & (0.0004) & (0.0004) \\ 
- Destination Log(Population) & 0.253$^{***}$ & 0.169$^{***}$ & 0.153$^{***}$ \\ 
-  & (0.041) & (0.023) & (0.030) \\ 
- Origin Log(Population) & 0.182$^{***}$ & 0.181$^{***}$ & 0.181$^{***}$ \\ 
-  & (0.035) & (0.030) & (0.034) \\ 
- Destination \% Hispanic &  & 2.324$^{***}$ & 2.471$^{***}$ \\ 
-  &  & (0.389) & (0.411) \\ 
- Origin \% Hispanic &  & 1.276$^{**}$ & 1.253$^{**}$ \\ 
-  &  & (0.602) & (0.584) \\ 
- Destination Log(Income) &  &  & 0.181 \\ 
-  &  &  & (0.196) \\ 
- Origin Log(Income) &  &  & $-$0.015 \\ 
-  &  &  & (0.192) \\ 
+Origin inside TV contour & -0.3761 & -0.3486 & -0.3466\\
+  &(0.2790) & (0.2900) & (0.2923)\\
+ \addlinespace \hline\addlinespace
 Observations & 1,659 & 1,659 & 1,659 \\        
 \hline\addlinespace
                                 Destination F.E. & Yes & Yes  & Yes\\
+                                Distance, distance $^2$ & Yes & Yes & Yes \\
+                                Origin log(pop.) & Yes & Yes & Yes \\
+                                Origin \% Hispanic & No & Yes & Yes \\
+                                Origin log(income) & No & No & Yes \\
 				\addlinespace\hline\hline
 			\end{tabular}
 			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} The table presents coefficient estimates from regressions at the county-county level, only keeping destination counties within 100 KM of a contour boundary. The dependent variables are inverse hyperbolic sine transformed counts of Hispanic migrants from the origin county to the destination county. The key dependent variable of interest is the TV Dummy, which tracks whether the destination county is inside or outside the TV contour. This is interacted with the distance to the boundary for both the origin and destination county. County controls include log income, log population, and percentage county Hispanic for both origin and destination county. All regressions also contain destination county fixed effects. Standard errors are given in parentheses. *, **, and *** denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.
+				\item \textit{Notes:} The table presents coefficient estimates from regressions at the origin county-destination county level, only keeping destination counties within 100 KM of a contour boundary. The dependent variables are inverse hyperbolic sine transformed counts of Hispanic migrants from the origin county to the destination county. The key dependent variable of interest is an indicator for whether the origin county has access to SLTV. This is interacted with the distance and distance-squared to the boundary for both the origin and destination county. Columns 1-3 include individual demographic controls for sex, age, and age squared, as well as the mean log(income) of the county. Columns 2-3 control for the percentage of the county that is Hispanic. Column 3 controls for the county's log(population). All regressions also contain destination county fixed effects. Standard errors are two-way clustered by origin and destination county. *, **, and *** denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.
 			\end{tablenotes}
 		\end{threeparttable}
 	}

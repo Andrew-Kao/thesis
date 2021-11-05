@@ -2046,6 +2046,8 @@ om3 <- feols(ihs(sch_ideaenr) ~ TV*eth +
 etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_ideaOLSIHS_spec4.tex",
        order = etable_order, replace = TRUE, keep = c('TV'))
 
+# even works at 1 km!
+
 ######## absolute, robust #########
 
 leaContour <- readRDS('LEAContour.RData')
