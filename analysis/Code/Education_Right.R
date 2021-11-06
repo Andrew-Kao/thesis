@@ -2072,8 +2072,9 @@ harass_contour <- harass %>%
 # 15: alternative fn form
 # 16: se robust
 # 17: selection, retention
+# 18: dist < 25
 
-spec <- 1
+spec <- 18
 
 if (spec == 1) {
   om1 <- lm(ihs(sch_satact) ~ TV + 
@@ -3049,6 +3050,52 @@ if (spec == 17) {
   etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_ret10OLSIHS.tex",
          order = etable_order, replace = TRUE, keep = c('TV'),
          title = "retention 10")
+}
+if (spec == 18) {
+  om1 <- feols(ihs(sch_satact) ~ TV*eth + 
+                 origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass,
+               subset = harass$origdist < 10)
+  om2 <- feols(ihs(sch_satact) ~ TV*eth +
+                 origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                 total_students | LEAID, cluster = c("LEAID"), data=harass,
+               subset = harass$origdist < 10)
+  om3 <- feols(ihs(sch_satact) ~ TV*eth +
+                 origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                 total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("LEAID"), data=harass,
+               subset = harass$origdist < 10)
+  etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_satactOLSIHS_dist10.tex",
+         order = etable_order, replace = TRUE, keep = c('TV'),
+         title = 'Distance less than 10')
+  
+  om1 <- feols(ihs(sch_mathenr_calc) ~ TV*eth + 
+                 origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass,
+               subset = harass$origdist < 10)
+  om2 <- feols(ihs(sch_mathenr_calc) ~ TV*eth +
+                 origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                 total_students | LEAID, cluster = c("LEAID"), data=harass,
+               subset = harass$origdist < 10)
+  om3 <- feols(ihs(sch_mathenr_calc) ~ TV*eth +
+                 origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                 total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("LEAID"), data=harass,
+               subset = harass$origdist < 10)
+  etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_calcOLSIHS_dist10.tex",
+         order = etable_order, replace = TRUE, keep = c('TV'),
+         title = 'Distance less than 10')
+  
+  om1 <- feols(ihs(sch_appass_oneormore) ~ TV*eth + 
+                 origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass,
+               subset = harass$origdist < 10)
+  om2 <- feols(ihs(sch_appass_oneormore) ~ TV*eth +
+                 origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                 total_students | LEAID, cluster = c("LEAID"), data=harass,
+               subset = harass$origdist < 10)
+  om3 <- feols(ihs(sch_appass_oneormore) ~ TV*eth +
+                 origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                 total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("LEAID"), data=harass,
+               subset = harass$origdist < 10)
+  etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_appOLSIHS_dist10.tex",
+         order = etable_order, replace = TRUE, keep = c('TV'),
+         title = 'Distance less than 10')  
 }
 
 

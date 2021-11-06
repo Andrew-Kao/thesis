@@ -3,7 +3,7 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Draft 2021-10-16.aux
 The style file: aea.bst
 Database file #1: tv.bib
-I was expecting a `,' or a `}'---line 1565 of file tv.bib
+I was expecting a `,' or a `}'---line 1578 of file tv.bib
  :  author = {FCC}    
  :                    %, Federal Communications Commission
 I'm skipping whatever remains of this entry
@@ -14,45 +14,45 @@ Warning--empty author in noauthor_high_2015
 Warning--empty author in noauthor_master_2016
 Warning--empty publisher in scherr_bullying_2009
 Warning--empty institution in tienda_hispanicity_2009
-You've used 63 entries,
+You've used 64 entries,
             2695 wiz_defined-function locations,
-            967 strings with 15835 characters,
-and the built_in function-call counts, 354650 in all, are:
-= -- 59357
-> -- 3790
+            973 strings with 16032 characters,
+and the built_in function-call counts, 360814 in all, are:
+= -- 60393
+> -- 3854
 < -- 1
-+ -- 28557
-- -- 1186
-* -- 31817
-:= -- 69172
-add.period$ -- 432
-call.type$ -- 63
-change.case$ -- 794
-chr.to.int$ -- 61
-cite$ -- 70
-duplicate$ -- 900
-empty$ -- 2580
-format.name$ -- 1213
-if$ -- 63931
++ -- 29055
+- -- 1206
+* -- 32371
+:= -- 70371
+add.period$ -- 439
+call.type$ -- 64
+change.case$ -- 807
+chr.to.int$ -- 62
+cite$ -- 71
+duplicate$ -- 915
+empty$ -- 2622
+format.name$ -- 1233
+if$ -- 65041
 int.to.chr$ -- 7
 int.to.str$ -- 0
 missing$ -- 0
-newline$ -- 196
-num.names$ -- 638
-pop$ -- 60
+newline$ -- 199
+num.names$ -- 649
+pop$ -- 61
 preamble$ -- 1
-purify$ -- 920
+purify$ -- 935
 quote$ -- 0
-skip$ -- 790
+skip$ -- 802
 stack$ -- 0
-substring$ -- 84865
-swap$ -- 372
-text.length$ -- 833
+substring$ -- 86351
+swap$ -- 378
+text.length$ -- 847
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 246
+type$ -- 250
 warning$ -- 7
-while$ -- 1472
+while$ -- 1498
 width$ -- 0
-write$ -- 319
+write$ -- 324
 (There was 1 error message)
