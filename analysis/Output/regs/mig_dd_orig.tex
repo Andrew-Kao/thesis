@@ -1,0 +1,39 @@
+\begin{table}[!h]
+	\centering
+	\captionsetup{skip=1.5pt}
+	\caption{Effect of Spanish Language TV on Hispanic vs. non-Hispanic migration between counties --- origin sample} \label{t:mig_dd_orig}
+	\scalebox{.8}{
+		\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				& \multicolumn{3}{c}{IHS(\# Migrants)} \\
+				\cline{2-4} 
+				&  (1) & (2) & (3) \\
+                                \hline\addlinespace
+				\multicolumn{4}{l}{Panel A: Origin county inside contour} \\
+                                \hline\addlinespace
+Destination outside TV contour $\times$ Hispanic &  -0.1225$^{**}$ & -0.1205$^{**}$ & -0.1210$^{**}$\\
+  &(0.0541) & (0.0536) & (0.0537)\\ 
+   \addlinespace\hline\addlinespace
+Observations & 36,060&36,060&36,060 \\
+\hline\addlinespace
+\multicolumn{4}{l}{Panel B: Origin county outside contour} \\ 
+\hline\addlinespace
+Destination inside TV contour $\times$ Hispanic &  -0.1679$^{**}$ & -0.1679$^{**}$ & -0.1682$^{**}$\\
+  &(0.0828) & (0.0828) & (0.0828)\\
+   \addlinespace \hline\addlinespace
+Observations & 20,692 & 20,692 & 20,692 \\        
+\hline\addlinespace
+                                Origin F.E. & Yes & Yes  & Yes\\
+                                Distance, distance $^2$ & Yes & Yes & Yes \\
+                                Distance log(pop.) & Yes & Yes & Yes \\
+                                Distance \% Hispanic & No & Yes & Yes \\
+                                Distance log(income) & No & No & Yes \\
+				\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} The table presents coefficient estimates from regressions at the origin county-destination county-ethnicity level, only keeping origin counties within 100 KM of a contour boundary. The dependent variables are inverse hyperbolic sine transformed counts of migrants from the origin county to the destination county. The key dependent variable of interest is an indicator for whether the destination county has access to SLTV interacted with a Hispanic indicator (the omitted group is non-Hispanic). This is interacted with the distance and distance-squared to the boundary for both the origin and destination county. Columns 1-3 include individual demographic controls for sex, age, and age squared, as well as the mean log(income) of the county. Columns 2-3 control for the percentage of the county that is Hispanic. Column 3 controls for the county's log(population). All regressions also contain origin county fixed effects. Standard errors are two-way clustered by origin and destination county. *, **, and *** denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.
+			\end{tablenotes}
+		\end{threeparttable}
+	}
+\end{table}

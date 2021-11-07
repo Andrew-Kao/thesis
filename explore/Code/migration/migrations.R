@@ -8,6 +8,8 @@ library(tidyverse)
 library(estimatr)
 library(lfe)
 library(stargazer)
+library(feols)
+library(fixest)
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/migration') 
@@ -147,7 +149,20 @@ distDummy <- migrations %>%
          origLogInc = log(origincome), destLogInc = log(destincome),
          origdist = origdist/1000, destdist = destdist/1000) %>%
   filter(ethnicity == 3) %>%
-  mutate(odist2 = origdist^2, ddist2 = destdist^2)
+  mutate(odist2 = origdist^2, ddist2 = destdist^2,
+         eth = 1) 
+distDummyNH <- migrations %>%
+  filter(origintersects == 0 & origdist < 100000) %>%
+  mutate(orig = 1000*as.numeric(origState) + as.numeric(origCty)) %>% # unique per orig
+  mutate(origLogPop = log(origpopulation), destLogPop = log(destpopulation),
+         origLogInc = log(origincome), destLogInc = log(destincome),
+         origdist = origdist/1000, destdist = destdist/1000) %>%
+  filter(ethnicity != 3) %>%
+  mutate(odist2 = origdist^2, ddist2 = destdist^2, 
+         eth = 0)
+
+migInside <- distDummy %>%
+  rbind(distDummyNH)
   
 m1 <- felm(ihs(mig) ~ destintersects*origdist + destintersects*destdist  + origLogPop + destLogPop|0|0|orig, data=distDummy)
 m2 <- felm(ihs(mig) ~ destintersects*origdist + destintersects*destdist + origLogPop + destLogPop+ origpcHisp + destpcHisp|0|0|orig, data=distDummy)
@@ -178,6 +193,19 @@ stargazer(m1,m2,m3, out = "../../Output/Regs/migrev_outsideDistDummy.tex", title
           dep.var.labels = '\\# Hispanic Migrants',
           omit = 'Constant')
 
+m1 <- feols(ihs(mig) ~ destintersects*eth*origdist*odist2 + destintersects*destdist*ddist2  + origLogPop + destLogPop| orig, cluster = c("orig","destID") , data=migInside)
+m2 <- feols(ihs(mig) ~ destintersects*eth*origdist*odist2 + destintersects*destdist*ddist2 + origLogPop + destLogPop+ origpcHisp + destpcHisp| orig, cluster = c("orig","destID"), data=migInside)
+m3 <- feols(ihs(mig) ~ destintersects*eth*origdist*odist2 + destintersects*destdist*ddist2 + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc | orig, cluster = c("orig","destID"), data=migInside)
+etable(m1,m2,m3, tex = TRUE, file = "../../Output/Regs/mig_odd_cl.tex",
+       order = etable_order, replace = TRUE, keep = c('destintersects'))
+
+m1 <- feols(ihs(revMig) ~ destintersects*eth*origdist*odist2 + destintersects*destdist*ddist2  + origLogPop + destLogPop| orig, cluster = c("orig","destID") , data=migInside)
+m2 <- feols(ihs(revMig) ~ destintersects*eth*origdist*odist2 + destintersects*destdist*ddist2 + origLogPop + destLogPop+ origpcHisp + destpcHisp| orig, cluster = c("orig","destID"), data=migInside)
+m3 <- feols(ihs(revMig) ~ destintersects*eth*origdist*odist2 + destintersects*destdist*ddist2 + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc | orig, cluster = c("orig","destID"), data=migInside)
+etable(m1,m2,m3, tex = TRUE, file = "../../Output/Regs/migrev_odd_cl.tex",
+       order = etable_order, replace = TRUE, keep = c('destintersects'))
+
+
 m1 <- feols(ihs(mig) ~ destintersects*origdist*odist2 + destintersects*destdist*ddist2  + origLogPop + destLogPop| orig, cluster = c("orig","destID") , data=distDummy)
 m2 <- feols(ihs(mig) ~ destintersects*origdist*odist2 + destintersects*destdist*ddist2 + origLogPop + destLogPop+ origpcHisp + destpcHisp| orig, cluster = c("orig","destID"), data=distDummy)
 m3 <- feols(ihs(mig) ~ destintersects*origdist*odist2 + destintersects*destdist*ddist2 + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc | orig, cluster = c("orig","destID"), data=distDummy)
@@ -199,9 +227,25 @@ distDummyIO <- migrations %>%
   mutate(origLogPop = log(origpopulation), destLogPop = log(destpopulation),
          origLogInc = log(origincome), destLogInc = log(destincome),
          origdist = origdist/1000, destdist = destdist/1000,
+         destdist = ifelse(is.na(destdist),0,destdist),
          destintersects = 1 - destintersects) %>%
   filter(ethnicity == 3) %>%
-  mutate(odist2 = origdist^2, ddist2 = destdist^2)
+  mutate(odist2 = origdist^2, ddist2 = destdist^2) %>%
+  mutate(eth = 1)
+distDummyIONH <- migrations %>%
+  filter(origintersects == 1 & origdist < 100000) %>%
+  mutate(orig = 1000*as.numeric(origState) + as.numeric(origCty)) %>% # unique per orig
+  mutate(origLogPop = log(origpopulation), destLogPop = log(destpopulation),
+         origLogInc = log(origincome), destLogInc = log(destincome),
+         origdist = origdist/1000, destdist = destdist/1000,
+         destdist = ifelse(is.na(destdist),0,destdist),
+         destintersects = 1 - destintersects) %>%
+  filter(ethnicity != 3) %>%
+  mutate(odist2 = origdist^2, ddist2 = destdist^2) %>%
+  mutate(eth = 0)
+migInsideIO <- distDummyIO %>%
+  rbind(distDummyIONH)
+
 
 m1 <- felm(ihs(mig) ~ destintersects*origdist + destintersects*destdist + origLogPop + destLogPop|0|0|orig, data=distDummyIO)
 m2 <- felm(ihs(mig) ~ destintersects*origdist + destintersects*destdist + origLogPop + destLogPop+ origpcHisp + destpcHisp |0|0|orig, data=distDummyIO)
@@ -232,6 +276,20 @@ stargazer(m1,m2,m3, out = "../../Output/Regs/migrev_distdummyIO.tex", title="Eff
                                'Destination Log(Income)', 'Origin Log(Income)'),
           dep.var.labels = '\\# Hispanic Migrants',
           omit = 'Constant')
+
+
+m1 <- feols(ihs(mig) ~ destintersects*eth*origdist*odist2 + destintersects*destdist*ddist2  + origLogPop + destLogPop| orig, cluster = c("orig","destID") , data=migInsideIO)
+m2 <- feols(ihs(mig) ~ destintersects*eth*origdist*odist2 + destintersects*destdist*ddist2 + origLogPop + destLogPop+ origpcHisp + destpcHisp| orig, cluster = c("orig","destID"), data=migInsideIO)
+m3 <- feols(ihs(mig) ~ destintersects*eth*origdist*odist2 + destintersects*destdist*ddist2 + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc | orig, cluster = c("orig","destID"), data=migInsideIO)
+etable(m1,m2,m3, tex = TRUE, file = "../../Output/Regs/mig_ddd_cl.tex",
+       order = etable_order, replace = TRUE, keep = c('destintersects'))
+
+m1 <- feols(ihs(revMig) ~ destintersects*eth*origdist*odist2 + destintersects*destdist*ddist2  + origLogPop + destLogPop| orig, cluster = c("orig","destID") , data=migInsideIO)
+m2 <- feols(ihs(revMig) ~ destintersects*eth*origdist*odist2 + destintersects*destdist*ddist2 + origLogPop + destLogPop+ origpcHisp + destpcHisp| orig, cluster = c("orig","destID"), data=migInsideIO)
+m3 <- feols(ihs(revMig) ~ destintersects*eth*origdist*odist2 + destintersects*destdist*ddist2 + origLogPop + destLogPop+ origpcHisp + destpcHisp+ origLogInc + destLogInc | orig, cluster = c("orig","destID"), data=migInsideIO)
+etable(m1,m2,m3, tex = TRUE, file = "../../Output/Regs/migrev_ddd_cl.tex",
+       order = etable_order, replace = TRUE, keep = c('destintersects'))
+
 
 m1 <- feols(ihs(mig) ~ destintersects*origdist*odist2 + destintersects*destdist*ddist2  + origLogPop + destLogPop| orig, cluster = c("orig","destID") , data=distDummyIO)
 m2 <- feols(ihs(mig) ~ destintersects*origdist*odist2 + destintersects*destdist*ddist2 + origLogPop + destLogPop+ origpcHisp + destpcHisp| orig, cluster = c("orig","destID"), data=distDummyIO)
