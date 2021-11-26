@@ -1,6 +1,13 @@
 ###### Safegraph data ####
 # run after R files clean_POIs.R and clean_census_geo.R
 
+# references
+# https://resources.safegraph.com/c/safegraphs-data-on-brick-and-mortar-customer-demographics?x=v8-RYh&lx=UFM2aY&contentType=Webinar
+# https://www.safegraph.com/blog/customer-demographic-profiles-with-rigorous-statistics-using-safegraph-patterns-data
+# https://colab.research.google.com/drive/1qqLRxehVZr1OBpnbHRRyXPWo1Q98dnxA#scrollTo=IGGY107KaBuO
+# https://colab.research.google.com/drive/1TmXw1J3cMG39h1PpUJkC1JmUihckjqx0?usp=sharing#scrollTo=i0pCsmNMCD2S
+
+
 
 import pandas as pd
 import pdb
@@ -75,7 +82,7 @@ def get_poi_hispanic_inout(pois, cbgs):
 # 51 - information
 # 52 - finance and insurance
 # outcomes
-# 61 - educational services
+# 61 - educational services 
 # 71 - arts, entertainment, and recreation
 # 72 - accomodation and food services
 
