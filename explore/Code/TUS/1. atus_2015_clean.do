@@ -8,6 +8,7 @@ if regexm(c(hostname), "ak") == 1 | c(username) == "AndrewKao"  {
 * 1: 2015
 * 2: all years
 * 3: individual, all years
+* 4: time spent with SOs
 
 local spec = 2
 
@@ -155,6 +156,23 @@ tempfile edu
 save `edu'
 restore
 
+
+* all activities
+preserve
+gen a1 = floor(activity/10000)
+keep if rectype == 3
+
+gen sleep = duration if a1 == 1
+gen hhactivity = duration if a1 == 2 | a1 == 3 | a1 == 4
+gen work_edu = duration if a1 == 5 | a1 == 6
+gen other = duration if (a1 >= 7 & a1 <= 11) | a1 >= 14
+gen leisure = duration if (a1 == 12 & activity != 120303) | a1 == 13
+collapse (sum) sleep hhactivity work_edu other leisure, by(caseid)
+
+tempfile activities
+save `activities'
+restore
+
 * household data
 keep if rectype == 1
 keep caseid county
@@ -163,6 +181,7 @@ merge 1:m caseid using `tv', keep(1 3) nogen
 merge 1:m caseid using `nonedu', keep(1 3) nogen
 merge 1:m caseid using `edu', keep(1 3) nogen
 merge m:1 caseid using `indiv', keep(1 3) nogen
+merge m:1 caseid using `activities', keep(1 3) nogen
 
 replace duration_ext = 0 if missing(duration_ext)
 replace duration = 0 if missing(duration)
@@ -177,6 +196,11 @@ replace nonedu_child = 0 if missing(nonedu_child)
 replace edu = 0 if missing(edu)
 replace edu_child = 0 if missing(edu_child)
 
+replace sleep = 0 if missing(sleep)
+replace hhactivity = 0 if missing(hhactivity)
+replace work_edu = 0 if missing(work_edu)
+replace other = 0 if missing(other)
+replace leisure = 0 if missing(leisure)
 
 export delim "atus_indiv_tv_all.csv", replace
 	
@@ -255,3 +279,91 @@ export delim "atus_indiv_tv_ind.csv", replace
 }
 
 * we can get more data from more years if need more power
+
+else if `spec' == 4 {
+cd "${wkdir}"
+set more off
+
+
+use "atus_hierarchy_all.dta", clear
+
+// keep if year <= 2015
+
+* indiv data
+preserve
+
+keep if rectype == 2
+keep caseid pernum wt06 age sex race hispan yrimmig citizen bpl
+
+collapse (count) cases=pernum (mean) wt06 (lastnm) pernum age sex race hispan yrimmig citizen bpl ,by(caseid)
+
+label values sex sex_lbl
+label values race race_lbl
+label values hispan hispan_lbl
+label values yrimmig yrimmig_lbl
+label values citizen citizen_lbl
+label values bpl bpl_lbl
+tempfile indiv
+save `indiv'
+
+restore
+
+* activity data
+* TV
+preserve
+gen talk2 = floor(activity/10000)
+// keep if talk2 == 16 | (rectype==4 & talk2[_n - 1] == 16)
+keep if activity == 160102 | (rectype==4 & activity[_n - 1] == 160102)
+replace relatewu = relatewu[_n + 1]
+
+keep if rectype == 3
+decode relatewu, gen(rw)
+drop relatewu
+ren rw relatewu
+block
+gen alone = (relatewu == "Alone") 
+gen family = (relatewu == "Spouse" | relatewu == " Unmarried partner" | relatewu == "Own household child" | relatewu == "Grandchild" | regexm(relatewu,"Parent") | relatewu == "Brother sister" | relatewu == "Other related person" | relatewu == "Foster child" | regexm(relatewu, "family"))  
+gen social = (relatewu != "Alone" & relatewu != "Refused" & relatewu != "Don't know" & relatewu != "Blank")   
+gen parent = (regexm(relatewu,"Parent"))
+gen child = (relatewu == "Own household child" | relatewu == "Grandchild" | relatewu == "Foster child" | regexm(relatewu, "under"))
+
+gen duration_alone = duration * alone
+gen duration_family = duration * family
+gen duration_social = duration * social
+gen duration_parent = duration * parent
+gen duration_child = duration * child
+
+* median 90 min, mean 114
+
+collapse (sum) duration_ext duration duration_alone duration_family duration_social duration_parent duration_child, by(caseid)
+
+tempfile tv
+save `tv'
+restore
+
+
+* household data
+keep if rectype == 1
+keep caseid county
+
+merge 1:m caseid using `tv', keep(1 3) nogen
+merge m:1 caseid using `indiv', keep(1 3) nogen
+
+replace duration_ext = 0 if missing(duration_ext)
+
+blcok
+replace duration = 0 if missing(duration)
+replace duration_alone = 0 if missing(duration_alone)
+replace duration_family = 0 if missing(duration_family)
+replace duration_social = 0 if missing(duration_social)
+replace duration_parent = 0 if missing(duration_parent)
+replace duration_parent = duration_parent/cases
+
+replace nonedu = 0 if missing(nonedu)
+replace nonedu_child = 0 if missing(nonedu_child)
+replace edu = 0 if missing(edu)
+replace edu_child = 0 if missing(edu_child)
+
+
+	
+}

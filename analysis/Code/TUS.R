@@ -14,6 +14,7 @@ library(texreg)
 library(tidyverse)
 library(sandwich)
 library(lmtest)
+library(plyr)
 
 
 
@@ -465,3 +466,33 @@ makeRobust4 <- function(m1,m2,m3,m4) {
   om4r <- sqrt(diag(vcovHC(m4, type="HC1")))
   return(list(om1r,om2r,om3r,om4r))
 }
+
+############## descriptive time ############
+indiv_times <- atusCounty %>%
+  select(caseid, TV, hispanic_d, time.ztv=duration_ext, time.sleep = sleep, time.household = hhactivity,
+         time.workedu = work_edu, time.leisure = leisure, time.other = other) %>%
+  pivot_longer(starts_with("time"),names_to = "activity", values_to = "duration") %>%
+  mutate(group = ifelse(TV == 0 & hispanic_d == 0, 1, 0),
+         group = ifelse(TV == 0 & hispanic_d == 1, 2, group),
+         group = ifelse(TV == 1 & hispanic_d == 0, 3, group),
+         group = ifelse(TV == 1 & hispanic_d == 1, 4, group),
+         d2 = ifelse(TV == 0, duration/12036002*24, duration/12678818*24))
+
+ggplot(data=indiv_times[indiv_times$hispanic_d == 1,], aes(x=TV, y=d2, fill=factor(activity,labels =
+                              c("household work","leisure","other","sleep/self care","work & education","TV")))) +
+  geom_bar(stat="identity") +
+  labs(y = "Duration (hours)", fill = "Activity") +
+  scale_x_continuous(breaks = seq(0,1,1)) +
+  scale_y_continuous(breaks = seq(0,24,2))
+ggsave("../../../analysis/Output/graphs/time_breakdown.pdf")
+
+ggplot(data=indiv_times[indiv_times$hispanic_d == 1 & indiv_times$activity == "time.ztv",], aes(x=TV, y=d2, fill=activity)) +
+  geom_bar(stat="identity") +
+  labs(y = "Duration") +
+  scale_x_continuous(breaks = seq(0,1,1)) +
+  scale_y_continuous(breaks = seq(0,100,10))
+
+
+summary(atusCounty$sleep)
+summary(atusCounty$sleep[atusCounty$TV == 1])
+
