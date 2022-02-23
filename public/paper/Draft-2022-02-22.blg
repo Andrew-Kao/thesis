@@ -1,0 +1,58 @@
+This is BibTeX, Version 0.99d (TeX Live 2021)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: Draft-2022-02-22.aux
+The style file: aea.bst
+Database file #1: tv.bib
+I was expecting a `,' or a `}'---line 1578 of file tv.bib
+ :  author = {FCC}    
+ :                    %, Federal Communications Commission
+I'm skipping whatever remains of this entry
+Warning--empty author in noauthor_american_2020
+Warning--empty author in noauthor_ap_2015
+Warning--empty author in noauthor_ap_2020
+Warning--empty author in noauthor_high_2015
+Warning--empty author in noauthor_master_2016
+Warning--empty publisher in scherr_bullying_2009
+Warning--empty institution in tienda_hispanicity_2009
+You've used 64 entries,
+            2695 wiz_defined-function locations,
+            973 strings with 16032 characters,
+and the built_in function-call counts, 360814 in all, are:
+= -- 60393
+> -- 3854
+< -- 1
++ -- 29055
+- -- 1206
+* -- 32371
+:= -- 70371
+add.period$ -- 439
+call.type$ -- 64
+change.case$ -- 807
+chr.to.int$ -- 62
+cite$ -- 71
+duplicate$ -- 915
+empty$ -- 2622
+format.name$ -- 1233
+if$ -- 65041
+int.to.chr$ -- 7
+int.to.str$ -- 0
+missing$ -- 0
+newline$ -- 199
+num.names$ -- 649
+pop$ -- 61
+preamble$ -- 1
+purify$ -- 935
+quote$ -- 0
+skip$ -- 802
+stack$ -- 0
+substring$ -- 86351
+swap$ -- 378
+text.length$ -- 847
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 250
+warning$ -- 7
+while$ -- 1498
+width$ -- 0
+write$ -- 324
+(There was 1 error message)

@@ -75,17 +75,19 @@
 
 \begin{itemize}
 
-%%% TODO: HIGH LEVEL STAT ON INEQUALITY
 \item Hispanics in the US face large obstacles. Compared to white people, they are:
 \begin{itemize}
 \item \textbf{60\%} less likely to complete college,
 \item \textbf{68\%} less likely to found a business,
-\item and earn \textbf{24\%} less than white men
+\item and have \textbf{5x} less household wealth (\$38k vs. \$148k)
 \end{itemize}
 \pause
+\item Americans spend more time watching TV than any other activity but sleep
+\begin{itemize} 
 \item \textbf{50\%} of Hispanics watch satellite or broadcast Spanish Language TV (SLTV) 
+\end{itemize}
 \pause 
-\item Large literature on how TV affects behavior {\footnotesize(Yanigazawa-Drott 2014; DellaVigna \& al. 2007;  Ferrara \&\ al., 2012)}
+\item Large literature on how TV affects behavior {\footnotesize(\textbf{Gentzkow \& Shapiro 2008}; DellaVigna \& al. 2007;  Ferrara \&\ al., 2012)}
 \item Prior efforts to study Hispanic interaction with media focused on politics {\footnotesize(Waldfogel \& al. 2009; Trujillo \& al. 2012)}
 \end{itemize}
 
@@ -96,105 +98,27 @@
 \begin{frame}
 \frametitle{This project:}
 
-Examine the effect of SLTV in two domains:
+Show that SLTV reduces the Hispanic achievement gap in public schools:
+\begin{itemize}
+\item Identification: difference-in-discontinuities design
+\item Gap vs. whites and Asians in SAT/ACTs taken, calculus courses taken, AP exams passed, etc. \textbf{shrinks} with SLTV
+\item However, the gap vs. whites and Asians \textbf{rises} when looking at English proficiency
+\end{itemize}
+
+How to reconcile this?
+\pause 
+Propose an \textbf{identity} mechanism. Three strands of evidence:
+
 \begin{enumerate}
-\item Education: Hispanic performance in schools
-\item Commercial: Hispanic firm ownership
+\item More bullying on the basis of ethnicity (but not gender)
+
+\item Hispanics in places where SLTV focuses more Hispanic identity perform better (but not if SLTV focuses more on education)
+
+\item Hispanics with SLTV visit Hispanic branded establishments more (but not Brazilian branded ones)
+
 \end{enumerate}
 
-\begin{itemize}
-\item Goal: To show that SLTV improves outcomes for Hispanics, and that these effects (at least partially) stem from an identity mechanism
-
-\pause
-
-\item Identification: follow Velez \& Newman (2019) and construct spatial RD arising from FCC TV signal regulation
-\end{itemize}
-
 \end{frame}
-
-
-%%%%% CONTRIBUTION %%%%%%
-\begin{frame}
-\frametitle{Contribution}
-\begin{itemize}
-
-\item Existing work on Hispanic communities often geographically constrained \& media studies only concerned with effect on politics  {\footnotesize (Velez \& Newman 2019; Trujillo \& al. 2012)}. 
-\item[$\rightarrow $] \textcolor{darkblue}{Identify causal effect on larger scale and with more granularity (geocoded microdata)}
-
-\item[$\rightarrow $] \textcolor{darkblue}{Provide a first look at how media affects business and schooling outcomes for Hispanics}
-
-\item Existing research that shows identity is a powerful mechanism driving meaningful outcomes {\footnotesize (Benjamin \& al. 2007; Bursztyn \& al. 2015)}. New research on how identity is constructed and strengthened {\footnotesize (Atkin \& al. 2019; Bazzi \& al. 2019)}
-
-\item[$\rightarrow $] \textcolor{darkblue}{Show how identity can be bolstered by the media and how it can help reduce inequality}
-
-\end{itemize}
-
-\end{frame}
-
-
-%%% COVERAGE MAP %%%
-\begin{frame}
-\frametitle{Coverage Map for TV Station WUVC-DT}
-\centering
-        \includegraphics[width=1\textwidth]{../../analysis/Output/img/ContourExample.png}\\
-\end{frame}
-
-%%% EMPIRICAL STRATEGY %%%
-\begin{frame}
-\frametitle{Empirical Strategy}
-\begin{itemize}
-
-\item OET Bulletin No. 69 --- protect TV stations in (50,90) coverage contour areas
-\begin{itemize}
-\item Mechanical formula based on geographic/technical factors (not political/economic)
-\item Fairly large boundaries that typically cut through small towns/suburbs
-\item Purchase/constructed antennas prior to 1977
-\end{itemize}
-\item Spanish Language TV: Isolate effect on Hispanic communities
-\item Both RD and instrument with distance
-\begin{itemize}
-\item Keep observations within 100 KM of boundary for comparability
-\item Fuzzy RD: only protection from interference + distance effect
-\end{itemize}
-
-\end{itemize}
-
-\end{frame}
-
-
-%%% COUNTRY MAP %%%
-\begin{frame}
-\frametitle{SLTV Coverage Maps for the USA}
-\centering
-        \includegraphics[width=1\textwidth]{../../analysis/Output/img/SpanishContours_pretty.pdf}\\
-\end{frame}
-
-
-%%% SPECIFICATIONS %%%
-\begin{frame}
-\frametitle{Empirical Specification}
-
-\textbf{Main Model:}
-\[ Y_i^{} = \beta_0 + \beta \mathbb{I}[InsideContour_i] \times Distance_i + \gamma X_i + \epsilon_i \]
-
-%\textbf{Spatial Autogressive:}
-%\[ Y = \beta_0 + \rho W Y + \beta \mathbb{I}[InsideContour] \times Distance + \gamma X + \epsilon \]
-%
-%\textbf{Spatial Error:}
-%\[ Y = \beta_0 + \beta \mathbb{I}[InsideContour] \times Distance + \gamma X + \epsilon \]
-%\[\epsilon = \lambda W \epsilon + \nu\]
-%
-%where $W$ is a 4 nearest neighbor/rook spatial weights matrix
-
-where $i$ is a unit of observation (i.e. a school) or one tile on a grid map (with firms)
-
-\vspace{15pt}
-
-Place focus on the RD, dummy for whether observation falls inside contour
-
-\end{frame}
-
-
 
 %%% DATA %%%
 
@@ -209,67 +133,73 @@ Place focus on the RD, dummy for whether observation falls inside contour
 \end{itemize}
 \item Geocoding:
 \begin{itemize}
-\item ArcGIS: 99\%+ successfully geocoded, but data limit (schools)
-\item US Census Geocoder: 80\% successfully geocoded (firms)
+\item ArcGIS: 99.9\%+ successfully geocoded
 \end{itemize}
-\item Demographic and migration information at county level from ACS
+\item Demographic information at county/census block group level from ACS
 \end{itemize}
 
 \end{frame}
 
 
 
-%%% MIGRATION %%%
+%%% COVERAGE MAP %%%
 \begin{frame}
-\frametitle{Selection? Migration?}
-\begin{center}
-        \scalebox{.5}{
-	\begin{threeparttable}
-			\begin{tabular}{lcccccccccc}
-				\hline\hline\addlinespace
-				& \multicolumn{3}{c}{IHS(\# Hispanic Migrants)} \\
-				\cline{2-4} 
-				Panel A: Origin County Inside Contour&  (1) & (2) & (3) \\
-                                \hline\addlinespace
-Dummy: Destination Outside TV Contour & $-$0.387$^{***}$ & $-$0.286$^{***}$ & $-$0.280$^{***}$ \\ 
-  & (0.048) & (0.044) & (0.044) \\ 
- TV Dummy $\times$ Distance to Origin & $-$0.003$^{**}$ & $-$0.004$^{***}$ & $-$0.004$^{***}$ \\ 
-  & (0.001) & (0.001) & (0.001) \\ 
- TV Dummy $\times$ Distance to Destination & 0.001 & $-$0.002$^{*}$ & $-$0.002 \\ 
-  & (0.001) & (0.001) & (0.001) \\ 
- Distance from Contour to Origin (KM) & 0.001 & 0.003$^{*}$ & 0.003 \\ 
-  & (0.002) & (0.002) & (0.002) \\ 
- Distance from Contour to Destination (KM) & $-$0.001 & 0.002 & 0.002 \\ 
-  & (0.001) & (0.001) & (0.001) \\ 
-Observations & 8,479 & 8,479 & 8,479 \\ 
-\hline\addlinespace
-Panel B: Origin County Outside Contour & & & \\ 
-\hline\addlinespace
- Dummy: Destination Inside TV Contour & $-$0.078 & $-$0.123 & $-$0.120 \\ 
-  & (0.108) & (0.096) & (0.096) \\ 
- TV Dummy $\times$ Distance to Origin & $-$0.003$^{*}$ & $-$0.004$^{***}$ & $-$0.004$^{***}$ \\ 
-  & (0.002) & (0.001) & (0.001) \\ 
- TV Dummy $\times$ Distance to Destination & $-$0.004$^{***}$ & $-$0.002 & $-$0.002 \\ 
-  & (0.001) & (0.001) & (0.001) \\ 
- Distance from Contour to Origin (KM) & $-$0.0003 & 0.001 & 0.001 \\ 
-  & (0.001) & (0.001) & (0.001) \\ 
- Distance from Contour to Destination (KM) & $-$0.001$^{***}$ & $-$0.001$^{***}$ & $-$0.001$^{***}$ \\ 
-  & (0.0002) & (0.0003) & (0.0003) \\ 
-Observations & 4,062 & 4,062 & 4,062 \\         
-\hline\addlinespace
-                                Log(Population) & Yes & Yes  & Yes\\
-                                County \% Hispanic & No & Yes & Yes\\
-                                Log(Income) & No & No & Yes\\
-				\addlinespace\hline\hline
-			\end{tabular}
-			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} County-county data with origin F.E. 
-			\end{tablenotes}
-		\end{threeparttable}
-
-        }
-\end{center}
+\frametitle{Coverage Map for TV Station WUVC-DT}
+\centering
+        \includegraphics[width=1\textwidth]{../../analysis/Output/img/ContourExample.png}\\
 \end{frame}
+
+%%% EMPIRICAL STRATEGY %%%
+\begin{frame}
+\frametitle{Empirical Strategy}
+\begin{itemize}
+\item Follow Velez \& Newman (2019) and construct spatial RD arising from FCC TV signal regulation (OET Bulletin 69)
+\item TV stations protected from interference within certain coverage contour areas. Keep observations within 100 KM of boundary
+\begin{itemize}
+\item Mechanical formula based on geographic/technical factors (not political/economic)
+\item Fairly large contour areas, boundaries typically cut through small towns/suburbs
+\item Most stations constructed prior to 1997 when this regulation was implemented
+\end{itemize}
+\item Spanish Language TV: Isolate effect on Hispanic communities
+
+\pause
+\item Compare against outcomes among Asians
+\begin{itemize}
+\item Less likely to identify as Hispanic (or watch SLTV)
+\item Combine RD with Asian `control' for difference in discontinuities
+\end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+
+%%% COUNTRY MAP %%%
+\begin{frame}
+\frametitle{SLTV coverage and public schools}
+\centering
+        \includegraphics[width=1\textwidth]{../../analysis/Output/img/Schools_pretty2.pdf}\\
+\end{frame}
+
+%%% SPECIFICATIONS %%%
+\begin{frame}
+\frametitle{Empirical Specification}
+
+\[ y_{i,j} =  \beta \mathbb{I}[InsideContour_{i,j}] \times \mathbb{I}[Hispanic_{i,j}] + \gamma_k + \delta  X_i + \epsilon_{i,j} \]
+
+\vspace{5pt}
+
+where $y_{i,j}$ is an outcome for observation $i$ (which may be an individual, school, or establishment) under demographic category $j \in \{$Hispanic, not Hispanic$\}$, $\gamma_k$ is fixed effect for school district $k$, and $X$ is a vector of controls for the observation. 
+
+
+\end{frame}
+
+
+
+
+
+
+
 
 %%%% FIRST STAGE %%%%%
 
@@ -281,11 +211,11 @@ Observations & 4,062 & 4,062 & 4,062 \\
 \item Data from American Time Use Survey over last 15 years:
 \begin{itemize}
 \item 210,000 person-year observations
-\item Median person watches 120 minutes of TV per day
+\item Average person watches 170 minutes of TV per day
 \end{itemize}
 
 \vspace{10pt}
-\item Not the most satisfactory data:
+\item Two limitations:
 \begin{itemize}
 \item County-level data is noisy for RD approach
 \item Only overall TV viewership data, not SLTV
@@ -296,33 +226,41 @@ Observations & 4,062 & 4,062 & 4,062 \\
 \end{frame}
 
 
+
+
 \begin{frame}
-\frametitle{TV Viewership within the SLTV Boundary}
+\frametitle{TV Viewership within the SLTV Boundary} \label{atus_time}
 
 \begin{center}
-\scalebox{.8}{
-	\begin{threeparttable}
-			\begin{tabular}{lcccccccccc}
-				\hline\hline\addlinespace
-				Panel A: Minutes of TV watched &  (1) & (2) & (3) & (4) \\
-                                \hline\addlinespace
- TV Dummy $\times$ Hispanic  & 13.610$^{***}$ & 14.638$^{***}$ & 8.777$^{**}$ & 7.911$^{**}$ \\ 
-  & (3.825) & (3.831) & (3.834) & (3.829) \\ 
- TV Dummy & $-$1.170 & $-$1.392 & 4.096$^{**}$ & 5.030$^{**}$ \\ 
-  & (1.944) & (1.945) & (1.960) & (1.958) \\ 
-Observations & 91,315 & 91,315 & 91,315 & 91,315 \\              
-\hline\hline\addlinespace
-County \% Hispanic & No & Yes & Yes & Yes \\
-Log(Income) & No & No & Yes & Yes \\
-Person is Migrant & No & No & No & Yes \\
-				\addlinespace\hline\hline
-			\end{tabular}
-			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} 
-			\end{tablenotes}
-		\end{threeparttable}
-        }
+\includegraphics[width=.75\textwidth]{../../analysis/Output/graphs/atus2.pdf}\\
 \end{center}
+\vspace{-5pt}
+\footnotesize Negative distances are outside coverage contour (no SLTV). \hyperlink{atus_breakdown}{\beamergotobutton{Time breakdown}}
+
+%\begin{center}
+%\scalebox{.8}{
+%	\begin{threeparttable}
+%			\begin{tabular}{lcccccccccc}
+%				\hline\hline\addlinespace
+%				Panel A: Minutes of TV watched &  (1) & (2) & (3) & (4) \\
+%                                \hline\addlinespace
+% TV Dummy $\times$ Hispanic  & 13.610$^{***}$ & 14.638$^{***}$ & 8.777$^{**}$ & 7.911$^{**}$ \\ 
+%  & (3.825) & (3.831) & (3.834) & (3.829) \\ 
+% TV Dummy & $-$1.170 & $-$1.392 & 4.096$^{**}$ & 5.030$^{**}$ \\ 
+%  & (1.944) & (1.945) & (1.960) & (1.958) \\ 
+%Observations & 91,315 & 91,315 & 91,315 & 91,315 \\              
+%\hline\hline\addlinespace
+%County \% Hispanic & No & Yes & Yes & Yes \\
+%Log(Income) & No & No & Yes & Yes \\
+%Person is Migrant & No & No & No & Yes \\
+%				\addlinespace\hline\hline
+%			\end{tabular}
+%			\begin{tablenotes}[flushleft]
+%				\item \textit{Notes:} 
+%			\end{tablenotes}
+%		\end{threeparttable}
+%        }
+%\end{center}
  
 
 \end{frame}
@@ -331,220 +269,71 @@ Person is Migrant & No & No & No & Yes \\
 %%%%%% SCHOOLS %%%%%%
 \begin{frame}
 
-\huge {\color{darkblue} Schools}
+\huge {\color{darkblue} Effect of SLTV on the Hispanic achievement gap}
 
 \end{frame}
 
 
 
 \begin{frame}
-\frametitle{Schools}
+\frametitle{Data: public schools}
 \begin{itemize}
 \item Data from Department of Education's Civil Rights Data Collection in 2015:
 \begin{itemize}
 \item 48,000 public schools in sample (unit of observation)
 \item (Almost) all variables split by ethnicity
 \end{itemize}
-\item Educational Attainment
+\item Outcomes
 \begin{itemize}
-\item Gifted Program Enrolment
-\item AP Program Enrolment and Exam Passes
+\item SAT/ACTs taken
+\item Calculus courses taken
+\item AP exams passed
 \item Limited English Proficiency (LEP)
+\item Bullying
 \end{itemize}
-\item Discipline
+\item Controls
 \begin{itemize}
-\item Out of School Suspensions
-\item Chronic Absentees
-\item Ethnicity-Based Bullying/Harassment
+\item Number of students (by demographic group)
+\item Type of school (age range served)
+\item School location
 \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}
-\frametitle{Schools - Summary Statistics - Outcomes}
-\begin{center}
-\scalebox{.75}{
-               \begin{threeparttable}
-			\begin{tabular}{l@{\extracolsep{4pt}}cccc}
-				\hline\hline\addlinespace
-				& \textit{All} &  \textit{No TV} & \textit{TV} \\
-				\cline{2-4} \addlinespace
-				& (1) & (2) & (3) \\
-				Panel A: Schools & \multicolumn{3}{c}{} \\
-				\hline\addlinespace
-				IHS(Hispanic Gifted Students) & 1.988 & 1.262 & 2.380 \\
-				& (1.552) & (1.238) & (1.563) \\
-				IHS(Hispanic AP Enrolment) & 3.192 & 2.091 & 3.778 \\
-				& (1.937) & (0.646) & (0.918) \\
-				IHS(Hispanic AP Passes) & 4.087 & 3.497 & 4.181 \\
-				 & (0.917) & (0.646) & (0.918) \\
-				 IHS(Hispanic Suspensions) & 0.957 & 0.676 & 1.102 \\
-				 & (1.273) & (1.044) & (1.353) \\
-				 IHS(Hispanic Absentees) & 2.655 & 1.881 & 3.054 \\
-				 & (1.765) & (1.536) & (1.742) \\
-				 IHS(Hispanic Limited English Proficiency) & 2.915 & 2.113 & 3.331 \\
-				 & (2.040) & (1.820) & (2.024) \\
-				 IHS(Hispanic Harassment) & 0.045 & 0.027 & 0.055 \\
-				 & (0.273) & (0.211) & (0.299) \\
-				 Observations & 41,502 & 11,252 & 30,250 \\
-				\hline\addlinespace
-				 \hline\addlinespace
-			\end{tabular}
-			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} The table presents means (and standard deviations). 
-			\end{tablenotes}
-		\end{threeparttable}
-        }
-\end{center}
-\end{frame}
-
-\begin{frame}
-\frametitle{Schools - Summary Statistics - Controls}
-\begin{center}
-\scalebox{.75}{
-               \begin{threeparttable}
-			\begin{tabular}{l@{\extracolsep{4pt}}cccc}
-				\hline\hline\addlinespace
-				& \textit{All} &  \textit{No TV} & \textit{TV} \\
-				\cline{2-4} \addlinespace
-				& (1) & (2) & (3) \\
-				Panel A: Schools & \multicolumn{3}{c}{} \\
-				\hline\addlinespace
-				 Log Income & 9.547 & 9.430 & 9.608 \\
-				 & (0.303) & (0.200) & (0.328) \\
-				 Log Population & 12.484 & 11.559 & 12.964 \\
-				 & (1.576) & (1.471) & (1.405) \\
-				 Fraction County Hispanic & 0.107 & 0.037 & 0.143 \\
-				 & (0.160) & (0.079) & (0.179) \\
-				 \# School Teachers & 39.591 & 32.684 & 43.169 \\
-				 & (30.764) & (24.090) & (33.146)\\
-				 \# Hispanic Students & 164.343 & 68.500  & 214.011 \\
-				 & (259.096) & (117.433) & (295.883) \\
-				 \# Total Students & 581.524 & 478.166 & 635.086 \\
-				 & (482.595) & (383.924) & (518.467) \\
-				 Observations & 41,502 & 11,252 & 30,250 \\
-				\hline\addlinespace
-				 \hline\addlinespace
-			\end{tabular}
-			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} The table presents means (and standard deviations). No control is significantly different across the coverage contour at the $\alpha = .1$ level.
-			\end{tablenotes}
-		\end{threeparttable}
-        }
-\end{center}
-\end{frame}
 
 
 \begin{frame}
-\frametitle{Main Findings - Schools}
-\centering
-        \includegraphics[width=0.65\textwidth]{../../analysis/Output/graphs/hispanicsuspensions.pdf}\\
-\footnotesize Predicted coefficients and 95\% CI from regression
-\end{frame}
-
-%\begin{frame}
-%\frametitle{Main Findings - Campaign Contributions}
-%\centering
-%        \includegraphics[width=0.65\textwidth]{../../analysis/Output/graphs/hispanictrump.pdf}\\
-%\end{frame}
-
-
-\begin{frame}
-\frametitle{Effect of SLTV on Hispanic Educational Attainment}
+\frametitle{Effect of SLTV on Hispanic vs. Asian academic achievement}
 \begin{center}
 \scalebox{.8}{
 	\begin{threeparttable}
 			\begin{tabular}{lcccccccccc}
 				\hline\hline\addlinespace
-				Panel A: IHS(\# Hispanic Gifted Students) &  (1) & (2) & (3) \\
-                                \hline\addlinespace
- TV Dummy & 0.016$^{***}$ & 0.015$^{**}$ & 0.013$^{**}$ \\ 
-  & (0.006) & (0.006) & (0.006) \\ 
-Observations & 26,065 & 26,065 & 26,065 \\           
-\hline\hline\addlinespace
-Panel B: IHS(\# Hispanic Students Taking AP) & & & \\ 
-\hline\addlinespace
- TV Dummy & 0.072$^{***}$ & 0.051$^{***}$ & 0.047$^{***}$ \\ 
-  & (0.016) & (0.015) & (0.015) \\ 
-Observations & 6,089 & 6,089 & 6,089 \\     
-\hline\hline\addlinespace
-Panel C: IHS(\# Hispanic Students Passing AP) &&& \\ 
-\hline\addlinespace
- TV Dummy & 0.034$^{**}$ & 0.042$^{***}$ & 0.039$^{***}$ \\ 
-  & (0.014) & (0.013) & (0.013) \\ 
-Observations & 2,205 & 2,205 & 2,205 \\                 
-\hline\hline\addlinespace
-                                County Controls & Yes & Yes  & Yes\\
-                                School Size Controls & No & Yes & Yes\\
-                                School Type Controls & No & No & Yes \\
-				\addlinespace\hline\hline
-			\end{tabular}
-			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} 
-			\end{tablenotes}
-		\end{threeparttable}
-        }
-\end{center}
-\end{frame}
-
-\begin{frame}
-\frametitle{Effect of SLTV on Hispanic School Discipline}
-\begin{center}
-\scalebox{.8}{
-		\begin{threeparttable}
-			\begin{tabular}{lcccccccccc}
+%				& \multicolumn{4}{c}{\textit{Minutes of TV watched}}  \\  				\cmidrule(lr){2-5} 
+				&  (1) & (2) & (3)  \\
+				\addlinespace\hline\addlinespace
+				\multicolumn{3}{l}{Panel A: IHS(SAT/ACTs taken)} \\ %edu_dda_satactOLSIHS_spec3
+                              	\hline\addlinespace
+				TV dummy $\times$ Hispanic & 0.1598$^{***}$ & 0.1598$^{***}$ & 0.1598$^{***}$\\
+  &(0.0264) & (0.0264) & (0.0264)\\
 				\hline\hline\addlinespace
-				Panel A: IHS(Out of School Suspensions) &  (1) & (2) & (3) \\
-                                \hline\addlinespace
- TV Dummy & $-$0.011$^{**}$ & $-$0.018$^{***}$ & $-$0.016$^{***}$ \\ 
-  & (0.005) & (0.005) & (0.005) \\ 
-Observations & 40,864 & 40,864 & 40,864 \\        
-\hline\hline\addlinespace
-Panel B: IHS(Students Chronically Absent) & & & \\ 
-\hline\addlinespace
- TV Dummy & $-$0.067$^{***}$ & $-$0.073$^{***}$ & $-$0.074$^{***}$ \\ 
-  & (0.006) & (0.006) & (0.006) \\ 
-  Observations & 40,869 & 40,869 & 40,869 \\ 
-\hline\hline\addlinespace
-                                County Controls & Yes & Yes  & Yes\\
-                                School Size Controls & No & Yes & Yes\\
-                                School Type Controls & No & No & Yes \\
-				\addlinespace\hline\hline
-			\end{tabular}
-			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} 
-			\end{tablenotes}
-		\end{threeparttable}
-        }
-\end{center}
-\end{frame}
-
-\begin{frame}
-\frametitle{Effect of SLTV on Hispanic School Identity}
-\begin{center}
-\scalebox{.8}{
-\begin{threeparttable}
-			\begin{tabular}{lcccccccccc}
+				\multicolumn{3}{l}{Panel B: IHS(calculus taken)} \\ %edu_dda_calcOLSIHS_spec3
+                              	\hline\addlinespace
+				 TV dummy $\times$ Hispanic & 0.2718$^{***}$ & 0.2718$^{***}$ & 0.2718$^{***}$\\
+				    &(0.0369) & (0.0369) & (0.0369)\\
 				\hline\hline\addlinespace
-				Panel A: IHS(Limited English Proficiency) &  (1) & (2) & (3) \\
-                                \hline\addlinespace
- TV Dummy & 0.040$^{***}$ & 0.039$^{***}$ & 0.031$^{***}$ \\ 
-  & (0.007) & (0.007) & (0.007) \\ 
-Observations & 40,864 & 40,864 & 40,864 \\        
-\hline\hline\addlinespace
-\multicolumn{4}{l}{Panel B: IHS(Victims of Harassment on Basis of Ethnicity)}\\ 
-\hline\addlinespace
-TV Dummy & 0.003$^{**}$ & 0.002$^{*}$ & 0.002$^{*}$ \\ 
-  & (0.001) & (0.001) & (0.001) \\ 
-  Observations & 40,811 & 40,811 & 40,811 \\ 
-\hline\hline\addlinespace
-                                County Controls & Yes & Yes  & Yes\\
-                                School Size Controls & No & Yes & Yes\\
-                                School Type Controls & No & No & Yes \\
-				\addlinespace\hline\hline
+				\multicolumn{3}{l}{Panel C: IHS(APs passed)} \\ %edu_dda_appOLSIHS_spec3
+                              	\hline\addlinespace
+				 TV dummy $\times$ Hispanic & 0.0964$^{***}$ & 0.0966$^{***}$ & 0.0972$^{***}$\\
+				  &(0.0346) & (0.0353) & (0.0360)\\
+				\hline\hline\addlinespace
+				\# Hispanic, Asian students & Yes & Yes  & Yes\\
+                                	School size controls & No & Yes & Yes\\
+                                	School type controls & No & No & Yes \\
+					\addlinespace\hline\hline
 			\end{tabular}
 			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} 
+				\item \textit{Notes:}  School district fixed effects are always included. Standard errors are clustered at the school district level.
 			\end{tablenotes}
 		\end{threeparttable}
         }
@@ -555,208 +344,218 @@ TV Dummy & 0.003$^{**}$ & 0.002$^{*}$ & 0.002$^{*}$ \\
 \frametitle{Effect sizes}
 
 \begin{center}
-\scalebox{1}{
+\scalebox{0.88}{
 
-			\begin{tabular}{l|c|c}
+			\begin{tabular}{lc|ccccccccc}
 				\hline\hline\addlinespace
-				Outcome & White-Hispanic Gap & TV Regression Coeff. \\
-                                \addlinespace\hline\addlinespace
-                                Gifted students & 80.0\% & 1.3 - 1.6 \% \\
-                                AP Students & 39.3\% & 4.7 - 7.2 \% \\
-                                Pass AP & 22.7\% & 3.4 - 4.2 \% \\
-                                Suspension & -30.0\% & 1.1 - 1.8 \% \\
-                                Absent & -12.8\% & 6.7 - 7.4 \% \\
-				\addlinespace\hline\hline
+				& Gap vs. white & Gap vs. Asian & Gap after SLTV \\
+				\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(lr){4-4}&  (1) & (2) & (3)  \\
+				\addlinespace\hline\addlinespace
+				SAT/ACTs taken & 36.6 \% & 46.8\% & 38.3\%  \\
+				Calculus taken & 15.0\% & 53.6\% & 41.0\%  \\
+				APs passed & 17.8\% & 72.3\% & 69.6\%  \\
+				Gifted students & 56.6\% & 60.5\% & 51.0\%  \\
+				Advanced math taken & 25.8\% & 45.3\% & 31.7\%  \\
+				Biology taken  & -6.2\% & 5.6\% & -18.9\% \\
+				Physics taken & 25.4\% & 43.7\% & 26.2\%  \\
+				Chemistry taken & 9.9\%  & 27.7\% & 6.7\% \\
+					\addlinespace\hline\hline
 			\end{tabular}
 
         }
 \end{center}
-
-
 \end{frame}
 
 \begin{frame}
-\frametitle{Schools: Closing Thoughts}
-\label{schl_close}
+\frametitle{Discussion}
 \begin{itemize}
-\item  Robustness \hyperlink{schl_robust}{\beamergotobutton{Robustness}}  \hyperlink{schl_spatial}{\beamergotobutton{Spatial}}
-\item Broadly positive main effects of TV support {\footnotesize(Gentzkow \& Shapiro 2008)} against mainstream findings {\footnotesize (Gentile 2004; Zavodny 2006)}
-\item Contrasting effect of English proficiency and harassment --- consistent story of identity being strengthened
+\item  Results are robust to a variety of specifications. Also rule out alternative stories regarding selection across boundary, selection between schools, measurement at the border, endogenous contour construction by network executives
+\item Most studies {\footnotesize (Gentile 2004; Zavodny 2006)} show that TV makes academic outcomes \textbf{worse}
+\item The big exception is Gentzkow \& Shapiro 2008, where positive effects are driven by English language acquisition \& potentially a cognitive channel
+\item So what is going on here with Spanish language TV?
 \end{itemize}
 \end{frame}
 
-
-%%%%%% FIRMS %%%%%%
-
+%%%%%% SCHOOLS %%%%%%
 \begin{frame}
 
-\huge {\color{darkblue} Firms}
+\huge {\color{darkblue} Exploring the identity mechanism}
 
 \end{frame}
 
 
-
 \begin{frame}
-\frametitle{Firms}
-
-\begin{itemize}
-\item Data from Florida's Division of Corporations
-\begin{itemize}
-\item Why Florida? 23\% Hispanic (8\% US total), 11 SLTV stations (11\% total) and open data
-\item 146,032 firms successfully geocoded
-\item Aggregate data into $2\times 2$ KM$^2$ squares
-\end{itemize}
-\item Firm Owner Name Classification
-\begin{itemize}
-\item `ethnicolr' --- a LSTM model trained with TensorFlow on Florida voter registration data
-\item Validation $>85\%$ accurate, $23.5\%$ firm owners are Hispanic
-\end{itemize}
-\item Firm Name Classification
-\begin{itemize}
-\item Keyword matching on (1) references to Latin American countries, (2) top 50 most common Spanish words not in English, and optionally (3) references to common Hispanic foods
-\item 1\% (1.1\% with food) of firms match this criteria
-\end{itemize}
-\end{itemize}
-\end{frame}
-
-
-
-\begin{frame}
-\frametitle{Firms - Summary Statistics}
+\frametitle{Effect of SLTV on Hispanic vs. Asian identity outcomes}\label{mech_main}
 \begin{center}
-\scalebox{.75}{
-               \begin{threeparttable}
-			\begin{tabular}{l@{\extracolsep{4pt}}cccc}
-				\hline\hline\addlinespace
-				& \textit{All} &  \textit{No TV} & \textit{TV} \\
-				\cline{2-4} \addlinespace
-				& (1) & (2) & (3) \\
-				\hline\addlinespace Panel A: Firms & \multicolumn{3}{c}{} \\
-				\hline\addlinespace
-				IHS(Hispanic Owned Firms) & 0.992 & 0.671 & 1.225 \\
-				& (1.694) & (1.308) & (1.892) \\
-				Hispanic Named Firms & 0.027  & 0.006 & 0.042 \\
-				& (0.161) & (0.080) & (0.200) \\
-				Log Income & 9.498 & 9.463 & 9.523 \\
-				& (0.241) & (0.284) & (0.201) \\
-				Log Population & 11.954 & 11.206 & 12.497 \\
-				& (1.398) & (1.253) & (1.239) \\
-				Fraction County Hispanic & 0.086 & 0.063 & 0.103 \\
-				& (0.105) & (0.061) & (0.125) \\
-				Observations & 23,823 & 10,023 & 13,830\\
-				\hline\addlinespace
-				 \hline\addlinespace
-			\end{tabular}
-			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} The table presents means (and standard deviations). No control is significantly different across the coverage contour at the $\alpha = .1$ level.
-			\end{tablenotes}
-		\end{threeparttable}
-        }
-\end{center}
-\end{frame}
-
-\begin{frame}
-\frametitle{Main Findings - Firms}
-
-\centering
-        \includegraphics[width=0.65\textwidth]{../../analysis/Output/graphs/hispanicbusnname.pdf}\\
-        
-\footnotesize Predicted coefficients and 95\% CI from logit regression
-\end{frame}
-
-
-\begin{frame}
-\frametitle{Effect of SLTV on Hispanic Firm Ownership}
-\begin{center}
-\scalebox{.75}{
-		\begin{threeparttable}
+\scalebox{.8}{
+	\begin{threeparttable}
 			\begin{tabular}{lcccccccccc}
 				\hline\hline\addlinespace
-				 & \multicolumn{4}{c}{\textit{IHS(\# Hispanic Owned Businesses)}}\\
-				&  (1) & (2) & (3) & (4) \\
-                                \hline\addlinespace
- TV Dummy & 0.261$^{***}$ & 0.122$^{***}$ & 0.112$^{***}$ & 0.132$^{***}$ \\ 
-  & (0.014) & (0.014) & (0.014) & (0.015) \\ 
- TV Dummy $\times$ Distance to Boundary & 0.010$^{***}$ & 0.007$^{***}$ & 0.007$^{***}$ & 0.007$^{***}$ \\ 
-  & (0.001) & (0.001) & (0.001) & (0.001) \\ 
- Distance to Boundary (meters) & 0.006$^{***}$ & 0.009$^{***}$ & 0.010$^{***}$ & 0.011$^{***}$ \\ 
-  & (0.001) & (0.001) & (0.001) & (0.001) \\ 
- Log(Population) &  & 0.412$^{***}$ & 0.388$^{***}$ & 0.342$^{***}$ \\ 
-  &  & (0.011) & (0.012) & (0.014) \\ 
- County \% Hispanic &  &  & 1.261$^{***}$ & 1.414$^{***}$ \\ 
-  &  &  & (0.133) & (0.136) \\ 
- Log(Income) &  &  &  & 0.391$^{***}$ \\ 
-  &  &  &  & (0.070) \\ 
-Observations & 23,853 & 23,853 & 23,853 & 23,853 \\ 
-				\addlinespace\hline\hline
+%				& \multicolumn{4}{c}{\textit{Minutes of TV watched}}  \\  				\cmidrule(lr){2-5} 
+				&  (1) & (2) & (3)  \\
+				\addlinespace\hline\addlinespace
+				\multicolumn{3}{l}{Panel A: IHS(limited English proficiency)} \\ %edu_dda_satactOLSIHS_spec3
+                              	\hline\addlinespace
+				TV dummy $\times$ Hispanic & 0.3042$^{***}$ & 0.3042$^{***}$ & 0.3042$^{***}$\\
+				  &(0.0379) & (0.0379) & (0.0379)\\
+				\hline\hline\addlinespace
+				\multicolumn{3}{l}{Panel B: IHS(bullied based on ethnicity)} \\ %edu_dda_calcOLSIHS_spec3
+                              	\hline\addlinespace
+				 TV dummy $\times$ Hispanic & 0.0015$^{*}$ & 0.0015$^{*}$ & 0.0015$^{*}$\\
+				  &(0.0009) & (0.0009) & (0.0009)\\		 
+				\hline\hline\addlinespace
+				\# Hispanic, Asian students & Yes & Yes  & Yes\\
+                                	School size controls & No & Yes & Yes\\
+                                	School type controls & No & No & Yes \\
+					\addlinespace\hline\hline
 			\end{tabular}
 			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} 
+				\item \textit{Notes:}  School district fixed effects are always included. Standard errors are clustered at the school district level. \hyperlink{mech_placebo}{\beamergotobutton{Disability and gender-based bullying placebo}}
 			\end{tablenotes}
 		\end{threeparttable}
         }
 \end{center}
 \end{frame}
 
-
 \begin{frame}
-\frametitle{Effect of SLTV on Hispanic Firm Names}
-\begin{center}
-\scalebox{.65}{
-\begin{threeparttable}
-			\begin{tabular}{lcccccccccc}
-				\hline\hline\addlinespace
-				 & \multicolumn{6}{c}{\textit{Hispanic Named Business Dummy}}\\
-				&  (1) & (2) & (3) & (4) & (5) & (6) \\
-                                \hline\addlinespace
- TV Dummy & 0.839$^{***}$ & 0.638$^{***}$ & 0.637$^{***}$ & 0.769$^{***}$ & 0.849$^{***}$ & 0.775$^{***}$ \\ 
-  & (0.052) & (0.066) & (0.066) & (0.071) & (0.077) & (0.071) \\ 
- TV Dummy $\times$ Distance to Boundary & 0.008$^{***}$ & 0.002 & 0.002 & 0.0002 & $-$0.0002 & 0.0002 \\ 
-  & (0.002) & (0.002) & (0.002) & (0.002) & (0.002) & (0.002) \\ 
- Distance to Boundary (meters) & 0.010$^{**}$ & 0.021$^{***}$ & 0.021$^{***}$ & 0.031$^{***}$ & 0.035$^{***}$ & 0.031$^{***}$ \\ 
-  & (0.004) & (0.004) & (0.005) & (0.005) & (0.005) & (0.005) \\ 
- Log(Population) &  & 0.957$^{***}$ & 0.979$^{***}$ & 0.702$^{***}$ & 0.761$^{***}$ & 0.701$^{***}$ \\ 
-  &  & (0.052) & (0.070) & (0.074) & (0.081) & (0.074) \\ 
- County \% Hispanic &  &  & $-$0.151 & 1.428$^{***}$ & 1.514$^{***}$ & 1.434$^{***}$ \\ 
-  &  &  & (0.312) & (0.367) & (0.388) & (0.368) \\ 
- Log(Income) &  &  &  & 2.350$^{***}$ & 2.534$^{***}$ & 2.356$^{***}$ \\ 
-  &  &  &  & (0.319) & (0.344) & (0.320) \\ 
-Observations & 23,853 & 23,853 & 23,853 & 23,853 & 23,853 & 23,853 \\ 
-				\hline\hline\addlinespace
-				Only Hispanic Owners & No & No & No & No & Yes & No \\
-				Only Non-Hispanic Owners & No & No & No & No & No & Yes \\
-				\addlinespace\hline\hline
-			\end{tabular}
-			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} Logit regression
-			\end{tablenotes}
-		\end{threeparttable}
-
-        }
-\end{center}
-\end{frame}
-
-\begin{frame}
-\frametitle{Firms: Closing Thoughts}
-\label{firm_close}
+\frametitle{Data: content of TV programming}
 \begin{itemize}
-\item Robustness \hyperlink{firm_spatial}{\beamergotobutton{Spatial autocorrelation}}  \hyperlink{firm_dist}{\beamergotobutton{Vary boundary cut-off and grid size}}   \hyperlink{firm_controls}{\beamergotobutton{Vary controls}} 
-\item Substantial effect size compared to white-Hispanic firm ownership gap (68\%, log-odds ratio of \textbf{0.52}) 
-\item Existing literature finds entrepreneurship difficult to foster {\footnotesize (Karlan \& Valdiva 2011; Gin \& Mansuri 2014)}. We find signs of this, but no data on firm size. \\
-\item Business naming demonstrates an appeal to identity (disproportionate increase) \\
-\item Definite demand effect, supply side less clear
+\item Data from archive.org's TV transcript database (2005 - 2015)
+\begin{itemize}
+\item Use keyword matching to code content of television programs
+\item Variation at the television network level
+\end{itemize}
+\item Test three different mechanisms:
+\begin{itemize}
+\item Identity: 10.8\% of programs relate to Latin America (vs. sports/weather/local news translated into Spanish etc.)
+\item Education: 15\% of programs that mention schools
+\item Role models: 5.0\% of programs with good role models for children/adolescents (mostly telenovelas)
+\end{itemize}
 \end{itemize}
 \end{frame}
 
+
+\begin{frame}
+\frametitle{Differential effect of SLTV by program content} \label{transcript_sat}
+\begin{center}
+\scalebox{.8}{
+	\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+%				& \multicolumn{4}{c}{\textit{Minutes of TV watched}}  \\  				\cmidrule(lr){2-5} 
+				&  (1) & (2) & (3)  \\
+				\addlinespace\hline\addlinespace
+				\multicolumn{3}{l}{Panel A: IHS(SAT/ACTs taken)} \\ %edu_dda_satactOLSIHS_spec3
+                              	\hline\addlinespace
+				 TV $\times$ Hispanic $\times$ \% programs on identity & 2.313$^{**}$ &  &  \\ 
+				  & (0.943) &  &  \\ 
+				 TV $\times$ Hispanic $\times$ \% programs on education &  & $-$0.516 &  \\ 
+				  &  & (0.626) &  \\ 
+				 TV $\times$ Hispanic $\times$ \% programs with role models &  &  & $-$2.085 \\ 
+				  &  &  & (2.151) \\ 
+				\hline\hline\addlinespace
+				\# Hispanic, Asian students & Yes & Yes  & Yes\\
+                                	School size controls & No & Yes & Yes\\
+                                	School type controls & No & No & Yes \\
+					\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:}  School district fixed effects are always included. Standard errors are clustered at the school district level. See effect for: \hyperlink{transcript_calc}{\beamergotobutton{Calculus}} \hyperlink{transcript_ap}{\beamergotobutton{AP exams}}
+			\end{tablenotes}
+		\end{threeparttable}
+        }
+\end{center}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Data: foot traffic}
+\begin{itemize}
+\item Safegraph foot traffic data in 2019 to 136,000 establishments across the US
+\begin{itemize}
+\item Restaurants are coded by Safegraph into different types of cuisine (11.6\% are Hispanic)
+\item Other recreational establishments are manually classified using keyword matching (10.7\% are Hispanic)
+\item Use census data to impute identity of visitors
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Effect of SLTV on foot traffic} \label{safegraph_main}
+\begin{center}
+\scalebox{.8}{
+	\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				& \multicolumn{4}{c}{\textit{IHS(visitors to location)}}  \\  				
+				\cmidrule(lr){2-5} &  (1) & (2) & (3) & (4) \\
+				\addlinespace\hline\addlinespace
+				\multicolumn{4}{l}{Panel A.1: Restaurants --- Hispanic establishment indicator} \\ 
+                              	\hline\addlinespace
+				TV $\times$ Hispanic $\times$ Hispanic food&       0.872***&       0.872***&       0.872***&       0.872***\\
+		                  &     (0.062)   &     (0.062)   &     (0.062)   &     (0.062)   \\
+				\hline\hline\addlinespace
+				\multicolumn{4}{l}{Panel B.1: Recreation --- Hispanic establishment indicator} \\ 
+                              	\hline\addlinespace
+				TV $\times$ Hispanic $\times$ Hispanic brand&        0.569***&       0.569***&       0.569***&       0.569***\\
+                    &     (0.137)   &     (0.137)   &     (0.137)   &     (0.137)   \\	
+				\hline\hline\addlinespace
+				County log(income) & Yes & Yes & Yes & Yes \\
+				County \% Hispanic & No & Yes & Yes & Yes \\
+				County log(pop.) & No & No & Yes & Yes \\
+				County FE & No & No & No & Yes \\
+				NAICS code FE & No & No & No & Yes \\
+					\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:}  Standard errors are clustered at the county level. See placebos for: \hyperlink{safegraph_brazil}{\beamergotobutton{Brazilian}} \hyperlink{safegraph_japan}{\beamergotobutton{Japanese}}  \hyperlink{safegraph_creole}{\beamergotobutton{Creole/Cajun}} establishments
+			\end{tablenotes}
+		\end{threeparttable}
+        }
+\end{center}
+\end{frame}
+
+
+
+
+%%%%% CONTRIBUTION %%%%%%
+\begin{frame}
+\frametitle{Contribution}
+\begin{itemize}
+
+\item Prior work on Hispanic media focused on \textit{local} political outcomes {\footnotesize (Velez \& Newman 2019; Trujillo \& al. 2012)}. 
+
+\item[$\rightarrow $] \textcolor{darkblue}{Provide a first look at how media affects Hispanic educational outcomes}
+
+\item[$\rightarrow $] \textcolor{darkblue}{Identify causal effect on larger scale and with more granularity (geocoded microdata)}
+
+\item Existing research that shows identity is a powerful mechanism driving meaningful outcomes {\footnotesize (Benjamin \& al. 2007; Bursztyn \& al. 2015)}. New research on how identity is constructed and strengthened {\footnotesize (Atkin \& al. 2019; Bazzi \& al. 2019)}
+
+\item[$\rightarrow $] \textcolor{darkblue}{Show how identity can be bolstered by the media and how it can help reduce inequality}
+
+\item[$\rightarrow $] \textcolor{darkblue}{Contrast with education lit. where a salient minority identity is bad because of stereotype threat {\footnotesize (Spencer, Logel, \& Davies 2016)}}
+
+\end{itemize}
+
+\end{frame}
 
 %%%%% CONCLUSION
 
 \begin{frame}
 \frametitle{Conclusion}
 \begin{itemize}
-\item SLTV creates a variety of effects: more firms and better academic performance (omitted: political campaign contributions)
-\item Underlying theme of strengthened identity that reduces inequality
-\item Lots of space for future work
+\item Hopefully persuaded you that an identity mechanism matters for Hispanic achievement, but could be other important ones!
+\item Many ways that identity mechanism itself could operate (meta-mechanisms): 
+\begin{itemize}
+\footnotesize
+\item Self-confidence from representation on screen
+\item Stronger in-group ties within school community
+\item Greater connection with parents and support network
+\item Recognise relative privilege vs. countries of origin \& raise perceived value of education
+\item More engagement and intellectual stimulation 
+\end{itemize}
+
+\item Some other results not shown in paper: effect of SLTV on firms and entrepreneurship, on campaign contributions
 \end{itemize}
 \end{frame}
 
@@ -767,182 +566,225 @@ Observations & 23,853 & 23,853 & 23,853 & 23,853 & 23,853 & 23,853 \\
 
 %%%%%%% APPENDIX %%%%%%%%%%
 
-\begin{frame}
-\frametitle{Effect of SLTV on Hispanic Firm Names - Different Boundary/Grid Sizes}
-\label{firm_dist}
-\begin{center}
-\scalebox{.6}{
-		\begin{threeparttable}
-			\begin{tabular}{lcccccccccc}
-				\hline\hline\addlinespace
-				 & \multicolumn{5}{c}{\textit{Hispanic Owned \& Named Business Dummy}}\\
-				&  (1) & (2) & (3) & (4) & (5) \\
-                                \hline\addlinespace
- TV Dummy & 0.849$^{***}$  & 0.927$^{***}$ & 0.596$^{***}$ & 0.624$^{***}$ & 1.144$^{***}$ \\ 
-  & (0.077)  & (0.098) & (0.118) & (0.078) & (0.076) \\ 
- TV Dummy $\times$ Distance to Boundary  & $-$0.0002 & $-$0.002 & 0.042$^{***}$ & 0.001 & $-$0.001 \\ 
-  & (0.002) & (0.004) & (0.010) & (0.002) & (0.002)   \\ 
- Distance to Boundary (meters) & 0.035$^{***}$ & 0.049$^{***}$ & $-$0.097$^{***}$ & 0.026$^{***}$ & 0.042$^{***}$ \\ 
-  & (0.005) & (0.012) & (0.035) & (0.005) & (0.006) \\ 
-\hline \\[-1.8ex] 
-Observations & 23,853& 20,404 & 14,386 & 10,598 & 95,373 \\ 				
- 				\hline\hline\addlinespace
-County Controls & Yes & Yes & Yes & Yes  & Yes \\
-Distance Cutoff (KM) & 100 & 50 &25 & 100 &100 \\
-Grid Size (KM$^2$) & 4 & 4 & 4 & 9 & 1\\ 
-				\addlinespace\hline\hline
-			\end{tabular}
-			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} Logit regressions
-			\end{tablenotes}
-		\end{threeparttable}
-        }
-\end{center}
- \hyperlink{firm_close}{\beamergotobutton{Back}}
-\end{frame}
 
 \begin{frame}
-\frametitle{Effect of SLTV on Hispanic Educational Attainment - Robustness}
-\label{schl_robust}
+\frametitle{TV Viewership within the SLTV Boundary} \label{atus_breakdown}
+
 \begin{center}
-\scalebox{.6}{
-		\begin{threeparttable}
-			\begin{tabular}{lcccccccccc}
-				\hline\hline\addlinespace
-				 & \multicolumn{6}{c}{\textit{IHS(\# Hispanic Students Passing AP)}}\\
-				&  (1) & (2) & (3) & (4) & (5) & (6) \\
-                                \hline\addlinespace
- TV Dummy & 0.039$^{***}$ & 0.049$^{***}$ & 0.044$^{***}$ & 0.044$^{***}$ & 0.036$^{***}$ & 0.032$^{*}$ \\ 
-  & (0.013) & (0.017) & (0.016) & (0.017) & (0.013) & (0.018) \\ 
- TV Dummy $\times$ Distance to Boundary & 0.0003 & 0.0001 & 0.001 & 0.001$^{*}$ & 0.0001 & 0.001 \\ 
-  & (0.0002) & (0.001) & (0.001) & (0.0004) & (0.0004) & (0.001) \\ 
- Distance to Boundary (meters) & 0.001 & 0.012$^{***}$ & 0.006$^{***}$ & 0.006$^{***}$ & 0.003$^{**}$ & 0.001 \\ 
-  & (0.001) & (0.003) & (0.002) & (0.002) & (0.002) & (0.004) \\ 
- Total APs Passed &  &  &  &  & 0.003$^{***}$ &  \\ 
-  &  &  &  &  & (0.0001) &  \\ 
-Observations & 2,205 & 2,205 & 1,525 & 1,525 & 1,525 & 1,095 \\ 
-\hline\hline\addlinespace
-                                County/School Controls & Yes & Yes  & Yes & Yes & Yes & Yes\\
-                                Distance Cutoff (KM) & 100 & 100 & 50 & 50 & 50 & 33 $\frac{1}{3}$ \\
-                                Distance$^{2}$ Interaction & No & Yes & No & No & No & No \\
-                                County F.E. & No & No & No & Yes & No & No  \\
-				\addlinespace\hline\hline
-			\end{tabular}
-			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} 
-			\end{tablenotes}
-		\end{threeparttable}
-        }
+\includegraphics[width=.75\textwidth]{../../analysis/Output/graphs/time_breakdown.pdf}\\
 \end{center}
- \hyperlink{schl_close}{\beamergotobutton{Back}}
+\vspace{-5pt}
+\footnotesize Hispanics with and without SLTV \hyperlink{atus_time}{\beamergotobutton{Back}}
+
 \end{frame}
 
+
+
+
 \begin{frame}
-\frametitle{Effect of SLTV on Hispanic Identity - Spatial Robustness}
-\label{schl_spatial}
+\frametitle{Differential effect of SLTV by program content} \label{transcript_calc}
 \begin{center}
 \scalebox{.8}{
-		\begin{threeparttable}
+	\begin{threeparttable}
 			\begin{tabular}{lcccccccccc}
 				\hline\hline\addlinespace
-				 & \multicolumn{3}{c}{\textit{IHS(\# Hispanic Victims of Harassment)}}\\
-				&  (1) & (2) & (3) \\
-                                \hline\addlinespace
- TV Dummy & 0.003$^{**}$ & 0.002$^{***}$ & 0.003$^{*}$ \\ 
-  & (0.001) & (0.001) & (0.002) \\ 
- TV Dummy $\times$ Distance to Boundary & $-$0.0001$^{**}$ & $-$0.0001$^{***}$ & $-$0.0001$^{**}$ \\ 
-  & (0.00002) & (0.00001) & (0.00003) \\ 
-\hline\hline\addlinespace
-Observations & 40,811 & 40,811 & 40,811 \\ 
-Log Likelihood &  & $-$4,304.916 & $-$4,299.820 \\ 
-$\sigma^{2}$ &  & 0.072 & 0.072 \\ 
-Akaike Inf. Crit. &  & 8,629.833 & 8,619.640 \\ 
-Wald Test (df = 1) &  & 686.149$^{***}$ & 686.981$^{***}$ \\ 
-LR Test (df = 1) &  & 657.312$^{***}$ & 667.505$^{***}$ \\ 
-\hline \addlinespace
-                                County/School Controls & Yes & Yes  & Yes \\
-                                Model & OLS & SAR Lag & SAR Error \\
-				\addlinespace\hline\hline
+%				& \multicolumn{4}{c}{\textit{Minutes of TV watched}}  \\  				\cmidrule(lr){2-5} 
+				&  (1) & (2) & (3)  \\
+				\addlinespace\hline\addlinespace
+				\multicolumn{3}{l}{Panel B: IHS(calculus taken)} \\ %edu_dda_appOLSIHS_spec3
+                              	\hline\addlinespace
+				 TV $\times$ Hispanic $\times$ \% programs on identity & 2.788$^{***}$ &  &  \\ 
+				  & (1.034) &  &  \\ 
+				 TV $\times$ Hispanic $\times$ \% programs on education &  & 0.829 &  \\ 
+				  &  & (0.666) &  \\ 
+				 TV $\times$ Hispanic $\times$ \% programs with role models &  &  & 1.616 \\ 
+				  &  &  & (2.463) \\ 
+				\hline\hline\addlinespace
+				\# Hispanic, Asian students & Yes & Yes  & Yes\\
+                                	School size controls & No & Yes & Yes\\
+                                	School type controls & No & No & Yes \\
+					\addlinespace\hline\hline
 			\end{tabular}
 			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} 
+				\item \textit{Notes:}  School district fixed effects are always included. Standard errors are clustered at the school district level. \hyperlink{transcript_sat}{\beamergotobutton{Back}}
 			\end{tablenotes}
 		\end{threeparttable}
         }
 \end{center}
- \hyperlink{schl_close}{\beamergotobutton{Back}}
 \end{frame}
 
 \begin{frame}
-\frametitle{Effect of SLTV on Hispanic Firm Ownership - Spatial Robustness}
-\label{firm_spatial}
+\frametitle{Differential effect of SLTV by program content} \label{transcript_ap}
 \begin{center}
 \scalebox{.8}{
-\begin{threeparttable}
+	\begin{threeparttable}
 			\begin{tabular}{lcccccccccc}
 				\hline\hline\addlinespace
-				 & \multicolumn{3}{c}{\textit{IHS(\# Hispanic Owned Firms)}}\\
-				&  (1) & (2) & (3) \\
-                                \hline\addlinespace
- TV Dummy & 0.122$^{***}$ & 0.022$^{***}$ & 0.126$^{***}$ \\ 
-  & (0.014) & (0.006) & (0.036) \\ 
-\hline\hline\addlinespace
-Observations & 23,853 & 23,853 & 23,853 \\ 
-Log Likelihood &  & $-$38,404 & $-$38,440 \\ 
-$\sigma^{2}$ &  & 1.168 & 1.170 \\ 
-Akaike Inf. Crit. &  & 76,821 & 76,894 \\ 
-Wald Test (df = 1) &  & 65,139$^{***}$ & 63,913$^{***}$ \\ 
-LR Test (df = 1) &  & 24,759$^{***}$ & 24,687$^{***}$ \\ 
-\hline \addlinespace
-                                County Controls & Yes & Yes  & Yes \\
-                                Model & OLS & SAR Lag & SAR Error \\
-				\addlinespace\hline\hline
+%				& \multicolumn{4}{c}{\textit{Minutes of TV watched}}  \\  				\cmidrule(lr){2-5} 
+				&  (1) & (2) & (3)  \\
+				\addlinespace\hline\addlinespace
+				\multicolumn{3}{l}{Panel C: IHS(APs passed)} \\ %edu_dda_calcOLSIHS_spec3
+                              	\hline\addlinespace
+				 TV $\times$ Hispanic $\times$ \% programs on identity & 1.721 &  &  \\ 
+				  & (1.280) &  &  \\
+				 TV $\times$ Hispanic $\times$ \% programs on education &  & 0.903 &  \\ 
+				  &  & (0.922) &  \\ 
+				 TV $\times$ Hispanic $\times$ \% programs with role models &  &  & $-$1.184 \\ 
+				  &  &  & (2.989) \\ 
+				\hline\hline\addlinespace
+				\# Hispanic, Asian students & Yes & Yes  & Yes\\
+                                	School size controls & No & Yes & Yes\\
+                                	School type controls & No & No & Yes \\
+					\addlinespace\hline\hline
 			\end{tabular}
 			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} 
+				\item \textit{Notes:}  School district fixed effects are always included. Standard errors are clustered at the school district level. \hyperlink{transcript_sat}{\beamergotobutton{Back}}
 			\end{tablenotes}
 		\end{threeparttable}
         }
 \end{center}
- \hyperlink{firm_close}{\beamergotobutton{Back}}
 \end{frame}
 
 \begin{frame}
-\frametitle{Effect of SLTV on Hispanic Firm Names - Robustness}
-\label{firm_controls}
+\frametitle{Effect of SLTV on foot traffic} \label{mech_placebo}
 \begin{center}
-\scalebox{.75}{
-		\begin{threeparttable}
+\scalebox{.8}{
+	\begin{threeparttable}
 			\begin{tabular}{lcccccccccc}
 				\hline\hline\addlinespace
-				 & \multicolumn{4}{c}{\textit{Hispanic Owned \& Named Business Dummy}}\\
-				&  (1) & (2) & (3) & (4) \\
-                                \hline\addlinespace
- TV Dummy & 0.849$^{***}$ & 1.071$^{***}$ & 0.305$^{***}$ & .8677$^{***}$ \\ 
-  & (0.077) & (0.115) & (0.078) & (0.079)  \\ 
- TV Dummy $\times$ Distance to Boundary  & $-$0.0002 & $-$0.008 & $-$0.003 & $-$0.001 \\ 
-  & (0.002) & (0.007) & (0.002) & (0.002)  \\ 
- Distance to Boundary (meters) & 0.035$^{***}$ & 0.123$^{***}$ & 0.013$^{***}$ & 0.036$^{***}$ \\ 
-  & (0.005) & (0.021) & (0.005) & (0.005)  \\ 
- Total Businesses &  &  & 0.023$^{***}$ &  \\ 
-  &  &  & (0.001) &   \\ 
-\hline \\[-1.8ex] 
-Observations & 23,853 & 23,853 & 23,853 & 23,853  \\
- 				\hline\hline\addlinespace
-County Controls & Yes & Yes & Yes & Yes  \\
-Distance$^2$ & No & Yes & No & No  \\
-No Food Names & No & No & No & Yes \\
-				\addlinespace\hline\hline
+%				& \multicolumn{4}{c}{\textit{Minutes of TV watched}}  \\  				\cmidrule(lr){2-5} 
+				&  (1) & (2) & (3)  \\
+				\addlinespace\hline\addlinespace
+				\multicolumn{3}{l}{Panel A: IHS(IDEA (disability) students)} \\ %edu_dda_satactOLSIHS_spec3
+                              	\hline\addlinespace
+				TV dummy $\times$ Hispanic & 0.0318 & 0.0325 & 0.0318\\
+  &(0.0338) & (0.0339) & (0.0338)\\
+				\hline\hline\addlinespace
+				\multicolumn{3}{l}{Panel B: IHS(bullied based on sex)} \\ %edu_dda_calcOLSIHS_spec3
+                              	\hline\addlinespace
+				TV dummy $\times$ Hispanic & 0.0090 & 0.0088 & 0.0088\\
+  &(0.0056) & (0.0055) & (0.0055)\\	 
+				\hline\hline\addlinespace
+				\# Hispanic, Asian students & Yes & Yes  & Yes\\
+                                	School size controls & No & Yes & Yes\\
+                                	School type controls & No & No & Yes \\
+					\addlinespace\hline\hline
 			\end{tabular}
 			\begin{tablenotes}[flushleft]
-				\item \textit{Notes:} Logit regressions
+				\item \textit{Notes:}  School district fixed effects are always included. Standard errors are clustered at the school district level. \hyperlink{mech_main}{\beamergotobutton{Back}}
 			\end{tablenotes}
 		\end{threeparttable}
-
         }
 \end{center}
- \hyperlink{firm_close}{\beamergotobutton{Back}}
 \end{frame}
+
+\begin{frame}
+\frametitle{Effect of SLTV on foot traffic to Brazilian establishments} \label{safegraph_brazil}
+\begin{center}
+\scalebox{.8}{
+	\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				& \multicolumn{4}{c}{\textit{IHS(visitors to location)}}  \\  				
+				\cmidrule(lr){2-5} &  (1) & (2) & (3) & (4) \\
+				\addlinespace\hline\addlinespace
+				\multicolumn{4}{l}{Panel A.2: Restaurants --- Brazilian establishment indicator} \\ 
+                              	\hline\addlinespace
+				Hispanic $\times$ TV $\times$ Brazilian food&   0.058   &       0.058   &       0.058   &       0.058   \\
+                    &     (0.241)   &     (0.241)   &     (0.241)   &     (0.241)   \\
+				\hline\hline\addlinespace
+				\multicolumn{4}{l}{Panel B.2: Recreation --- Brazilian establishment indicator} \\
+                              	\hline\addlinespace
+					Hispanic $\times$ TV $\times$ Brazilian brand&      0.328 & 0.328 & 0.328 & 0.328 \\
+		                    &     (0.598)   &     (0.598)   &     (0.599)   &     (0.610)   \\
+				\hline\hline\addlinespace
+				County log(income) & Yes & Yes & Yes & Yes \\
+				County \% Hispanic & No & Yes & Yes & Yes \\
+				County log(pop.) & No & No & Yes & Yes \\
+				County FE & No & No & No & Yes \\
+				NAICS code FE & No & No & No & Yes \\
+					\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:}  Standard errors are clustered at the county level. \hyperlink{safegraph_main}{\beamergotobutton{Back}}
+			\end{tablenotes}
+		\end{threeparttable}
+        }
+\end{center}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Effect of SLTV on foot traffic to Japanese establishments} \label{safegraph_japan}
+\begin{center}
+\scalebox{.8}{
+	\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				& \multicolumn{4}{c}{\textit{IHS(visitors to location)}}  \\  				
+				\cmidrule(lr){2-5} &  (1) & (2) & (3) & (4) \\
+				\addlinespace\hline\addlinespace
+				\multicolumn{4}{l}{Panel A.3: Restaurants --- Japanese establishment indicator} \\ 
+                              	\hline\addlinespace
+				TV $\times$ Hispanic $\times$ Japanese food&        0.010   &       0.010   &       0.010   &       0.010   \\
+                    &     (0.067)   &     (0.067)   &     (0.067)   &     (0.067)   \\
+				\hline\hline\addlinespace
+				\multicolumn{4}{l}{Panel B.3: Recreation --- Japanese establishment indicator} \\
+                              	\hline\addlinespace
+				TV $\times$ Hispanic $\times$ Japanese brand&        0.702   &       0.702   &       0.702   &       0.702   \\
+                    &     (0.528)   &     (0.528)   &     (0.528)   &     (0.528)   \\
+				\hline\hline\addlinespace
+				County log(income) & Yes & Yes & Yes & Yes \\
+				County \% Hispanic & No & Yes & Yes & Yes \\
+				County log(pop.) & No & No & Yes & Yes \\
+				County FE & No & No & No & Yes \\
+				NAICS code FE & No & No & No & Yes \\
+					\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:}  Standard errors are clustered at the county level. \hyperlink{safegraph_main}{\beamergotobutton{Back}} 
+			\end{tablenotes}
+		\end{threeparttable}
+        }
+\end{center}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Effect of SLTV on foot traffic to Cajun/Creole establishments} \label{safegraph_creole}
+\begin{center}
+\scalebox{.8}{
+	\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				& \multicolumn{4}{c}{\textit{IHS(visitors to location)}}  \\  				
+				\cmidrule(lr){2-5} &  (1) & (2) & (3) & (4) \\
+				\addlinespace\hline\addlinespace
+				\multicolumn{4}{l}{Panel A.4: Restaurants --- Cajun and Creole establishment indicator} \\ 
+                              	\hline\addlinespace
+				TV $\times$ Hispanic $\times$ Cajun and Creole food&       0.174   &       0.174   &       0.174   &       0.174   \\
+                    &     (0.196)   &     (0.196)   &     (0.196)   &     (0.196)   \\
+				\hline\hline\addlinespace
+				\multicolumn{4}{l}{Panel B.4: Recreation --- Cajun and Creole establishment indicator} \\ 
+                              	\hline\addlinespace
+				TV $\times$ Hispanic $\times$ Cajun and Creole brand&      -0.187 & -0.187 & -0.187 & -0.187 \\
+				& (1.630)  & (1.630)& (1.630) & (1.631) \\
+				\hline\hline\addlinespace
+				County log(income) & Yes & Yes & Yes & Yes \\
+				County \% Hispanic & No & Yes & Yes & Yes \\
+				County log(pop.) & No & No & Yes & Yes \\
+				County FE & No & No & No & Yes \\
+				NAICS code FE & No & No & No & Yes \\
+					\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:}  Standard errors are clustered at the county level. \hyperlink{safegraph_main}{\beamergotobutton{Back}} 
+			\end{tablenotes}
+		\end{threeparttable}
+        }
+\end{center}
+\end{frame}
+
 
 
 \end{document}
