@@ -15,10 +15,10 @@ sci_country <- read.table(file = 'us-counties-countries-fb-social-connectedness-
                           fr_loc == "NI" | fr_loc == "PA" | fr_loc == "CO" | fr_loc == "EC" | fr_loc == "GY" |
                           fr_loc == "PY" | fr_loc == "PE" | fr_loc == "SR" | fr_loc == "UY" | fr_loc == "CU" |
                           fr_loc == "DO" | fr_loc == "HT" | fr_loc == "PR", 1, 0),
-         latin_friends = latin * scaled_sci/(663543396 - 215079250),
-         nonlatin_friends = (1-latin) * scaled_sci/(7929246314 - 663543396),
+         latin_friends = latin * scaled_sci/(663543396 - 215079250)*1000000,
+         nonlatin_friends = (1-latin) * scaled_sci/(7929246314 - 663543396)*1000000,
          brazil = ifelse(fr_loc == "BR",1,0),
-         brazil_friends = brazil * scaled_sci/215079250,
+         brazil_friends = brazil * scaled_sci/215079250*1000000,
          mexico = ifelse(fr_loc == "MX", 1, 0),
          mexico_friends = mexico * scaled_sci) %>%
   filter(!is.na(latin)) %>%
