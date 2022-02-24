@@ -4,6 +4,7 @@ library(dplyr)
 library(texreg)
 library(tidyverse)
 library(stargazer)
+library(fixest)
 
 if (Sys.info()["user"] == "AndrewKao") {
   setwd('~/Documents/College/All/thesis/explore/Data/SCI') 
@@ -99,6 +100,43 @@ stargazer(m2,m3,m4, out = "../../Output/Regs/sci_dd_brazil.tex", title="Effect o
           omit = c('Constant','dist2','age','sexMale','sexNIU','cases'),
           dep.var.labels = 'Connectedness to Latin America',
           notes ="", se = makeRobust3(m2,m3,m4))
+
+
+etable_order <- c('TV:latin', 'TV','latin')
+setFixest_dict(c( TV = "TV dummy", 'TV:latin' = "TV dummy $\\times$ Latin America",
+                 latin = "Latin America"))
+
+om1 <- feols(friends ~ TV*latin + logPop, cluster = c("state"), data=latin_nonlatin) 
+om2 <- feols(friends ~ TV*latin + logPop + pcHisp , cluster = c("state"), data=latin_nonlatin)
+om3 <- feols(friends ~ TV*latin + logPop + pcHisp + income, cluster = c("state"), data=latin_nonlatin)
+etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/sci_dd_nonlatin_fe.tex",
+       order = etable_order, replace = TRUE,
+       title = 'Latin America vs. rest of world', digits = 5)
+
+om1 <- feols(friends ~ TV*latin + logPop, cluster = c("state"), data=latin_brazil) 
+om2 <- feols(friends ~ TV*latin + logPop + pcHisp , cluster = c("state"), data=latin_brazil)
+om3 <- feols(friends ~ TV*latin + logPop + pcHisp + income, cluster = c("state"), data=latin_brazil)
+etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/sci_dd_brazil_fe.tex",
+       order = etable_order, replace = TRUE,
+       title = 'Latin America vs. Brazil', digits = 5)
+
+
+########## long spec
+
+sci_ccountry <- readRDS("SCI_county_country_long.Rdata") %>%
+  mutate(stateCounty = str_pad(stateCounty,5,side = "left", pad = "0"))
+
+sciCounty2 = inner_join(sci_ccountry, instrument, by = "stateCounty") %>%
+  mutate(logPop = log(population), income = log(income))
+
+om1 <- feols(scaled_sci ~ TV*latin + logPop, cluster = c("state"), data=sciCounty2) 
+om2 <- feols(scaled_sci ~ TV*latin + logPop + pcHisp , cluster = c("state"), data=sciCounty2)
+om3 <- feols(scaled_sci ~ TV*latin + logPop + pcHisp + income, cluster = c("state"), data=sciCounty2)
+etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/sci_dd_nonlatin_long.tex",
+       order = etable_order, replace = TRUE,
+       title = 'Latin America vs. rest of world', digits = 5)
+#TODO: add country level controls
+
 
 ######
 makeRobust3 <- function(m1,m2,m3) {

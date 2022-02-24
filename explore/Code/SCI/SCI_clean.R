@@ -28,6 +28,18 @@ sci_country <- read.table(file = 'us-counties-countries-fb-social-connectedness-
   
 saveRDS(sci_country, "SCI_county_country.Rdata")
 
+
+sci_ccountry <- read.table(file = 'us-counties-countries-fb-social-connectedness-index-october-2021.tsv',
+           sep = '\t', header = TRUE) %>%
+  mutate(latin = ifelse(fr_loc == "MX" | fr_loc == "BO" | fr_loc == "CL" | fr_loc == "AR" | fr_loc == "VE" |
+                          fr_loc == "BZ" | fr_loc == "CR" | fr_loc == "SV" | fr_loc == "GT" | fr_loc == "HN" |
+                          fr_loc == "NI" | fr_loc == "PA" | fr_loc == "CO" | fr_loc == "EC" | fr_loc == "GY" |
+                          fr_loc == "PY" | fr_loc == "PE" | fr_loc == "SR" | fr_loc == "UY" | fr_loc == "CU" |
+                          fr_loc == "DO" | fr_loc == "HT" | fr_loc == "PR", 1, 0),
+         brazil = ifelse(fr_loc == "BR",1,0)) %>%
+  mutate(stateCounty = user_loc)
+
+saveRDS(sci_ccountry, "SCI_county_country_long.Rdata")
 ## population references
 # Lat Am: https://www.worldometers.info/world-population/latin-america-and-the-caribbean-population/
 # Brazil: https://www.worldometers.info/world-population/brazil-population/
