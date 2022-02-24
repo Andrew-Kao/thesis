@@ -120,6 +120,29 @@ etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/sci_dd_brazil_fe.tex",
        order = etable_order, replace = TRUE,
        title = 'Latin America vs. Brazil', digits = 5)
 
+japan_sci <- sciCounty %>%
+  mutate(friends = japan_friends, latin = 0)
+creole_sci <- sciCounty %>%
+  mutate(friends = creole_friends, latin = 0)
+
+latin_japan <- latin_sci %>%
+  rbind(japan_sci)
+latin_creole <- latin_sci %>%
+  rbind(creole_sci)
+
+om1 <- feols(friends ~ TV*latin + logPop, cluster = c("state"), data=latin_japan) 
+om2 <- feols(friends ~ TV*latin + logPop + pcHisp , cluster = c("state"), data=latin_japan)
+om3 <- feols(friends ~ TV*latin + logPop + pcHisp + income, cluster = c("state"), data=latin_japan)
+etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/sci_dd_japan_fe.tex",
+       order = etable_order, replace = TRUE,
+       title = 'Latin America vs. Japan', digits = 5)
+
+om1 <- feols(friends ~ TV*latin + logPop, cluster = c("state"), data=latin_creole) 
+om2 <- feols(friends ~ TV*latin + logPop + pcHisp , cluster = c("state"), data=latin_creole)
+om3 <- feols(friends ~ TV*latin + logPop + pcHisp + income, cluster = c("state"), data=latin_creole)
+etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/sci_dd_creole_fe.tex",
+       order = etable_order, replace = TRUE,
+       title = 'Latin America vs. Creole countries', digits = 5)
 
 ########## long spec
 

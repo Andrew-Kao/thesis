@@ -201,3 +201,38 @@ scale_bar <- function(lon, lat, distance_lon, distance_lat, distance_legend, dis
   }
   return(res)
 }
+
+
+
+################  SCI
+
+if (Sys.info()["user"] == "AndrewKao") {
+  setwd('~/Documents/College/All/thesis/explore/Data/SCI') 
+}
+
+sci_country <- readRDS("SCI_county_country.Rdata") %>%
+  mutate(stateCounty = str_pad(stateCounty,5,side = "left", pad = "0"))
+
+counties <- map_data("county")
+states <- map_data("state")
+ed <- data.frame(educ)
+gg_f <- ggplot(data=states, mapping=aes(x=long, y=lat,group = group)) +
+  geom_polygon(color="black", fill="gray") +
+  geom_polygon(data=counties, fill=NA, color="white") + 
+  geom_polygon(color="black", fill=NA) + 
+  geom_point(data = ed, aes(x = coords.x1, y = coords.x2, colour = "ivory", group = optional), alpha = 0.3) +
+  geom_polygon(data = spanishCont, aes(alpha = 0.1, colour = "cornsilk", fill = "blue")) +
+  ylim(24,50) +
+  xlim(-125,-65) +
+  theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank(),
+        axis.title.y=element_blank(), axis.text.y=element_blank(), axis.ticks.y=element_blank()) +
+  theme(legend.position = "none") +
+  scale_bar(lon = -120, lat = 26, 
+            distance_lon = 500, distance_lat = 100, distance_legend = 200, 
+            dist_unit = "km", orientation = FALSE,
+            legend_size = 5)
+plot(gg_f)
+ggsave("../../../analysis/Output/img/Schools_pretty.pdf", width = 16, height = 10)
+system2(command = "pdfcrop", 
+        args    = c("../../../analysis/Output/img/Schools_pretty.pdf", 
+                    "../../../analysis/Output/img/Schools_pretty.pdf"))

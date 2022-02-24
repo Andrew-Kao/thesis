@@ -20,11 +20,15 @@ sci_country <- read.table(file = 'us-counties-countries-fb-social-connectedness-
          brazil = ifelse(fr_loc == "BR",1,0),
          brazil_friends = brazil * scaled_sci/215079250*1000000,
          mexico = ifelse(fr_loc == "MX", 1, 0),
-         mexico_friends = mexico * scaled_sci) %>%
+         mexico_friends = mexico * scaled_sci,
+         japan = ifelse(fr_loc == "JP",1,0),
+         japan_friends = japan * scaled_sci/125800000*1000000,
+         creole = ifelse(fr_loc == "HT" | fr_loc == "JM", 1, 0),
+         creole_friends = creole * scaled_sci/14300000*1000000) %>%
   filter(!is.na(latin)) %>%
   group_by(user_loc) %>%
   summarise_all(mean) %>%
-  select(stateCounty = user_loc, latin_friends, nonlatin_friends, brazil_friends)
+  select(stateCounty = user_loc, latin_friends, nonlatin_friends, brazil_friends, japan_friends, creole_friends)
   
 saveRDS(sci_country, "SCI_county_country.Rdata")
 
