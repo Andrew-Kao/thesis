@@ -476,7 +476,8 @@ indiv_times <- atusCounty %>%
          group = ifelse(TV == 0 & hispanic_d == 1, 2, group),
          group = ifelse(TV == 1 & hispanic_d == 0, 3, group),
          group = ifelse(TV == 1 & hispanic_d == 1, 4, group),
-         d2 = ifelse(TV == 0, duration/12036002*24, duration/12678818*24))
+         d2 = ifelse(TV == 0, duration/12036002*24, duration/12678818*24), # for Hispanics
+         d3 = ifelse(TV == 0, duration/35288069*24, duration/38511627*24)) # for whites
 
 ggplot(data=indiv_times[indiv_times$hispanic_d == 1,], aes(x=TV, y=d2, fill=factor(activity,labels =
                               c("household work","leisure","other","sleep/self care","work & education","TV")))) +
@@ -491,6 +492,14 @@ ggplot(data=indiv_times[indiv_times$hispanic_d == 1 & indiv_times$activity == "t
   labs(y = "Duration") +
   scale_x_continuous(breaks = seq(0,1,1)) +
   scale_y_continuous(breaks = seq(0,100,10))
+
+ggplot(data=indiv_times[indiv_times$hispanic_d == 0,], aes(x=TV, y=d3, fill=factor(activity,labels =
+                                                                                     c("household work","leisure","other","sleep/self care","work & education","TV")))) +
+  geom_bar(stat="identity") +
+  labs(y = "Duration (hours)", fill = "Activity") +
+  scale_x_continuous(breaks = seq(0,1,1)) +
+  scale_y_continuous(breaks = seq(0,24,2))
+ggsave("../../../analysis/Output/graphs/time_breakdown_nonhispanic.pdf")
 
 
 summary(atusCounty$sleep)

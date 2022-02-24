@@ -1,11 +1,8 @@
 
 %%%% TODO:
-% add time breakdown to text
 % ask David for GSS data? would be beliefs about how hardworking Hispanics are etc., family
 % maybe switch creole to rest of world
 % theoretically could get county level student data? need to individually go through https://www.health.state.mn.us/data/mchs/surveys/mss/index.html and https://dmh.mo.gov/alcohol-drug/mobhew/missouri-student-survey-reports/2020 etc.
-% how many people pay for SLTV? any variation there?
-% try Poisson distribution
 % draw fake circles and test
 % remittances back to Latin America?
 % see heterogeneity of effect by population in Hispanic schools for strength of ties
@@ -239,7 +236,8 @@ Finally, in the education and psychology literature, stereotype threat is a phen
 
 % in recent years, highest viewed: Pequeños Gigantes (talent show, kids), El Señor de los Cielos (telenovella, cartel leader),   https://www.statista.com/statistics/497739/spanish-tv-programs-usa/
 
-
+% Q: how many people pay for SLTV? any variation there? 
+% A: looks like usually bundled. Univision is $10/month for direct access
 
 %% Do everything with d^2
 %% spatial errors: http://www.trfetzer.com/using-r-to-estimate-spatial-hac-errors-per-conley/
@@ -325,6 +323,8 @@ Table~\ref{t:atus_main}, Panel A presents a regression following the main specif
 
 Compared to other viewers of television, Hispanics are also uniquely likely to watch television in a social context rather than watching alone---this is partially driven by the fact that non-Hispanic households have 40\% more TV sets per person than Hispanic ones \citep{coghill_tuning_2018}. This social aspect, wherein SLTV is watched with family and friends, may be one way in which identity is reinforced through television. Appendix Table~\ref{t:atus_foreign}, Panel A shows that Hispanics differentially watch more TV with their parents when inside SLTV coverage contours. Appendix Table~\ref{t:atus_foreign}, Panel B replicates the analysis in Table~\ref{t:atus_main}, Panel A, restricting the sample to only foreign-born residents. These people are less likely to have English mastery and may thus view more foreign-language TV. Accordingly, the panel reports even greater differential TV viewership among foreign-born Hispanics.
 
+Finally one may be interested in what Hispanics spend \textit{less} time doing as a result of watching more TV. Appendix Figure~\ref{f:atus_breakdown} presents a breakdown of time spent per day for Hispanics with and without SLTV access and shows that slightly less time is spent on housework, although time spent on most daily activities remain similar. Appendix Figure~\ref{f:atus_breakdown_nonhispanic} shows the equivalent figure for non-Hispanics. Time use for non-Hispanics with and without SLTV access look similar. 
+
 
 % https://www.effectv.com/blog/tuning-hispanic-audiences
 % even the largest markets do not locally source more than 20\% of their Spanish language programming - from foreign countries or domestic
@@ -348,7 +348,7 @@ The difference-in-discontinuities strategy should take care of most concerns reg
 
 One may be concerned that schools near the outer bounds of the 100 kilometer cutoff may look quite different from one another. I narrow the sample distance cutoff to the contour boundary from 100 kilometers to 50 kilometers, 33 kilometers, and 10 kilometers and find that coefficients remain stable (see Panels A.2, A.3, and A.4). One may also be concerned about treatment effects very close to the coverage contour: students who attend a school 1 kilometer outside the contour may in fact live inside the contour, and the interference protection regulation may not be tightly enforced down to the last square foot. Thus, I keep only schools between 25 and 100 kilometers of the contour boundary and find qualitatively similar results (see Panel A.5).\footnote{ The average high school (elementary school) student lives 9.60 (5.76) KM away from school. See \url{https://nhts.ornl.gov/briefs/Travel\%20To\%20School.pdf} } Given that television signals decrease with the square of distance from the main station, I additionally add controls for distance and distance squared and find that results are robust (see Panel A.6). Any variation along state or county levels that may ex ante affect school similarity are also absorbed by the school district fixed effects. 
 
-Given the interest in the Hispanic achievement gap and the presence of 0s in the data, it is natural to use the IHS transform on outcome variables. The results are also robust to using the $log(x+1)$ transform instead (see Panel B.1). If one is interested in the numerical difference rather than percentage change that SLTV induces, Panel B.2 presents results for raw counts and Panel B.3 presents results for the standardized count of the variables. In each case, results remain positive and significant. Similarly, though the main specification is at the school level, one may be interested in student-level outcomes. Panel C.1 weights observations by the size of schools whereas Panel C.2 weights observations by the number of students in the given demographic category to make the data representative at the student level; results remain largely unchanged. Panel C.3 adds school fixed effects to use within-school variation and finds the result robust.
+Given the interest in the Hispanic achievement gap and the presence of 0s in the data, it is natural to use the IHS transform on outcome variables. The results are also robust to using the $log(x+1)$ transform instead (see Panel B.1). If one is interested in the numerical difference rather than percentage change that SLTV induces, Panel B.2 presents results for raw counts and Panel B.3 presents results for the standardized count of the variables. Panel B.4 presents results using a Poisson estimator instead, another sensible specification due to count nature of the outcomes and the presence of 0s. In each case, results remain positive and significant. Similarly, though the main specification is at the school level, one may be interested in student-level outcomes. Panel C.1 weights observations by the size of schools whereas Panel C.2 weights observations by the number of students in the given demographic category to make the data representative at the student level; results remain largely unchanged. Panel C.3 adds school fixed effects to use within-school variation and finds the result robust.
 
 The presence of bilingual stations that broadcast in both English and Spanish may alter the interpretation of results if change in Hispanic behavior is driven by these particular stations. There are 14 such stations in the data. Panel D.1 drops these stations and finds that coefficients remain stable. 
 
@@ -643,6 +643,18 @@ These results combined indicate that movement across coverage contours is not a 
 \centering
 \caption{Map of coverage contours of Spanish Language TV stations and public schools within 100 KM of the contour boundary in the US}\label{f:contours_schools_inside}
 \includegraphics[width=14.4cm]{../../analysis/Output/img/Schools_inside2.pdf}
+\end{figure} 
+
+\begin{figure}[!hbtp]
+\centering
+\caption{Breakdown of daily time use by Hispanics with and without Spanish Language TV}\label{f:atus_breakdown}
+\includegraphics[width=14.4cm]{../../analysis/Output/graphs/time_breakdown.png}
+\end{figure} 
+
+\begin{figure}[!hbtp]
+\centering
+\caption{Breakdown of daily time use by non-Hispanics with and without Spanish Language TV}\label{f:atus_breakdown_nonhispanic}
+\includegraphics[width=14.4cm]{../../analysis/Output/graphs/time_breakdown_nonhispanic.png}
 \end{figure} 
 
 % TODO: map contours by parent network?

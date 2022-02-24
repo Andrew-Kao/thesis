@@ -19,6 +19,8 @@ library(fixest)
 library(conflicted)
 conflict_prefer("select", "dplyr")
 conflict_prefer("filter", "dplyr")
+conflict_prefer("rename", "dplyr")
+conflict_prefer("mutate", "dplyr")
 
 
 if (Sys.info()["user"] == "AndrewKao") {
@@ -2075,8 +2077,9 @@ harass_contour <- harass %>%
 # 17: selection, retention
 # 18: dist < 25
 # 19: school FEs
+# 20: poisson
 
-spec <- 19
+spec <- 20
 
 if (spec == 1) {
   om1 <- lm(ihs(sch_satact) ~ TV + 
@@ -3136,7 +3139,53 @@ if (spec == 19) {
          order = etable_order, replace = TRUE, keep = c('TV'),
          title = 'School FE')
 }
-
+if (spec == 20) {
+    om1 <- fepois(ihs(sch_satact) ~ TV*eth + 
+                   origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass,
+                 subset = harass$origdist < 100)
+    om2 <- fepois(ihs(sch_satact) ~ TV*eth +
+                   origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                   total_students | LEAID, cluster = c("LEAID"), data=harass,
+                 subset = harass$origdist < 100)
+    om3 <- fepois(ihs(sch_satact) ~ TV*eth +
+                   origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                   total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("LEAID"), data=harass,
+                 subset = harass$origdist < 100)
+    etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_satactOLSIHS_pois.tex",
+           order = etable_order, replace = TRUE, keep = c('TV'),
+           title = 'Poisson')
+    
+    om1 <- fepois(ihs(sch_mathenr_calc) ~ TV*eth + 
+                   origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass,
+                 subset = harass$origdist < 100)
+    om2 <- fepois(ihs(sch_mathenr_calc) ~ TV*eth +
+                   origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                   total_students | LEAID, cluster = c("LEAID"), data=harass,
+                 subset = harass$origdist < 100)
+    om3 <- fepois(ihs(sch_mathenr_calc) ~ TV*eth +
+                   origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                   total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("LEAID"), data=harass,
+                 subset = harass$origdist < 100)
+    etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_calcOLSIHS_pois.tex",
+           order = etable_order, replace = TRUE, keep = c('TV'),
+           title = 'Poisson')
+    
+    om1 <- fepois(ihs(sch_appass_oneormore) ~ TV*eth + 
+                   origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass,
+                 subset = harass$origdist < 100)
+    om2 <- fepois(ihs(sch_appass_oneormore) ~ TV*eth +
+                   origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                   total_students | LEAID, cluster = c("LEAID"), data=harass,
+                 subset = harass$origdist < 100)
+    om3 <- fepois(ihs(sch_appass_oneormore) ~ TV*eth +
+                   origpcHisp + origLogInc + origLogPop + SCH_TEACHERS_CURR_TOT +  hisp_students + asian_students  + 
+                   total_students + SCH_GRADE_G01 + SCH_GRADE_G06 + SCH_GRADE_G09 | LEAID, cluster = c("LEAID"), data=harass,
+                 subset = harass$origdist < 100)
+    etable(om1,om2,om3, tex = TRUE, file = "../../Output/Regs/edu_dda_appOLSIHS_pois.tex",
+           order = etable_order, replace = TRUE, keep = c('TV'),
+           title = 'Poisson')
+  
+}
 
 
 ##### Diff in diff mech #######
