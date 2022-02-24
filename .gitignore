@@ -43,3 +43,4 @@ scons/
 *.xlsx
 *.txt
 *.geojson
+*.tsv
