@@ -15,16 +15,24 @@ sci_country <- read.table(file = 'us-counties-countries-fb-social-connectedness-
                           fr_loc == "NI" | fr_loc == "PA" | fr_loc == "CO" | fr_loc == "EC" | fr_loc == "GY" |
                           fr_loc == "PY" | fr_loc == "PE" | fr_loc == "SR" | fr_loc == "UY" | fr_loc == "CU" |
                           fr_loc == "DO" | fr_loc == "HT" | fr_loc == "PR", 1, 0),
-         latin_friends = latin * scaled_sci,
-         nonlatin_friends = (1-latin) * scaled_sci,
+         latin_friends = latin * scaled_sci/(663543396 - 215079250),
+         nonlatin_friends = (1-latin) * scaled_sci/(7929246314 - 663543396),
          brazil = ifelse(fr_loc == "BR",1,0),
-         brazil_friends = brazil * scaled_sci) %>%
+         brazil_friends = brazil * scaled_sci/215079250,
+         mexico = ifelse(fr_loc == "MX", 1, 0),
+         mexico_friends = mexico * scaled_sci) %>%
   filter(!is.na(latin)) %>%
   group_by(user_loc) %>%
   summarise_all(mean) %>%
   select(stateCounty = user_loc, latin_friends, nonlatin_friends, brazil_friends)
   
 saveRDS(sci_country, "SCI_county_country.Rdata")
+
+## population references
+# Lat Am: https://www.worldometers.info/world-population/latin-america-and-the-caribbean-population/
+# Brazil: https://www.worldometers.info/world-population/brazil-population/
+# world:  https://www.worldometers.info/world-population/
+
 
 # countries:
 # latin +  mexico +  bolivia +  chile +  argentina + 
