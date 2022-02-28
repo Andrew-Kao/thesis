@@ -1,0 +1,33 @@
+
+\begin{table}[!htbp] \centering 
+  \caption{Effect of Spanish language TV on social connectedness to Latin America} 
+  \label{t:sci_main} 
+	\scalebox{.75}{
+		\begin{threeparttable}
+			\begin{tabular}{lcccccccccc}
+				\hline\hline\addlinespace
+				& \multicolumn{4}{c}{\textit{Social Connectedness Index}}  \\  				
+				\cmidrule(lr){2-5} &  (1) & (2) & (3) & (4) \\
+				\addlinespace\hline\addlinespace
+				\multicolumn{4}{l}{Panel A: Latin America vs. rest of world} \\ 
+                              	\hline\addlinespace
+				TV dummy $\times$ Latin America & 22.023$^{***}$ & 22.023$^{***}$ & 22.023$^{***}$\\
+				  &(6.837) & (6.838) & (6.839)\\
+				\hline\hline\addlinespace
+				\multicolumn{4}{l}{Panel B: Latin America vs. Brazil} \\ 
+                              	\hline\addlinespace
+				 TV dummy $\times$ Latin America & 19.703$^{***}$ & 19.703$^{***}$ & 19.703$^{***}$\\
+				  &(6.219) & (6.220) & (6.221)\\
+				\hline\hline\addlinespace
+				County log(income) & Yes & Yes & Yes \\
+				County \% Hispanic & No & Yes & Yes \\
+				County log(pop.) & No & No & Yes  \\
+					\addlinespace\hline\hline
+			\end{tabular}
+			\begin{tablenotes}[flushleft]
+				\item \textit{Notes:} The table presents coefficient estimates from regressions at the county-country group level, only keeping locations within 100 KM of a Spanish language TV contour boundary. The dependent variable is the Facebook Social Connectedness Index developed by \cite{bailey2018social}. Panel A compares the connectedness between counties and Latin America vs. counties and the rest of the world, while Panel B compares the connectedness between counties and Latin America vs. counties and Brazil. Columns 1-3 include controls for the mean log(income) of the county. Columns 2-3 control for the percentage of the county that is Hispanic. Column 3 controls for the county's log(population). Standard errors are clustered at the state level. *, **, and *** denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.
+			\end{tablenotes}
+		\end{threeparttable}
+	}
+\end{table}
+

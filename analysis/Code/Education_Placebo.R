@@ -37,6 +37,20 @@ if (Sys.info()["user"] == "AndrewKao") {
 
 harass <- read.csv(file = "dda.csv")
 
+
+
+# plan:
+# 1. draw fake contour
+# https://search.r-project.org/CRAN/refmans/sampSurf/html/spCircle.html 
+# 2. classify schools as inside/outside by lat/long
+# 3. run feols, store result
+# 4. repeat 1-3 1000x
+# 5. plot result
+
+
+# radius 220km is about 2 degrees long/lat
+# https://www.fcc.gov/media/radio/fm-and-tv-propagation-curves
+
 # US bounding box
 # (-124.848974, 24.396308) - (-66.885444, 49.384358)
 xmin <- -124.848974
@@ -100,19 +114,6 @@ for (i in 1:1000) {
     add_row(coeff = om3$coefficients['TV:eth'], se = om3$se['TV:eth'])
 }
 
-
-
-# plan:
-# 1. draw fake contour
-# https://search.r-project.org/CRAN/refmans/sampSurf/html/spCircle.html 
-# 2. classify schools as inside/outside by lat/long
-# 3. run feols, store result
-# 4. repeat 1-3 1000x
-# 5. plot result
-
-
-# radius 250km 
-# https://www.fcc.gov/media/radio/fm-and-tv-propagation-curves
 
 
 ###### alternate placebos:
