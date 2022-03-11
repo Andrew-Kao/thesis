@@ -3,9 +3,10 @@
 % ask David for GSS data? would be beliefs about how hardworking Hispanics are etc., family
 % maybe switch creole to rest of world
 % theoretically could get county level student data? need to individually go through https://www.health.state.mn.us/data/mchs/surveys/mss/index.html and https://dmh.mo.gov/alcohol-drug/mobhew/missouri-student-survey-reports/2020 etc.
-% draw fake circles and test; add both placebos to text
 % remittances back to Latin America?
 % see heterogeneity of effect by population in Hispanic schools for strength of ties
+% check ANES data
+% draw fake circles and test; add both placebos to text (why doesn't work?)
 
 \documentclass[11pt]{article}
 
@@ -356,9 +357,9 @@ Reverse causality could be a concern if TV executives strategically place TV sta
 
 Selection \textit{within} schools may also be a concern: perhaps the worst Hispanic students drop out more under the presence of SLTV, or the best Hispanic students move to private schools in areas without SLTV. I test for this in Appendix Table~\ref{t:edu_retain} and find an insignificant difference in the number of Hispanic students retained across the SLTV boundary.
 
-The main results also remain significant under different treatments of standard errors. Appendix Table~\ref{t:edu_robust}, Panels F.1 and F.2 correct for spatial autocorrelation, accounting for arbitrary spatial clusters and allowing for linear decay in the correlation structure (using the Bartlett kernel) respectively. Panel F.3 two-way clusters standard errors by school district and the parent TV network of the closest station. Panel F.4 clusters standard errors at the TV station level. Panel F.5 uses heteroskedasticity robust standard errors.
+The main results also remain significant under different treatments of standard errors. Appendix Table~\ref{t:edu_robust}, Panels F.1 and F.2 correct for spatial autocorrelation, accounting for arbitrary spatial clusters and allowing for linear decay in the correlation structure (using the Bartlett kernel) respectively. Panel F.3 two-way clusters standard errors by school district and the parent TV network of the closest station. Panel F.4 clusters standard errors at the TV station level. Panel F.5 uses heteroskedasticity robust standard errors. Appendix Figure~\ref{f:placebo_random} conducts a placebo exercise by randomly assigning schools with SLTV status and running the baseline specification 1000 times. The actual estimated treatment effects are much larger (and more precisely estimated) than the placebo treatment effects.
 
-Finally, one might wonder how SLTV affects the white-Hispanic achievement gap. Panel G.1 presents results using white students as the omitted category instead of Asian students. Hispanics make up even more ground under this specification.
+Finally, one might wonder how SLTV affects the white-Hispanic achievement gap. Panel G.1 presents results using white students as the omitted category instead of Asian students. Hispanics make up even more ground under this specification. 
 
 Taken as a whole, these results suggest that SLTV is a meaningful force that can improve Hispanic student performance in public schools and reduce the achievement gap. Nonetheless, several caveats must be made: first, although taking the SAT and ACT exams, taking higher math, and passing AP exams are all correlated with enrollment in college and higher earnings, I do not actually observe long-run outcomes for these Hispanic students. Thus, it may be the case that SLTV helps the youth but that these effects do not persist through adulthood.\footnote{ Though it is in principle possible to employ this difference-in-discontinuity design to these long-run outcomes, I focus on immediate schooling outcomes in this paper and leave the long-run effect as space for potential future work.} Second, although Hispanic student outcomes in schools improve, this analysis does not speak to a variety of other negative consequences thought to be caused by TV, such as obesity or violence. It is possible that these effects coexist. Finally, these findings are focused on measuring the effect of \textit{Spanish Language} TV, rather than on TV as a whole. It is worth bearing in mind that the literature typically finds null to negative effects of TV, which may lead the strong positive effects of SLTV to come as a shock to some. Academic brilliancy is not typically associated with the banal, mindless enjoyment of lazing on a couch before a flatscreen. So what might drive these results?
 
