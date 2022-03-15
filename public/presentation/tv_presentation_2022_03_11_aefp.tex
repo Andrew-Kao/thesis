@@ -82,9 +82,13 @@
 \frametitle{Motivation (II): Americans \textit{really} love TV}
 \vspace{1.5pt}
 \centering
-        \includegraphics[width=\textwidth]{figs/tv_time1}\\
+        \includegraphics[width=\textwidth]{figs/tv_time1}
+        \vspace{-3em}
+\begin{flushright}
+                \includegraphics[width=.8\textwidth]{figs/tv_time4}
+\end{flushright}
+\vspace{-4em}
         \includegraphics[width=\textwidth]{figs/tv_time2}\\
-        \includegraphics[width=.5\textwidth]{figs/tv_time3}\\
 \end{frame}
 
 
@@ -104,17 +108,26 @@
 \frametitle{This project:}
 
 Show that SLTV reduces the Hispanic achievement gap in public schools:
+\vspace{1.5em}
 \begin{itemize}
+  \setlength\itemsep{1.5em}
+
 \item Identification: difference-in-discontinuities design
 \item Gap vs. whites and Asians in SAT/ACTs taken, calculus courses taken, AP exams passed, etc. \textbf{shrinks} with SLTV
 \item However, the gap vs. whites and Asians \textbf{rises} when looking at English proficiency
 \end{itemize}
 
-How to reconcile this?
+\end{frame}
+
+\begin{frame}
+\frametitle{How to reconcile this?}
+
+
 \pause 
 Propose an \textbf{identity} mechanism. Four strands of evidence:
-
+\vspace{1.5em}
 \begin{enumerate}
+  \setlength\itemsep{1.5em}
 \item More bullying on the basis of ethnicity (but not gender)
 
 \item Hispanics perform better where SLTV focuses more on Hispanic identity (but not on education)
@@ -141,6 +154,7 @@ Propose an \textbf{identity} mechanism. Four strands of evidence:
 
 
 \begin{itemize}
+  \setlength\itemsep{1.5em}
 \item Construct spatial RD arising from FCC TV signal regulation \textit{(OET Bulletin 69)}
 \begin{itemize}
 \item TV stations protected from interference only within certain coverage contour areas. Keep observations within 100 KM of the contour boundary
@@ -189,17 +203,17 @@ where $y_{i,j}$ is an outcome for observation $i$ (which may be an individual, s
 \begin{itemize}
 \item Instrument:
 \begin{itemize}
-\item Identify 100 Spanish Language TV stations across the US from TMS
-\item Station contours and other station data from the FCC
+\item Identify 100 Spanish Language TV stations across the US from \textbf{TMS}
+\item Station contours and other station data from the \textbf{FCC}
 \end{itemize}
 
-\item American Time Use Survey over last 15 years:
+\item \textbf{American Time Use Survey} over last 15 years:
 \begin{itemize}
 \item 210,000 person-year observations
 \item Average person watches 170 minutes of TV per day
 \end{itemize}
 
-\item Department of Education's Civil Rights Data Collection in 2015:
+\item Department of Education's \textbf{Civil Rights Data Collection} in 2015:
 \begin{itemize}
 \item 48,000 public schools in sample (unit of observation)
 \item Data on academic outcomes (SAT/ACTs taken, AP exams passed, etc.) \& other school data
@@ -207,9 +221,9 @@ where $y_{i,j}$ is an outcome for observation $i$ (which may be an individual, s
 
 \item Other measures of identity:
 \begin{itemize}
-\item TV transcript data from archive.org
-\item Foot-traffic data from Safegraph
-\item Social connectedness data from Facebook
+\item TV transcript data from \textbf{archive.org}
+\item Foot-traffic data from \textbf{Safegraph}
+\item Social connectedness data from \textbf{Facebook}
 \end{itemize}
 
 %\item Demographic information at county/census block group level from ACS
@@ -225,7 +239,8 @@ where $y_{i,j}$ is an outcome for observation $i$ (which may be an individual, s
 \frametitle{TV Viewership across the SLTV Boundary} \label{atus_time}
 
 \begin{center}
-\includegraphics[width=.75\textwidth]{../../analysis/Output/graphs/atus2.pdf}\\
+\includegraphics[width=.75\textwidth]{../../analysis/Output/graphs/atus2.pdf}
+\includegraphics[width=.24\textwidth]{figs/contour_describer}\\
 \end{center}
 \vspace{-5pt}
 \footnotesize Negative distances are outside coverage contour (no SLTV). \hyperlink{atus_breakdown}{\beamergotobutton{Time breakdown}}
@@ -313,22 +328,36 @@ where $y_{i,j}$ is an outcome for observation $i$ (which may be an individual, s
 \begin{center}
 \scalebox{0.88}{
 
+%			\begin{tabular}{lc|ccccccccc}
+%				\hline\hline\addlinespace
+%				& Gap vs. white & Gap vs. Asian & Gap after SLTV \\
+%				\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(lr){4-4}&  (1) & (2) & (3)  \\
+%				\addlinespace\hline\addlinespace
+%				SAT/ACTs taken & 36.6 \% & 46.8\% & 38.3\%  \\
+%				Calculus taken & 15.0\% & 53.6\% & 41.0\%  \\
+%				APs passed & 17.8\% & 72.3\% & 69.6\%  \\
+%				Gifted students & 56.6\% & 60.5\% & 51.0\%  \\
+%				Advanced math taken & 25.8\% & 45.3\% & 31.7\%  \\
+%				Biology taken  & -6.2\% & 5.6\% & -18.9\% \\
+%				Physics taken & 25.4\% & 43.7\% & 26.2\%  \\
+%				Chemistry taken & 9.9\%  & 27.7\% & 6.7\% \\
+%					\addlinespace\hline\hline
+%			\end{tabular}
 			\begin{tabular}{lc|ccccccccc}
 				\hline\hline\addlinespace
-				& Gap vs. white & Gap vs. Asian & Gap after SLTV \\
-				\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(lr){4-4}&  (1) & (2) & (3)  \\
+				& Gap vs. Asian & Gap after SLTV \\
+				\cmidrule(lr){2-2}\cmidrule(lr){3-3} &  (1) & (2)  \\
 				\addlinespace\hline\addlinespace
-				SAT/ACTs taken & 36.6 \% & 46.8\% & 38.3\%  \\
-				Calculus taken & 15.0\% & 53.6\% & 41.0\%  \\
-				APs passed & 17.8\% & 72.3\% & 69.6\%  \\
-				Gifted students & 56.6\% & 60.5\% & 51.0\%  \\
-				Advanced math taken & 25.8\% & 45.3\% & 31.7\%  \\
-				Biology taken  & -6.2\% & 5.6\% & -18.9\% \\
-				Physics taken & 25.4\% & 43.7\% & 26.2\%  \\
-				Chemistry taken & 9.9\%  & 27.7\% & 6.7\% \\
+				SAT/ACTs taken & 46.8\% & 38.3\%  \\
+				Calculus taken  & 53.6\% & 41.0\%  \\
+				APs passed  & 72.3\% & 69.6\%  \\
+				Gifted students & 60.5\% & 51.0\%  \\
+				Advanced math taken & 45.3\% & 31.7\%  \\
+				Biology taken & 5.6\% & -18.9\% \\
+				Physics taken & 43.7\% & 26.2\%  \\
+				Chemistry taken  & 27.7\% & 6.7\% \\
 					\addlinespace\hline\hline
 			\end{tabular}
-
         }
 \end{center}
 
@@ -379,16 +408,19 @@ So should we stick kids in front of a TV instead of sending them to school?
 \begin{frame}
 \frametitle{The content of SLTV programs}
 \begin{itemize}
+  \setlength\itemsep{2em}
 \item Data from archive.org's TV transcript database (2005 - 2015)
 \begin{itemize}
 \item Use keyword matching to code content of television programs
 \item Variation at the television network level
 \end{itemize}
 \item Test three different mechanisms:
+\vspace{0.6em}
 \begin{itemize}
-\item Identity: 10.8\% of programs relate to Latin America (vs. sports/weather/local news translated into Spanish etc.)
-\item Education: 15\% of programs that mention schools
-\item Role models: 5.0\% of programs with good role models for children/adolescents (mostly telenovelas)
+  \setlength\itemsep{0.6em}
+\item \textbf{Identity:} 10.8\% of programs relate to Latin America (vs. sports/weather/local news translated into Spanish etc.)
+\item \textbf{Education:} 15\% of programs that mention schools
+\item \textbf{Role models:} 5.0\% of programs with good role models for children/adolescents (mostly telenovelas)
 \end{itemize}
 \end{itemize}
 \end{frame}
@@ -429,11 +461,12 @@ So should we stick kids in front of a TV instead of sending them to school?
 \begin{frame}
 \frametitle{More on identity}\label{identity_more}
 \begin{itemize}
-\item Hispanics visit more Hispanic-branded establishments (restaurants, recreation businesses) when they have access to SLTV \hyperlink{safegraph_data}{\beamergotobutton{Data and table}}
+  \setlength\itemsep{2em}
+\item Hispanics \textbf{visit more Hispanic-branded establishments} (restaurants, recreation businesses) when they have access to SLTV \hyperlink{safegraph_data}{\beamergotobutton{Data and table}}
 \begin{itemize}
 \item However, they are no more likely to visit Brazilian establishments (or Japanese, or Cajun/Creole etc.)
 \end{itemize}
-\item Counties with SLTV are more socially connected with Latin America \hyperlink{sci_data}{\beamergotobutton{Data and table}}
+\item Counties with SLTV are more \textbf{socially connected with Latin America} \hyperlink{sci_data}{\beamergotobutton{Data and table}}
 \begin{itemize}
 \item However, they are not more connected to Brazil (or the rest of the world)
 \end{itemize}
