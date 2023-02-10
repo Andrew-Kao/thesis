@@ -18,6 +18,7 @@ library(missForest)
 library(fixest)
 library(conflicted)
 library(rdd)
+library(rdrobust)
 conflict_prefer("select", "dplyr")
 conflict_prefer("filter", "dplyr")
 conflict_prefer("rename", "dplyr")
@@ -64,7 +65,10 @@ cSA <- cleanSchoolAll %>%
   mutate(distance = distance/1000) %>%
   filter(distance != 0)
 
+png(file="../../Output/Diagnostics/McCrary.png", width=800,height=800)
 DCdensity(cSA$distance, verbose = TRUE)
+dev.off()
+
 
 ## somehow 2/4 draws here are still significant < .05 -- test too strong?
 cSA <- cleanSchoolAll %>%
@@ -93,6 +97,7 @@ harass_fix <- harass %>%
   mutate(distance = ifelse(TV > 0, origdist, -origdist))
 IKbandwidth(harass_fix$distance, ihs(harass$sch_satact), cutpoint = 0, verbose = TRUE, kernel = "triangular")
 IKbandwidth(harass_fix$distance, ihs(harass$sch_satact), cutpoint = 0, verbose = TRUE, kernel = "rectangular")
+
 
 
 harass_as <- cleanSchoolAll %>%
@@ -166,8 +171,17 @@ harass_fix <- harass_hi %>%
 IKbandwidth(harass_fix$distance, ihs(harass_fix$sch_satact), cutpoint = 0, verbose = TRUE, kernel = "triangular")
 IKbandwidth(harass_fix$distance, ihs(harass_fix$sch_satact), cutpoint = 0, verbose = TRUE, kernel = "rectangular")
 
-## time to kill the project?
+harass_rdbws <- harass_fix %>%
+  filter(!is.na(sch_satact) & !is.na(distance))
 
+noiser <- harass_rdbws$distance + runif(length(harass_rdbws$distance))
+# rdbwselect(ihs(harass_fix$sch_satact), harass_fix$distance, fuzzy = TRUE)
+bws <- rdbwselect(ihs(harass_rdbws$sch_satact), harass_rdbws$distance, fuzzy = integer(length(harass_rdbws$distance)) + 1,
+           all = TRUE)
+## close to 33 KM
+
+## time to kill the project?
+# maybe not
 
 harass <- cleanSchoolAll %>%
   mutate(TV = inside) %>%
@@ -183,3 +197,8 @@ setFixest_dict(c('TV:eth' = "TV dummy $\\times$ Hispanic", TV = "TV dummy", 'TV:
                  'TV:eth:word_latin_mean' = 'TV dummy $\\times$ Hispanic $\\times$ \\% programs on identity',
                  'TV:eth:word_edu_mean' = 'TV dummy $\\times$ Hispanic $\\times$ \\% programs on education',
                  'TV:eth:word_rolemodel_mean' = 'TV dummy $\\times$ Hispanic $\\times$ \\% programs with role models'))
+
+ihs <- function(x) {
+  y <- log(x + sqrt(x ^ 2 + 1))
+  return(y)
+}
