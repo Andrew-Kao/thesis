@@ -69,6 +69,16 @@ png(file="../../Output/Diagnostics/McCrary.png", width=800,height=800)
 DCdensity(cSA$distance, verbose = TRUE)
 dev.off()
 
+# ht from Plots.R, TV = 1
+png(file="../../Output/Diagnostics/McCrary2.png", width=800,height=800)
+DCdensity(ht$dist, verbose = TRUE)
+dev.off()
+
+test <- cleanSchoolAll %>%
+  mutate(TV = inside) %>%
+  filter(minDist < 100000 ) %>%
+  mutate(dist = ifelse(TV > 0 & TV < 4, minDist, -minDist))
+DCdensity(test$dist, verbose = TRUE)
 
 ## somehow 2/4 draws here are still significant < .05 -- test too strong?
 cSA <- cleanSchoolAll %>%

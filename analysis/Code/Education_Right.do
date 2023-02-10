@@ -36,6 +36,13 @@ gen ihs_app = asinh(sch_appass_oneormore)
 
 local outcomes "satact calc app"
 
+*** spec guide 
+* 1: baseline
+* 2: placebo
+
+local spec = 2
+
+if `spec' == 1 {
 foreach out in `outcomes' {
 	acreg ihs_`out' inter tv eth hisp_students asian_students, latitude(y) longitude(x) pfe1(id) spatial distcutoff(100) 
 	est sto a1
@@ -74,3 +81,62 @@ starlevels(* 0.10 ** 0.05 *** 0.01) label
 }
 
 
+	
+}
+else if `spec' == 2 {
+
+
+tempname fh 
+file open `fh' using "../../../Analysis/Output/graphs/placebo_coeffs.csv", write text replace
+
+	
+forv i= 1/100 {
+	di "`i'"
+	cap drop placebo*
+	replace tv = 0
+	forv j = 1/200 {
+		qui gen placebo_x_`j' = runiform(-124.848974,-66.885444) if _n == 1
+		qui gen placebo_y_`j' = runiform(24.396308,49.384358) if _n == 1
+		egen placebo_xc_`j' = mean(placebo_x_`j')
+		egen placebo_yc_`j' = mean(placebo_y_`j')
+		qui replace tv = 1 if abs(x - placebo_xc_`j') < 2 & abs(y - placebo_yc_`j') < 2
+	}
+	
+	replace inter = tv * eth
+	
+	foreach out in `outcomes' {
+		acreg ihs_`out' inter tv eth hisp_students asian_students, latitude(y) longitude(x) pfe1(id) spatial distcutoff(100) 
+		local b = _b[inter]
+		local se = _se[inter]
+		file write `fh' "`out',`b',`se'" _newline
+	}	
+}	
+file close `fh'
+
+
+import delim "../../../Analysis/Output/graphs/placebo_coeffs.csv", clear	
+
+ren (v1 v2 v3) (outcome b se)	
+
+sort b
+drop nn
+gen nn = _n
+
+
+local max5 = _N - 5	
+su b if nn == 5
+local b5 = string(r(mean),"%9.3f")
+su b if nn == 50
+local b50 = string(r(mean),"%9.3f")
+su b if nn == `max5'
+local b95 = string(r(mean),"%9.3f")
+graph twoway (scatter b nn ,color(black)) ///
+	, ytitle("") xtitle(" ") xline(5 50 `max5') yline(1.889, lcolor(grey)) ///
+					graphregion(fcolor(white) ilcolor(white) lcolor(white)) /// 
+					legend(label(1 "Coefficient")) ///
+					title("by countour") ///
+					note("5%: `b5', 50%: `b50' , 95%: `b95', rank of main coefficient (0.375) = 87th ")
+					
+	graph export "../../../Analysis/Output/graphs/placebo_contour_coeffs.png", replace
+	
+}

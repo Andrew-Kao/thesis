@@ -72,7 +72,7 @@ plotdf <- cleanSchoolAll %>%
          distance = minDist/1000,
          dist = inout * distance,
          origLogPop = log(origpopulation), origLogInc = log(origincome)) %>%
-  filter(distance < 50)
+  filter(distance < 100)
 ggplot() + geom_smooth(data = plotdf, aes(dist,ihs(sch_lepenr_hi)), n = 9)
 ggplot() + geom_smooth(data = plotdf, aes(dist,ihs(sch_apenr_hi)))
 ggplot() + geom_smooth(data = plotdf, aes(dist,ihs(sch_discwodis_singoos_hi)), n = 8) +
@@ -89,6 +89,110 @@ ggplot() + geom_smooth(data = plotdf, aes(dist,ihs(sch_hbreported_rac_hi)), n = 
 ggplot() + geom_smooth(data = plotdf, aes(dist,ihs(sch_absent_hi)),n=7) +
   labs(x = "Distance to Contour Boundary (KM)", y = "IHS(# Hispanic Students Chronically Absent)") # do w/ 27
 ggsave("hispanic.pdf")
+
+
+#### new cuts
+om1 <- feols(ihs(sch_satact) ~ TV*eth + 
+               origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass,
+             subset = harass$origdist < 100)
+pred_satact <- predict(om1,harass)
+ht <- harass %>%
+  mutate(pred_y = pred_satact,
+         inout = ifelse(TV > 0, 1, -1),
+         dist = inout * sqrt(dist2))
+ggplot() + stat_binscatter(data = ht[ht$dist > -100 & ht$eth == 1,], aes(dist,ihs(sch_satact), color = "blue"), alpha = 0.5) +
+  stat_binscatter(data = ht[ht$dist > -100 & ht$eth == 0,], aes(dist,ihs(sch_satact), color = "red"), alpha = 0.5) +
+  geom_smooth(data = ht[ht$dist > 0 & ht$eth == 1,], aes(dist,pred_y, color = "blue"), n = 4) +
+  geom_smooth(data = ht[ht$dist > 0 & ht$eth == 0,], aes(dist,pred_y, color = "red"), n = 4) +
+  geom_smooth(data = ht[ht$dist > -100 & ht$dist < 0 & ht$eth == 1,], aes(dist,pred_y, color = "blue"),n = 4) +
+  geom_smooth(data = ht[ht$dist > -100  & ht$dist < 0 & ht$eth == 0,], aes(dist,pred_y, color = "red"),n = 4) +
+  labs(x = "Distance to contour boundary (KM)", y = "IHS(SAT/ACTs Taken)") +
+  theme(legend.position = c(0.2, 0.8)) + scale_color_discrete(name = "Demographic",
+                                                              labels = c("Hispanic", "Asian")) + 
+  coord_cartesian(xlim =c(-100, NA))
+ggsave("satact.pdf")
+
+
+om1 <- feols(ihs(sch_mathenr_calc) ~ TV*eth + 
+               origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass,
+             subset = harass$origdist < 100)
+pred_math <- predict(om1,harass)
+ht <- harass %>%
+  mutate(pred_y = pred_math,
+         inout = ifelse(TV == 1, 1, -1),
+         dist = inout * sqrt(dist2))
+ggplot() + stat_binscatter(data = ht[ht$dist > -100 & ht$eth == 1,], aes(dist,ihs(sch_mathenr_calc), color = "blue"), alpha = 0.5) +
+  stat_binscatter(data = ht[ht$dist > -100 & ht$eth == 0,], aes(dist,ihs(sch_mathenr_calc), color = "red"), alpha = 0.5) +
+  geom_smooth(data = ht[ht$dist > 0 & ht$eth == 1,], aes(dist,pred_y, color = "blue"), n = 5) +
+  geom_smooth(data = ht[ht$dist > 0 & ht$eth == 0,], aes(dist,pred_y, color = "red"), n = 5) +
+  geom_smooth(data = ht[ht$dist > -100 & ht$dist < 0 & ht$eth == 1,], aes(dist,pred_y, color = "blue"),n = 5) +
+  geom_smooth(data = ht[ht$dist > -100  & ht$dist < 0 & ht$eth == 0,], aes(dist,pred_y, color = "red"),n = 5) +
+  labs(x = "Distance to contour boundary (KM)", y = "IHS(calculus taken)") +
+  theme(legend.position = c(0.2, 0.8)) + scale_color_discrete(name = "Demographic",
+                                                              labels = c("Hispanic", "Asian")) + 
+  coord_cartesian(xlim =c(-100, NA))
+ggsave("mathenr.pdf")
+
+om1 <- feols(ihs(sch_appass_oneormore) ~ TV*eth + 
+               origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass,
+             subset = harass$origdist < 100)
+pred_ap <- predict(om1,harass)
+ht <- harass %>%
+  mutate(pred_y = pred_ap,
+         inout = ifelse(TV == 1, 1, -1),
+         dist = inout * sqrt(dist2))
+ggplot() + stat_binscatter(data = ht[ht$dist > -100 & ht$eth == 1,], aes(dist,ihs(sch_appass_oneormore), color = "blue"), alpha = 0.5) +
+  stat_binscatter(data = ht[ht$dist > -100 & ht$eth == 0,], aes(dist,ihs(sch_appass_oneormore), color = "red"), alpha = 0.5) +
+  geom_smooth(data = ht[ht$dist > 0 & ht$eth == 1,], aes(dist,pred_y, color = "blue"), n = 5) +
+  geom_smooth(data = ht[ht$dist > 0 & ht$eth == 0,], aes(dist,pred_y, color = "red"), n = 5) +
+  geom_smooth(data = ht[ht$dist > -100 & ht$dist < 0 & ht$eth == 1,], aes(dist,pred_y, color = "blue"),n = 5) +
+  geom_smooth(data = ht[ht$dist > -100  & ht$dist < 0 & ht$eth == 0,], aes(dist,pred_y, color = "red"),n = 5) +
+  labs(x = "Distance to contour boundary (KM)", y = "IHS(APs passed)") +
+  theme(legend.position = c(0.2, 0.8)) + scale_color_discrete(name = "Demographic",
+                                                              labels = c("Hispanic", "Asian")) + 
+  coord_cartesian(xlim =c(-100, NA))
+ggsave("appassed.pdf")
+
+om1 <- feols(ihs(sch_lepenr) ~ TV*eth + 
+               origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass,
+             subset = harass$origdist < 100)
+pred_lep <- predict(om1,harass)
+ht <- harass %>%
+  mutate(pred_y = pred_lep,
+         inout = ifelse(TV == 1, 1, -1),
+         dist = inout * sqrt(dist2))
+ggplot() + stat_binscatter(data = ht[ht$dist > -100 & ht$eth == 1,], aes(dist,ihs(sch_lepenr), color = "blue"), alpha = 0.5) +
+  stat_binscatter(data = ht[ht$dist > -100 & ht$eth == 0,], aes(dist,ihs(sch_lepenr), color = "red"), alpha = 0.5) +
+  geom_smooth(data = ht[ht$dist > 0 & ht$eth == 1,], aes(dist,pred_y, color = "blue"), n = 5) +
+  geom_smooth(data = ht[ht$dist > 0 & ht$eth == 0,], aes(dist,pred_y, color = "red"), n = 5) +
+  geom_smooth(data = ht[ht$dist > -100 & ht$dist < 0 & ht$eth == 1,], aes(dist,pred_y, color = "blue"),n = 5) +
+  geom_smooth(data = ht[ht$dist > -100  & ht$dist < 0 & ht$eth == 0,], aes(dist,pred_y, color = "red"),n = 5) +
+  labs(x = "Distance to contour boundary (KM)", y = "IHS(limited English proficiency)") +
+  theme(legend.position = c(0.2, 0.8)) + scale_color_discrete(name = "Demographic",
+                                                              labels = c("Hispanic", "Asian")) + 
+  coord_cartesian(xlim =c(-100, NA))
+ggsave("lepenr.pdf")
+
+
+om1 <- feols(ihs(sch_hbreported_rac) ~ TV*eth + 
+               origpcHisp + origLogInc + origLogPop + hisp_students + asian_students | LEAID, cluster = c("LEAID"),data=harass,
+             subset = harass$origdist < 100)
+pred_hbr <- predict(om1,harass)
+ht <- harass %>%
+  mutate(pred_y = pred_hbr,
+         inout = ifelse(TV == 1, 1, -1),
+         dist = inout * sqrt(dist2))
+ggplot() + stat_binscatter(data = ht[ht$dist > -100 & ht$eth == 1,], aes(dist,ihs(sch_hbreported_rac), color = "blue"), alpha = 0.5) +
+  stat_binscatter(data = ht[ht$dist > -100 & ht$eth == 0,], aes(dist,ihs(sch_hbreported_rac), color = "red"), alpha = 0.5) +
+  geom_smooth(data = ht[ht$dist > 0 & ht$eth == 1,], aes(dist,pred_y, color = "blue"), n = 5) +
+  geom_smooth(data = ht[ht$dist > 0 & ht$eth == 0,], aes(dist,pred_y, color = "red"), n = 5) +
+  geom_smooth(data = ht[ht$dist > -100 & ht$dist < 0 & ht$eth == 1,], aes(dist,pred_y, color = "blue"),n = 5) +
+  geom_smooth(data = ht[ht$dist > -100  & ht$dist < 0 & ht$eth == 0,], aes(dist,pred_y, color = "red"),n = 5) +
+  labs(x = "Distance to contour boundary (KM)", y = "IHS(bullied based on ethnicity)") +
+  theme(legend.position = c(0.2, 0.8)) + scale_color_discrete(name = "Demographic",
+                                                              labels = c("Hispanic", "Asian")) + 
+  coord_cartesian(xlim =c(-100, NA))
+ggsave("hbreported.pdf")
 
 ## take harass from mech of education_right
 mechdf <- harass %>%
@@ -190,7 +294,7 @@ ggsave("atus2.pdf")
 
 
 
-
+####### Binscatter ########
 StatBinscatter <- ggplot2::ggproto(
   "StatBinscatter", 
   Stat,

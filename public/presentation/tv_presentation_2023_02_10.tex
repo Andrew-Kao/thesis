@@ -338,6 +338,28 @@ where $y_{i,j}$ is an outcome for observation $i$ (which may be an individual, s
 \end{frame}
 
 \begin{frame}
+\frametitle{SAT/ACTs taken}
+\begin{center}
+\includegraphics[width=.6\textwidth]{../../analysis/Output/graphs/satact.pdf} 
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Calculus taken}
+\begin{center}
+\includegraphics[width=.6\textwidth]{../../analysis/Output/graphs/mathenr.pdf} 
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Pass AP exams}
+\begin{center}
+\includegraphics[width=.6\textwidth]{../../analysis/Output/graphs/appassed.pdf} 
+\end{center}
+\end{frame}
+
+
+\begin{frame}
 \frametitle{Effect sizes: how much is inequality reduced?}
 
 \begin{center}
@@ -419,6 +441,21 @@ So should we stick kids in front of a TV instead of sending them to school?
         }
 \end{center}
 \end{frame}
+
+\begin{frame}
+\frametitle{Limited English Proficiency}
+\begin{center}
+\includegraphics[width=.6\textwidth]{../../analysis/Output/graphs/lepenr.pdf} 
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Bullied based on race/ethnicity}
+\begin{center}
+\includegraphics[width=.6\textwidth]{../../analysis/Output/graphs/hbreported.pdf} 
+\end{center}
+\end{frame}
+
 
 \begin{frame}
 \frametitle{The content of SLTV programs}
@@ -546,16 +583,10 @@ So should we stick kids in front of a TV instead of sending them to school?
 \begin{frame}
 \frametitle{Flaws}
 \begin{enumerate}
-\item McCrary test fails
+\item McCrary test fails with p = 0.000
 
-\includegraphics[width=.6\textwidth]{../../explore/Output/Diagnostics/McCrary.png}\\
-
-%\item Optimal bandwidth 
-%\begin{itemize}
-%\item Imbens-Kalyanamaran: 2.68 KM
-%\end{itemize}
-%
-%... but Lukas Althoff did neither and got a flyout at Harvard, so does this matter?
+\includegraphics[width=.6\textwidth]{../../explore/Output/Diagnostics/McCrary2.png}\\
+...but typical selection story would expect bunching on the other side. 
 
 \end{enumerate}
 \end{frame}
@@ -573,7 +604,23 @@ So should we stick kids in front of a TV instead of sending them to school?
 
 \end{enumerate}
 
-... but Lukas Althoff didn't do either and got a flyout at Harvard, so does this matter?
+... but Lukas Althoff didn't do either and got a flyout at Harvard, so do these matter?
+\end{frame}
+
+\begin{frame}
+\frametitle{Flaws}
+\begin{enumerate}
+\item McCrary test fails
+
+\item Optimal bandwidth 
+
+\item Placebo tests: Left randomly assigns TV at the school level, right randomly draws contours \\
+\includegraphics[width=.4\textwidth]{../../analysis/Output/graphs/placebo_random_1.pdf} 
+\includegraphics[width=.4\textwidth]{../../analysis/Output/graphs/placebo_contour_1.pdf}\\
+
+Note: I have school district FEs (so should be comparing similar schools) and cluster SE at the school district level. If I allow for Conley errors (spatial autocorrelation)
+\end{enumerate}
+
 \end{frame}
 
 \begin{frame}
@@ -585,7 +632,7 @@ So should we stick kids in front of a TV instead of sending them to school?
 \end{itemize}
 
 \item Test ties abroad: Remittances back to LatAm?
-\item Self-confidence/support for schools/family ties etc.: social media + deep learning...
+\item Self-confidence/support for schools/family ties and other mechanisms: social media + deep learning...
 
 \end{enumerate}
 
