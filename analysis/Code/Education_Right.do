@@ -38,9 +38,10 @@ local outcomes "satact calc app"
 
 *** spec guide 
 * 1: baseline
-* 2: placebo
+* 2: placebo regs
+* 3: placebo plot
 
-local spec = 2
+local spec = 3
 
 if `spec' == 1 {
 foreach out in `outcomes' {
@@ -112,31 +113,48 @@ forv i= 1/100 {
 	}	
 }	
 file close `fh'
-
-
+	
+}
+else if `spec' == 3 {
+	
 import delim "../../../Analysis/Output/graphs/placebo_coeffs.csv", clear	
 
 ren (v1 v2 v3) (outcome b se)	
 
+local os "satact calc app"
+
+foreach o in `os' {
+
+preserve 
+keep if outcome == "`o'"
+
 sort b
-drop nn
 gen nn = _n
 
+if "`o'" == "satact" {
+	local ntext = "(0.1598), 100th"
+}
+else if "`o'" == "calc" {
+	local ntext = "(0.2718), 77th"
+}
+else if "`o'" == "app" {
+	local ntext = "(0.0964), 61st"
+}
 
-local max5 = _N - 5	
-su b if nn == 5
-local b5 = string(r(mean),"%9.3f")
-su b if nn == 50
-local b50 = string(r(mean),"%9.3f")
-su b if nn == `max5'
-local b95 = string(r(mean),"%9.3f")
-graph twoway (scatter b nn ,color(black)) ///
-	, ytitle("") xtitle(" ") xline(5 50 `max5') yline(1.889, lcolor(grey)) ///
+gen top = b + se*1.97
+gen bot = b - se*1.97
+
+graph twoway (scatter b nn if _n > 5 & _n < 95,color(black)) ///
+		(scatter b nn if _n <= 5 | _n >= 95,color(red)) ///
+		(rcap top bot nn) ///
+	, ytitle("") xtitle(" ") ///
 					graphregion(fcolor(white) ilcolor(white) lcolor(white)) /// 
-					legend(label(1 "Coefficient")) ///
-					title("by countour") ///
-					note("5%: `b5', 50%: `b50' , 95%: `b95', rank of main coefficient (0.375) = 87th ")
-					
-	graph export "../../../Analysis/Output/graphs/placebo_contour_coeffs.png", replace
-	
+					legend(label(1 "Coefficient") label(3 "95% SE")) ///
+					title("Effect by countour") ///
+					note("Rank of main coefficient `ntext' ")
+
+	graph export "../../../Analysis/Output/graphs/placebo_contour_coeffs_`o'.png", replace
+
+restore
+}
 }
