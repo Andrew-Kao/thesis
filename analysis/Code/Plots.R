@@ -119,7 +119,7 @@ om1 <- feols(ihs(sch_mathenr_calc) ~ TV*eth +
 pred_math <- predict(om1,harass)
 ht <- harass %>%
   mutate(pred_y = pred_math,
-         inout = ifelse(TV == 1, 1, -1),
+         inout = ifelse(TV > 0, 1, -1),
          dist = inout * sqrt(dist2))
 ggplot() + stat_binscatter(data = ht[ht$dist > -100 & ht$eth == 1,], aes(dist,ihs(sch_mathenr_calc), color = "blue"), alpha = 0.5) +
   stat_binscatter(data = ht[ht$dist > -100 & ht$eth == 0,], aes(dist,ihs(sch_mathenr_calc), color = "red"), alpha = 0.5) +

@@ -614,22 +614,22 @@ So should we stick kids in front of a TV instead of sending them to school?
 
 \item Optimal bandwidth 
 
-\item Placebo tests: Left randomly assigns TV at the school level, right randomly draws contours \\
+\item Placebo tests: randomly assigns TV at the school level \\
 \includegraphics[width=.4\textwidth]{../../analysis/Output/graphs/placebo_random_1.pdf} 
-\includegraphics[width=.4\textwidth]{../../analysis/Output/graphs/placebo_contour_1.pdf}\\
+% \includegraphics[width=.4\textwidth]{../../analysis/Output/graphs/placebo_contour_1.pdf}\\
 
-Note: I have school district FEs (so should be comparing similar schools) and cluster SE at the school district level. If I allow for Conley errors (spatial autocorrelation):
+Note: I have school district FEs (so should be comparing similar schools) and cluster SE at the school district level. If I randomly generate contours and allow for Conley errors (spatial autocorrelation):
 \end{enumerate}
 
 \end{frame}
 
 \begin{frame}
 \frametitle{Flaws}
-If I allow for Conley errors (spatial autocorrelation):
+If I randomly generate contours and allow for Conley errors (spatial autocorrelation):\\
 \includegraphics[width=.4\textwidth]{../../analysis/Output/graphs/placebo_contour_coeffs_satact.png} 
 \includegraphics[width=.4\textwidth]{../../analysis/Output/graphs/placebo_contour_coeffs_calc.png}\\
 \includegraphics[width=.4\textwidth]{../../analysis/Output/graphs/placebo_contour_coeffs_app.png}\\
-
+Note SEs are an order of magnitude larger than mine---problem with simulation DGP?
 \end{frame}
 
 \begin{frame}

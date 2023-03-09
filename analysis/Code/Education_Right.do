@@ -149,7 +149,7 @@ graph twoway (scatter b nn if _n > 5 & _n < 95,color(black)) ///
 		(rcap top bot nn) ///
 	, ytitle("") xtitle(" ") ///
 					graphregion(fcolor(white) ilcolor(white) lcolor(white)) /// 
-					legend(label(1 "Coefficient") label(3 "95% SE")) ///
+					legend(label(1 "Coefficient") label(2 "10% tail") label(3 "95% SE")) ///
 					title("Effect by countour") ///
 					note("Rank of main coefficient `ntext' ")
 
