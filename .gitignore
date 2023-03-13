@@ -44,3 +44,4 @@ scons/
 *.txt
 *.geojson
 *.tsv
+*.zip
